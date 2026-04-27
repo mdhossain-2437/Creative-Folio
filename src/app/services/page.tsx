@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHero } from "@/components/layout/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
-import { services, process } from "@/lib/data";
+import { services, process, serviceTiers } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "Services & Process",
@@ -45,9 +45,74 @@ export default function ServicesPage() {
         </div>
       </PageHero>
 
-      <section className="bg-ink-900 py-28 md:py-40">
+      <section className="border-t border-warmwhite/10 bg-ink-900 py-24 md:py-32">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-          <ul className="space-y-px overflow-hidden bg-warmwhite/10">
+          <header className="grid grid-cols-1 gap-10 md:grid-cols-12">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50 md:col-span-3">
+              ◊ Tiers
+            </p>
+            <h2 className="font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[0.94] tracking-tightest md:col-span-9">
+              Three ways{" "}
+              <span className="italic text-warmwhite/60">to work together.</span>
+            </h2>
+          </header>
+          <ul className="mt-16 grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/10 md:grid-cols-3">
+            {serviceTiers.map((t, i) => (
+              <Reveal key={t.index} delay={i * 0.08}>
+                <li className="relative flex h-full flex-col gap-7 bg-ink-900 p-8 md:p-10">
+                  <div className="flex items-center justify-between">
+                    <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+                      {t.index}
+                    </span>
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-peach">
+                      {t.duration}
+                    </span>
+                  </div>
+                  <h3 className="font-serif text-[clamp(2.4rem,3.6vw,3.6rem)] leading-[0.96] tracking-tightest">
+                    {t.name}
+                  </h3>
+                  <p className="font-sans text-sm leading-relaxed text-warmwhite/70">
+                    {t.pitch}
+                  </p>
+                  <ul className="space-y-2 border-t border-warmwhite/10 pt-5 font-mono text-[11px] uppercase tracking-widest text-warmwhite/55">
+                    {t.deliverables.map((d) => (
+                      <li key={d} className="flex items-start gap-2">
+                        <span className="mt-1 inline-block h-1 w-1 shrink-0 rounded-full bg-electric" />
+                        <span className="normal-case tracking-tight text-warmwhite/80">{d}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className="mt-auto flex items-end justify-between gap-3 border-t border-warmwhite/10 pt-5">
+                    <div>
+                      <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/40">
+                        Best for
+                      </p>
+                      <p className="mt-2 max-w-[18ch] font-serif text-sm leading-snug text-warmwhite/75">
+                        {t.best}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/40">
+                        From
+                      </p>
+                      <p className="mt-2 font-serif text-2xl tracking-tight text-warmwhite">
+                        {t.starts}
+                      </p>
+                    </div>
+                  </div>
+                </li>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className="bg-ink-900 py-20 md:py-28">
+        <div className="mx-auto max-w-[1640px] px-6 md:px-10">
+          <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+            ◊ Capabilities · what each tier draws from
+          </p>
+          <ul className="mt-12 space-y-px overflow-hidden bg-warmwhite/10">
             {services.map((s, i) => (
               <Reveal key={s.index} delay={i * 0.05}>
                 <li className="grid grid-cols-1 gap-6 bg-ink-900 p-8 md:grid-cols-12 md:gap-10 md:p-12">
