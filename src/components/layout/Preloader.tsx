@@ -2,11 +2,20 @@
 
 import { useEffect, useState } from "react";
 
+const SEEN_KEY = "delowar:preloader-seen";
+
 export function Preloader() {
   const [pct, setPct] = useState(0);
   const [done, setDone] = useState(false);
+  const [active, setActive] = useState(false);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.sessionStorage.getItem(SEEN_KEY) === "1") {
+      setDone(true);
+      return;
+    }
+    setActive(true);
     let raf = 0;
     let p = 0;
     const tick = () => {
@@ -15,12 +24,15 @@ export function Preloader() {
       if (p < 100) {
         raf = requestAnimationFrame(tick);
       } else {
+        window.sessionStorage.setItem(SEEN_KEY, "1");
         setTimeout(() => setDone(true), 380);
       }
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, []);
+
+  if (!active && done) return null;
 
   return (
     <div
