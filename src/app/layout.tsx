@@ -10,6 +10,7 @@ import { GridOverlay } from "@/components/ui/GridOverlay";
 import { ScrollMeter } from "@/components/ui/ScrollMeter";
 import { RouteCurtain } from "@/components/layout/RouteCurtain";
 import { CommandPalette } from "@/components/ui/CommandPalette";
+import { CheatSheet } from "@/components/ui/CheatSheet";
 import { ShowreelModal } from "@/components/ui/ShowreelModal";
 import { ShowreelPill } from "@/components/ui/ShowreelPill";
 import { ShaderStorm } from "@/components/ui/ShaderStorm";
@@ -92,6 +93,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Footer />
           </MaskFooter>
           <CommandPalette />
+          <CheatSheet />
           <ShowreelModal />
           <ShowreelPill />
         </SmoothScrollProvider>

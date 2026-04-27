@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PageHero } from "@/components/layout/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
+import { SpotlightTile } from "@/components/ui/SpotlightTile";
 import { works, archive } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -39,18 +40,21 @@ export default function WorksPage() {
                     data-cursor-label="OPEN CASE"
                     className="group block"
                   >
-                    <div className="relative aspect-[4/3] w-full overflow-hidden">
-                      <Image
-                        src={w.cover}
-                        alt={w.title}
-                        fill
-                        sizes="(min-width: 768px) 50vw, 100vw"
-                        className="object-cover transition-transform duration-[1500ms] ease-out group-hover:scale-[1.04]"
-                      />
+                    <SpotlightTile accent={w.accent}>
+                      <div className="spotlight-tile-img absolute inset-0 will-change-transform">
+                        <Image
+                          src={w.cover}
+                          alt={w.title}
+                          fill
+                          sizes="(min-width: 768px) 50vw, 100vw"
+                          className="object-cover transition-transform duration-[1500ms] ease-out group-hover:scale-[1.04]"
+                        />
+                      </div>
                       <div
                         className="absolute inset-0 mix-blend-multiply transition-opacity duration-700 group-hover:opacity-30"
                         style={{ background: w.accent + "55" }}
                       />
+                      <div className="spotlight-tile-glow absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                       <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6 md:p-8">
                         <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite">
                           {w.index} — {w.category}
@@ -59,7 +63,7 @@ export default function WorksPage() {
                           {w.year}
                         </span>
                       </div>
-                    </div>
+                    </SpotlightTile>
                     <div className="flex flex-col gap-4 p-6 md:p-10">
                       <h3 className="font-serif text-[clamp(2rem,4vw,4rem)] leading-[0.95] tracking-tightest">
                         {w.title}
