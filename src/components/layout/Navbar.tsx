@@ -3,7 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { LiveBadge } from "@/components/ui/LiveBadge";
 import { site } from "@/lib/site";
+
+const PRIMARY = ["Index", "Works", "Lab", "About", "Resume", "Journal", "Services", "Contact"];
 
 export function Navbar() {
   const pathname = usePathname();
@@ -21,6 +24,8 @@ export function Navbar() {
     setOpen(false);
   }, [pathname]);
 
+  const primaryNav = site.nav.filter((n) => PRIMARY.includes(n.label));
+
   return (
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50">
       <nav
@@ -28,17 +33,20 @@ export function Navbar() {
           scrolled ? "bg-ink-900/70 backdrop-blur" : ""
         }`}
       >
-        <Link
-          href="/"
-          data-cursor="hover"
-          data-cursor-label="HOME"
-          className="font-serif text-xl tracking-tight text-warmwhite"
-        >
-          <span className="italic">D</span>elowar
-          <span className="text-warmwhite/40">.dev</span>
-        </Link>
+        <div className="flex items-center gap-4">
+          <Link
+            href="/"
+            data-cursor="hover"
+            data-cursor-label="HOME"
+            className="font-serif text-xl tracking-tight text-warmwhite"
+          >
+            <span className="italic">D</span>elowar
+            <span className="text-warmwhite/40">.dev</span>
+          </Link>
+          <LiveBadge />
+        </div>
         <ul className="hidden items-center gap-7 font-sans text-[11px] uppercase tracking-widest text-warmwhite/70 md:flex">
-          {site.nav.map((item) => {
+          {primaryNav.map((item) => {
             const active = pathname === item.href;
             return (
               <li key={item.href}>
@@ -61,10 +69,18 @@ export function Navbar() {
             );
           })}
         </ul>
-        <div className="hidden items-center gap-4 font-sans text-[11px] uppercase tracking-widest text-warmwhite/60 md:flex">
+        <div className="hidden items-center gap-3 font-sans text-[11px] uppercase tracking-widest text-warmwhite/60 md:flex">
+          <button
+            onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "k", metaKey: true }))}
+            data-cursor="hover"
+            data-cursor-label="⌘K"
+            className="rounded-full border border-warmwhite/20 px-3 py-1.5 text-[10px] hover:border-warmwhite/60"
+          >
+            <span className="display-num">⌘K</span>
+          </button>
           <span className="rounded-full border border-warmwhite/20 px-2 py-1 text-[9px]">
             <span className="mr-1.5 inline-block h-1.5 w-1.5 -translate-y-px rounded-full bg-emerald-400" />
-            Available · Q3 ’26
+            {site.availability}
           </span>
           <Link
             href="/contact"

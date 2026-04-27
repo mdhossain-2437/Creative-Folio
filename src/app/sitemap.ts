@@ -1,6 +1,5 @@
 import type { MetadataRoute } from "next";
-import { works } from "@/lib/data";
-import { journal } from "@/lib/data";
+import { works, journal, experiments } from "@/lib/data";
 import { site } from "@/lib/site";
 
 const STATIC_PATHS = [
@@ -15,6 +14,10 @@ const STATIC_PATHS = [
   "/archive",
   "/awards",
   "/colophon",
+  "/now",
+  "/process",
+  "/showreel",
+  "/atlas",
   "/legal/privacy",
   "/legal/terms",
 ];
@@ -25,5 +28,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...STATIC_PATHS.map((p) => ({ url: `${site.url}${p}`, lastModified: now })),
     ...works.map((w) => ({ url: `${site.url}/works/${w.slug}`, lastModified: now })),
     ...journal.map((j) => ({ url: `${site.url}/journal/${j.slug}`, lastModified: now })),
+    ...experiments.map((e) => ({ url: `${site.url}/lab/${e.slug}`, lastModified: now })),
   ];
 }
