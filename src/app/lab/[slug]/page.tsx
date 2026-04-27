@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { PageHero } from "@/components/layout/PageHero";
-import { NoiseField } from "@/components/webgl/NoiseField";
+import { LabDemo } from "@/components/lab/LabDemo";
 import { experiments } from "@/lib/data";
 
 export const dynamicParams = false;
@@ -186,12 +186,12 @@ export default async function LabSlug({
       <section className="bg-ink-950 py-12 md:py-20">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
           <div className="relative aspect-[16/9] w-full overflow-hidden rounded-3xl border border-warmwhite/10 bg-ink-900">
-            <NoiseField seed={(idx + 1) * 4.2} />
-            <div className="absolute inset-0 vignette" />
-            <div className="absolute inset-x-0 bottom-0 grid-lines opacity-30" />
-            <div className="absolute left-6 top-6 flex items-center gap-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/60">
+            <LabDemo slug={exp.slug} seed={(idx + 1) * 4.2} />
+            <div className="pointer-events-none absolute inset-0 vignette" />
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 grid-lines opacity-25" />
+            <div className="pointer-events-none absolute left-6 top-6 flex items-center gap-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/60">
               <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-electric" />
-              Live · drag, click, scroll
+              Live · move the cursor
             </div>
             <div className="absolute bottom-6 right-6 flex items-center gap-3 font-mono text-[10px] uppercase tracking-widest text-warmwhite/55">
               <span>{exp.meta}</span>

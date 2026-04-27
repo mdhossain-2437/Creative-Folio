@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/layout/PageHero";
+import { ReadingProgress } from "@/components/ui/ReadingProgress";
 import { journal } from "@/lib/data";
 
 type Params = { slug: string };
@@ -42,7 +43,9 @@ export default async function JournalPost({ params }: { params: Promise<Params> 
         noise={false}
       />
 
-      <article className="mx-auto max-w-3xl px-6 py-20 md:py-28">
+      <ReadingProgress targetId="post-body" />
+
+      <article id="post-body" className="mx-auto max-w-3xl px-6 py-20 md:py-28">
         <div className="space-y-8 font-serif text-[clamp(1.15rem,1.4vw,1.45rem)] leading-[1.6] text-warmwhite/85">
           {sampleBody.map((p, i) => (
             <p key={i}>{p}</p>
