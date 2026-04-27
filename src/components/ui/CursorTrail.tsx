@@ -1,16 +1,51 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Subtle particle trail behind the cursor. Honours the global motion preference
 // (`localStorage['delowar:motion']`) and pauses entirely when the document is
 // hidden. Pointer-events: none, fixed under the custom cursor — never blocks UI.
 export function CursorTrail() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  // Track whether the effect should run at all. We gate by both viewport size
+  // (matchMedia min-width: 768px) and the motion preference. Below that gate
+  // we don't even render the <canvas> so no listeners or RAF attach on mobile.
+  const [active, setActive] = useState(false);
 
+  // Mount-time gate: viewport + motion preference + reactive media-query / motion-toggle.
   useEffect(() => {
-    const motion = typeof window !== "undefined" && window.localStorage.getItem("delowar:motion");
-    if (motion === "off") return;
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(min-width: 768px)");
+    const isMotionOff = () => window.localStorage.getItem("delowar:motion") === "off";
+
+    const compute = () => setActive(mq.matches && !isMotionOff());
+    compute();
+
+    const onMq = () => compute();
+    if (typeof mq.addEventListener === "function") mq.addEventListener("change", onMq);
+    else mq.addListener(onMq); // legacy Safari
+
+    // Same-tab signal dispatched by MotionToggle when the preference changes.
+    const onMotion = () => compute();
+    window.addEventListener("delowar:motion-change", onMotion as EventListener);
+    // Cross-tab signal (StorageEvent only fires in *other* tabs).
+    const onStorage = (e: StorageEvent) => {
+      if (e.key === "delowar:motion") compute();
+    };
+    window.addEventListener("storage", onStorage);
+
+    return () => {
+      if (typeof mq.removeEventListener === "function") mq.removeEventListener("change", onMq);
+      else mq.removeListener(onMq);
+      window.removeEventListener("delowar:motion-change", onMotion as EventListener);
+      window.removeEventListener("storage", onStorage);
+    };
+  }, []);
+
+  // Particle effect — only attaches when `active` is true; tears down completely
+  // when motion is disabled or the viewport drops below md.
+  useEffect(() => {
+    if (!active) return;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -29,10 +64,8 @@ export function CursorTrail() {
     const parts: P[] = [];
     const MAX = 80;
 
-    let mx = -1000;
-    let my = -1000;
-    let pmx = mx;
-    let pmy = my;
+    let pmx = -1000;
+    let pmy = -1000;
 
     const onMove = (e: PointerEvent) => {
       const nx = e.clientX * dpr;
@@ -42,9 +75,6 @@ export function CursorTrail() {
       const v = Math.sqrt(dx * dx + dy * dy);
       pmx = nx;
       pmy = ny;
-      mx = nx;
-      my = ny;
-      // emit particles proportional to velocity, capped
       const count = Math.min(4, Math.floor(v / 18));
       for (let i = 0; i < count; i++) {
         const a = Math.random() * Math.PI * 2;
@@ -65,6 +95,8 @@ export function CursorTrail() {
 
     let raf = 0;
     let last = performance.now();
+    let stopped = false;
+
     const tick = () => {
       const now = performance.now();
       const dt = Math.min(40, now - last);
@@ -89,37 +121,31 @@ export function CursorTrail() {
         ctx.fill();
       }
       ctx.globalAlpha = 1;
-      raf = requestAnimationFrame(tick);
+      if (!stopped) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
 
     const onVis = () => {
       if (document.hidden) {
         cancelAnimationFrame(raf);
-      } else {
+      } else if (!stopped) {
         last = performance.now();
         raf = requestAnimationFrame(tick);
       }
     };
     document.addEventListener("visibilitychange", onVis);
 
-    const onMotionChange = (e: StorageEvent) => {
-      if (e.key === "delowar:motion" && e.newValue === "off") {
-        cancelAnimationFrame(raf);
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }
-    };
-    window.addEventListener("storage", onMotionChange);
-
     return () => {
+      stopped = true;
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", fit);
       window.removeEventListener("pointermove", onMove);
       document.removeEventListener("visibilitychange", onVis);
-      window.removeEventListener("storage", onMotionChange);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
     };
-  }, []);
+  }, [active]);
 
+  if (!active) return null;
   return (
     <canvas
       ref={canvasRef}

@@ -11,14 +11,20 @@ export type ConstellationStar = {
 };
 
 // Match GROUP_COLOR on /atlas — keep parity with the static section above.
-const GROUP_RGBA: Record<ConstellationStar["group"], string> = {
-  core: "rgba(239, 236, 233, 1)",
-  studio: "rgba(227, 191, 180, 1)",
-  works: "rgba(205, 250, 0, 1)",
-  lab: "rgba(239, 236, 233, 0.78)",
-  journal: "rgba(239, 236, 233, 0.66)",
-  legal: "rgba(239, 236, 233, 0.42)",
+// Numeric channels so we can compose `rgba()` strings with arbitrary alpha
+// without brittle regex substitution on a stringified literal.
+const GROUP_RGB: Record<ConstellationStar["group"], { r: number; g: number; b: number; baseA: number }> = {
+  core:    { r: 239, g: 236, b: 233, baseA: 1 },
+  studio:  { r: 227, g: 191, b: 180, baseA: 1 },
+  works:   { r: 205, g: 250, b: 0,   baseA: 1 },
+  lab:     { r: 239, g: 236, b: 233, baseA: 0.78 },
+  journal: { r: 239, g: 236, b: 233, baseA: 0.66 },
+  legal:   { r: 239, g: 236, b: 233, baseA: 0.42 },
 };
+function rgba(group: ConstellationStar["group"], alpha?: number) {
+  const c = GROUP_RGB[group];
+  return `rgba(${c.r}, ${c.g}, ${c.b}, ${alpha ?? c.baseA})`;
+}
 
 const SIZE_PX: Record<ConstellationStar["size"], number> = { sm: 4, md: 6, lg: 9 };
 
@@ -74,26 +80,43 @@ export function AtlasConstellation({ stars }: { stars: ConstellationStar[] }) {
     let scale = 1;
     let raf = 0;
 
+    // Track the currently-hovered placed star in a ref so we only call
+    // setHovered (and trigger a React re-render) when the identity changes.
+    let hoveredPlaced: Placed | null = null;
+
+    const hitRadius = (p: Placed) => (p.r + 12) * scale;
+
     const setHoverFor = (sx: number, sy: number) => {
-      // sx/sy in client coords (CSS px)
+      if (dragging) {
+        if (hoveredPlaced) {
+          hoveredPlaced = null;
+          setHovered(null);
+        }
+        return;
+      }
       let best: Placed | null = null;
       let bestD = Number.POSITIVE_INFINITY;
       const cssW = canvas.clientWidth;
       const cssH = canvas.clientHeight;
       for (const p of placed) {
-        const px = (p.x * cssW * scale + panX);
-        const py = (p.y * cssH * scale + panY);
+        const px = p.x * cssW * scale + panX;
+        const py = p.y * cssH * scale + panY;
         const dx = sx - px;
         const dy = sy - py;
         const d2 = dx * dx + dy * dy;
-        const hitR = (p.r + 12);
+        const hitR = hitRadius(p);
         if (d2 < hitR * hitR && d2 < bestD) {
           best = p;
           bestD = d2;
         }
       }
-      if (best) setHovered({ s: best, x: sx, y: sy });
-      else setHovered(null);
+      if (best !== hoveredPlaced) {
+        hoveredPlaced = best;
+        setHovered(best ? { s: best, x: sx, y: sy } : null);
+      }
+      // Identity unchanged → no re-render. Tooltip stays anchored to the spot
+      // where the pointer first entered the star's hit radius, which is fine
+      // for a small target.
     };
 
     const onPointerMove = (e: PointerEvent) => {
@@ -128,7 +151,8 @@ export function AtlasConstellation({ stars }: { stars: ConstellationStar[] }) {
       const ux = e.clientX - r.left;
       const uy = e.clientY - r.top;
       if (!dragging) {
-        // tap → navigate to nearest star
+        // tap → navigate to nearest star (use the same scaled hit radius as
+        // hover so what you see is what you can click)
         let best: Placed | null = null;
         let bestD = Number.POSITIVE_INFINITY;
         for (const p of placed) {
@@ -137,7 +161,7 @@ export function AtlasConstellation({ stars }: { stars: ConstellationStar[] }) {
           const dx = ux - px;
           const dy = uy - py;
           const d2 = dx * dx + dy * dy;
-          const hitR = p.r + 14;
+          const hitR = hitRadius(p) + 2 * scale;
           if (d2 < hitR * hitR && d2 < bestD) {
             best = p;
             bestD = d2;
@@ -179,7 +203,7 @@ export function AtlasConstellation({ stars }: { stars: ConstellationStar[] }) {
       const cssH = canvas.clientHeight;
 
       // ── connection lines (proximity)
-      ctx.strokeStyle = "rgba(239, 236, 233, 0.07)";
+      ctx.strokeStyle = `rgba(239, 236, 233, 0.07)`;
       ctx.lineWidth = 1 * dpr;
       const screen = placed.map((p) => ({
         sx: (p.x * cssW * scale + panX) * dpr,
@@ -223,14 +247,14 @@ export function AtlasConstellation({ stars }: { stars: ConstellationStar[] }) {
         const d = Math.sqrt(dx * dx + dy * dy);
         const near = Math.max(0, 1 - d / (90 * dpr));
         const r = (p.r + near * 6) * dpr * (0.85 + scale * 0.15);
-        ctx.fillStyle = GROUP_RGBA[p.group];
+        ctx.fillStyle = rgba(p.group);
         ctx.beginPath();
         ctx.arc(sx, sy, r, 0, Math.PI * 2);
         ctx.fill();
         if (near > 0.05) {
           ctx.beginPath();
           ctx.arc(sx, sy, r + 8 * dpr * near, 0, Math.PI * 2);
-          ctx.fillStyle = GROUP_RGBA[p.group].replace(", 1)", `, ${near * 0.18})`).replace(/,\s*[\d.]+\)$/, `, ${near * 0.18})`);
+          ctx.fillStyle = rgba(p.group, near * 0.18);
           ctx.fill();
         }
       }

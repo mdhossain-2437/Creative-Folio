@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Marquee } from "@/components/ui/Marquee";
 import { MotionToggle } from "@/components/ui/MotionToggle";
+import { AmbientAudio } from "@/components/ui/AmbientAudio";
 import { site } from "@/lib/site";
 
 export function Footer() {
@@ -71,8 +72,9 @@ export function Footer() {
           <p className="md:col-span-5 md:text-center display-num">
             Lat. 25.10° N · Long. 89.02° E · {site.location}
           </p>
-          <div className="flex items-center gap-3 md:col-span-3 md:justify-end">
+          <div className="flex flex-wrap items-center gap-3 md:col-span-3 md:justify-end">
             <MotionToggle />
+            <AmbientAudio />
             <span className="hidden md:inline">v {site.edition}</span>
           </div>
         </div>

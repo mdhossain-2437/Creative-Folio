@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { works } from "@/lib/data";
 import { PageHero } from "@/components/layout/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
+import { DragScrubHero } from "@/components/works/DragScrubHero";
 
 type Params = { slug: string };
 
@@ -53,13 +53,7 @@ export default async function CaseStudy({ params }: { params: Promise<Params> })
       <section className="bg-ink-900 py-16 md:py-24">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
           <Reveal>
-            <div className="relative aspect-[16/9] w-full overflow-hidden rounded-md">
-              <Image src={work.cover} alt={work.title} fill priority className="object-cover" />
-              <div
-                className="absolute inset-0 mix-blend-multiply"
-                style={{ background: work.accent + "33" }}
-              />
-            </div>
+            <DragScrubHero src={work.cover} alt={work.title} accent={work.accent} />
           </Reveal>
         </div>
       </section>

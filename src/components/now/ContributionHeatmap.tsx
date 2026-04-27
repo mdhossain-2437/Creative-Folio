@@ -38,14 +38,16 @@ export async function ContributionHeatmap({ user }: { user: string }) {
   const h = rows * (CELL + GAP) - GAP;
 
   // Pad/trim to 53 weeks ending today, Monday-start.
-  let cells: (Day | null)[] = Array.from({ length: cols * rows }, () => null);
+  // NOTE: GitHub returns dates as `YYYY-MM-DD` strings, which `new Date()`
+  // parses as UTC midnight. Use UTC accessors everywhere so the grid is stable
+  // regardless of the build server's local timezone.
+  const cells: (Day | null)[] = Array.from({ length: cols * rows }, () => null);
   let total = 0;
   if (data) {
     const days = data.contributions;
     total = days.reduce((acc, d) => acc + d.count, 0);
-    // Map each day onto a weekday × week column relative to the latest day.
     const last = new Date(days[days.length - 1]?.date ?? new Date().toISOString().slice(0, 10));
-    const lastWeekday = (last.getDay() + 6) % 7; // Monday=0..Sunday=6
+    const lastWeekday = (last.getUTCDay() + 6) % 7; // Monday=0..Sunday=6
     for (let i = days.length - 1; i >= 0; i--) {
       const d = days[i];
       const offset = days.length - 1 - i; // 0 = last day
@@ -60,7 +62,7 @@ export async function ContributionHeatmap({ user }: { user: string }) {
   for (let c = 0; c < cols; c++) {
     const cell = cells[c]; // top row, gives a sense of week start
     if (!cell) continue;
-    const m = new Date(cell.date).toLocaleString("en", { month: "short" });
+    const m = new Date(cell.date).toLocaleString("en", { month: "short", timeZone: "UTC" });
     if (!months.length || months[months.length - 1].label !== m) {
       months.push({ col: c, label: m });
     }
@@ -91,7 +93,11 @@ export async function ContributionHeatmap({ user }: { user: string }) {
       <div className="mt-8 overflow-x-auto">
         <svg
           role="img"
-          aria-label={`GitHub contributions heatmap for ${user}, ${total} contributions in the last 365 days`}
+          aria-label={
+            data
+              ? `GitHub contributions heatmap for ${user}, ${total} contributions in the last 365 days`
+              : `GitHub contributions heatmap for ${user} — offline placeholder, no data available`
+          }
           viewBox={`0 0 ${w} ${h + 18}`}
           width="100%"
           className="block"

@@ -36,6 +36,19 @@ html.lenis body {
   overflow: hidden;
 }
 
+.scrub-track::-webkit-scrollbar {
+  display: none;
+}
+.scrub-track {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior-x: contain;
+}
+
+[data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
 ::selection {
   background: var(--accent);
   color: #0c0c0c;

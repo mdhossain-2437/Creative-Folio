@@ -5,6 +5,7 @@ import { Marquee } from "@/components/ui/Marquee";
 import { journey, expertise } from "@/lib/data";
 import { site } from "@/lib/site";
 import Link from "next/link";
+import { SkillsGraph } from "@/components/about/SkillsGraph";
 
 export const metadata: Metadata = {
   title: "About — Story & Philosophy",
@@ -163,7 +164,14 @@ export default function AboutPage() {
           <h2 className="mt-4 font-serif text-[clamp(2.5rem,6vw,5rem)] leading-[0.96] tracking-tightest">
             6 domains, <span className="italic text-warmwhite/60">one practice.</span>
           </h2>
-          <ul className="mt-12 flex flex-wrap gap-3">
+          <p className="mt-6 max-w-2xl font-sans text-base leading-relaxed text-warmwhite/65">
+            Drag any node to test the springs. Click a cluster to dim everything that isn&apos;t
+            it — the graph re-settles around your focus.
+          </p>
+          <div className="mt-10">
+            <SkillsGraph />
+          </div>
+          <ul className="mt-10 flex flex-wrap gap-3">
             {expertise.map((e) => (
               <li
                 key={e}

@@ -27,7 +27,13 @@ export function MotionToggle() {
     const next = state === "on" ? "off" : "on";
     setState(next);
     applyMotion(next);
-    if (typeof window !== "undefined") window.localStorage.setItem(KEY, next);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(KEY, next);
+      // StorageEvent only fires in *other* tabs, so dispatch a same-tab signal
+      // for any in-page consumer (CursorTrail, AmbientAudio, etc.) that needs
+      // to react immediately when motion is toggled here.
+      window.dispatchEvent(new CustomEvent("delowar:motion-change", { detail: next }));
+    }
   };
 
   return (
