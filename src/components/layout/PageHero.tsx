@@ -47,13 +47,13 @@ export function PageHero({
               </p>
             )}
             {meta && (
-              <ul className="grid grid-cols-2 gap-6 md:col-span-6 md:grid-cols-4">
+              <ul className="grid grid-cols-2 gap-x-6 gap-y-8 md:col-span-6 md:grid-cols-4">
                 {meta.map((m) => (
-                  <li key={m.label}>
+                  <li key={m.label} className="min-w-0">
                     <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
                       {m.label}
                     </p>
-                    <p className="mt-2 font-serif text-xl tracking-tighter text-warmwhite">
+                    <p className="mt-2 break-words font-serif text-base leading-snug tracking-tight text-warmwhite md:text-lg">
                       {m.value}
                     </p>
                   </li>
