@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PageHero } from "@/components/layout/PageHero";
 import { nowFeed, githubFallback } from "@/lib/data";
 import { Marquee } from "@/components/ui/Marquee";
+import { ContributionHeatmap } from "@/components/now/ContributionHeatmap";
 
 export const metadata: Metadata = {
   title: "Now — What I'm doing this season",
@@ -42,6 +43,12 @@ export default function NowPage() {
               </li>
             ))}
           </ul>
+        </div>
+      </section>
+
+      <section className="bg-ink-950 py-16 md:py-24">
+        <div className="mx-auto max-w-[1640px] px-6 md:px-10">
+          <ContributionHeatmap user="mdhossain-2437" />
         </div>
       </section>
 
