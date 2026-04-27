@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PageHero } from "@/components/layout/PageHero";
 import { works, journal, experiments } from "@/lib/data";
 import { site } from "@/lib/site";
+import { AtlasConstellation, type ConstellationStar } from "@/components/atlas/AtlasConstellation";
 
 export const metadata: Metadata = {
   title: "Atlas — Site map as a constellation",
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
     "Every route on the site, laid out as a star map. Hover any star to preview, click any star to fly there.",
 };
 
-type Star = { label: string; href: string; group: string; size?: "sm" | "md" | "lg" };
+type Star = ConstellationStar;
 
 const STARS: Star[] = [
   ...site.nav.map((n): Star => ({ label: n.label, href: n.href, group: "core", size: "lg" })),
@@ -36,21 +37,6 @@ const GROUP_COLOR: Record<string, string> = {
   legal: "text-warmwhite/40",
 };
 
-const SIZE_CLASS: Record<NonNullable<Star["size"]>, string> = {
-  sm: "text-[clamp(1rem,1.5vw,1.4rem)]",
-  md: "text-[clamp(1.4rem,2.2vw,2.4rem)]",
-  lg: "text-[clamp(2rem,3.4vw,4rem)]",
-};
-
-function deterministicPos(seed: number) {
-  // simple hashed pseudo-random in [0,1)
-  const a = Math.sin(seed * 12.9898) * 43758.5453;
-  const x = a - Math.floor(a);
-  const b = Math.sin(seed * 78.233) * 43758.5453;
-  const y = b - Math.floor(b);
-  return { x, y };
-}
-
 export default function AtlasPage() {
   return (
     <>
@@ -70,32 +56,7 @@ export default function AtlasPage() {
       <section className="relative overflow-hidden bg-ink-950 py-16 md:py-24">
         <div className="pointer-events-none absolute inset-0 grid-lines opacity-20" />
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-          <div className="relative h-[68vh] min-h-[520px] overflow-hidden rounded-3xl border border-warmwhite/10 bg-ink-900">
-            {STARS.map((s, i) => {
-              const { x, y } = deterministicPos(i + 7);
-              const left = 6 + x * 88;
-              const top = 6 + y * 88;
-              return (
-                <Link
-                  key={`${s.href}-${i}`}
-                  href={s.href}
-                  data-cursor="view"
-                  data-cursor-label="GO"
-                  className={`group absolute -translate-x-1/2 -translate-y-1/2 font-serif tracking-tightest ${
-                    GROUP_COLOR[s.group] ?? "text-warmwhite"
-                  } ${SIZE_CLASS[s.size ?? "md"]}`}
-                  style={{ left: `${left}%`, top: `${top}%` }}
-                >
-                  <span className="relative inline-flex items-center gap-2 transition-colors">
-                    <span className="block h-1.5 w-1.5 rounded-full bg-current opacity-60 transition-opacity group-hover:opacity-100" />
-                    <span className="opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                      {s.label}
-                    </span>
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
+          <AtlasConstellation stars={STARS} />
         </div>
       </section>
 
