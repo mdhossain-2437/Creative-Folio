@@ -21,7 +21,6 @@ export function MotionToggle() {
     const initial: "on" | "off" = stored ?? (reduce ? "off" : "on");
     setState(initial);
     applyMotion(initial);
-    document.body.classList.add("grain-on");
   }, []);
 
   const toggle = () => {

@@ -11,6 +11,7 @@ import { ScrollMeter } from "@/components/ui/ScrollMeter";
 import { RouteCurtain } from "@/components/layout/RouteCurtain";
 import { CommandPalette } from "@/components/ui/CommandPalette";
 import { ShowreelModal } from "@/components/ui/ShowreelModal";
+import { ShowreelPill } from "@/components/ui/ShowreelPill";
 import { ShaderStorm } from "@/components/ui/ShaderStorm";
 import { MaskFooter } from "@/components/ui/MaskFooter";
 import { site } from "@/lib/site";
@@ -92,6 +93,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </MaskFooter>
           <CommandPalette />
           <ShowreelModal />
+          <ShowreelPill />
         </SmoothScrollProvider>
       </body>
     </html>
