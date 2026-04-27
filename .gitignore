@@ -8,4 +8,7 @@ out
 .turbo
 .vercel
 .swc
+test-plan-*.md
+test-report-*.md
+upgrade-plan-*.md
 next-env.d.ts
