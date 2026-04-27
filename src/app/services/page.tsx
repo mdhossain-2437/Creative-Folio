@@ -1,0 +1,150 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { PageHero } from "@/components/layout/PageHero";
+import { Reveal } from "@/components/ui/Reveal";
+import { services, process } from "@/lib/data";
+
+export const metadata: Metadata = {
+  title: "Services & Process",
+  description:
+    "Engagement scope, capabilities and the four-phase process — from discovery to production. Booking Q3 2026.",
+};
+
+export default function ServicesPage() {
+  return (
+    <>
+      <PageHero
+        eyebrow="§ Services & Process"
+        title="Expertise"
+        italic="& Engagements."
+        description="Specialising in high-end digital experiences. Merging technical precision with editorial art direction to create award-winning interactive platforms."
+        meta={[
+          { label: "Booking", value: "Q3 — Q4 / 2026" },
+          { label: "Models", value: "Project · Retainer" },
+          { label: "Industries", value: "SaaS · AI · Studios" },
+          { label: "Time zone", value: "GMT+6" },
+        ]}
+      >
+        <div className="flex items-center gap-3">
+          <Link
+            href="/contact"
+            data-cursor="hover"
+            data-cursor-label="INQUIRE"
+            className="rounded-full bg-warmwhite px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-ink-900 hover:bg-peach"
+          >
+            Start a Project
+          </Link>
+          <Link
+            href="/works"
+            data-cursor="hover"
+            data-cursor-label="WORKS"
+            className="rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest hover:border-warmwhite"
+          >
+            See Selected Works
+          </Link>
+        </div>
+      </PageHero>
+
+      <section className="bg-ink-900 py-28 md:py-40">
+        <div className="mx-auto max-w-[1640px] px-6 md:px-10">
+          <ul className="space-y-px overflow-hidden bg-warmwhite/10">
+            {services.map((s, i) => (
+              <Reveal key={s.index} delay={i * 0.05}>
+                <li className="grid grid-cols-1 gap-6 bg-ink-900 p-8 md:grid-cols-12 md:gap-10 md:p-12">
+                  <div className="md:col-span-2">
+                    <span className="display-num font-serif text-7xl leading-none tracking-tightest text-warmwhite/85">
+                      {s.index}
+                    </span>
+                  </div>
+                  <h3 className="font-serif text-[clamp(2rem,4vw,3.6rem)] leading-[0.96] tracking-tightest md:col-span-4">
+                    {s.title}
+                  </h3>
+                  <p className="font-sans text-base leading-relaxed text-warmwhite/70 md:col-span-4">
+                    {s.summary}
+                  </p>
+                  <ul className="flex flex-wrap gap-2 md:col-span-2 md:justify-end">
+                    {s.tags.map((t) => (
+                      <li
+                        key={t}
+                        className="rounded-full border border-warmwhite/20 px-3 py-1 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65"
+                      >
+                        {t}
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className="border-t border-warmwhite/10 bg-ink-950 py-28 md:py-40">
+        <div className="mx-auto max-w-[1640px] px-6 md:px-10">
+          <header className="grid grid-cols-1 gap-10 md:grid-cols-12">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50 md:col-span-3">
+              ◊ Process
+            </p>
+            <h2 className="font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[0.94] tracking-tightest md:col-span-9">
+              Concept <span className="italic text-warmwhite/60">to Shader.</span>
+            </h2>
+          </header>
+          <ol className="mt-16 grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/10 md:grid-cols-4">
+            {process.map((p, i) => (
+              <Reveal key={p.phase} delay={i * 0.05}>
+                <li className="flex h-full flex-col gap-6 bg-ink-950 p-8 md:p-10">
+                  <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50">
+                    {p.phase}
+                  </span>
+                  <h3 className="font-serif text-3xl leading-none tracking-tightest md:text-4xl">
+                    {p.title}
+                  </h3>
+                  <p className="font-sans text-sm leading-relaxed text-warmwhite/65">{p.summary}</p>
+                </li>
+              </Reveal>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="border-t border-warmwhite/10 bg-ink-900 py-28 md:py-40">
+        <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
+          <div className="md:col-span-3">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50">
+              ◊ Engagements
+            </p>
+          </div>
+          <ul className="md:col-span-9 grid grid-cols-1 gap-6 md:grid-cols-3">
+            {[
+              {
+                title: "Project",
+                tagline: "Fixed scope, 4 — 12 weeks",
+                desc: "Sites, microsites, and case-study pages. Discovery → Production with measurable performance and a public outcome.",
+              },
+              {
+                title: "Retainer",
+                tagline: "Monthly, 30h+",
+                desc: "Ongoing creative engineering, motion systems and design support. For studios and AI-native product teams shipping quickly.",
+              },
+              {
+                title: "Studio Lead",
+                tagline: "Long-term, embedded",
+                desc: "Lead creative engineering inside a product team. Build motion systems, hire, and codify a craft language.",
+              },
+            ].map((e, i) => (
+              <Reveal key={e.title} delay={i * 0.05}>
+                <li className="aura relative flex h-full flex-col gap-5 rounded-md border border-warmwhite/10 bg-ink-900 p-8">
+                  <p className="font-sans text-[10px] uppercase tracking-widest text-peach">
+                    {e.tagline}
+                  </p>
+                  <h3 className="font-serif text-3xl tracking-tighter">{e.title}</h3>
+                  <p className="font-sans text-sm leading-relaxed text-warmwhite/65">{e.desc}</p>
+                </li>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      </section>
+    </>
+  );
+}

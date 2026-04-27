@@ -1,0 +1,168 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0c0c0c;
+  --fg: #efece9;
+  --rule: rgba(239, 236, 233, 0.12);
+  --accent: #e3bfb4;
+  color-scheme: dark;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-feature-settings: "ss01", "ss02", "cv11";
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+::selection {
+  background: var(--accent);
+  color: #0c0c0c;
+}
+
+body {
+  cursor: none;
+}
+@media (hover: none), (pointer: coarse) {
+  body {
+    cursor: auto;
+  }
+  .cursor-shell {
+    display: none !important;
+  }
+}
+
+a,
+button {
+  cursor: none;
+}
+
+/* Hairline rule */
+.hairline {
+  background: var(--rule);
+  height: 1px;
+  width: 100%;
+}
+.hairline-v {
+  background: var(--rule);
+  width: 1px;
+  height: 100%;
+}
+
+/* Reveal animation utility */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 1s var(--easing, cubic-bezier(0.22, 1, 0.36, 1)),
+    transform 1s var(--easing, cubic-bezier(0.22, 1, 0.36, 1));
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Display number */
+.display-num {
+  font-feature-settings: "tnum", "ss01";
+  font-variant-numeric: tabular-nums;
+}
+
+/* Marquee track */
+.marquee-track {
+  display: inline-flex;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+/* Glassy card */
+.glass {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px) saturate(1.2);
+}
+
+/* Grid lines bg */
+.grid-lines {
+  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 6.25vw 100%;
+}
+
+/* Magnetic surface aura */
+.aura::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: radial-gradient(120px circle at var(--mx, 50%) var(--my, 50%), rgba(227, 191, 180, 0.18), transparent 60%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.aura:hover::after {
+  opacity: 1;
+}
+
+/* Hide scrollbar in marquee */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Word-mask for split text reveals */
+.word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+.word-mask > span {
+  display: inline-block;
+  transform: translateY(105%);
+  will-change: transform;
+}
+
+/* Page transition curtain */
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  background: #070708;
+  transform: translateY(100%);
+}
+
+/* Vignette overlay */
+.vignette::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 80% at 50% 0%, transparent 50%, rgba(0, 0, 0, 0.6) 100%);
+}
