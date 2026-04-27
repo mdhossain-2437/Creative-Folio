@@ -14,10 +14,20 @@ export function MaskFooter({ children }: { children: ReactNode }) {
           if (entry.isIntersecting) el.classList.add("is-in");
         });
       },
-      { threshold: 0.18 }
+      { threshold: 0, rootMargin: "0px 0px 240px 0px" }
     );
     obs.observe(el);
-    return () => obs.disconnect();
+    const onScrollEnd = () => {
+      const bottom =
+        window.scrollY + window.innerHeight >=
+        document.documentElement.scrollHeight - 4;
+      if (bottom) el.classList.add("is-in");
+    };
+    window.addEventListener("scroll", onScrollEnd, { passive: true });
+    return () => {
+      obs.disconnect();
+      window.removeEventListener("scroll", onScrollEnd);
+    };
   }, []);
 
   return (
