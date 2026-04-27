@@ -8,6 +8,9 @@ import { Stats } from "@/components/sections/Stats";
 import { MarqueeBand } from "@/components/sections/MarqueeBand";
 import { JournalPreview } from "@/components/sections/JournalPreview";
 import { SiteMap } from "@/components/sections/SiteMap";
+import { MilestonesScroll } from "@/components/sections/MilestonesScroll";
+import { NowTeaser } from "@/components/sections/NowTeaser";
+import { ShowreelTeaser } from "@/components/sections/ShowreelTeaser";
 
 export default function HomePage() {
   return (
@@ -16,6 +19,9 @@ export default function HomePage() {
       <Manifesto />
       <MarqueeBand />
       <SelectedWorks />
+      <ShowreelTeaser />
+      <MilestonesScroll />
+      <NowTeaser />
       <Stats />
       <AwardsSection />
       <Capabilities />

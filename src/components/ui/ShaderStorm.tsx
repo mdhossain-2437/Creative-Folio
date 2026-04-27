@@ -26,7 +26,10 @@ export function ShaderStorm() {
     };
     const onKey = (e: KeyboardEvent) => {
       buf = [...buf, e.key].slice(-KONAMI.length);
-      if (buf.every((k, i) => k.toLowerCase() === KONAMI[i].toLowerCase())) {
+      if (
+        buf.length === KONAMI.length &&
+        buf.every((k, i) => k.toLowerCase() === KONAMI[i].toLowerCase())
+      ) {
         buf = [];
         trigger();
       }
