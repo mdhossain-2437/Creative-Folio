@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Marquee } from "@/components/ui/Marquee";
+import { MotionToggle } from "@/components/ui/MotionToggle";
 import { site } from "@/lib/site";
 
 export function Footer() {
@@ -13,7 +14,7 @@ export function Footer() {
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
           <div className="lg:col-span-7">
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/40">
-              ◊ Now booking · Selected projects
+              ◊ {site.availability} · Selected projects
             </p>
             <h2 className="mt-6 font-serif text-[clamp(3rem,9vw,9rem)] leading-[0.92] tracking-tightest">
               <span className="block italic text-warmwhite/60">Have an idea?</span>
@@ -38,9 +39,11 @@ export function Footer() {
             <FooterCol
               title="Studio"
               items={[
-                { label: "Colophon", href: "/colophon" },
+                { label: "Now", href: "/now" },
+                { label: "Showreel", href: "/showreel" },
+                { label: "Atlas", href: "/atlas" },
                 { label: "Awards", href: "/awards" },
-                { label: "Resume", href: "/resume" },
+                { label: "Colophon", href: "/colophon" },
                 { label: "Privacy", href: "/legal/privacy" },
                 { label: "Terms", href: "/legal/terms" },
               ]}
@@ -56,18 +59,22 @@ export function Footer() {
               "CREATIVE DEVELOPER",
               "UI / UX DESIGNER",
               "WEBGL · THREE.JS · GLSL",
-              "AVAILABLE Q3 2026",
+              site.availability.toUpperCase(),
               "JOYPURHAT, BANGLADESH",
+              "MMXXVI / 02.06",
             ]}
           />
         </div>
 
-        <div className="mt-14 flex flex-col items-start justify-between gap-4 font-sans text-[10px] uppercase tracking-widest text-warmwhite/40 md:flex-row md:items-center">
-          <p>© {new Date().getFullYear()} {site.studio}. All rights reserved.</p>
-          <p className="display-num">
+        <div className="mt-14 grid grid-cols-1 gap-4 font-sans text-[10px] uppercase tracking-widest text-warmwhite/40 md:grid-cols-12 md:items-center">
+          <p className="md:col-span-4">© {new Date().getFullYear()} {site.studio}. All rights reserved.</p>
+          <p className="md:col-span-5 md:text-center display-num">
             Lat. 25.10° N · Long. 89.02° E · {site.location}
           </p>
-          <p>v 02.04 · Built with intent.</p>
+          <div className="flex items-center gap-3 md:col-span-3 md:justify-end">
+            <MotionToggle />
+            <span className="hidden md:inline">v {site.edition}</span>
+          </div>
         </div>
       </div>
     </footer>

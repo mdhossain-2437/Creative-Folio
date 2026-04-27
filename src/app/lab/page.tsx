@@ -4,6 +4,7 @@ import { NoiseField } from "@/components/webgl/NoiseField";
 import { Reveal } from "@/components/ui/Reveal";
 import { experiments, arsenal } from "@/lib/data";
 import { Marquee } from "@/components/ui/Marquee";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "The Lab — Experiments",
@@ -30,11 +31,16 @@ export default function LabPage() {
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
           <ul className="grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/10 md:grid-cols-2 lg:grid-cols-3">
             {experiments.map((e, i) => (
-              <Reveal key={e.index} delay={i * 0.05}>
-                <li className="flex h-full flex-col bg-ink-900">
-                  <div className="relative aspect-square overflow-hidden">
+              <Reveal key={e.index} delay={i * 0.04}>
+                <li className="group flex h-full flex-col bg-ink-900">
+                  <Link
+                    href={`/lab/${e.slug}`}
+                    data-cursor="view"
+                    data-cursor-label="OPEN"
+                    className="relative aspect-square overflow-hidden"
+                  >
                     <NoiseField seed={i * 3.7} />
-                    <div className="absolute inset-0 flex items-center justify-center bg-ink-950/40">
+                    <div className="absolute inset-0 flex items-center justify-center bg-ink-950/40 transition-colors duration-500 group-hover:bg-ink-950/20">
                       <span className="font-serif text-[clamp(2.5rem,5vw,5rem)] leading-none tracking-tightest text-warmwhite">
                         {e.title.split(" ")[0]}
                       </span>
@@ -45,7 +51,10 @@ export default function LabPage() {
                     <span className="absolute right-5 top-5 rounded-full border border-warmwhite/30 px-3 py-1 font-sans text-[9px] uppercase tracking-widest text-warmwhite/80">
                       Live
                     </span>
-                  </div>
+                    <span className="absolute bottom-5 right-5 inline-flex h-9 w-9 items-center justify-center rounded-full bg-warmwhite/0 text-warmwhite transition-all duration-500 group-hover:bg-peach group-hover:text-ink-900">
+                      ↗
+                    </span>
+                  </Link>
                   <div className="flex flex-1 flex-col justify-between gap-6 p-6 md:p-8">
                     <div>
                       <h3 className="font-serif text-2xl leading-tight tracking-tighter md:text-3xl">
@@ -55,9 +64,14 @@ export default function LabPage() {
                         {e.summary}
                       </p>
                     </div>
-                    <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
-                      {e.meta} · Initialize Demo →
-                    </p>
+                    <Link
+                      href={`/lab/${e.slug}`}
+                      data-cursor="view"
+                      data-cursor-label="OPEN"
+                      className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55 hover:text-peach"
+                    >
+                      {e.meta} · Open playground →
+                    </Link>
                   </div>
                 </li>
               </Reveal>

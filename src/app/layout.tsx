@@ -8,7 +8,11 @@ import { Footer } from "@/components/layout/Footer";
 import { Preloader } from "@/components/layout/Preloader";
 import { GridOverlay } from "@/components/ui/GridOverlay";
 import { ScrollMeter } from "@/components/ui/ScrollMeter";
-import { PageTransition } from "@/components/layout/PageTransition";
+import { RouteCurtain } from "@/components/layout/RouteCurtain";
+import { CommandPalette } from "@/components/ui/CommandPalette";
+import { ShowreelModal } from "@/components/ui/ShowreelModal";
+import { ShaderStorm } from "@/components/ui/ShaderStorm";
+import { MaskFooter } from "@/components/ui/MaskFooter";
 import { site } from "@/lib/site";
 
 const newsreader = Newsreader({
@@ -34,7 +38,7 @@ const mono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — Creative Developer`,
+    default: `${site.name} — Creative Developer · MMXXVI`,
     template: `%s · ${site.name}`,
   },
   description: site.tagline,
@@ -49,6 +53,8 @@ export const metadata: Metadata = {
     "Bangladesh",
     "Delowar Hossain",
     "portfolio",
+    "2026",
+    "awwwards",
   ],
   authors: [{ name: site.name, url: site.url }],
   openGraph: {
@@ -76,11 +82,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Cursor />
           <GridOverlay />
           <ScrollMeter />
+          <ShaderStorm />
           <Navbar />
-          <PageTransition>
+          <RouteCurtain>
             <main>{children}</main>
-          </PageTransition>
-          <Footer />
+          </RouteCurtain>
+          <MaskFooter>
+            <Footer />
+          </MaskFooter>
+          <CommandPalette />
+          <ShowreelModal />
         </SmoothScrollProvider>
       </body>
     </html>
