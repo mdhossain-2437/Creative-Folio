@@ -11,6 +11,7 @@ import { SiteMap } from "@/components/sections/SiteMap";
 import { MilestonesScroll } from "@/components/sections/MilestonesScroll";
 import { NowTeaser } from "@/components/sections/NowTeaser";
 import { ShowreelTeaser } from "@/components/sections/ShowreelTeaser";
+import { Testimonials } from "@/components/sections/Testimonials";
 
 export default function HomePage() {
   return (
@@ -23,6 +24,7 @@ export default function HomePage() {
       <MilestonesScroll />
       <NowTeaser />
       <Stats />
+      <Testimonials />
       <AwardsSection />
       <Capabilities />
       <ProcessSection />

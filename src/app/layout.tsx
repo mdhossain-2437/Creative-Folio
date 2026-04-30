@@ -9,13 +9,12 @@ import { Preloader } from "@/components/layout/Preloader";
 import { GridOverlay } from "@/components/ui/GridOverlay";
 import { ScrollMeter } from "@/components/ui/ScrollMeter";
 import { RouteCurtain } from "@/components/layout/RouteCurtain";
-import { CommandPalette } from "@/components/ui/CommandPalette";
-import { CheatSheet } from "@/components/ui/CheatSheet";
-import { CursorTrail } from "@/components/ui/CursorTrail";
-import { ShowreelModal } from "@/components/ui/ShowreelModal";
 import { ShowreelPill } from "@/components/ui/ShowreelPill";
-import { ShaderStorm } from "@/components/ui/ShaderStorm";
 import { MaskFooter } from "@/components/ui/MaskFooter";
+import { SkipToContent } from "@/components/ui/SkipToContent";
+import { ScrollToTop } from "@/components/ui/ScrollToTop";
+import { ClientOverlays } from "@/components/layout/ClientOverlays";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { site } from "@/lib/site";
 
 const newsreader = Newsreader({
@@ -79,25 +78,26 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${newsreader.variable} ${inter.variable} ${mono.variable}`}>
+      <head>
+        <JsonLd />
+      </head>
       <body className="bg-ink-900 text-warmwhite font-sans antialiased selection:bg-peach selection:text-ink-900">
+        <SkipToContent />
         <SmoothScrollProvider>
           <Preloader />
           <Cursor />
-          <CursorTrail />
+          <ClientOverlays />
           <GridOverlay />
           <ScrollMeter />
-          <ShaderStorm />
           <Navbar />
           <RouteCurtain>
-            <main>{children}</main>
+            <main id="main-content">{children}</main>
           </RouteCurtain>
           <MaskFooter>
             <Footer />
           </MaskFooter>
-          <CommandPalette />
-          <CheatSheet />
-          <ShowreelModal />
           <ShowreelPill />
+          <ScrollToTop />
         </SmoothScrollProvider>
       </body>
     </html>
