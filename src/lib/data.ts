@@ -634,6 +634,44 @@ export const reelClips: {
   },
 ];
 
+export type Testimonial = {
+  quote: string;
+  name: string;
+  title: string;
+  company: string;
+};
+
+export const testimonials: Testimonial[] = [
+  {
+    quote:
+      "Delowar turned a vague brief into a site that won us an Awwwards mention in its first week. His command of motion and editorial restraint is unmatched.",
+    name: "Nora Vásquez",
+    title: "Head of Brand",
+    company: "Meridian Studio",
+  },
+  {
+    quote:
+      "Working with Delowar felt like pairing with someone who speaks design and engineering at native fluency. Our conversion rate jumped 34% after the redesign.",
+    name: "Aiden Park",
+    title: "Co-Founder & CEO",
+    company: "Luminary AI",
+  },
+  {
+    quote:
+      "He shipped a WebGL hero, a full design system, and a CMS integration — in six weeks. The codebase was the cleanest handoff I've ever received.",
+    name: "Priya Shankar",
+    title: "Engineering Lead",
+    company: "Sonder Health",
+  },
+  {
+    quote:
+      "Every detail — from scroll easing to kerning — was intentional. The result felt like a physical object, not a website.",
+    name: "Marcus Lindqvist",
+    title: "Creative Director",
+    company: "Atelier Nord",
+  },
+];
+
 export const githubFallback: { sha: string; repo: string; message: string; ago: string }[] = [
   { sha: "a1f4c2", repo: "creative-folio", message: "feat(layout): flexible route curtain with destination text", ago: "2h" },
   { sha: "3b9e02", repo: "creative-folio", message: "chore(content): refresh dates + projects for 2026", ago: "5h" },

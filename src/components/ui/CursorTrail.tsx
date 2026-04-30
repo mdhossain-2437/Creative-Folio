@@ -63,6 +63,7 @@ export function CursorTrail() {
     };
     window.addEventListener("pointermove", onMove);
 
+    let motionOff = false;
     let raf = 0;
     let last = performance.now();
     const tick = () => {
@@ -96,7 +97,7 @@ export function CursorTrail() {
     const onVis = () => {
       if (document.hidden) {
         cancelAnimationFrame(raf);
-      } else {
+      } else if (!motionOff) {
         last = performance.now();
         raf = requestAnimationFrame(tick);
       }
@@ -105,6 +106,7 @@ export function CursorTrail() {
 
     const onMotionChange = (e: StorageEvent) => {
       if (e.key === "delowar:motion" && e.newValue === "off") {
+        motionOff = true;
         cancelAnimationFrame(raf);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
