@@ -100,7 +100,10 @@ export function NoiseField({
     const io = new IntersectionObserver(
       ([entry]) => {
         visible = entry.isIntersecting;
-        if (visible) raf = requestAnimationFrame(tick);
+        if (visible) {
+          cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(tick);
+        }
       },
       { threshold: 0 },
     );
