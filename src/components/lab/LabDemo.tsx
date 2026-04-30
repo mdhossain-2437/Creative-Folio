@@ -106,12 +106,8 @@ function CanvasDemo({
 
     const onMove = (e: PointerEvent) => {
       const r = canvas.getBoundingClientRect();
-      m.px = m.x;
-      m.py = m.y;
       m.x = (e.clientX - r.left) * (canvas.width / r.width);
       m.y = (e.clientY - r.top) * (canvas.height / r.height);
-      m.vx = m.x - m.px;
-      m.vy = m.y - m.py;
       m.inside = true;
       m.shift = e.shiftKey;
     };
@@ -161,6 +157,13 @@ function CanvasDemo({
       const dt = Math.min(0.06, (now - last) / 1000);
       last = now;
       const t = now / 1000;
+      // Compute mouse velocity per-frame (not per pointermove event) so it
+      // naturally decays to 0 when the cursor stops moving but stays inside
+      // the canvas. Matches the pre-refactor ParticleField behaviour.
+      m.vx = m.x - m.px;
+      m.vy = m.y - m.py;
+      m.px = m.x;
+      m.py = m.y;
       if (reseedRequested) {
         reseedRequested = false;
         if (init) {
