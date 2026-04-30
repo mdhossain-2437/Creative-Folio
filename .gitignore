@@ -12,3 +12,4 @@ test-plan-*.md
 test-report-*.md
 upgrade-plan-*.md
 next-env.d.ts
+.env*.local
