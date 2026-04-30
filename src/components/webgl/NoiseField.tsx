@@ -86,16 +86,32 @@ export function NoiseField({
     resize();
     window.addEventListener("resize", resize);
     let raf = 0;
+    let visible = true;
     const start = performance.now();
     const tick = () => {
+      if (!visible) return;
       const t = (performance.now() - start) / 1000;
       gl.uniform1f(uT, t);
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible) {
+          cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(tick);
+        }
+      },
+      { threshold: 0 },
+    );
+    io.observe(canvas);
+
     return () => {
       cancelAnimationFrame(raf);
+      io.disconnect();
       window.removeEventListener("resize", resize);
       gl.deleteProgram(prog);
       gl.deleteShader(vs);

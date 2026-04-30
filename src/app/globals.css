@@ -96,7 +96,15 @@ button {
 .marquee-track {
   display: inline-flex;
   white-space: nowrap;
-  will-change: transform;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes marqueeReverse {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
 }
 
 /* Glassy card */
@@ -216,6 +224,12 @@ body.calm-motion .animate-digit-roll {
 body.calm-motion .grain::after,
 body.calm-motion::before {
   display: none !important;
+}
+
+/* Lazy render for below-fold sections */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
 }
 
 /* Flexible route curtain */

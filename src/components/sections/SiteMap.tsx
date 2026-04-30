@@ -32,7 +32,7 @@ export function SiteMap() {
     <section className="relative border-t border-warmwhite/10 bg-ink-950 py-28 md:py-40">
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50">
-          §06 — Beyond Home
+          §11 — Beyond Home
         </p>
         <h2 className="mt-4 font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[0.94] tracking-tightest">
           Continue <span className="italic text-peach">exploring.</span>

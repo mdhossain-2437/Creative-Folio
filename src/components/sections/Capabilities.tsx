@@ -8,7 +8,7 @@ export function Capabilities() {
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <header className="grid grid-cols-1 gap-10 md:grid-cols-12">
           <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50 md:col-span-3">
-            §04 — Expertise
+            §08 — Expertise
           </p>
           <h2 className="font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[0.94] tracking-tightest md:col-span-9">
             What I do, <span className="italic text-warmwhite/60">in detail.</span>

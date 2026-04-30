@@ -9,7 +9,7 @@ export function NowTeaser() {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12">
           <div className="md:col-span-4">
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
-              §04 — /now
+              §05 — /now
             </p>
             <h2 className="mt-6 font-serif text-[clamp(2.5rem,6vw,5.4rem)] leading-[0.96] tracking-tightest">
               What I&apos;m

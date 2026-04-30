@@ -47,7 +47,7 @@ float noise3(vec3 p) {
 float fbm(vec3 p) {
   float v = 0.0;
   float a = 0.5;
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 4; i++) {
     v += a * noise3(p);
     p *= 2.04;
     a *= 0.5;
@@ -168,8 +168,10 @@ export function HeroShader({ className = "" }: { className?: string }) {
     window.addEventListener("mousemove", onMove);
 
     let raf = 0;
+    let visible = true;
     const start = performance.now();
     const tick = () => {
+      if (!visible) return;
       mouse.x += (target.x - mouse.x) * 0.06;
       mouse.y += (target.y - mouse.y) * 0.06;
       const t = (performance.now() - start) / 1000;
@@ -180,8 +182,21 @@ export function HeroShader({ className = "" }: { className?: string }) {
     };
     raf = requestAnimationFrame(tick);
 
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible) {
+          cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(tick);
+        }
+      },
+      { threshold: 0 },
+    );
+    io.observe(canvas);
+
     return () => {
       cancelAnimationFrame(raf);
+      io.disconnect();
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMove);
       gl.deleteProgram(prog);
