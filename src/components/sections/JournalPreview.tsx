@@ -9,7 +9,7 @@ export function JournalPreview() {
         <header className="flex items-end justify-between gap-6">
           <div>
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50">
-              §05 — Journal
+              §10 — Journal
             </p>
             <h2 className="mt-4 font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[0.94] tracking-tightest">
               Notes <span className="italic text-warmwhite/60">on the craft.</span>

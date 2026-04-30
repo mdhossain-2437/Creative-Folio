@@ -27,7 +27,7 @@ export function CursorTrail() {
 
     type P = { x: number; y: number; vx: number; vy: number; life: number; max: number; r: number };
     const parts: P[] = [];
-    const MAX = 80;
+    const MAX = 50;
 
     let mx = -1000;
     let my = -1000;

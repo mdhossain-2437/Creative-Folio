@@ -8,7 +8,7 @@ export function AwardsSection() {
         <div className="grid grid-cols-1 items-end gap-10 md:grid-cols-12">
           <div className="md:col-span-7">
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50">
-              §03 — Industry Recognition
+              §07 — Industry Recognition
             </p>
             <h2 className="mt-4 font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[0.94] tracking-tightest">
               Awards <span className="italic text-warmwhite/60">&amp;</span> Mentions

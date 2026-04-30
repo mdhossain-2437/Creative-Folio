@@ -20,16 +20,16 @@ export default function HomePage() {
       <Manifesto />
       <MarqueeBand />
       <SelectedWorks />
-      <ShowreelTeaser />
-      <MilestonesScroll />
-      <NowTeaser />
-      <Stats />
-      <Testimonials />
-      <AwardsSection />
-      <Capabilities />
-      <ProcessSection />
-      <JournalPreview />
-      <SiteMap />
+      <div className="cv-auto"><ShowreelTeaser /></div>
+      <div className="cv-auto"><MilestonesScroll /></div>
+      <div className="cv-auto"><NowTeaser /></div>
+      <div className="cv-auto"><Stats /></div>
+      <div className="cv-auto"><Testimonials /></div>
+      <div className="cv-auto"><AwardsSection /></div>
+      <div className="cv-auto"><Capabilities /></div>
+      <div className="cv-auto"><ProcessSection /></div>
+      <div className="cv-auto"><JournalPreview /></div>
+      <div className="cv-auto"><SiteMap /></div>
     </>
   );
 }
