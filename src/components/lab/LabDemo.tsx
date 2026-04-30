@@ -563,6 +563,7 @@ const rdInit: InitFn = ({ w, h, store, compact }) => {
   const b2 = new Float32Array(cols * rows);
   for (let i = 0; i < cols * rows; i++) {
     a[i] = 1;
+    a2[i] = 1;
     b[i] = 0;
   }
   // seed — scatter ~14 hot patches so the field always has visible chemistry
