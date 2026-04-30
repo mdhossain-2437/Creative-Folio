@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
-import { NoiseField } from "@/components/webgl/NoiseField";
+import { LabDemo } from "@/components/lab/LabDemo";
 import { Reveal } from "@/components/ui/Reveal";
 import { experiments, arsenal } from "@/lib/data";
 import { Marquee } from "@/components/ui/Marquee";
@@ -39,25 +39,22 @@ export default function LabPage() {
                     data-cursor-label="OPEN"
                     className="relative aspect-square overflow-hidden"
                   >
-                    <NoiseField seed={i * 3.7} />
-                    <div className="absolute inset-0 flex items-center justify-center bg-ink-950/40 transition-colors duration-500 group-hover:bg-ink-950/20">
-                      <span className="font-serif text-[clamp(2.5rem,5vw,5rem)] leading-none tracking-tightest text-warmwhite">
-                        {e.title.split(" ")[0]}
-                      </span>
-                    </div>
-                    <span className="absolute left-5 top-5 font-sans text-[10px] uppercase tracking-widest text-warmwhite/70">
+                    <LabDemo slug={e.slug} seed={i * 3.7} compact />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink-950/30 via-transparent to-ink-950/65 transition-opacity duration-500 group-hover:opacity-60" />
+                    <span className="pointer-events-none absolute left-5 top-5 flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-warmwhite/70">
+                      <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-electric" />
                       {e.index} · {e.category}
                     </span>
-                    <span className="absolute right-5 top-5 rounded-full border border-warmwhite/30 px-3 py-1 font-sans text-[9px] uppercase tracking-widest text-warmwhite/80">
-                      Live
+                    <span className="pointer-events-none absolute right-5 top-5 rounded-full border border-warmwhite/25 px-3 py-1 font-sans text-[9px] uppercase tracking-widest text-warmwhite/80 backdrop-blur-sm">
+                      Live · interactive
                     </span>
-                    <span className="absolute bottom-5 right-5 inline-flex h-9 w-9 items-center justify-center rounded-full bg-warmwhite/0 text-warmwhite transition-all duration-500 group-hover:bg-peach group-hover:text-ink-900">
+                    <span className="pointer-events-none absolute bottom-5 right-5 inline-flex h-9 w-9 items-center justify-center rounded-full bg-warmwhite/10 text-warmwhite transition-all duration-500 group-hover:bg-peach group-hover:text-ink-900">
                       ↗
                     </span>
                   </Link>
                   <div className="flex flex-1 flex-col justify-between gap-6 p-6 md:p-8">
                     <div>
-                      <h3 className="font-serif text-2xl leading-tight tracking-tighter md:text-3xl">
+                      <h3 className="break-words font-serif text-xl leading-tight tracking-tighter md:text-2xl">
                         {e.title}
                       </h3>
                       <p className="mt-3 font-sans text-sm leading-relaxed text-warmwhite/65">
@@ -90,6 +87,10 @@ export default function LabPage() {
             "CURL NOISE · FBM",
             "WEB AUDIO · FFT",
             "VARIABLE FONTS",
+            "GRAY-SCOTT · REACTION",
+            "VORONOI · GEOMETRY",
+            "BOIDS · FLOCKING",
+            "LISSAJOUS · PARAMETRIC",
           ]}
         />
       </section>

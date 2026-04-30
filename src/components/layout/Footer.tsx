@@ -16,7 +16,7 @@ export function Footer() {
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/40">
               ◊ {site.availability} · Selected projects
             </p>
-            <h2 className="mt-6 font-serif text-[clamp(3rem,9vw,9rem)] leading-[0.92] tracking-tightest">
+            <h2 className="mt-6 break-words font-serif text-[clamp(2.5rem,7.5vw,7rem)] leading-[0.94] tracking-tightest">
               <span className="block italic text-warmwhite/60">Have an idea?</span>
               <span className="block">Let&apos;s build it.</span>
             </h2>

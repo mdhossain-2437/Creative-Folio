@@ -25,11 +25,11 @@ export function Hero() {
           <p className="font-sans text-[11px] uppercase tracking-widest text-warmwhite/60">
             ◌ &nbsp; Delowar Hossain &nbsp;—&nbsp; Folio MMXXVI
           </p>
-          <h1 className="mt-4 font-serif leading-[0.86] tracking-tightest text-warmwhite md:mt-6">
-            <span className="block text-[clamp(3.5rem,13vw,14rem)]">
+          <h1 className="mt-4 break-words font-serif leading-[0.88] tracking-tightest text-warmwhite md:mt-6">
+            <span className="block text-[clamp(3rem,11vw,11rem)]">
               <SplitText text="Delowar" />
             </span>
-            <span className="block text-[clamp(3.5rem,13vw,14rem)]">
+            <span className="block text-[clamp(3rem,11vw,11rem)]">
               <SplitText
                 text="Hossain."
                 delay={0.12}

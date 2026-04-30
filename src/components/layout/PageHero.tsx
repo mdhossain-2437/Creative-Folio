@@ -31,7 +31,7 @@ export function PageHero({
         <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
           {eyebrow}
         </p>
-        <h1 className="mt-8 font-serif text-[clamp(3rem,12vw,12rem)] leading-[0.9] tracking-tightest">
+        <h1 className="mt-8 break-words font-serif text-[clamp(2.6rem,9vw,8.5rem)] leading-[0.92] tracking-tightest">
           <SplitText text={title} />
           {italic && (
             <span className="block italic text-warmwhite/65">

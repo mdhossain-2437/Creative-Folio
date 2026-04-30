@@ -163,7 +163,12 @@ export type ExperimentSlug =
   | "fft-material"
   | "shader-storm"
   | "signed-distance-letters"
-  | "latency-canvas";
+  | "latency-canvas"
+  | "reaction-diffusion"
+  | "voronoi-cells"
+  | "flow-field"
+  | "lissajous-orbits"
+  | "boids-flock";
 
 export type ExperimentExtended = Experiment & { slug: ExperimentSlug };
 
@@ -248,6 +253,51 @@ export const experiments: ExperimentExtended[] = [
     summary:
       "A frame-pacing visualizer drawing your real input → pixel latency. Every dot is one frame, colored by jank.",
     meta: "Performance · 2026",
+  },
+  {
+    slug: "reaction-diffusion",
+    index: "10",
+    category: "Simulation",
+    title: "Reaction Diffusion",
+    summary:
+      "A Gray–Scott reaction-diffusion field running on a single canvas pass. Click the surface to seed new growth into the chemistry.",
+    meta: "Cellular · 2026",
+  },
+  {
+    slug: "voronoi-cells",
+    index: "11",
+    category: "Geometry",
+    title: "Voronoi Cells",
+    summary:
+      "A Voronoi tessellation of moving sites — the cursor adds a heavy site that warps the entire diagram in real time.",
+    meta: "Computational Geom · 2026",
+  },
+  {
+    slug: "flow-field",
+    index: "12",
+    category: "Vector",
+    title: "Flow Field Vectors",
+    summary:
+      "A grid of arrows reading the curl of a procedural noise field. The cursor injects a local rotational bias into the flow.",
+    meta: "Curl Noise · 2026",
+  },
+  {
+    slug: "lissajous-orbits",
+    index: "13",
+    category: "Parametric",
+    title: "Lissajous Orbits",
+    summary:
+      "Layered Lissajous curves whose ratios shift with cursor position. The body of the page becomes the parametric instrument.",
+    meta: "Parametric · 2026",
+  },
+  {
+    slug: "boids-flock",
+    index: "14",
+    category: "Behaviour",
+    title: "Boids Flock",
+    summary:
+      "Reynolds-style flocking — separation, alignment, cohesion. The cursor acts as a moving attractor or predator on shift-click.",
+    meta: "Agents · 2026",
   },
 ];
 
