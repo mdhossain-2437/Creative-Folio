@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { NoiseField } from "@/components/webgl/NoiseField";
 
 // Each lab experiment has its own dedicated demo — no two slugs share a
@@ -124,41 +124,39 @@ function CanvasDemo({
       m.pressed = true;
       m.clickT = performance.now() / 1000;
       m.shift = e.shiftKey;
+      // Capture so the matching pointerup fires here even if the user releases
+      // outside the canvas (lab cards on /lab are stacked under absolute overlays).
+      try {
+        canvas.setPointerCapture(e.pointerId);
+      } catch {
+        // ignore — some browsers throw if the pointer is already captured
+      }
       if (reseedOnClick) reseed();
     };
     const onUp = () => {
       m.pressed = false;
+    };
+    const onCancel = () => {
+      m.pressed = false;
+      m.inside = false;
     };
 
     canvas.addEventListener("pointermove", onMove);
     canvas.addEventListener("pointerleave", onLeave);
     canvas.addEventListener("pointerdown", onDown);
     canvas.addEventListener("pointerup", onUp);
+    canvas.addEventListener("pointercancel", onCancel);
+    // Fallback in case pointer capture failed and the release happened off-canvas.
+    window.addEventListener("pointerup", onUp);
     window.addEventListener("resize", fit);
 
     fit();
-
-    let visible = true;
-    const io =
-      "IntersectionObserver" in window
-        ? new IntersectionObserver(
-            ([entry]) => {
-              visible = entry?.isIntersecting ?? true;
-            },
-            { rootMargin: "200px" }
-          )
-        : null;
-    io?.observe(canvas);
 
     let raf = 0;
     let last = performance.now();
     const minDt = fpsCap ? 1000 / fpsCap : 0;
     const tickFrame = (now: number) => {
       raf = requestAnimationFrame(tickFrame);
-      if (!visible) {
-        last = now;
-        return;
-      }
       if (now - last < minDt) return;
       const dt = Math.min(0.06, (now - last) / 1000);
       last = now;
@@ -182,15 +180,37 @@ function CanvasDemo({
         reseed,
       });
     };
-    raf = requestAnimationFrame(tickFrame);
+    const start = () => {
+      if (raf) return;
+      last = performance.now();
+      raf = requestAnimationFrame(tickFrame);
+    };
+    const stop = () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = 0;
+    };
+    const io =
+      "IntersectionObserver" in window
+        ? new IntersectionObserver(
+            ([entry]) => {
+              if (entry?.isIntersecting) start();
+              else stop();
+            },
+            { rootMargin: "200px" }
+          )
+        : null;
+    if (io) io.observe(canvas);
+    else start();
 
     return () => {
-      cancelAnimationFrame(raf);
+      stop();
       io?.disconnect();
       canvas.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("pointerleave", onLeave);
       canvas.removeEventListener("pointerdown", onDown);
       canvas.removeEventListener("pointerup", onUp);
+      canvas.removeEventListener("pointercancel", onCancel);
+      window.removeEventListener("pointerup", onUp);
       window.removeEventListener("resize", fit);
     };
   }, [init, tick, compact, fpsCap, reseedOnClick]);
@@ -437,8 +457,24 @@ const fftTick: TickFn = ({ ctx, w, h, t, m, store, dpr }) => {
 };
 
 // ── 07 — Shader Storm: stripes, RGB sweep, scanlines ────────────────────────
-function shaderStormTickFactory(seed: number): TickFn {
-  return ({ ctx, w, h, t, dpr, m }) => {
+// `seed` is read from the store so the tick function itself stays stable across
+// renders (a fresh `tick` reference would tear down the canvas runtime).
+const shaderStormInitFactory = (seed: number): InitFn => ({ store }) => {
+  store.seed = seed;
+};
+const shaderStormTick: TickFn = ({ ctx, w, h, t, dpr, m, store }) => {
+  const seed = (store.seed as number) ?? 0;
+  return shaderStormBody(ctx, w, h, t, dpr, m, seed);
+};
+function shaderStormBody(
+  ctx: CanvasRenderingContext2D,
+  w: number,
+  h: number,
+  t: number,
+  dpr: number,
+  m: Mouse,
+  seed: number
+) {
     ctx.fillStyle = "#0a0a0a";
     ctx.fillRect(0, 0, w, h);
     const stripeH = 6 * dpr;
@@ -461,7 +497,6 @@ function shaderStormTickFactory(seed: number): TickFn {
     grad.addColorStop(1, "rgba(205,250,0,0)");
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, w, h);
-  };
 }
 
 // ── 09 — Latency Canvas: frame-pacing dot heatmap ───────────────────────────
@@ -474,7 +509,9 @@ const latencyTick: TickFn = ({ ctx, w, h, store, m, dpr }) => {
   const dtMs = now - (store.lastFrame as number);
   store.lastFrame = now;
   const samples = store.samples as { dt: number }[];
-  samples.push({ dt: dtMs });
+  // Skip the first frame after IntersectionObserver paused us — the gap is
+  // the entire offscreen duration, not actual jank, and would pollute the buffer.
+  if (dtMs < 200) samples.push({ dt: dtMs });
   const max = Math.floor(w / (10 * dpr));
   while (samples.length > max) samples.shift();
 
@@ -919,9 +956,29 @@ function VariableFontDemo({ compact }: { compact?: boolean }) {
       text.style.transform = `skewX(${slant * 0.4}deg)`;
       raf = requestAnimationFrame(tick);
     };
-    raf = requestAnimationFrame(tick);
+    const start = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(tick);
+    };
+    const stop = () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = 0;
+    };
+    const io =
+      "IntersectionObserver" in window
+        ? new IntersectionObserver(
+            ([entry]) => {
+              if (entry?.isIntersecting) start();
+              else stop();
+            },
+            { rootMargin: "200px" }
+          )
+        : null;
+    if (io) io.observe(wrap);
+    else start();
     return () => {
-      cancelAnimationFrame(raf);
+      stop();
+      io?.disconnect();
       wrap.removeEventListener("pointermove", onMove);
     };
   }, []);
@@ -1010,6 +1067,20 @@ function SdfGlyphDemo({ compact }: { compact?: boolean }) {
   );
 }
 
+// Memoize the shader-storm init so the seed prop doesn't tear down the
+// canvas runtime on every parent render.
+function ShaderStormDemo({ seed, compact }: { seed: number; compact: boolean }) {
+  const init = useMemo(() => shaderStormInitFactory(seed), [seed]);
+  return (
+    <CanvasDemo
+      init={init}
+      tick={shaderStormTick}
+      compact={compact}
+      fpsCap={compact ? 30 : 60}
+    />
+  );
+}
+
 // ── Dispatcher ──────────────────────────────────────────────────────────────
 export function LabDemo({
   slug,
@@ -1032,7 +1103,7 @@ export function LabDemo({
     case "fft-material":
       return <CanvasDemo init={fftInit} tick={fftTick} compact={compact} fpsCap={compact ? 30 : 60} />;
     case "shader-storm":
-      return <CanvasDemo tick={shaderStormTickFactory(seed)} compact={compact} fpsCap={compact ? 30 : 60} />;
+      return <ShaderStormDemo seed={seed} compact={compact} />;
     case "latency-canvas":
       return <CanvasDemo init={latencyInit} tick={latencyTick} compact={compact} />;
     case "reaction-diffusion":

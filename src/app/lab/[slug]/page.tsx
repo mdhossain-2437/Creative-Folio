@@ -157,7 +157,7 @@ const NOTES: Record<string, { brief: string; controls: { label: string; value: s
   },
   "reaction-diffusion": {
     brief:
-      "A Gray–Scott reaction-diffusion field running on a coarse 2D grid. Two species advect into each other; the cursor seeds new growth where you point.",
+      "A Gray–Scott reaction-diffusion field running on a coarse 2D grid. Two species advect into each other; hover continuously seeds chemistry where you point and click reseeds the field.",
     controls: [
       { label: "feed rate (f)", value: "0.055" },
       { label: "kill rate (k)", value: "0.062" },
@@ -213,7 +213,7 @@ const NOTES: Record<string, { brief: string; controls: { label: string; value: s
   },
   "boids-flock": {
     brief:
-      "Reynolds-style boids — separation, alignment, and cohesion only. The cursor acts as an attractor; hold ⇧ and click to flip it into a predator.",
+      "Reynolds-style boids — separation, alignment, and cohesion only. The cursor acts as an attractor; hold ⇧ while moving to flip it into a predator.",
     controls: [
       { label: "agents", value: "320" },
       { label: "perception", value: "60 px" },

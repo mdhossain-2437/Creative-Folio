@@ -37,7 +37,7 @@ export default function LabPage() {
                     href={`/lab/${e.slug}`}
                     data-cursor="view"
                     data-cursor-label="OPEN"
-                    className="relative aspect-square overflow-hidden"
+                    className="relative block aspect-square overflow-hidden"
                   >
                     <LabDemo slug={e.slug} seed={i * 3.7} compact />
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink-950/30 via-transparent to-ink-950/65 transition-opacity duration-500 group-hover:opacity-60" />

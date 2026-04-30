@@ -260,7 +260,7 @@ export const experiments: ExperimentExtended[] = [
     category: "Simulation",
     title: "Reaction Diffusion",
     summary:
-      "A Gray–Scott reaction-diffusion field running on a single canvas pass. Click the surface to seed new growth into the chemistry.",
+      "A Gray–Scott reaction-diffusion field running on a single canvas pass. Hover seeds chemistry continuously; click reseeds the field.",
     meta: "Cellular · 2026",
   },
   {
@@ -296,7 +296,7 @@ export const experiments: ExperimentExtended[] = [
     category: "Behaviour",
     title: "Boids Flock",
     summary:
-      "Reynolds-style flocking — separation, alignment, cohesion. The cursor acts as a moving attractor or predator on shift-click.",
+      "Reynolds-style flocking — separation, alignment, cohesion. The cursor attracts the flock; hold ⇧ while moving to flip it into a predator.",
     meta: "Agents · 2026",
   },
 ];
