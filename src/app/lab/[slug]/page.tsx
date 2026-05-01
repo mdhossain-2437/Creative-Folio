@@ -155,6 +155,76 @@ const NOTES: Record<string, { brief: string; controls: { label: string; value: s
       "Hold ⇧ to overlay GPU memory; hold ⌥ to overlay heap size (Chrome only).",
     ],
   },
+  "reaction-diffusion": {
+    brief:
+      "A Gray–Scott reaction-diffusion field running on a coarse 2D grid. Two species advect into each other; hover continuously seeds chemistry where you point and click reseeds the field.",
+    controls: [
+      { label: "feed rate (f)", value: "0.055" },
+      { label: "kill rate (k)", value: "0.062" },
+      { label: "diffusion (a)", value: "1.00" },
+      { label: "diffusion (b)", value: "0.50" },
+    ],
+    readme: [
+      "Gray–Scott parameters f / k can be tuned to grow stripes, mitosis, coral or U-Skate behaviour. This preset is calm mitosis.",
+      "Click the canvas to reseed — the existing field is wiped and re-grown so you can step through phase space.",
+    ],
+  },
+  "voronoi-cells": {
+    brief:
+      "A Voronoi tessellation of free-floating sites, redrawn every frame. The cursor adds a heavy site that warps the surrounding cells without snapping the diagram.",
+    controls: [
+      { label: "site count", value: "36" },
+      { label: "drift speed", value: "1.2 px/f" },
+      { label: "cursor weight", value: "0.55×" },
+      { label: "raster step", value: "5 px" },
+    ],
+    readme: [
+      "Each pixel is colored by which site is nearest. The cursor counts as a virtual site — its distance is scaled, so you can dial how dominant it is.",
+      "Click anywhere to scatter the sites. Useful for building blue-noise-ish backgrounds.",
+    ],
+  },
+  "flow-field": {
+    brief:
+      "A grid of arrows reading a 2D scalar noise field as a vector field. The cursor injects local rotational bias so the flow swirls toward you.",
+    controls: [
+      { label: "grid step", value: "18 px" },
+      { label: "noise scale", value: "0.005" },
+      { label: "cursor radius", value: "200 px" },
+      { label: "swirl strength", value: "1.0" },
+    ],
+    readme: [
+      "Vectors aren&apos;t pre-baked — the angle is sampled from sin/cos of the noise each frame, then blended with a swirl toward the cursor weighted by inverse distance.",
+      "Drop particles onto this field to get advection trails. The same field powers the Particle Systems demo on a different layer.",
+    ],
+  },
+  "lissajous-orbits": {
+    brief:
+      "Layered Lissajous curves whose ratios shift with cursor position. Move the mouse along x to dial the a-ratio, along y for the b-ratio.",
+    controls: [
+      { label: "x ratio (a)", value: "2 — 7" },
+      { label: "y ratio (b)", value: "2 — 7" },
+      { label: "layers", value: "4" },
+      { label: "phase drift", value: "0.4 rad/s" },
+    ],
+    readme: [
+      "Classical Lissajous curves with a smoothed phase term — the ratios ease toward the cursor, so the figure morphs continuously instead of snapping between integer ratios.",
+      "Used to drive type-on-path animations elsewhere on the site; the same closed curve becomes a font-feel guide.",
+    ],
+  },
+  "boids-flock": {
+    brief:
+      "Reynolds-style boids — separation, alignment, and cohesion only. The cursor acts as an attractor; hold ⇧ while moving to flip it into a predator.",
+    controls: [
+      { label: "agents", value: "320" },
+      { label: "perception", value: "60 px" },
+      { label: "max speed", value: "2.6 u/f" },
+      { label: "neighborhood", value: "1 in 4" },
+    ],
+    readme: [
+      "Sampled neighbour search (every 4th boid) keeps the simulation under the 16ms budget without tanking visual quality.",
+      "Hold ⇧ while moving the cursor to invert the cohesion term — the boids will scatter away from the predator instead of swarming toward it.",
+    ],
+  },
 };
 
 export default async function LabSlug({
