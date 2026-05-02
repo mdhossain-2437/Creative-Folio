@@ -3,7 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/layout/PageHero";
 import { ReadingProgress } from "@/components/ui/ReadingProgress";
+import { JournalShare } from "@/components/journal/JournalShare";
 import { journal } from "@/lib/data";
+import { site } from "@/lib/site";
 
 type Params = { slug: string };
 
@@ -26,15 +28,44 @@ const sampleBody: string[] = [
   "If you can hold a single idea in your head while reading the file end to end, the rest of the system tends to follow. That is the whole brief.",
 ];
 
+function isoFromYmd(ymd: string): string {
+  const [y, m, d] = ymd.split(".");
+  return `${y}-${m}-${d}T12:00:00Z`;
+}
+
 export default async function JournalPost({ params }: { params: Promise<Params> }) {
   const { slug } = await params;
   const post = journal.find((j) => j.slug === slug);
   if (!post) notFound();
   const idx = journal.findIndex((j) => j.slug === post.slug);
   const next = journal[(idx + 1) % journal.length];
+  const url = `${site.url}/journal/${post.slug}`;
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    headline: post.title,
+    description: post.excerpt,
+    image: `${url}/opengraph-image`,
+    datePublished: isoFromYmd(post.date),
+    dateModified: isoFromYmd(post.date),
+    author: { "@type": "Person", name: site.name, url: site.url },
+    publisher: {
+      "@type": "Organization",
+      name: site.studio,
+      url: site.url,
+    },
+    articleSection: post.category,
+    inLanguage: "en",
+    url,
+  };
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+      />
       <PageHero
         eyebrow={`${post.date} · ${post.category} · ${post.readingTime}`}
         title={post.title.split(":")[0] || post.title}
@@ -67,18 +98,21 @@ export default async function JournalPost({ params }: { params: Promise<Params> 
           </p>
         </div>
 
-        <div className="mt-20 flex items-center justify-between border-t border-warmwhite/10 pt-8 font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
-          <Link href="/journal" data-cursor="hover" data-cursor-label="BACK" className="hover:text-warmwhite">
-            ← All Posts
-          </Link>
-          <Link
-            href={`/journal/${next.slug}`}
-            data-cursor="view"
-            data-cursor-label="NEXT"
-            className="text-right hover:text-warmwhite"
-          >
-            Next: {next.title} →
-          </Link>
+        <div className="mt-20 border-t border-warmwhite/10 pt-8">
+          <div className="flex flex-wrap items-center justify-between gap-6 font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
+            <Link href="/journal" data-cursor="hover" data-cursor-label="BACK" className="hover:text-warmwhite">
+              ← All Posts
+            </Link>
+            <JournalShare slug={post.slug} title={post.title} />
+            <Link
+              href={`/journal/${next.slug}`}
+              data-cursor="view"
+              data-cursor-label="NEXT"
+              className="text-right hover:text-warmwhite"
+            >
+              Next: {next.title} →
+            </Link>
+          </div>
         </div>
       </article>
     </>

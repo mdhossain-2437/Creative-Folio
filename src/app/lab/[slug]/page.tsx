@@ -4,6 +4,8 @@ import Link from "next/link";
 import { PageHero } from "@/components/layout/PageHero";
 import { LabDemo } from "@/components/lab/LabDemo";
 import { LabVisitTracker } from "@/components/lab/LabVisitTracker";
+import { LabPlaygroundShortcuts } from "@/components/lab/LabPlaygroundShortcuts";
+import { LabPlaygroundHints } from "@/components/lab/LabPlaygroundHints";
 import { experiments } from "@/lib/data";
 
 export const dynamicParams = false;
@@ -226,6 +228,48 @@ const NOTES: Record<string, { brief: string; controls: { label: string; value: s
       "Hold ⇧ while moving the cursor to invert the cohesion term — the boids will scatter away from the predator instead of swarming toward it.",
     ],
   },
+  "wave-interference": {
+    brief:
+      "Each emitter throws out concentric wavefronts at a fixed wavelength. Where crests meet crests they brighten; where crests meet troughs they cancel. The cursor is a live source — click to drop a permanent emitter and watch the fringe pattern lock in.",
+    controls: [
+      { label: "wavelength", value: "≈ 22 px" },
+      { label: "angular speed", value: "5 rad/s" },
+      { label: "fade rate", value: "0.04 /s" },
+      { label: "max sources", value: "6" },
+    ],
+    readme: [
+      "Drawn as additive concentric rings rather than per-pixel sums — visually identical to a true field renderer at this density, with O(sources × rings) cost instead of O(sources × pixels).",
+      "Permanent emitters age out their amplitude exponentially, so the canvas never saturates after enough clicks.",
+    ],
+  },
+  "kaleidoscope": {
+    brief:
+      "Cursor strokes are recorded into a short trail and replicated around the centre with six-fold symmetry. Even wedges flip chirality, giving the figure the signature kaleidoscope mirror feel rather than a plain rotation.",
+    controls: [
+      { label: "segments", value: "6" },
+      { label: "trail length", value: "120 pts" },
+      { label: "trail half-life", value: "1.7 s" },
+      { label: "chirality", value: "alternating" },
+    ],
+    readme: [
+      "Strokes are stored once relative to centre, then drawn six times under save/restore + rotate + (every other segment) a y-flip. Trail self-fades via a low-alpha black overlay each frame.",
+      "Move slowly for thick rope, sweep fast for thin lace.",
+    ],
+  },
+  "metaballs": {
+    brief:
+      "A handful of moving spheres render as additive radial gradients with a soft alpha falloff. Their fields blend into one continuous iso-surface that visually approximates classic metaballs without the marching-squares overhead.",
+    controls: [
+      { label: "balls", value: "8" },
+      { label: "radius range", value: "90 — 190 px" },
+      { label: "max speed", value: "80 px/s" },
+      { label: "cursor bump", value: "160 px" },
+    ],
+    readme: [
+      "True metaballs require an iso-surface threshold over a sampled scalar field — that's expensive to do at full canvas resolution every frame. The radial-gradient approximation costs the same as drawing N alpha disks and visually reads identically once the gradients are tuned.",
+      "Cursor adds a bright white-cored bump that mixes with the underlying balls without affecting their motion.",
+    ],
+  },
 };
 
 export default async function LabSlug({
@@ -242,6 +286,8 @@ export default async function LabSlug({
   return (
     <>
       <LabVisitTracker slug={exp.slug} allSlugs={experiments.map((e) => e.slug)} />
+      <LabPlaygroundShortcuts slug={exp.slug} allSlugs={experiments.map((e) => e.slug)} />
+      <LabPlaygroundHints />
       <PageHero
         eyebrow={`§02.${exp.index} — Lab Playground`}
         title={exp.title.split(" ")[0]}
@@ -257,7 +303,10 @@ export default async function LabSlug({
 
       <section className="bg-ink-950 py-12 md:py-20">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-3xl border border-warmwhite/10 bg-ink-900">
+          <div
+            data-lab-stage
+            className="relative aspect-[16/9] w-full overflow-hidden rounded-3xl border border-warmwhite/10 bg-ink-900"
+          >
             <LabDemo slug={exp.slug} seed={(idx + 1) * 4.2} />
             <div className="pointer-events-none absolute inset-0 vignette" />
             <div className="pointer-events-none absolute inset-x-0 bottom-0 grid-lines opacity-25" />
@@ -316,32 +365,45 @@ export default async function LabSlug({
       )}
 
       <section className="border-t border-warmwhite/10 bg-ink-950 py-16 md:py-24">
-        <div className="mx-auto flex max-w-[1640px] flex-wrap items-center justify-between gap-6 px-6 md:px-10">
-          <div>
+        <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
+          <Link
+            href={`/lab/${experiments[(idx - 1 + experiments.length) % experiments.length].slug}`}
+            data-cursor="hover"
+            data-cursor-label="PREV"
+            className="group block border-t border-warmwhite/10 pt-6 md:col-span-5"
+          >
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
-              Next experiment
+              ← Previous experiment
             </p>
-            <p className="mt-3 font-serif text-3xl tracking-tight md:text-5xl">
+            <p className="mt-3 break-words font-serif text-2xl tracking-tight text-warmwhite/85 transition-colors group-hover:text-peach md:text-4xl">
+              {experiments[(idx - 1 + experiments.length) % experiments.length].title}
+            </p>
+          </Link>
+          <Link
+            href={`/lab/${experiments[(idx + 1) % experiments.length].slug}`}
+            data-cursor="hover"
+            data-cursor-label="NEXT"
+            className="group block border-t border-warmwhite/10 pt-6 md:col-span-5 md:text-right"
+          >
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+              Next experiment →
+            </p>
+            <p className="mt-3 break-words font-serif text-2xl tracking-tight text-warmwhite/85 transition-colors group-hover:text-peach md:text-4xl">
               {experiments[(idx + 1) % experiments.length].title}
             </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href={`/lab/${experiments[(idx + 1) % experiments.length].slug}`}
-              data-cursor="hover"
-              data-cursor-label="NEXT"
-              className="rounded-full bg-warmwhite px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-ink-900 hover:bg-peach"
-            >
-              Next playground →
-            </Link>
+          </Link>
+          <div className="md:col-span-2 md:flex md:flex-col md:items-end md:justify-end">
             <Link
               href="/lab"
               data-cursor="hover"
               data-cursor-label="ALL"
-              className="rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest hover:border-warmwhite"
+              className="inline-flex items-center justify-center rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest hover:border-warmwhite"
             >
-              All experiments
+              All ({experiments.length})
             </Link>
+            <p className="mt-4 font-mono text-[10px] uppercase tracking-widest text-warmwhite/40">
+              [ / ] · J / K
+            </p>
           </div>
         </div>
       </section>

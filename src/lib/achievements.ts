@@ -13,7 +13,9 @@ export type AchievementId =
   | "cartographer"
   | "fast-traveler"
   | "console-cowboy"
-  | "trickster";
+  | "trickster"
+  | "true-believer"
+  | "tinkerer";
 
 const STORAGE_KEY = "delowar:achievements:v1";
 
@@ -58,6 +60,14 @@ export const ACHIEVEMENTS: Record<AchievementId, AchievementMeta> = {
   trickster: {
     title: "Trickster",
     description: "A triple-click on the wordmark. Some doors only open by knock.",
+  },
+  "true-believer": {
+    title: "True believer",
+    description: "You spelled the studio anywhere on the site. Welcome inside.",
+  },
+  tinkerer: {
+    title: "Tinkerer",
+    description: "Read the /uses page. You wanted to know what's on the desk.",
   },
 };
 

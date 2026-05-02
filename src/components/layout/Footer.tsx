@@ -4,12 +4,20 @@ import Link from "next/link";
 import { useRef } from "react";
 import { Marquee } from "@/components/ui/Marquee";
 import { MotionToggle } from "@/components/ui/MotionToggle";
+import { StudioClock } from "@/components/ui/StudioClock";
 import { site } from "@/lib/site";
 import { pushToast } from "@/components/ui/Toast";
 import { unlock } from "@/lib/achievements";
 
-export function Footer() {
+export type FooterProps = {
+  commitSha?: string;
+  buildTime?: string;
+};
+
+export function Footer({ commitSha, buildTime }: FooterProps = {}) {
   const tripleRef = useRef<{ count: number; last: number }>({ count: 0, last: 0 });
+  const shortSha = commitSha ? commitSha.slice(0, 7) : "local";
+  const commitUrl = commitSha ? `${site.repo}/commit/${commitSha}` : site.repo;
 
   const handleWordmarkClick = () => {
     const now = performance.now();
@@ -92,9 +100,11 @@ export function Footer() {
               title="Studio"
               items={[
                 { label: "Now", href: "/now" },
+                { label: "Uses", href: "/uses" },
                 { label: "Showreel", href: "/showreel" },
                 { label: "Atlas", href: "/atlas" },
                 { label: "Awards", href: "/awards" },
+                { label: "Achievements", href: "/achievements" },
                 { label: "Colophon", href: "/colophon" },
                 { label: "Privacy", href: "/legal/privacy" },
                 { label: "Terms", href: "/legal/terms" },
@@ -132,9 +142,28 @@ export function Footer() {
             . All rights reserved.
           </p>
           <p className="md:col-span-5 md:text-center display-num">
-            Lat. 25.10° N · Long. 89.02° E · {site.location}
+            Lat. 25.10° N · Long. 89.02° E · {site.location} ·{" "}
+            <span className="text-warmwhite/65">
+              <StudioClock />
+            </span>{" "}
+            BST
           </p>
           <div className="flex items-center gap-3 md:col-span-3 md:justify-end">
+            <a
+              href={commitUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="hover"
+              data-cursor-label="SOURCE"
+              title={
+                commitSha
+                  ? `Built from ${shortSha}${buildTime ? ` · ${buildTime}` : ""}. View source on GitHub.`
+                  : "View source on GitHub."
+              }
+              className="hidden font-mono text-warmwhite/45 transition-colors hover:text-peach md:inline"
+            >
+              ◇ {shortSha}
+            </a>
             <MotionToggle />
             <span className="hidden md:inline">v {site.edition}</span>
           </div>

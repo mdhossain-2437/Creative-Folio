@@ -7,6 +7,7 @@ export const site = {
   email: "hello@delowarhossain.dev",
   url: "https://delowarhossain.dev",
   studio: "The Compiled Thought",
+  repo: "https://github.com/mdhossain-2437/Creative-Folio",
   yearStarted: 2017,
   edition: "MMXXVI / 02.06",
   tagline:
@@ -32,6 +33,7 @@ export const site = {
     { label: "Resume", href: "/resume" },
     { label: "Journal", href: "/journal" },
     { label: "Services", href: "/services" },
+    { label: "Uses", href: "/uses" },
     { label: "Contact", href: "/contact" },
   ],
   commandActions: [

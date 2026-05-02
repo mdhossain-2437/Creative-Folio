@@ -67,6 +67,12 @@ export const metadata: Metadata = {
     url: site.url,
   },
   twitter: { card: "summary_large_image", creator: "@mdhossain2437" },
+  alternates: {
+    types: {
+      "application/atom+xml": [{ url: "/journal/feed.xml", title: "Studio Journal — Atom Feed" }],
+      "application/feed+json": [{ url: "/api/feed.json", title: "Studio Combined Feed — JSON Feed v1.1" }],
+    },
+  },
 };
 
 export const viewport: Viewport = {
@@ -94,7 +100,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <main id="main-content">{children}</main>
           </RouteCurtain>
           <MaskFooter>
-            <Footer />
+            <Footer
+              commitSha={process.env.VERCEL_GIT_COMMIT_SHA}
+              buildTime={process.env.VERCEL_DEPLOYMENT_ID ? new Date().toISOString().slice(0, 10) : undefined}
+            />
           </MaskFooter>
           <ShowreelPill />
           <ScrollToTop />
