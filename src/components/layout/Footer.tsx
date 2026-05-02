@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRef } from "react";
 import { Marquee } from "@/components/ui/Marquee";
 import { MotionToggle } from "@/components/ui/MotionToggle";
+import { StudioClock } from "@/components/ui/StudioClock";
 import { site } from "@/lib/site";
 import { pushToast } from "@/components/ui/Toast";
 import { unlock } from "@/lib/achievements";
@@ -133,7 +134,11 @@ export function Footer() {
             . All rights reserved.
           </p>
           <p className="md:col-span-5 md:text-center display-num">
-            Lat. 25.10° N · Long. 89.02° E · {site.location}
+            Lat. 25.10° N · Long. 89.02° E · {site.location} ·{" "}
+            <span className="text-warmwhite/65">
+              <StudioClock />
+            </span>{" "}
+            BST
           </p>
           <div className="flex items-center gap-3 md:col-span-3 md:justify-end">
             <MotionToggle />

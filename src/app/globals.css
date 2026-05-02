@@ -324,3 +324,73 @@ body.calm-motion::before {
   border-radius: 0;
   border: 0;
 }
+
+/* Custom text selection — peach on ink to match the rest of the brand. */
+::selection {
+  background: #e3bfb4;
+  color: #070708;
+}
+::-moz-selection {
+  background: #e3bfb4;
+  color: #070708;
+}
+
+/* Print stylesheet — strips chrome, animations, dark backgrounds. The point is
+   that someone hitting Cmd+P on a journal post or contact page gets a clean,
+   readable B&W layout. Decorative elements with `data-no-print` are dropped. */
+@media print {
+  :root {
+    color-scheme: light;
+  }
+  html,
+  body {
+    background: #ffffff !important;
+    color: #0c0c0c !important;
+  }
+  /* Strip any element marked decorative-only. */
+  [data-no-print],
+  canvas,
+  video,
+  iframe,
+  .vignette,
+  .grid-lines,
+  .cmdk-mask {
+    display: none !important;
+  }
+  /* Hide overlays + chrome. */
+  header,
+  footer,
+  nav,
+  [role="dialog"],
+  .pointer-events-none {
+    display: none !important;
+  }
+  /* Make sure article-style content reads cleanly. */
+  article,
+  main {
+    color: #0c0c0c !important;
+    background: #ffffff !important;
+  }
+  a {
+    color: #0c0c0c !important;
+    text-decoration: underline;
+  }
+  /* Show URLs after links (classic print convention). */
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    color: #525259;
+  }
+  a[href^="#"]::after,
+  a[href^="javascript:"]::after,
+  a[href=""]::after {
+    content: "";
+  }
+  /* Kill animations. */
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
