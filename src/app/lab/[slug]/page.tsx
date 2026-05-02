@@ -228,6 +228,48 @@ const NOTES: Record<string, { brief: string; controls: { label: string; value: s
       "Hold ⇧ while moving the cursor to invert the cohesion term — the boids will scatter away from the predator instead of swarming toward it.",
     ],
   },
+  "wave-interference": {
+    brief:
+      "Each emitter throws out concentric wavefronts at a fixed wavelength. Where crests meet crests they brighten; where crests meet troughs they cancel. The cursor is a live source — click to drop a permanent emitter and watch the fringe pattern lock in.",
+    controls: [
+      { label: "wavelength", value: "≈ 22 px" },
+      { label: "angular speed", value: "5 rad/s" },
+      { label: "fade rate", value: "0.04 /s" },
+      { label: "max sources", value: "6" },
+    ],
+    readme: [
+      "Drawn as additive concentric rings rather than per-pixel sums — visually identical to a true field renderer at this density, with O(sources × rings) cost instead of O(sources × pixels).",
+      "Permanent emitters age out their amplitude exponentially, so the canvas never saturates after enough clicks.",
+    ],
+  },
+  "kaleidoscope": {
+    brief:
+      "Cursor strokes are recorded into a short trail and replicated around the centre with six-fold symmetry. Even wedges flip chirality, giving the figure the signature kaleidoscope mirror feel rather than a plain rotation.",
+    controls: [
+      { label: "segments", value: "6" },
+      { label: "trail length", value: "120 pts" },
+      { label: "trail half-life", value: "1.7 s" },
+      { label: "chirality", value: "alternating" },
+    ],
+    readme: [
+      "Strokes are stored once relative to centre, then drawn six times under save/restore + rotate + (every other segment) a y-flip. Trail self-fades via a low-alpha black overlay each frame.",
+      "Move slowly for thick rope, sweep fast for thin lace.",
+    ],
+  },
+  "metaballs": {
+    brief:
+      "A handful of moving spheres render as additive radial gradients with a soft alpha falloff. Their fields blend into one continuous iso-surface that visually approximates classic metaballs without the marching-squares overhead.",
+    controls: [
+      { label: "balls", value: "8" },
+      { label: "radius range", value: "90 — 190 px" },
+      { label: "max speed", value: "80 px/s" },
+      { label: "cursor bump", value: "160 px" },
+    ],
+    readme: [
+      "True metaballs require an iso-surface threshold over a sampled scalar field — that's expensive to do at full canvas resolution every frame. The radial-gradient approximation costs the same as drawing N alpha disks and visually reads identically once the gradients are tuned.",
+      "Cursor adds a bright white-cored bump that mixes with the underlying balls without affecting their motion.",
+    ],
+  },
 };
 
 export default async function LabSlug({

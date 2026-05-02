@@ -168,7 +168,10 @@ export type ExperimentSlug =
   | "voronoi-cells"
   | "flow-field"
   | "lissajous-orbits"
-  | "boids-flock";
+  | "boids-flock"
+  | "wave-interference"
+  | "kaleidoscope"
+  | "metaballs";
 
 export type ExperimentExtended = Experiment & { slug: ExperimentSlug };
 
@@ -298,6 +301,33 @@ export const experiments: ExperimentExtended[] = [
     summary:
       "Reynolds-style flocking — separation, alignment, cohesion. The cursor attracts the flock; hold ⇧ while moving to flip it into a predator.",
     meta: "Agents · 2026",
+  },
+  {
+    slug: "wave-interference",
+    index: "15",
+    category: "Optics",
+    title: "Wave Interference",
+    summary:
+      "Concentric wavefronts emitted from multiple sources. The cursor is a live source; click to drop a permanent emitter and watch the interference fringe form.",
+    meta: "Wave Optics · 2026",
+  },
+  {
+    slug: "kaleidoscope",
+    index: "16",
+    category: "Symmetry",
+    title: "Kaleidoscope Mirror",
+    summary:
+      "A six-fold mirrored brush. The cursor draws into one wedge and the geometry replicates around the centre with alternating chirality.",
+    meta: "Reflection · 2026",
+  },
+  {
+    slug: "metaballs",
+    index: "17",
+    category: "Implicit",
+    title: "Metaballs Field",
+    summary:
+      "A field of additive radial gradients approximating an iso-surface. Spheres float and merge softly; the cursor adds a bright bump that pulls the field with it.",
+    meta: "Implicit Surfaces · 2026",
   },
 ];
 
