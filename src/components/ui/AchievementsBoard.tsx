@@ -19,6 +19,8 @@ const HINTS: Record<AchievementId, string> = {
   trickster: "The wordmark in the footer responds to a knock.",
   "true-believer": "Type the studio's first name. Anywhere not in a text field.",
   tinkerer: "Read the /uses page end to end.",
+  snapshotter: "Press D inside any /lab/<slug> playground.",
+  curator: "Open the studio changelog.",
 };
 
 const RARITY: Record<AchievementId, "common" | "rare" | "legendary"> = {
@@ -31,6 +33,8 @@ const RARITY: Record<AchievementId, "common" | "rare" | "legendary"> = {
   trickster: "rare",
   "true-believer": "rare",
   tinkerer: "common",
+  curator: "common",
+  snapshotter: "rare",
   "lab-rat": "legendary",
   "shader-storm": "legendary",
 };

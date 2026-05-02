@@ -15,6 +15,7 @@ const SHORTCUTS: { keys: string[]; label: string }[] = [
   { keys: ["J"], label: "On a playground — next experiment" },
   { keys: ["K"], label: "On a playground — previous experiment" },
   { keys: ["F"], label: "On a playground — fullscreen the canvas" },
+  { keys: ["D"], label: "On a playground — download the canvas as PNG" },
   { keys: ["S"], label: "Copy the current page link" },
   { keys: ["↑", "↑", "↓", "↓", "←", "→", "←", "→", "B", "A"], label: "Konami — shader storm" },
   { keys: ["Tab"], label: "Walk focus through navigation" },
