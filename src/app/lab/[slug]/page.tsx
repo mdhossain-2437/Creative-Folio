@@ -365,32 +365,45 @@ export default async function LabSlug({
       )}
 
       <section className="border-t border-warmwhite/10 bg-ink-950 py-16 md:py-24">
-        <div className="mx-auto flex max-w-[1640px] flex-wrap items-center justify-between gap-6 px-6 md:px-10">
-          <div>
+        <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
+          <Link
+            href={`/lab/${experiments[(idx - 1 + experiments.length) % experiments.length].slug}`}
+            data-cursor="hover"
+            data-cursor-label="PREV"
+            className="group block border-t border-warmwhite/10 pt-6 md:col-span-5"
+          >
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
-              Next experiment
+              ← Previous experiment
             </p>
-            <p className="mt-3 font-serif text-3xl tracking-tight md:text-5xl">
+            <p className="mt-3 break-words font-serif text-2xl tracking-tight text-warmwhite/85 transition-colors group-hover:text-peach md:text-4xl">
+              {experiments[(idx - 1 + experiments.length) % experiments.length].title}
+            </p>
+          </Link>
+          <Link
+            href={`/lab/${experiments[(idx + 1) % experiments.length].slug}`}
+            data-cursor="hover"
+            data-cursor-label="NEXT"
+            className="group block border-t border-warmwhite/10 pt-6 md:col-span-5 md:text-right"
+          >
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+              Next experiment →
+            </p>
+            <p className="mt-3 break-words font-serif text-2xl tracking-tight text-warmwhite/85 transition-colors group-hover:text-peach md:text-4xl">
               {experiments[(idx + 1) % experiments.length].title}
             </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Link
-              href={`/lab/${experiments[(idx + 1) % experiments.length].slug}`}
-              data-cursor="hover"
-              data-cursor-label="NEXT"
-              className="rounded-full bg-warmwhite px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-ink-900 hover:bg-peach"
-            >
-              Next playground →
-            </Link>
+          </Link>
+          <div className="md:col-span-2 md:flex md:flex-col md:items-end md:justify-end">
             <Link
               href="/lab"
               data-cursor="hover"
               data-cursor-label="ALL"
-              className="rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest hover:border-warmwhite"
+              className="inline-flex items-center justify-center rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest hover:border-warmwhite"
             >
-              All experiments
+              All ({experiments.length})
             </Link>
+            <p className="mt-4 font-mono text-[10px] uppercase tracking-widest text-warmwhite/40">
+              [ / ] · J / K
+            </p>
           </div>
         </div>
       </section>

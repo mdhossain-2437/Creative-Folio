@@ -70,6 +70,7 @@ export const metadata: Metadata = {
   alternates: {
     types: {
       "application/atom+xml": [{ url: "/journal/feed.xml", title: "Studio Journal — Atom Feed" }],
+      "application/feed+json": [{ url: "/api/feed.json", title: "Studio Combined Feed — JSON Feed v1.1" }],
     },
   },
 };
