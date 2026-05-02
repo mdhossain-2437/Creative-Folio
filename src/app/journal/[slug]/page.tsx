@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/layout/PageHero";
 import { ReadingProgress } from "@/components/ui/ReadingProgress";
+import { JournalShare } from "@/components/journal/JournalShare";
 import { journal } from "@/lib/data";
 
 type Params = { slug: string };
@@ -67,18 +68,21 @@ export default async function JournalPost({ params }: { params: Promise<Params> 
           </p>
         </div>
 
-        <div className="mt-20 flex items-center justify-between border-t border-warmwhite/10 pt-8 font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
-          <Link href="/journal" data-cursor="hover" data-cursor-label="BACK" className="hover:text-warmwhite">
-            ← All Posts
-          </Link>
-          <Link
-            href={`/journal/${next.slug}`}
-            data-cursor="view"
-            data-cursor-label="NEXT"
-            className="text-right hover:text-warmwhite"
-          >
-            Next: {next.title} →
-          </Link>
+        <div className="mt-20 border-t border-warmwhite/10 pt-8">
+          <div className="flex flex-wrap items-center justify-between gap-6 font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
+            <Link href="/journal" data-cursor="hover" data-cursor-label="BACK" className="hover:text-warmwhite">
+              ← All Posts
+            </Link>
+            <JournalShare slug={post.slug} title={post.title} />
+            <Link
+              href={`/journal/${next.slug}`}
+              data-cursor="view"
+              data-cursor-label="NEXT"
+              className="text-right hover:text-warmwhite"
+            >
+              Next: {next.title} →
+            </Link>
+          </div>
         </div>
       </article>
     </>

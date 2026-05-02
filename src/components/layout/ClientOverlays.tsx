@@ -13,6 +13,9 @@ const KonamiHint = dynamic(() => import("@/components/ui/KonamiHint").then((m) =
 const ConsoleBanner = dynamic(() => import("@/components/ui/ConsoleBanner").then((m) => m.ConsoleBanner), { ssr: false });
 const FaviconAnimator = dynamic(() => import("@/components/ui/FaviconAnimator").then((m) => m.FaviconAnimator), { ssr: false });
 const Spotlight = dynamic(() => import("@/components/ui/Spotlight").then((m) => m.Spotlight), { ssr: false });
+const SecretWordWatcher = dynamic(() => import("@/components/ui/SecretWordWatcher").then((m) => m.SecretWordWatcher), { ssr: false });
+const ShareShortcut = dynamic(() => import("@/components/ui/ShareShortcut").then((m) => m.ShareShortcut), { ssr: false });
+const ScrollProgress = dynamic(() => import("@/components/ui/ScrollProgress").then((m) => m.ScrollProgress), { ssr: false });
 
 export function ClientOverlays() {
   return (
@@ -28,6 +31,9 @@ export function ClientOverlays() {
       <ConsoleBanner />
       <FaviconAnimator />
       <Spotlight />
+      <SecretWordWatcher />
+      <ShareShortcut />
+      <ScrollProgress />
     </>
   );
 }

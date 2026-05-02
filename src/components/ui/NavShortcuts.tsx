@@ -58,6 +58,7 @@ export function NavShortcuts() {
         const route = ROUTE_MAP[key];
         if (route) {
           e.preventDefault();
+          e.stopImmediatePropagation();
           disarm();
           if (window.location.pathname !== route.href) {
             router.push(route.href);
@@ -87,6 +88,7 @@ export function NavShortcuts() {
       if (e.shiftKey) return;
       if (key === "m") {
         e.preventDefault();
+        e.stopImmediatePropagation();
         const hasCalm = document.body.classList.contains("calm-motion");
         const next = hasCalm ? "on" : "off";
         applyMotion(next);
@@ -106,6 +108,7 @@ export function NavShortcuts() {
       }
       if (key === "r" && pathname === "/lab") {
         e.preventDefault();
+        e.stopImmediatePropagation();
         const slugs = experiments.map((x) => x.slug);
         if (slugs.length === 0) return;
         let next = slugs[Math.floor(Math.random() * slugs.length)];
