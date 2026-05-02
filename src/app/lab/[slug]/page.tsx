@@ -4,6 +4,8 @@ import Link from "next/link";
 import { PageHero } from "@/components/layout/PageHero";
 import { LabDemo } from "@/components/lab/LabDemo";
 import { LabVisitTracker } from "@/components/lab/LabVisitTracker";
+import { LabPlaygroundShortcuts } from "@/components/lab/LabPlaygroundShortcuts";
+import { LabPlaygroundHints } from "@/components/lab/LabPlaygroundHints";
 import { experiments } from "@/lib/data";
 
 export const dynamicParams = false;
@@ -242,6 +244,8 @@ export default async function LabSlug({
   return (
     <>
       <LabVisitTracker slug={exp.slug} allSlugs={experiments.map((e) => e.slug)} />
+      <LabPlaygroundShortcuts slug={exp.slug} allSlugs={experiments.map((e) => e.slug)} />
+      <LabPlaygroundHints />
       <PageHero
         eyebrow={`§02.${exp.index} — Lab Playground`}
         title={exp.title.split(" ")[0]}
@@ -257,7 +261,10 @@ export default async function LabSlug({
 
       <section className="bg-ink-950 py-12 md:py-20">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-          <div className="relative aspect-[16/9] w-full overflow-hidden rounded-3xl border border-warmwhite/10 bg-ink-900">
+          <div
+            data-lab-stage
+            className="relative aspect-[16/9] w-full overflow-hidden rounded-3xl border border-warmwhite/10 bg-ink-900"
+          >
             <LabDemo slug={exp.slug} seed={(idx + 1) * 4.2} />
             <div className="pointer-events-none absolute inset-0 vignette" />
             <div className="pointer-events-none absolute inset-x-0 bottom-0 grid-lines opacity-25" />

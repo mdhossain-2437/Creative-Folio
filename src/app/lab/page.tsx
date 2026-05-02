@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
-import { LabDemo } from "@/components/lab/LabDemo";
 import { LabRandomButton } from "@/components/lab/LabRandomButton";
-import { LabCardCopyLink } from "@/components/lab/LabCardCopyLink";
-import { Reveal } from "@/components/ui/Reveal";
+import { LabGrid } from "@/components/lab/LabGrid";
 import { experiments, arsenal } from "@/lib/data";
 import { Marquee } from "@/components/ui/Marquee";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "The Lab — Experiments",
@@ -37,52 +34,7 @@ export default function LabPage() {
             </p>
             <LabRandomButton slugs={experiments.map((x) => x.slug)} />
           </div>
-          <ul className="grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/10 md:grid-cols-2 lg:grid-cols-3">
-            {experiments.map((e, i) => (
-              <Reveal key={e.index} delay={i * 0.04}>
-                <li className="group relative flex h-full flex-col bg-ink-900">
-                  <Link
-                    href={`/lab/${e.slug}`}
-                    data-cursor="view"
-                    data-cursor-label="OPEN"
-                    className="relative block aspect-square overflow-hidden"
-                  >
-                    <LabDemo slug={e.slug} seed={i * 3.7} compact />
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink-950/30 via-transparent to-ink-950/65 transition-opacity duration-500 group-hover:opacity-60" />
-                    <span className="pointer-events-none absolute left-5 top-5 flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-warmwhite/70">
-                      <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-electric" />
-                      {e.index} · {e.category}
-                    </span>
-                    <span className="pointer-events-none absolute right-5 top-5 rounded-full border border-warmwhite/25 px-3 py-1 font-sans text-[9px] uppercase tracking-widest text-warmwhite/80 backdrop-blur-sm">
-                      Live · interactive
-                    </span>
-                    <span className="pointer-events-none absolute bottom-5 right-5 inline-flex h-9 w-9 items-center justify-center rounded-full bg-warmwhite/10 text-warmwhite transition-all duration-500 group-hover:bg-peach group-hover:text-ink-900">
-                      ↗
-                    </span>
-                  </Link>
-                  <LabCardCopyLink slug={e.slug} />
-                  <div className="flex flex-1 flex-col justify-between gap-6 p-6 md:p-8">
-                    <div>
-                      <h3 className="break-words font-serif text-xl leading-tight tracking-tighter md:text-2xl">
-                        {e.title}
-                      </h3>
-                      <p className="mt-3 font-sans text-sm leading-relaxed text-warmwhite/65">
-                        {e.summary}
-                      </p>
-                    </div>
-                    <Link
-                      href={`/lab/${e.slug}`}
-                      data-cursor="view"
-                      data-cursor-label="OPEN"
-                      className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55 hover:text-peach"
-                    >
-                      {e.meta} · Open playground →
-                    </Link>
-                  </div>
-                </li>
-              </Reveal>
-            ))}
-          </ul>
+          <LabGrid experiments={experiments} />
         </div>
       </section>
 
