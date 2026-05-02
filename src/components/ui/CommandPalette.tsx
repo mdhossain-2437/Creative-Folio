@@ -125,6 +125,25 @@ export function CommandPalette() {
     }
   }, [open]);
 
+  // Mark <html> with the open palette so a global CSS rule can hide
+  // floating overlays underneath the cmdk mask while the palette is up.
+  useEffect(() => {
+    if (!open) return;
+    const set = (document.documentElement.dataset.modalOpen ?? "")
+      .split(/\s+/)
+      .filter(Boolean);
+    set.push("cmdk");
+    document.documentElement.dataset.modalOpen = set.join(" ");
+    return () => {
+      const left = (document.documentElement.dataset.modalOpen ?? "")
+        .split(/\s+/)
+        .filter(Boolean)
+        .filter((m) => m !== "cmdk");
+      if (left.length === 0) delete document.documentElement.dataset.modalOpen;
+      else document.documentElement.dataset.modalOpen = left.join(" ");
+    };
+  }, [open]);
+
   const run = (item: Item) => {
     setOpen(false);
     if ((item.kind === "route" || item.kind === "journal" || item.kind === "lab") && item.hint) {

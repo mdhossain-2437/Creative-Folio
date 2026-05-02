@@ -3,7 +3,7 @@ import { stats } from "@/lib/data";
 
 export function Stats() {
   return (
-    <section className="relative border-t border-warmwhite/15 bg-ink-950 py-20 md:py-28">
+    <section className="relative border-t border-warmwhite/15 bg-ink-950 py-28 md:py-40">
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <ul className="grid grid-cols-2 gap-y-10 md:grid-cols-4">
           {stats.map((s, i) => (

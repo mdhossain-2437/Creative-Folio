@@ -3,6 +3,9 @@
 import { useEffect, useState } from "react";
 
 const SEEN_KEY = "delowar:preloader-seen";
+// Hard ceiling — never longer than 1.4s, even on cold loads. Earlier the
+// random-step RAF could drag past 4–5s on slow devices.
+const MAX_DURATION_MS = 1400;
 
 export function Preloader() {
   const [pct, setPct] = useState(0);
@@ -15,17 +18,30 @@ export function Preloader() {
       setDone(true);
       return;
     }
+    // Honour reduced motion — skip the loader entirely.
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      window.sessionStorage.setItem(SEEN_KEY, "1");
+      setDone(true);
+      return;
+    }
     setActive(true);
+
+    const start = performance.now();
     let raf = 0;
-    let p = 0;
     const tick = () => {
-      p = Math.min(100, p + Math.random() * 7 + 1.4);
-      setPct(Math.floor(p));
-      if (p < 100) {
+      const elapsed = performance.now() - start;
+      // Linear time-keyed progress so the bar moves predictably even when
+      // the page is doing heavy boot work and RAF is being throttled.
+      const linear = Math.min(100, (elapsed / MAX_DURATION_MS) * 100);
+      const ready = document.readyState === "complete";
+      const next = ready ? Math.max(linear, 96) : linear;
+      setPct(Math.floor(next));
+      if (next < 100 && elapsed < MAX_DURATION_MS) {
         raf = requestAnimationFrame(tick);
       } else {
+        setPct(100);
         window.sessionStorage.setItem(SEEN_KEY, "1");
-        setTimeout(() => setDone(true), 380);
+        setTimeout(() => setDone(true), 280);
       }
     };
     raf = requestAnimationFrame(tick);
@@ -43,10 +59,10 @@ export function Preloader() {
     >
       <div>
         <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
-          Loading · Delowar.dev
+          ◌ Folio MMXXVII
         </p>
         <p className="mt-3 font-serif text-3xl italic text-warmwhite/80">
-          Calibrating shaders &amp; type
+          Loading folio
         </p>
       </div>
       <div className="flex flex-col items-end">

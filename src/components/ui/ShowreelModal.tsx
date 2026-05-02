@@ -71,8 +71,22 @@ export function ShowreelModal() {
     if (!open) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    // Mark <html> with the open modal so a global CSS rule can hide
+    // floating overlays (ShowreelPill, AtmosphereMode, ScrollToTop)
+    // while the modal is up. Cursor stays visible (it's at z-[200]).
+    const set = (document.documentElement.dataset.modalOpen ?? "")
+      .split(/\s+/)
+      .filter(Boolean);
+    set.push("showreel");
+    document.documentElement.dataset.modalOpen = set.join(" ");
     return () => {
       document.body.style.overflow = prev;
+      const left = (document.documentElement.dataset.modalOpen ?? "")
+        .split(/\s+/)
+        .filter(Boolean)
+        .filter((m) => m !== "showreel");
+      if (left.length === 0) delete document.documentElement.dataset.modalOpen;
+      else document.documentElement.dataset.modalOpen = left.join(" ");
     };
   }, [open]);
 

@@ -62,7 +62,7 @@ export function CaseStudyGallery({
                 onClick={() => setActive(i)}
                 data-cursor="view"
                 data-cursor-label="OPEN"
-                className="group relative block h-full w-full overflow-hidden rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-electric"
+                className="group relative block h-full w-full overflow-hidden rounded-md focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
                 aria-label={`Open figure ${i + 1}: ${img.alt}`}
               >
                 <Image

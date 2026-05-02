@@ -3,7 +3,7 @@ import { nowFeed } from "@/lib/data";
 
 export function NowTeaser() {
   return (
-    <section className="relative border-t border-warmwhite/15 bg-ink-950 py-28 md:py-36">
+    <section className="relative border-t border-warmwhite/15 bg-ink-950 py-28 md:py-40">
       <div className="pointer-events-none absolute inset-0 grid-lines opacity-20" />
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12">
