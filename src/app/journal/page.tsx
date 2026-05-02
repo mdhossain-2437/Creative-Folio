@@ -27,6 +27,18 @@ export default function JournalPage() {
 
       <section className="bg-ink-900 py-12 md:py-16">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
+          <div className="mb-6 flex items-center justify-end">
+            <Link
+              href="/journal/feed.xml"
+              prefetch={false}
+              data-cursor="hover"
+              data-cursor-label="ATOM"
+              className="inline-flex items-center gap-2 rounded-full border border-warmwhite/15 bg-ink-900/40 px-4 py-2 font-mono text-[10px] uppercase tracking-widest text-warmwhite/65 transition-colors hover:border-peach hover:text-peach"
+            >
+              <span aria-hidden>≋</span>
+              <span>RSS / Atom feed</span>
+            </Link>
+          </div>
           <div className="grid grid-cols-12 items-baseline gap-3 border-b border-warmwhite/10 pb-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
             <span className="col-span-2">Date</span>
             <span className="col-span-7">Title</span>

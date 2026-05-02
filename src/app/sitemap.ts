@@ -30,5 +30,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...works.map((w) => ({ url: `${site.url}/works/${w.slug}`, lastModified: now })),
     ...journal.map((j) => ({ url: `${site.url}/journal/${j.slug}`, lastModified: now })),
     ...experiments.map((e) => ({ url: `${site.url}/lab/${e.slug}`, lastModified: now })),
+    { url: `${site.url}/journal/feed.xml`, lastModified: now },
   ];
 }

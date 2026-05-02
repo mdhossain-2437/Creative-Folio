@@ -67,6 +67,11 @@ export const metadata: Metadata = {
     url: site.url,
   },
   twitter: { card: "summary_large_image", creator: "@mdhossain2437" },
+  alternates: {
+    types: {
+      "application/atom+xml": [{ url: "/journal/feed.xml", title: "Studio Journal — Atom Feed" }],
+    },
+  },
 };
 
 export const viewport: Viewport = {
