@@ -20,11 +20,17 @@ export function Hero() {
         </p>
 
         <div className="mt-auto">
-          <h1 className="break-words font-serif leading-[0.88] tracking-tightest text-warmwhite">
-            <span className="block text-[clamp(3rem,11vw,11rem)]">
+          {/* aria-label gives screen readers + Google a real space-separated
+              name. Visual stays identical (two stacked lines, italic on
+              `Hossain.`). */}
+          <h1
+            aria-label="Delowar Hossain."
+            className="break-words font-serif leading-[0.88] tracking-tightest text-warmwhite"
+          >
+            <span aria-hidden className="block text-[clamp(3rem,11vw,11rem)]">
               <SplitText text="Delowar" />
             </span>
-            <span className="block text-[clamp(3rem,11vw,11rem)]">
+            <span aria-hidden className="block text-[clamp(3rem,11vw,11rem)]">
               <SplitText
                 text="Hossain."
                 delay={0.12}

@@ -8,8 +8,10 @@
 //   stillness — deeper black, no grain
 //   eink      — high-contrast greyscale (printable)
 //
-// Cycled with the `t` key (case-sensitive false) or via the floating button.
-// Persists in localStorage. Respects prefers-reduced-motion (skips transition).
+// Cycled with the `t` key (case-insensitive) or via the floating button.
+// **Resets to `aura` on every fresh visit** (in-session only — no
+// localStorage persist) so returning visitors land in the canonical look
+// instead of whatever they last clicked. Respects prefers-reduced-motion.
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { pushToast } from "@/components/ui/Toast";
@@ -26,8 +28,6 @@ const LABEL: Record<Mode, string> = {
   eink: "E-ink · printable",
 };
 
-const STORAGE_KEY = "delowar:atmosphere";
-
 function applyMode(mode: Mode) {
   if (typeof document === "undefined") return;
   document.documentElement.dataset.atmosphere = mode;
@@ -39,28 +39,16 @@ export function AtmosphereMode() {
   const visitedRef = useRef<Set<Mode>>(new Set(["aura"]));
 
   useEffect(() => {
-    try {
-      const saved = window.localStorage.getItem(STORAGE_KEY) as Mode | null;
-      if (saved && MODES.includes(saved)) {
-        setMode(saved);
-        applyMode(saved);
-      } else {
-        applyMode("aura");
-      }
-    } catch {
-      applyMode("aura");
-    }
+    // Always start fresh in `aura`. Atmosphere choice is in-session only;
+    // we deliberately don't persist across page loads — return visitors
+    // were landing in STORM with no context which felt jarring.
+    applyMode("aura");
   }, []);
 
   const cycle = useCallback(() => {
     setMode((curr) => {
       const next = MODES[(MODES.indexOf(curr) + 1) % MODES.length];
       applyMode(next);
-      try {
-        window.localStorage.setItem(STORAGE_KEY, next);
-      } catch {
-        /* silent */
-      }
       pushToast({
         id: `atmosphere-${next}`,
         title: "Atmosphere changed",
@@ -94,7 +82,8 @@ export function AtmosphereMode() {
 
   return (
     <div
-      className="fixed bottom-6 right-6 z-30 hidden md:block"
+      data-floating-overlay
+      className="floating-overlay fixed bottom-6 right-6 z-30 hidden md:block"
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
     >

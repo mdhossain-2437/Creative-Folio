@@ -42,6 +42,17 @@
 :root[data-atmosphere="eink"] body.grain-on::before {
   display: none;
 }
+
+/* When any modal is open (ShowreelModal, CommandPalette, etc.) hide the
+   floating overlays that live at z-30 / z-[60] (ShowreelPill,
+   AtmosphereMode, ScrollToTop) so they don't poke through the modal
+   backdrop. The cursor itself sits at z-[200] and is unaffected. */
+:root[data-modal-open] .floating-overlay {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 220ms ease, transform 220ms ease;
+}
 @media (prefers-reduced-motion: no-preference) {
   html {
     transition: background-color 600ms ease;

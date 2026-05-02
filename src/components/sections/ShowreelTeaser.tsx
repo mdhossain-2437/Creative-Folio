@@ -8,7 +8,7 @@ export function ShowreelTeaser() {
   const { velocity } = useScrollState();
   const skew = Math.max(-3, Math.min(3, velocity));
   return (
-    <section className="relative overflow-hidden border-t border-warmwhite/15 bg-ink-950 py-28 md:py-36">
+    <section className="relative overflow-hidden border-t border-warmwhite/15 bg-ink-950 py-28 md:py-40">
       <div className="pointer-events-none absolute inset-0 vignette" />
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12">
