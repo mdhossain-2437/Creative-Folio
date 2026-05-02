@@ -22,6 +22,7 @@ const HINTS: Record<AchievementId, string> = {
   snapshotter: "Press D inside any /lab/<slug> playground.",
   curator: "Open the studio changelog.",
   designer: "Click any swatch on the /colors page to copy its hex.",
+  archivist: "Read every case study to the end.",
 };
 
 const RARITY: Record<AchievementId, "common" | "rare" | "legendary"> = {
@@ -39,6 +40,7 @@ const RARITY: Record<AchievementId, "common" | "rare" | "legendary"> = {
   snapshotter: "rare",
   "lab-rat": "legendary",
   "shader-storm": "legendary",
+  archivist: "rare",
 };
 
 const STORAGE_KEY = "delowar:achievements:v1";

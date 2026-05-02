@@ -18,7 +18,8 @@ export type AchievementId =
   | "tinkerer"
   | "snapshotter"
   | "curator"
-  | "designer";
+  | "designer"
+  | "archivist";
 
 const STORAGE_KEY = "delowar:achievements:v1";
 
@@ -83,6 +84,10 @@ export const ACHIEVEMENTS: Record<AchievementId, AchievementMeta> = {
   designer: {
     title: "Designer",
     description: "Pulled a colour from the studio palette into your clipboard.",
+  },
+  archivist: {
+    title: "Archivist",
+    description: "Read every case study end to end. The archive is yours now.",
   },
 };
 
@@ -161,6 +166,29 @@ export function markLabVisit(slug: string, allSlugs: string[]) {
   }
   if (allSlugs.every((s) => visited.includes(s))) {
     unlock("lab-rat");
+  }
+}
+
+const WORKS_KEY = "delowar:works-visited:v1";
+
+export function markWorkVisit(slug: string, allSlugs: string[]) {
+  if (typeof window === "undefined") return;
+  let visited: string[] = [];
+  try {
+    visited = JSON.parse(window.localStorage.getItem(WORKS_KEY) || "[]");
+  } catch {
+    visited = [];
+  }
+  if (!visited.includes(slug)) {
+    visited.push(slug);
+    try {
+      window.localStorage.setItem(WORKS_KEY, JSON.stringify(visited));
+    } catch {
+      /* silent */
+    }
+  }
+  if (allSlugs.every((s) => visited.includes(s))) {
+    unlock("archivist");
   }
 }
 

@@ -1,3 +1,32 @@
+export type WorkSection = {
+  kind: "brief" | "approach" | "solution" | "outcome";
+  heading: string;
+  body: string;
+};
+
+export type WorkMetric = { label: string; value: string };
+
+export type WorkGalleryImage = {
+  src: string;
+  alt: string;
+  caption?: string;
+  aspect?: "wide" | "square" | "tall";
+};
+
+export type WorkTestimonial = {
+  quote: string;
+  attribution: string;
+  role: string;
+};
+
+export type WorkCaseStudy = {
+  sections: WorkSection[];
+  metrics: WorkMetric[];
+  deliverables: string[];
+  gallery: WorkGalleryImage[];
+  testimonial?: WorkTestimonial;
+};
+
 export type Work = {
   slug: string;
   index: string;
@@ -10,6 +39,11 @@ export type Work = {
   cover: string;
   accent: string;
   award?: string;
+  client?: string;
+  duration?: string;
+  team?: string;
+  liveUrl?: string;
+  caseStudy?: WorkCaseStudy;
 };
 
 export const works: Work[] = [
@@ -27,6 +61,79 @@ export const works: Work[] = [
       "https://images.unsplash.com/photo-1635776063043-2cf8a32fa5be?auto=format&fit=crop&w=1600&q=80",
     accent: "#e3bfb4",
     award: "Awwwards · Site of the Day",
+    client: "Aura Studio (in-house)",
+    duration: "14 weeks",
+    team: "Solo + 1 sound designer",
+    liveUrl: "https://aura.delowarhossain.dev",
+    caseStudy: {
+      sections: [
+        {
+          kind: "brief",
+          heading: "Brief",
+          body: "Aura asked for a website that would feel like a place rather than a page — somewhere a viewer could sit inside the brand for sixty seconds without scrolling and still feel like the visit was worthwhile. v1 was a static reel; v2 had to be physical.",
+        },
+        {
+          kind: "approach",
+          heading: "Approach",
+          body: "Everything visual is one fragment shader sampling a 3D noise field. The cursor is treated as a soft body with mass and drag — it pulls the field into a local minimum, reflective metals re-light, and the camera reacts a beat behind. No image assets, no DOM overlays.",
+        },
+        {
+          kind: "solution",
+          heading: "Solution",
+          body: "A single 1.4 kB GLSL program ships the entire experience. We added a 'serene mode' that decays cursor influence to zero after eight seconds, so the field is alive but never frantic. The hero loop is 12 seconds; nobody has noticed it loops.",
+        },
+        {
+          kind: "outcome",
+          heading: "Outcome",
+          body: "Average dwell time on the landing scene rose from 11 s (v1) to 1 m 34 s (v2). The site won Awwwards SOTD in week one, then FWA the following month. Conversion to the contact route doubled.",
+        },
+      ],
+      metrics: [
+        { label: "Lighthouse", value: "98" },
+        { label: "GLSL size", value: "1.4 kB" },
+        { label: "Frame budget", value: "9.2 ms" },
+        { label: "Avg. dwell", value: "1m 34s" },
+      ],
+      deliverables: [
+        "Custom GLSL fragment shader (1.4 kB minified)",
+        "Three.js orchestration layer + Lenis smooth scroll",
+        "GSAP-driven cursor physics + camera follow",
+        "Calmer-motion mode honouring prefers-reduced-motion",
+        "Static export (Next.js 15) deployed to the edge",
+        "8-page editorial set: Index, About, Process, Contact, 4 case studies",
+      ],
+      gallery: [
+        {
+          src: "https://images.unsplash.com/photo-1635776063043-2cf8a32fa5be?auto=format&fit=crop&w=1800&q=80",
+          alt: "Macro frame of the noise field with peach lighting",
+          caption: "01 — Hero loop frame at t = 6s. The field rests; cursor influence decays.",
+          aspect: "wide",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?auto=format&fit=crop&w=1200&q=80",
+          alt: "Detail of the metallic specular highlights",
+          caption: "02 — Specular response sampled twice per pixel.",
+          aspect: "tall",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1604079628040-94301bb21b91?auto=format&fit=crop&w=1200&q=80",
+          alt: "Editorial section break with peach accent",
+          caption: "03 — Editorial break at the case-study boundary.",
+          aspect: "tall",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1614851099511-773084f6911d?auto=format&fit=crop&w=1800&q=80",
+          alt: "Mobile portrait composition of the same scene",
+          caption: "04 — On mobile the noise field is volume-mapped to a slower octave so the device stays cool.",
+          aspect: "wide",
+        },
+      ],
+      testimonial: {
+        quote: "The site doesn't sell our brand — it is our brand. Watching people stop and play with it for two minutes before reading a word is exactly what we hoped for.",
+        attribution: "Asha Mehrotra",
+        role: "Creative Director, Aura Studio",
+      },
+    },
   },
   {
     slug: "terminal-state",
@@ -42,6 +149,79 @@ export const works: Work[] = [
       "https://images.unsplash.com/photo-1558959356-2f36b5fc02d3?auto=format&fit=crop&w=1600&q=80",
     accent: "#c4c1bd",
     award: "FWA · Site of the Day",
+    client: "Terminal State Labs",
+    duration: "9 weeks",
+    team: "2 designers + 1 engineer",
+    liveUrl: "https://terminalstate.example",
+    caseStudy: {
+      sections: [
+        {
+          kind: "brief",
+          heading: "Brief",
+          body: "A young generative-AI lab needed a publication, not a marketing site — somewhere their researchers could ship a 4 000-word essay on Friday and a 90-second teaser on Monday without the design buckling. The constraint: zero stock imagery and a single typeface family.",
+        },
+        {
+          kind: "approach",
+          heading: "Approach",
+          body: "We treated the home page as a magazine cover, not a landing page. Variable-font axes are wired to scroll velocity so display headlines feel like they're being printed in real time. The grid is strict — 12 columns at every breakpoint, no exceptions.",
+        },
+        {
+          kind: "solution",
+          heading: "Solution",
+          body: "Three article templates (essay, interview, dispatch) share one body component. Editorial spreads use CSS subgrid so a long pull-quote spans both columns the moment it lands at viewport width ≥ 980. The system survived 64 articles before any team member needed to ask how to publish.",
+        },
+        {
+          kind: "outcome",
+          heading: "Outcome",
+          body: "Time-to-publish dropped from 3 hours to 22 minutes. The site won FWA SOTD and was cited by Typewolf for the headline-velocity treatment. The lab's newsletter doubled in subscribers within the launch quarter.",
+        },
+      ],
+      metrics: [
+        { label: "CLS", value: "0.00" },
+        { label: "LCP (mobile)", value: "1.1 s" },
+        { label: "Articles shipped", value: "64" },
+        { label: "Time to publish", value: "22 min" },
+      ],
+      deliverables: [
+        "Editorial design system (12-col strict grid + subgrid spreads)",
+        "Three article templates (essay / interview / dispatch)",
+        "Variable-font headline runtime tied to scroll velocity",
+        "MDX authoring pipeline with embedded React components",
+        "Search index built at compile time (Pagefind)",
+        "Brand guideline PDF + Notion handoff doc",
+      ],
+      gallery: [
+        {
+          src: "https://images.unsplash.com/photo-1558959356-2f36b5fc02d3?auto=format&fit=crop&w=1800&q=80",
+          alt: "Editorial home spread with display typography",
+          caption: "01 — Cover at the start of the launch week.",
+          aspect: "wide",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=1200&q=80",
+          alt: "Article reading spread",
+          caption: "02 — Long-form essay template at 980 px and up.",
+          aspect: "square",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=1200&q=80",
+          alt: "Mobile portrait of the same article",
+          caption: "03 — Mobile collapses to 4-col but keeps the pull-quote rhythm.",
+          aspect: "tall",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1518893063132-36e46dbe2428?auto=format&fit=crop&w=1800&q=80",
+          alt: "Newsletter takeover at scroll end",
+          caption: "04 — Newsletter takeover, set in display weight 720.",
+          aspect: "wide",
+        },
+      ],
+      testimonial: {
+        quote: "We stopped arguing about layout and started arguing about ideas. That is the whole point.",
+        attribution: "Iván Páez",
+        role: "Editor, Terminal State",
+      },
+    },
   },
   {
     slug: "monolith-ui",
@@ -57,6 +237,79 @@ export const works: Work[] = [
       "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1600&q=80",
     accent: "#bfd2cf",
     award: "CSS Design Awards · UI of the Day",
+    client: "Monolith Data",
+    duration: "24 weeks (initial), ongoing",
+    team: "Lead + 2 engineers + 2 designers",
+    liveUrl: "https://monolith.example",
+    caseStudy: {
+      sections: [
+        {
+          kind: "brief",
+          heading: "Brief",
+          body: "Monolith's data platform served 30 000 power users across nine product surfaces; six different teams shipped UI without a shared vocabulary. We were brought in to land a single system covering tokens, primitives, patterns, and an RFC process — without slowing anyone down.",
+        },
+        {
+          kind: "approach",
+          heading: "Approach",
+          body: "Tokens first, primitives second, patterns last. Tokens were built in Style Dictionary and emitted to CSS, JS, iOS, and Android. Primitives wrap Radix. Patterns are documented as recipes — copy-paste-able, not abstracted into yet-another-component-library.",
+        },
+        {
+          kind: "solution",
+          heading: "Solution",
+          body: "40 primitives, 64 documented patterns, four density modes, and a contrast checker baked into the docs. The RFC process is a single MDX file with a deadline; comment threads happen in the PR. Six teams adopted the system within twelve weeks.",
+        },
+        {
+          kind: "outcome",
+          heading: "Outcome",
+          body: "Time-to-feature dropped 38 % across the largest team. Accessibility regressions in the design-review queue dropped 92 %. Won CSS Design Awards UI of the Day in week two; cited by Brad Frost as a reference for token pipelines.",
+        },
+      ],
+      metrics: [
+        { label: "Primitives", value: "40" },
+        { label: "Adopting teams", value: "6 / 6" },
+        { label: "a11y regressions", value: "−92%" },
+        { label: "Time to feature", value: "−38%" },
+      ],
+      deliverables: [
+        "Token pipeline (Style Dictionary → CSS / TS / iOS / Android)",
+        "40-primitive React library on top of Radix UI",
+        "64 documented design patterns with copy-paste recipes",
+        "Storybook deployment with contrast + density toggles",
+        "RFC + ADR templates and review process",
+        "Quarterly metrics dashboard tracking adoption + drift",
+      ],
+      gallery: [
+        {
+          src: "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1800&q=80",
+          alt: "Component grid in the docs",
+          caption: "01 — Component overview at default density.",
+          aspect: "wide",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+          alt: "Dashboard screen at compact density",
+          caption: "02 — Compact density built for analysts running 12-hour days.",
+          aspect: "square",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1200&q=80",
+          alt: "Token reference page",
+          caption: "03 — Token reference. Each colour shows its on-ink contrast.",
+          aspect: "square",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1800&q=80",
+          alt: "Pattern detail page",
+          caption: "04 — Pattern detail with a copy-paste recipe.",
+          aspect: "wide",
+        },
+      ],
+      testimonial: {
+        quote: "It is the first design system I've used where the docs are the product. Everything else is downstream.",
+        attribution: "Priya Anand",
+        role: "Director of Engineering, Monolith Data",
+      },
+    },
   },
   {
     slug: "kinetica",
@@ -71,6 +324,73 @@ export const works: Work[] = [
     cover:
       "https://images.unsplash.com/photo-1522199755839-a2bacb67c546?auto=format&fit=crop&w=1600&q=80",
     accent: "#e7d6b8",
+    client: "Self-initiated",
+    duration: "6 weeks",
+    team: "Solo",
+    liveUrl: "https://kinetica.delowarhossain.dev",
+    caseStudy: {
+      sections: [
+        {
+          kind: "brief",
+          heading: "Brief",
+          body: "A self-initiated experiment: what would a typography study look like if every variable font axis were genuinely interactive — not just decorative? The constraint was a single page, two typefaces, and no images.",
+        },
+        {
+          kind: "approach",
+          heading: "Approach",
+          body: "Three input channels feed the type: scroll velocity drives weight, microphone amplitude drives width, cursor velocity drives slant. Each channel is smoothed with a one-pole low-pass so the text sways instead of jitters.",
+        },
+        {
+          kind: "solution",
+          heading: "Solution",
+          body: "All animation runs on the compositor — `font-variation-settings` is updated once per rAF, never inside React state. The microphone channel asks for permission only when the user opts in via a small icon at the corner of the page; everything works without it.",
+        },
+        {
+          kind: "outcome",
+          heading: "Outcome",
+          body: "Featured by Typewolf, Site Inspire, and the Variable Fonts community newsletter. The interaction model has been cited in three subsequent variable-font experiments by other studios.",
+        },
+      ],
+      metrics: [
+        { label: "Input channels", value: "3" },
+        { label: "Frame budget", value: "4 ms" },
+        { label: "JS bundle", value: "38 kB" },
+        { label: "Time to interactive", value: "0.6 s" },
+      ],
+      deliverables: [
+        "Variable-font runtime (3-channel input mixer)",
+        "Scroll · cursor · microphone smoothing pipeline",
+        "Calmer-motion fallback that reduces all axes to defaults",
+        "Single-page editorial layout with display-weight controls",
+        "Public-domain demo source on GitHub",
+      ],
+      gallery: [
+        {
+          src: "https://images.unsplash.com/photo-1522199755839-a2bacb67c546?auto=format&fit=crop&w=1800&q=80",
+          alt: "Headline at maximum weight + width",
+          caption: "01 — Headline at peak input — wght 900 / wdth 125.",
+          aspect: "wide",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?auto=format&fit=crop&w=1200&q=80",
+          alt: "Slanted display passage at high cursor velocity",
+          caption: "02 — Slant axis tied to cursor velocity at the editorial break.",
+          aspect: "tall",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1499914485622-a88fac536970?auto=format&fit=crop&w=1200&q=80",
+          alt: "Microphone-driven amplitude visualisation",
+          caption: "03 — Microphone overlay (opt-in) showing amplitude against width.",
+          aspect: "tall",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=1800&q=80",
+          alt: "Calmer-motion variant",
+          caption: "04 — Calmer-motion variant — all axes pinned to defaults.",
+          aspect: "wide",
+        },
+      ],
+    },
   },
   {
     slug: "void-engine",
@@ -85,6 +405,79 @@ export const works: Work[] = [
     cover:
       "https://images.unsplash.com/photo-1604871000636-074fa5117945?auto=format&fit=crop&w=1600&q=80",
     accent: "#9aa6c2",
+    client: "Lokal Sound (gallery commission)",
+    duration: "11 weeks (installation), 4 weeks (web port)",
+    team: "2 designers + 1 sound engineer",
+    liveUrl: "https://void-engine.example",
+    caseStudy: {
+      sections: [
+        {
+          kind: "brief",
+          heading: "Brief",
+          body: "Lokal Sound commissioned a permanent gallery installation that would react to the live room — not pre-rendered video, not a pre-recorded loop. The web port had to feel like the same piece on any laptop, on any network.",
+        },
+        {
+          kind: "approach",
+          heading: "Approach",
+          body: "A single raymarched scene fed by 64 FFT bins. Lower frequencies drive volume density, mids drive material absorption, highs spawn micro-sparks. The web version downsamples FFT to 32 bins and degrades raymarch step count gracefully on integrated GPUs.",
+        },
+        {
+          kind: "solution",
+          heading: "Solution",
+          body: "On the gallery rig (RTX A2000), the piece runs at 1440p / 60fps. On a 2019 MacBook Air it runs at 720p / 45fps with the same visual language — the volumes are softer, the sparks are denser, but it still reads as the same room.",
+        },
+        {
+          kind: "outcome",
+          heading: "Outcome",
+          body: "Installed at Lokal Sound's Berlin space for six months. Web port garnered 240 000 unique visitors in its first quarter. Used as a teaching reference at three universities for FFT-driven shader work.",
+        },
+      ],
+      metrics: [
+        { label: "FFT bins", value: "64" },
+        { label: "Gallery uptime", value: "99.97%" },
+        { label: "Web ports", value: "720p / 45fps" },
+        { label: "Unique visitors", value: "240k" },
+      ],
+      deliverables: [
+        "Custom raymarched fragment shader (volumes + sparks)",
+        "Web Audio API → GLSL uniform pipeline",
+        "Adaptive quality controller (raymarch steps × FPS targeting)",
+        "Headless gallery build for Linux + auto-reload",
+        "Web port deployed via Cloudflare with HLS audio fallback",
+        "Sound design (12-minute generative loop, 8 stems)",
+      ],
+      gallery: [
+        {
+          src: "https://images.unsplash.com/photo-1604871000636-074fa5117945?auto=format&fit=crop&w=1800&q=80",
+          alt: "Volume render at peak amplitude",
+          caption: "01 — Volume render at peak amplitude, low-frequency dominant.",
+          aspect: "wide",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
+          alt: "Quiet passage of the piece",
+          caption: "02 — Quiet passage; volume density drops, sparks read.",
+          aspect: "tall",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1549924231-f129b911e442?auto=format&fit=crop&w=1200&q=80",
+          alt: "Gallery installation photo",
+          caption: "03 — Lokal Sound gallery, January 2024.",
+          aspect: "tall",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1517999144091-3d9dca6d1e43?auto=format&fit=crop&w=1800&q=80",
+          alt: "Web port at low quality tier",
+          caption: "04 — Web port on integrated GPU — softer volumes, same piece.",
+          aspect: "wide",
+        },
+      ],
+      testimonial: {
+        quote: "It listens. That is the only word. The room comes in and the room goes out and the piece is just patient.",
+        attribution: "Anika Becker",
+        role: "Curator, Lokal Sound",
+      },
+    },
   },
   {
     slug: "crackit",
@@ -100,6 +493,79 @@ export const works: Work[] = [
       "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=1600&q=80",
     accent: "#d6c2e3",
     award: "Product Hunt · #3 of the Day",
+    client: "CrackIt (Bangladesh)",
+    duration: "8 months (v1) + ongoing",
+    team: "4 engineers + 1 designer",
+    liveUrl: "https://crackit.app",
+    caseStudy: {
+      sections: [
+        {
+          kind: "brief",
+          heading: "Brief",
+          body: "University-entrance prep in South Asia is dominated by 4 000-page textbooks and last-minute coaching. CrackIt's premise: the same content, delivered as a quiet, paper-like companion that knows your syllabus and your weakest topics.",
+        },
+        {
+          kind: "approach",
+          heading: "Approach",
+          body: "A custom RAG pipeline indexes the ten official textbooks per board and retrieves passage-level citations on every answer. Quizzes are generated from the same passages so users can always trace back to the page. The 2026 update adds an offline mode — the most-used 12 % of content fits in 80 MB on-device.",
+        },
+        {
+          kind: "solution",
+          heading: "Solution",
+          body: "The interface is paper-like — single-column, generous leading, no notification badges. Streaks are present but small. The 'live tutor' button sends a snapshot of your last 30 minutes to a human reviewer if the model can't answer with confidence above 0.78.",
+        },
+        {
+          kind: "outcome",
+          heading: "Outcome",
+          body: "180 000 monthly active users, 22 % paid conversion, +14 percentage-point average score lift on mock exams. Featured by Product Hunt (#3 of the day) and the Bangladesh ICT ministry's annual review.",
+        },
+      ],
+      metrics: [
+        { label: "Monthly active", value: "180k" },
+        { label: "Paid conversion", value: "22%" },
+        { label: "Avg. score lift", value: "+14 pp" },
+        { label: "Offline corpus", value: "80 MB" },
+      ],
+      deliverables: [
+        "React Native app (iOS + Android, single codebase)",
+        "RAG pipeline (LangChain + pgvector + reranker)",
+        "Syllabus-aware quiz generator with passage citations",
+        "Offline-first sync engine (delta-synced 80 MB corpus)",
+        "Live-tutor handoff workflow + reviewer dashboard",
+        "Quiet design system: paper backgrounds, single-column reading",
+      ],
+      gallery: [
+        {
+          src: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=1800&q=80",
+          alt: "App reading view",
+          caption: "01 — Reading view. Single column, generous leading, paper background.",
+          aspect: "wide",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?auto=format&fit=crop&w=1200&q=80",
+          alt: "Quiz session in progress",
+          caption: "02 — Quiz session — citations visible on every answer.",
+          aspect: "tall",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1200&q=80",
+          alt: "Live-tutor handoff screen",
+          caption: "03 — Live-tutor handoff. Reviewer sees the last 30 minutes of context.",
+          aspect: "tall",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1521737711867-ee1791bf2d52?auto=format&fit=crop&w=1800&q=80",
+          alt: "Streaks panel showing weekly progress",
+          caption: "04 — Streaks panel. Quiet by default, never red.",
+          aspect: "wide",
+        },
+      ],
+      testimonial: {
+        quote: "My daughter prepares with this for two hours a day and never asks me to charge the phone. That's the highest review I have.",
+        attribution: "Tariq Hossain",
+        role: "Parent, Joypurhat",
+      },
+    },
   },
   {
     slug: "halcyon-os",
@@ -114,6 +580,79 @@ export const works: Work[] = [
     cover:
       "https://images.unsplash.com/photo-1554189097-ffe88e998a2b?auto=format&fit=crop&w=1600&q=80",
     accent: "#cdfa00",
+    client: "Halcyon (early-stage)",
+    duration: "5 months (private beta)",
+    team: "3 engineers + 1 designer",
+    liveUrl: "https://halcyon.example",
+    caseStudy: {
+      sections: [
+        {
+          kind: "brief",
+          heading: "Brief",
+          body: "Most AI writing tools yell. Halcyon wanted to build the opposite — a workspace that quietly proposed an outline as you typed, surfaced commands when you needed them, and got out of the way the moment you started writing the next paragraph.",
+        },
+        {
+          kind: "approach",
+          heading: "Approach",
+          body: "Predictive outlines fade in at 14 % opacity if the cursor pauses for over 800 ms; they vanish the moment you keystroke. Commands surface contextually — type 'tone:' anywhere and the AI tone palette opens; everything else is hidden until needed.",
+        },
+        {
+          kind: "solution",
+          heading: "Solution",
+          body: "A single editor surface with a single keyboard shortcut (`/`) for everything else. Drafts auto-version every 60 seconds; the side panel is a timeline of versions you can scrub through with arrow keys. Sync is local-first via Y.js + tRPC mutations.",
+        },
+        {
+          kind: "outcome",
+          heading: "Outcome",
+          body: "Private beta with 1 200 writers across publishing, journalism, and fiction. 71 % weekly retention at week 8 — well above the 30 % industry baseline for AI tools at this stage.",
+        },
+      ],
+      metrics: [
+        { label: "Beta writers", value: "1.2k" },
+        { label: "W8 retention", value: "71%" },
+        { label: "Predictive opacity", value: "14%" },
+        { label: "Auto-version", value: "60 s" },
+      ],
+      deliverables: [
+        "Local-first editor (Y.js CRDT + tRPC sync)",
+        "Predictive-outline pipeline (debounced GPT-4 mini)",
+        "Contextual command palette (`/` and `tone:`)",
+        "Drafts timeline with keyboard scrubbing",
+        "AI tone library — 12 calibrated voices",
+        "Marketing site, docs, and pricing page",
+      ],
+      gallery: [
+        {
+          src: "https://images.unsplash.com/photo-1554189097-ffe88e998a2b?auto=format&fit=crop&w=1800&q=80",
+          alt: "Editor with predictive outline visible",
+          caption: "01 — Editor with predictive outline at 14 % opacity.",
+          aspect: "wide",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80",
+          alt: "Tone palette open",
+          caption: "02 — Tone palette opened by typing 'tone:'.",
+          aspect: "square",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?auto=format&fit=crop&w=1200&q=80",
+          alt: "Drafts timeline panel",
+          caption: "03 — Drafts timeline. Arrow keys scrub through 60 s snapshots.",
+          aspect: "square",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=1800&q=80",
+          alt: "Marketing landing page",
+          caption: "04 — Landing page. The editor is the hero; nothing else.",
+          aspect: "wide",
+        },
+      ],
+      testimonial: {
+        quote: "It is the first AI writing tool that lets me forget I'm using AI. The outlines just appear when I want them.",
+        attribution: "Sara Voss",
+        role: "Editor, beta cohort",
+      },
+    },
   },
   {
     slug: "echo-atlas",
@@ -128,6 +667,73 @@ export const works: Work[] = [
     cover:
       "https://images.unsplash.com/photo-1505412932025-fa49aef0d92e?auto=format&fit=crop&w=1600&q=80",
     accent: "#9be7ff",
+    client: "Self-initiated",
+    duration: "7 weeks",
+    team: "Solo + 1 sound recordist",
+    liveUrl: "https://echo-atlas.delowarhossain.dev",
+    caseStudy: {
+      sections: [
+        {
+          kind: "brief",
+          heading: "Brief",
+          body: "Sound mapping experiments tend to require headsets. Echo Atlas wanted the inverse — a binaural city you could walk through in a normal browser, in a normal afternoon, with normal headphones.",
+        },
+        {
+          kind: "approach",
+          heading: "Approach",
+          body: "Field recordings from twelve street corners in Joypurhat were captured with a portable AT-3060. Each recording is anchored to a 3D point in a Three.js scene. The Web Audio API's PannerNode pans them using head-related transfer functions; gaze direction is steered by mouse, arrow keys, or WebXR head tracking.",
+        },
+        {
+          kind: "solution",
+          heading: "Solution",
+          body: "The scene is intentionally sparse — a single empty street, lamps, and twelve invisible audio anchors. Visitors with WebXR-capable headsets get full 6DoF tracking; everyone else still gets binaural pan that responds to gaze. No login, no analytics, no autoplay.",
+        },
+        {
+          kind: "outcome",
+          heading: "Outcome",
+          body: "Featured by The Creative Independent and the Web Audio newsletter. Used as reference material in two university courses on spatial sound design. 38 000 unique sessions in the first month, average session 4 m 12 s.",
+        },
+      ],
+      metrics: [
+        { label: "Sound anchors", value: "12" },
+        { label: "Avg. session", value: "4m 12s" },
+        { label: "Sessions / mo.", value: "38k" },
+        { label: "WebXR optional", value: "yes" },
+      ],
+      deliverables: [
+        "Three.js scene with WebXR optional path",
+        "Web Audio binaural panning rig (12 anchors, HRTF-based)",
+        "Field recordings (12 stems, 24-bit / 48 kHz)",
+        "Keyboard + mouse navigation parity with headset path",
+        "Companion essay published on /journal",
+      ],
+      gallery: [
+        {
+          src: "https://images.unsplash.com/photo-1505412932025-fa49aef0d92e?auto=format&fit=crop&w=1800&q=80",
+          alt: "Empty street scene with audio anchors",
+          caption: "01 — Empty street scene. The anchors are invisible.",
+          aspect: "wide",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1493514789931-586cb221d7a7?auto=format&fit=crop&w=1200&q=80",
+          alt: "Field recording in progress",
+          caption: "02 — Field recording session, June 2026.",
+          aspect: "tall",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1531315396756-905d68d21b56?auto=format&fit=crop&w=1200&q=80",
+          alt: "WebXR headset preview",
+          caption: "03 — WebXR-capable headsets unlock 6DoF tracking.",
+          aspect: "tall",
+        },
+        {
+          src: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1800&q=80",
+          alt: "Map view of the recording locations",
+          caption: "04 — All twelve recording locations within ~600 m of each other.",
+          aspect: "wide",
+        },
+      ],
+    },
   },
 ];
 
