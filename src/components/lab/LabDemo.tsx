@@ -922,6 +922,163 @@ const boidsTick: TickFn = ({ ctx, w, h, m, store, dpr }) => {
   }
 };
 
+// ── 15 — Wave Interference ─────────────────────────────────────────────────
+type WaveSource = { x: number; y: number; t0: number; hue: number };
+const waveInit: InitFn = ({ store, w, h }) => {
+  store.sources = [
+    { x: w * 0.32, y: h * 0.42, t0: 0, hue: 30 },
+    { x: w * 0.7, y: h * 0.6, t0: 0, hue: 60 },
+  ] as WaveSource[];
+};
+const waveTick: TickFn = ({ ctx, w, h, t, m, store, dpr, compact }) => {
+  ctx.fillStyle = "rgba(7,7,8,0.16)";
+  ctx.fillRect(0, 0, w, h);
+  const sources = store.sources as WaveSource[];
+  // Click drops a permanent emitter (de-bounced via clickT).
+  if (m.pressed && m.clickT > 0 && t - m.clickT < 0.06) {
+    sources.push({ x: m.x, y: m.y, t0: t, hue: 200 + ((sources.length * 24) % 160) });
+    if (sources.length > 6) sources.shift();
+    m.clickT = -1;
+  }
+
+  ctx.globalCompositeOperation = "lighter";
+  const ringStep = (compact ? 32 : 22) * dpr;
+  const k = 0.06 / dpr;
+  const omega = 5;
+  const drawSource = (sx: number, sy: number, t0: number, hue: number, gain: number) => {
+    const age = Math.max(0, t - t0);
+    const fade = Math.exp(-age * 0.04);
+    if (fade < 0.04) return;
+    const reach = Math.hypot(w, h) * 0.6;
+    for (let r = ringStep; r < reach; r += ringStep) {
+      const phase = Math.cos(r * k - age * omega);
+      const intensity = Math.max(0, phase) * fade;
+      if (intensity < 0.05) continue;
+      ctx.strokeStyle = `hsla(${hue},65%,68%,${intensity * 0.34 * gain})`;
+      ctx.lineWidth = 1.4 * dpr;
+      ctx.beginPath();
+      ctx.arc(sx, sy, r, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+  };
+  for (const s of sources) drawSource(s.x, s.y, s.t0, s.hue, 1);
+  if (m.inside) drawSource(m.x, m.y, t - 1.5, 198, 1.1);
+
+  // bright source dots
+  ctx.globalCompositeOperation = "source-over";
+  ctx.fillStyle = "rgba(239,236,233,0.92)";
+  for (const s of sources) ctx.fillRect(s.x - 1, s.y - 1, 2 * dpr, 2 * dpr);
+};
+
+// ── 16 — Kaleidoscope Mirror ───────────────────────────────────────────────
+type KaleidoPoint = { x: number; y: number; t: number };
+const kaleidoInit: InitFn = ({ store, ctx, w, h }) => {
+  store.trail = [] as KaleidoPoint[];
+  ctx.fillStyle = "#070708";
+  ctx.fillRect(0, 0, w, h);
+};
+const kaleidoTick: TickFn = ({ ctx, w, h, t, m, store, dpr, compact }) => {
+  // gentle ghosting so trails fade smoothly
+  ctx.fillStyle = "rgba(7,7,8,0.07)";
+  ctx.fillRect(0, 0, w, h);
+  const tr = store.trail as KaleidoPoint[];
+  // record cursor position (centred on canvas centre) only when moving
+  if (m.inside && (Math.abs(m.vx) + Math.abs(m.vy)) > 0.4) {
+    tr.push({ x: m.x - w / 2, y: m.y - h / 2, t });
+    if (tr.length > (compact ? 60 : 120)) tr.shift();
+  }
+  if (tr.length < 2) return;
+
+  const segments = 6;
+  ctx.globalCompositeOperation = "lighter";
+  ctx.lineCap = "round";
+  for (let s = 0; s < segments; s++) {
+    const ang = (s / segments) * Math.PI * 2;
+    ctx.save();
+    ctx.translate(w / 2, h / 2);
+    ctx.rotate(ang);
+    if (s % 2 === 0) ctx.scale(1, -1);
+    for (let i = 1; i < tr.length; i++) {
+      const a = tr[i - 1];
+      const b = tr[i];
+      const age = t - b.t;
+      const alpha = Math.max(0, 1 - age / 3.5);
+      if (alpha < 0.04) continue;
+      const hue = (b.t * 28) % 360;
+      ctx.strokeStyle = `hsla(${hue},70%,68%,${alpha * 0.55})`;
+      ctx.lineWidth = (1.4 + alpha * 3) * dpr;
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+  ctx.globalCompositeOperation = "source-over";
+};
+
+// ── 17 — Metaballs Field ───────────────────────────────────────────────────
+type Metaball = { x: number; y: number; vx: number; vy: number; r: number };
+const metaInit: InitFn = ({ store, w, h, compact }) => {
+  const N = compact ? 5 : 8;
+  const arr: Metaball[] = [];
+  for (let i = 0; i < N; i++) {
+    arr.push({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      vx: (Math.random() - 0.5) * 80,
+      vy: (Math.random() - 0.5) * 80,
+      r: (compact ? 60 : 90) + Math.random() * (compact ? 60 : 100),
+    });
+  }
+  store.balls = arr;
+};
+const metaTick: TickFn = ({ ctx, w, h, dt, m, store }) => {
+  const balls = store.balls as Metaball[];
+  for (const b of balls) {
+    b.x += b.vx * dt;
+    b.y += b.vy * dt;
+    if (b.x < b.r) {
+      b.x = b.r;
+      b.vx = Math.abs(b.vx);
+    } else if (b.x > w - b.r) {
+      b.x = w - b.r;
+      b.vx = -Math.abs(b.vx);
+    }
+    if (b.y < b.r) {
+      b.y = b.r;
+      b.vy = Math.abs(b.vy);
+    } else if (b.y > h - b.r) {
+      b.y = h - b.r;
+      b.vy = -Math.abs(b.vy);
+    }
+  }
+  ctx.fillStyle = "#070708";
+  ctx.fillRect(0, 0, w, h);
+  ctx.globalCompositeOperation = "lighter";
+  for (const b of balls) {
+    const grad = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
+    grad.addColorStop(0, "rgba(247,196,159,0.85)");
+    grad.addColorStop(0.45, "rgba(192,222,255,0.32)");
+    grad.addColorStop(1, "rgba(247,196,159,0)");
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  if (m.inside) {
+    const cr = 160;
+    const grad = ctx.createRadialGradient(m.x, m.y, 0, m.x, m.y, cr);
+    grad.addColorStop(0, "rgba(255,255,255,0.55)");
+    grad.addColorStop(1, "rgba(255,255,255,0)");
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(m.x, m.y, cr, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalCompositeOperation = "source-over";
+};
+
 // ── DOM-based: Variable Font (variable-font-scroll) ─────────────────────────
 function VariableFontDemo({ compact }: { compact?: boolean }) {
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -1120,6 +1277,12 @@ export function LabDemo({
       return <CanvasDemo init={lissaInit} tick={lissaTick} compact={compact} fpsCap={compact ? 30 : 60} />;
     case "boids-flock":
       return <CanvasDemo init={boidsInit} tick={boidsTick} compact={compact} fpsCap={compact ? 30 : 60} reseedOnClick />;
+    case "wave-interference":
+      return <CanvasDemo init={waveInit} tick={waveTick} compact={compact} fpsCap={compact ? 24 : 48} />;
+    case "kaleidoscope":
+      return <CanvasDemo init={kaleidoInit} tick={kaleidoTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+    case "metaballs":
+      return <CanvasDemo init={metaInit} tick={metaTick} compact={compact} fpsCap={compact ? 30 : 60} />;
     case "variable-font-scroll":
       return <VariableFontDemo compact={compact} />;
     case "signed-distance-letters":
