@@ -71,7 +71,7 @@ export function FirstVisitNudge() {
         onClick={dismiss}
         data-cursor="hover"
         aria-label="Dismiss nudge"
-        className="font-mono text-[12px] leading-none text-warmwhite/45 hover:text-warmwhite"
+        className="font-mono text-[12px] leading-none text-warmwhite/65 hover:text-warmwhite"
       >
         ×
       </button>

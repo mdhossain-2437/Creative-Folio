@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { LiveBadge } from "@/components/ui/LiveBadge";
 import { site } from "@/lib/site";
 
 const PRIMARY = ["Index", "Works", "Lab", "About", "Resume", "Journal", "Services", "Contact"];
@@ -29,23 +28,34 @@ export function Navbar() {
   return (
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50">
       <nav
-        className={`pointer-events-auto mx-auto flex w-full max-w-[1640px] items-center justify-between px-6 py-5 transition-colors duration-500 md:px-10 ${
-          scrolled ? "bg-ink-900/70 backdrop-blur" : ""
+        aria-label="Primary"
+        className={`pointer-events-auto mx-auto flex w-full max-w-[1640px] items-center justify-between px-6 py-5 transition-[background,backdrop-filter,box-shadow] duration-500 md:px-10 ${
+          scrolled
+            ? "bg-ink-900/75 shadow-[0_1px_0_rgba(239,236,233,0.08)] backdrop-blur-xl"
+            : ""
         }`}
       >
-        <div className="flex items-center gap-4">
-          <Link
-            href="/"
-            data-cursor="hover"
-            data-cursor-label="HOME"
-            className="font-serif text-xl tracking-tight text-warmwhite"
-          >
+        {/* Wordmark with MMXXVII supermark */}
+        <Link
+          href="/"
+          data-cursor="hover"
+          data-cursor-label="HOME"
+          className="group inline-flex items-baseline gap-2 font-serif text-xl tracking-tight text-warmwhite focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
+        >
+          <span className="relative">
             <span className="italic">D</span>elowar
-            <span className="text-warmwhite/40">.dev</span>
-          </Link>
-          <LiveBadge />
-        </div>
-        <ul className="hidden items-center gap-7 font-sans text-[11px] uppercase tracking-widest text-warmwhite/70 md:flex">
+            <span className="text-warmwhite/65">.dev</span>
+          </span>
+          <span
+            aria-hidden
+            className="display-num hidden text-[9px] font-sans uppercase tracking-widest text-warmwhite/55 transition-colors duration-500 group-hover:text-peach md:inline"
+          >
+            ◊ {site.editionShort}
+          </span>
+        </Link>
+
+        {/* Centered primary nav */}
+        <ul className="hidden items-center gap-7 font-sans text-[11px] uppercase tracking-widest text-warmwhite/75 md:flex">
           {primaryNav.map((item) => {
             const active = pathname === item.href;
             return (
@@ -54,7 +64,8 @@ export function Navbar() {
                   href={item.href}
                   data-cursor="hover"
                   data-cursor-label={item.label}
-                  className={`group inline-flex flex-col items-start ${
+                  aria-current={active ? "page" : undefined}
+                  className={`group inline-flex flex-col items-start py-1 transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach ${
                     active ? "text-warmwhite" : "hover:text-warmwhite"
                   }`}
                 >
@@ -69,32 +80,36 @@ export function Navbar() {
             );
           })}
         </ul>
-        <div className="hidden items-center gap-3 font-sans text-[11px] uppercase tracking-widest text-warmwhite/60 md:flex">
+
+        {/* Right cluster: ⌘K + CTA only — status pills moved to footer StatusStrip */}
+        <div className="hidden items-center gap-3 font-sans text-[11px] uppercase tracking-widest md:flex">
           <button
-            onClick={() => window.dispatchEvent(new KeyboardEvent("keydown", { key: "k", metaKey: true }))}
+            type="button"
+            onClick={() =>
+              window.dispatchEvent(new KeyboardEvent("keydown", { key: "k", metaKey: true }))
+            }
             data-cursor="hover"
             data-cursor-label="⌘K"
-            className="rounded-full border border-warmwhite/20 px-3 py-1.5 text-[10px] hover:border-warmwhite/60"
+            aria-label="Open command palette (Cmd+K)"
+            className="rounded-full border border-warmwhite/25 px-3 py-1.5 text-[10px] text-warmwhite/80 transition-colors hover:border-warmwhite/70 hover:text-warmwhite focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
           >
             <span className="display-num">⌘K</span>
           </button>
-          <span className="rounded-full border border-warmwhite/20 px-2 py-1 text-[9px]">
-            <span className="mr-1.5 inline-block h-1.5 w-1.5 -translate-y-px rounded-full bg-emerald-400" />
-            {site.availability}
-          </span>
           <Link
             href="/contact"
             data-cursor="hover"
             data-cursor-label="LET'S TALK"
-            className="rounded-full bg-warmwhite px-4 py-2 text-[10px] uppercase tracking-widest text-ink-900 transition-colors hover:bg-peach"
+            className="rounded-full bg-warmwhite px-4 py-2 text-[10px] uppercase tracking-widest text-ink-900 transition-colors hover:bg-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
           >
             Start a Project
           </Link>
         </div>
+
         <button
-          aria-label="Open menu"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
           onClick={() => setOpen((o) => !o)}
-          className="md:hidden rounded-full border border-warmwhite/30 px-4 py-2 text-[10px] uppercase tracking-widest"
+          className="md:hidden rounded-full border border-warmwhite/35 px-4 py-2 text-[10px] uppercase tracking-widest text-warmwhite/85"
         >
           {open ? "Close" : "Menu"}
         </button>
@@ -117,7 +132,7 @@ export function Navbar() {
               </li>
             ))}
           </ul>
-          <div className="flex items-center justify-between font-sans text-[10px] uppercase tracking-widest text-warmwhite/50">
+          <div className="flex items-center justify-between font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
             <span>{site.location}</span>
             <Link href="/contact">{site.email}</Link>
           </div>

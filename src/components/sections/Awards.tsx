@@ -3,11 +3,11 @@ import { awards } from "@/lib/data";
 
 export function AwardsSection() {
   return (
-    <section className="relative border-t border-warmwhite/10 bg-ink-950 py-28 md:py-40">
+    <section className="relative border-t border-warmwhite/15 bg-ink-950 py-28 md:py-40">
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <div className="grid grid-cols-1 items-end gap-10 md:grid-cols-12">
           <div className="md:col-span-7">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
               §07 — Industry Recognition
             </p>
             <h2 className="mt-4 font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[0.94] tracking-tightest">
@@ -21,7 +21,7 @@ export function AwardsSection() {
           </p>
         </div>
 
-        <ul className="mt-16 grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/10 md:grid-cols-2">
+        <ul className="mt-16 grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-2">
           {awards.map((a, i) => (
             <Reveal key={a.index} delay={i * 0.06}>
               <li className="flex h-full flex-col justify-between gap-10 bg-ink-950 p-8 md:p-10">
@@ -29,7 +29,7 @@ export function AwardsSection() {
                   <span className="display-num font-serif text-5xl tracking-tightest text-warmwhite/80">
                     {a.index}
                   </span>
-                  <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50">
+                  <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                     {a.org} · {a.year}
                   </span>
                 </header>

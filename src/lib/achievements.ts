@@ -19,7 +19,9 @@ export type AchievementId =
   | "snapshotter"
   | "curator"
   | "designer"
-  | "archivist";
+  | "archivist"
+  | "capsule-keeper"
+  | "atmosphere-shifter";
 
 const STORAGE_KEY = "delowar:achievements:v1";
 
@@ -88,6 +90,16 @@ export const ACHIEVEMENTS: Record<AchievementId, AchievementMeta> = {
   archivist: {
     title: "Archivist",
     description: "Read every case study end to end. The archive is yours now.",
+  },
+  "capsule-keeper": {
+    title: "Capsule keeper",
+    description:
+      "Saved a time capsule of the page. The studio remembers your visit.",
+  },
+  "atmosphere-shifter": {
+    title: "Atmosphere shifter",
+    description:
+      "Cycled through every atmosphere. The studio breathes differently now.",
   },
 };
 

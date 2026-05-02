@@ -26,7 +26,7 @@ export default function ColophonPage() {
       <section className="bg-ink-900 py-24 md:py-32">
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
           <div className="md:col-span-3">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
               ◊ Credits
             </p>
           </div>
@@ -39,8 +39,8 @@ export default function ColophonPage() {
               { k: "Motion / Sound", v: "GSAP · Web Audio API" },
               { k: "Special Thanks", v: "Awwwards / FWA / The CSS community" },
             ].map((c) => (
-              <li key={c.k} className="border-t border-warmwhite/10 pt-4">
-                <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+              <li key={c.k} className="border-t border-warmwhite/15 pt-4">
+                <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                   {c.k}
                 </p>
                 <p className="mt-2 font-serif text-2xl tracking-tighter">{c.v}</p>
@@ -50,7 +50,7 @@ export default function ColophonPage() {
         </div>
       </section>
 
-      <section className="border-t border-warmwhite/10 bg-ink-950 py-24 md:py-32">
+      <section className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
           <h2 className="font-serif text-[clamp(2.5rem,6vw,5rem)] leading-[0.95] tracking-tightest">
             Built in {site.location}.

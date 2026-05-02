@@ -101,7 +101,7 @@ export function CaseStudyGallery({
           className="fixed inset-0 z-[60] flex flex-col bg-ink-950/95 backdrop-blur-sm"
           onClick={close}
         >
-          <div className="flex items-center justify-between border-b border-warmwhite/10 px-6 py-4 md:px-10">
+          <div className="flex items-center justify-between border-b border-warmwhite/15 px-6 py-4 md:px-10">
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/60">
               Figure {String(active + 1).padStart(2, "0")} / {String(images.length).padStart(2, "0")}
             </p>
@@ -154,7 +154,7 @@ export function CaseStudyGallery({
             </button>
           </div>
           {images[active].caption && (
-            <p className="mx-auto max-w-3xl border-t border-warmwhite/10 px-6 py-4 text-center font-sans text-sm leading-relaxed text-warmwhite/70 md:px-10">
+            <p className="mx-auto max-w-3xl border-t border-warmwhite/15 px-6 py-4 text-center font-sans text-sm leading-relaxed text-warmwhite/70 md:px-10">
               {images[active].caption}
             </p>
           )}

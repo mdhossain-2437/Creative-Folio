@@ -98,7 +98,7 @@ export default async function JournalPost({ params }: { params: Promise<Params> 
           </p>
         </div>
 
-        <div className="mt-20 border-t border-warmwhite/10 pt-8">
+        <div className="mt-20 border-t border-warmwhite/15 pt-8">
           <div className="flex flex-wrap items-center justify-between gap-6 font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
             <Link href="/journal" data-cursor="hover" data-cursor-label="BACK" className="hover:text-warmwhite">
               ← All Posts

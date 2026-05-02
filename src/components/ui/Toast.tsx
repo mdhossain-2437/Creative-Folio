@@ -84,7 +84,7 @@ export function ToastHost() {
           key={t.id}
           className={`pointer-events-auto w-[min(320px,90vw)] overflow-hidden rounded-xl border px-4 py-3 shadow-2xl backdrop-blur transition-all duration-300 ${VARIANT_STYLES[t.variant]} animate-toast-in`}
         >
-          <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+          <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
             {VARIANT_LABEL[t.variant]}
           </p>
           <p className="mt-1 font-serif text-base leading-tight text-warmwhite">

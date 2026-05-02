@@ -42,7 +42,7 @@ export function Preloader() {
       }`}
     >
       <div>
-        <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50">
+        <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
           Loading · Delowar.dev
         </p>
         <p className="mt-3 font-serif text-3xl italic text-warmwhite/80">

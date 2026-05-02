@@ -20,7 +20,7 @@ export function PageHero({
   children?: ReactNode;
 }) {
   return (
-    <section className="relative isolate overflow-hidden border-b border-warmwhite/10">
+    <section className="relative isolate overflow-hidden border-b border-warmwhite/15">
       {noise && (
         <div className="pointer-events-none absolute inset-0 -z-10 opacity-70">
           <NoiseField />
@@ -40,7 +40,7 @@ export function PageHero({
           )}
         </h1>
         {(description || meta) && (
-          <div className="mt-12 grid grid-cols-1 gap-8 border-t border-warmwhite/10 pt-8 md:grid-cols-12">
+          <div className="mt-12 grid grid-cols-1 gap-8 border-t border-warmwhite/15 pt-8 md:grid-cols-12">
             {description && (
               <p className="md:col-span-6 max-w-2xl text-balance font-sans text-base leading-relaxed text-warmwhite/70 md:text-lg">
                 {description}
@@ -50,7 +50,7 @@ export function PageHero({
               <ul className="grid grid-cols-2 gap-x-6 gap-y-8 md:col-span-6 md:grid-cols-4">
                 {meta.map((m) => (
                   <li key={m.label} className="min-w-0">
-                    <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+                    <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                       {m.label}
                     </p>
                     <p className="mt-2 break-words font-serif text-base leading-snug tracking-tight text-warmwhite md:text-lg">

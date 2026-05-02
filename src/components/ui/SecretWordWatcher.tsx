@@ -102,7 +102,7 @@ export function SecretWordWatcher() {
         <p className="max-w-md font-serif italic text-warmwhite/65 md:text-lg">
           You spelled the studio. Some doors open by knock.
         </p>
-        <p className="font-mono text-[10px] uppercase tracking-widest text-warmwhite/40">
+        <p className="font-mono text-[10px] uppercase tracking-widest text-warmwhite/65">
           Esc to dismiss · auto in 4s
         </p>
       </div>

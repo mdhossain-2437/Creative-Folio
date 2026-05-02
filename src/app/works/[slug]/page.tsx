@@ -120,17 +120,17 @@ function BriefAndMeta({ work }: { work: Work }) {
   ];
 
   return (
-    <section className="border-t border-warmwhite/10 bg-ink-900 py-24 md:py-32">
+    <section className="border-t border-warmwhite/15 bg-ink-900 py-24 md:py-32">
       <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-12 px-6 md:grid-cols-12 md:px-10">
         <aside className="md:col-span-4">
           <div className="md:sticky md:top-28 md:max-h-[calc(100vh-7rem)] md:overflow-y-auto md:pr-4">
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
               ◊ Project facts
             </p>
-            <dl className="mt-6 space-y-5 border-t border-warmwhite/10 pt-6">
+            <dl className="mt-6 space-y-5 border-t border-warmwhite/15 pt-6">
               {metaRows.map((row) => (
                 <div key={row.label}>
-                  <dt className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+                  <dt className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                     {row.label}
                   </dt>
                   <dd className="mt-1 break-words font-serif text-lg leading-snug tracking-tight text-warmwhite">
@@ -139,7 +139,7 @@ function BriefAndMeta({ work }: { work: Work }) {
                 </div>
               ))}
               <div>
-                <dt className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+                <dt className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                   Roles
                 </dt>
                 <dd className="mt-2 flex flex-wrap gap-2">
@@ -155,7 +155,7 @@ function BriefAndMeta({ work }: { work: Work }) {
               </div>
               {work.liveUrl && (
                 <div>
-                  <dt className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+                  <dt className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                     Live
                   </dt>
                   <dd className="mt-2">
@@ -206,7 +206,7 @@ function SectionsBlock({ work }: { work: Work }) {
   if (rest.length === 0) return null;
 
   return (
-    <section className="border-t border-warmwhite/10 bg-ink-950 py-24 md:py-32">
+    <section className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <ul className="grid grid-cols-1 gap-16 md:gap-24">
           {rest.map((s, i) => (
@@ -244,7 +244,7 @@ function SectionsBlock({ work }: { work: Work }) {
 function GallerySection({ work }: { work: Work }) {
   const study = work.caseStudy!;
   return (
-    <section className="border-t border-warmwhite/10 bg-ink-900 py-24 md:py-32">
+    <section className="border-t border-warmwhite/15 bg-ink-900 py-24 md:py-32">
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <div className="mb-10 flex flex-wrap items-end justify-between gap-6 md:mb-14">
           <div>
@@ -271,7 +271,7 @@ function MetricsSection({ work }: { work: Work }) {
   const study = work.caseStudy!;
   if (study.metrics.length === 0) return null;
   return (
-    <section className="border-t border-warmwhite/10 bg-ink-950 py-24 md:py-32">
+    <section className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
           ◊ Numbers
@@ -298,7 +298,7 @@ function DeliverablesSection({ work }: { work: Work }) {
   const outcome = study.sections.find((s) => s.kind === "outcome");
 
   return (
-    <section className="border-t border-warmwhite/10 bg-ink-900 py-24 md:py-32">
+    <section className="border-t border-warmwhite/15 bg-ink-900 py-24 md:py-32">
       <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-16 px-6 md:grid-cols-12 md:px-10">
         <div className="md:col-span-5">
           <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
@@ -308,9 +308,9 @@ function DeliverablesSection({ work }: { work: Work }) {
             {study.deliverables.map((d, i) => (
               <li
                 key={d}
-                className="flex items-baseline gap-4 border-t border-warmwhite/10 pt-3"
+                className="flex items-baseline gap-4 border-t border-warmwhite/15 pt-3"
               >
-                <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/40">
+                <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="font-sans text-base leading-relaxed text-warmwhite/80">
@@ -342,7 +342,7 @@ function DeliverablesSection({ work }: { work: Work }) {
 function TestimonialSection({ work }: { work: Work }) {
   const t = work.caseStudy!.testimonial!;
   return (
-    <section className="border-t border-warmwhite/10 bg-ink-950 py-24 md:py-32">
+    <section className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
       <div className="mx-auto max-w-[1200px] px-6 md:px-10">
         <Reveal>
           <p
@@ -354,11 +354,11 @@ function TestimonialSection({ work }: { work: Work }) {
           <blockquote className="mt-4 font-serif text-[clamp(1.75rem,3.6vw,3.5rem)] italic leading-[1.15] tracking-tight text-warmwhite">
             {t.quote}
           </blockquote>
-          <footer className="mt-10 flex flex-wrap items-baseline gap-4 border-t border-warmwhite/10 pt-6">
+          <footer className="mt-10 flex flex-wrap items-baseline gap-4 border-t border-warmwhite/15 pt-6">
             <p className="font-sans text-sm uppercase tracking-widest text-warmwhite/85">
               {t.attribution}
             </p>
-            <p className="font-sans text-xs uppercase tracking-widest text-warmwhite/50">
+            <p className="font-sans text-xs uppercase tracking-widest text-warmwhite/65">
               {t.role}
             </p>
           </footer>
@@ -372,7 +372,7 @@ function StackSection({ work }: { work: Work }) {
   return (
     <section
       data-work-end
-      className="border-t border-warmwhite/10 bg-ink-900 py-24 md:py-32"
+      className="border-t border-warmwhite/15 bg-ink-900 py-24 md:py-32"
     >
       <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
         <div className="md:col-span-3">
@@ -382,7 +382,7 @@ function StackSection({ work }: { work: Work }) {
         </div>
         <ul className="grid grid-cols-2 gap-6 md:col-span-9 md:grid-cols-4">
           {work.stack.map((s) => (
-            <li key={s} className="border-t border-warmwhite/10 pt-4">
+            <li key={s} className="border-t border-warmwhite/15 pt-4">
               <p className="font-serif text-2xl tracking-tighter">{s}</p>
             </li>
           ))}
@@ -394,7 +394,7 @@ function StackSection({ work }: { work: Work }) {
 
 function PrevNextSection({ prev, next }: { prev: Work; next: Work }) {
   return (
-    <section className="border-t border-warmwhite/10 bg-ink-950 py-24 md:py-32">
+    <section className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
           <Link
@@ -409,7 +409,7 @@ function PrevNextSection({ prev, next }: { prev: Work; next: Work }) {
             <h3 className="mt-4 font-serif text-[clamp(1.75rem,4vw,3.25rem)] leading-[1] tracking-tightest text-warmwhite group-hover:text-peach">
               {prev.title}
             </h3>
-            <p className="mt-2 font-sans text-xs uppercase tracking-widest text-warmwhite/45">
+            <p className="mt-2 font-sans text-xs uppercase tracking-widest text-warmwhite/65">
               {prev.year} · {prev.category}
             </p>
           </Link>
@@ -425,7 +425,7 @@ function PrevNextSection({ prev, next }: { prev: Work; next: Work }) {
             <h3 className="mt-4 font-serif text-[clamp(1.75rem,4vw,3.25rem)] leading-[1] tracking-tightest text-warmwhite group-hover:text-peach">
               {next.title}
             </h3>
-            <p className="mt-2 font-sans text-xs uppercase tracking-widest text-warmwhite/45">
+            <p className="mt-2 font-sans text-xs uppercase tracking-widest text-warmwhite/65">
               {next.year} · {next.category}
             </p>
           </Link>
@@ -438,10 +438,10 @@ function PrevNextSection({ prev, next }: { prev: Work; next: Work }) {
 function LegacyFallback({ work }: { work: Work }) {
   return (
     <>
-      <section className="border-t border-warmwhite/10 bg-ink-900 py-24 md:py-32">
+      <section className="border-t border-warmwhite/15 bg-ink-900 py-24 md:py-32">
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-12 px-6 md:grid-cols-12 md:px-10">
           <div className="md:col-span-3">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
               ◊ Brief
             </p>
           </div>

@@ -298,7 +298,7 @@ export default async function LabSlug({
           { label: "Tech", value: exp.meta },
           { label: "Status", value: "Live" },
           { label: "Renderer", value: "WebGL2 / fallback" },
-          { label: "Updated", value: "MMXXVI" },
+          { label: "Updated", value: "MMXXVII" },
         ]}
       />
 
@@ -306,7 +306,7 @@ export default async function LabSlug({
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
           <div
             data-lab-stage
-            className="relative aspect-[16/9] w-full overflow-hidden rounded-3xl border border-warmwhite/10 bg-ink-900"
+            className="relative aspect-[16/9] w-full overflow-hidden rounded-3xl border border-warmwhite/15 bg-ink-900"
           >
             <LabDemo slug={exp.slug} seed={(idx + 1) * 4.2} />
             <div className="pointer-events-none absolute inset-0 vignette" />
@@ -331,13 +331,13 @@ export default async function LabSlug({
         <section className="bg-ink-900 py-24 md:py-32">
           <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
             <div className="md:col-span-5">
-              <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+              <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                 ◊ Brief
               </p>
               <p className="mt-6 font-serif text-[clamp(1.4rem,2.4vw,2.4rem)] leading-[1.18] tracking-tight text-warmwhite/90">
                 {note.brief}
               </p>
-              <ul className="mt-10 space-y-3 border-t border-warmwhite/10 pt-6">
+              <ul className="mt-10 space-y-3 border-t border-warmwhite/15 pt-6">
                 {note.controls.map((c) => (
                   <li
                     key={c.label}
@@ -350,13 +350,13 @@ export default async function LabSlug({
               </ul>
             </div>
             <div className="md:col-span-7">
-              <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+              <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                 §README
               </p>
-              <ol className="mt-6 space-y-6 border-t border-warmwhite/10 pt-6 font-serif text-lg leading-relaxed text-warmwhite/75 md:text-xl">
+              <ol className="mt-6 space-y-6 border-t border-warmwhite/15 pt-6 font-serif text-lg leading-relaxed text-warmwhite/75 md:text-xl">
                 {note.readme.map((line, i) => (
                   <li key={i} className="flex gap-4">
-                    <span className="font-mono text-[10px] uppercase tracking-widest text-warmwhite/40 pt-1">
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-warmwhite/65 pt-1">
                       §0{i + 1}
                     </span>
                     <span dangerouslySetInnerHTML={{ __html: line }} />
@@ -368,15 +368,15 @@ export default async function LabSlug({
         </section>
       )}
 
-      <section className="border-t border-warmwhite/10 bg-ink-950 py-16 md:py-24">
+      <section className="border-t border-warmwhite/15 bg-ink-950 py-16 md:py-24">
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
           <Link
             href={`/lab/${experiments[(idx - 1 + experiments.length) % experiments.length].slug}`}
             data-cursor="hover"
             data-cursor-label="PREV"
-            className="group block border-t border-warmwhite/10 pt-6 md:col-span-5"
+            className="group block border-t border-warmwhite/15 pt-6 md:col-span-5"
           >
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
               ← Previous experiment
             </p>
             <p className="mt-3 break-words font-serif text-2xl tracking-tight text-warmwhite/85 transition-colors group-hover:text-peach md:text-4xl">
@@ -387,9 +387,9 @@ export default async function LabSlug({
             href={`/lab/${experiments[(idx + 1) % experiments.length].slug}`}
             data-cursor="hover"
             data-cursor-label="NEXT"
-            className="group block border-t border-warmwhite/10 pt-6 md:col-span-5 md:text-right"
+            className="group block border-t border-warmwhite/15 pt-6 md:col-span-5 md:text-right"
           >
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
               Next experiment →
             </p>
             <p className="mt-3 break-words font-serif text-2xl tracking-tight text-warmwhite/85 transition-colors group-hover:text-peach md:text-4xl">
@@ -405,7 +405,7 @@ export default async function LabSlug({
             >
               All ({experiments.length})
             </Link>
-            <p className="mt-4 font-mono text-[10px] uppercase tracking-widest text-warmwhite/40">
+            <p className="mt-4 font-mono text-[10px] uppercase tracking-widest text-warmwhite/65">
               [ / ] · J / K
             </p>
           </div>

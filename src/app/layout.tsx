@@ -40,7 +40,7 @@ const mono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — Creative Developer · MMXXVI`,
+    default: `${site.name} — Creative Developer · ${site.editionShort}`,
     template: `%s · ${site.name}`,
   },
   description: site.tagline,
@@ -54,25 +54,42 @@ export const metadata: Metadata = {
     "shaders",
     "Bangladesh",
     "Delowar Hossain",
+    "delowarhossain.dev",
     "portfolio",
-    "2026",
+    "2027",
+    "MMXXVII",
     "awwwards",
+    "creative developer 2027",
+    "future-stack portfolio",
   ],
   authors: [{ name: site.name, url: site.url }],
+  creator: site.name,
+  publisher: site.studio,
+  applicationName: `${site.name} — ${site.editionShort}`,
   openGraph: {
-    title: `${site.name} — Creative Developer`,
+    title: `${site.name} — Creative Developer · ${site.editionShort}`,
     description: site.tagline,
     type: "website",
     siteName: site.name,
     url: site.url,
+    locale: "en_US",
   },
-  twitter: { card: "summary_large_image", creator: "@mdhossain2437" },
+  twitter: {
+    card: "summary_large_image",
+    creator: "@mdhossain2437",
+    site: "@mdhossain2437",
+    title: `${site.name} — Creative Developer · ${site.editionShort}`,
+    description: site.tagline,
+  },
   alternates: {
+    canonical: site.url,
     types: {
       "application/atom+xml": [{ url: "/journal/feed.xml", title: "Studio Journal — Atom Feed" }],
       "application/feed+json": [{ url: "/api/feed.json", title: "Studio Combined Feed — JSON Feed v1.1" }],
     },
   },
+  category: "technology",
+  formatDetection: { email: false, address: false, telephone: false },
 };
 
 export const viewport: Viewport = {

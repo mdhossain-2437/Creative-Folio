@@ -52,13 +52,13 @@ export const works: Work[] = [
     index: "01",
     title: "Aura Void",
     category: "WebGL · Creative Direction",
-    year: "2026",
+    year: "2027",
     summary:
       "An ambient WebGL world built around a single noise field — pressure, depth, and reflection driven entirely by GLSL. v2 introduces a tactile, physics-aware cursor that pulls the field into local minima.",
     role: ["Creative Direction", "Shaders", "Frontend Engineering"],
     stack: ["Three.js", "GLSL", "GSAP", "Lenis"],
     cover:
-      "https://images.unsplash.com/photo-1635776063043-2cf8a32fa5be?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1638272181967-7d3772a91265?auto=format&fit=crop&w=1600&q=80",
     accent: "#e3bfb4",
     award: "Awwwards · Site of the Day",
     client: "Aura Studio (in-house)",
@@ -104,7 +104,7 @@ export const works: Work[] = [
       ],
       gallery: [
         {
-          src: "https://images.unsplash.com/photo-1635776063043-2cf8a32fa5be?auto=format&fit=crop&w=1800&q=80",
+          src: "https://images.unsplash.com/photo-1638272181967-7d3772a91265?auto=format&fit=crop&w=1800&q=80",
           alt: "Macro frame of the noise field with peach lighting",
           caption: "01 — Hero loop frame at t = 6s. The field rests; cursor influence decays.",
           aspect: "wide",
@@ -146,7 +146,7 @@ export const works: Work[] = [
     role: ["Art Direction", "Identity", "Frontend"],
     stack: ["Next.js", "GSAP", "Framer Motion"],
     cover:
-      "https://images.unsplash.com/photo-1558959356-2f36b5fc02d3?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1600&q=80",
     accent: "#c4c1bd",
     award: "FWA · Site of the Day",
     client: "Terminal State Labs",
@@ -192,7 +192,7 @@ export const works: Work[] = [
       ],
       gallery: [
         {
-          src: "https://images.unsplash.com/photo-1558959356-2f36b5fc02d3?auto=format&fit=crop&w=1800&q=80",
+          src: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1800&q=80",
           alt: "Editorial home spread with display typography",
           caption: "01 — Cover at the start of the launch week.",
           aspect: "wide",
@@ -484,9 +484,9 @@ export const works: Work[] = [
     index: "06",
     title: "CrackIt",
     category: "Product · AI",
-    year: "2026",
+    year: "2027",
     summary:
-      "Mobile exam-prep companion with a custom RAG pipeline, syllabus-aware quizzes, and a quiet, paper-like interface. 2026 update adds an offline mode and live tutor handoff.",
+      "Mobile exam-prep companion with a custom RAG pipeline, syllabus-aware quizzes, and a quiet, paper-like interface. 2027 update adds an offline mode and live tutor handoff.",
     role: ["Product Design", "RAG Systems", "Mobile"],
     stack: ["React Native", "LangChain", "Supabase"],
     cover:
@@ -507,7 +507,7 @@ export const works: Work[] = [
         {
           kind: "approach",
           heading: "Approach",
-          body: "A custom RAG pipeline indexes the ten official textbooks per board and retrieves passage-level citations on every answer. Quizzes are generated from the same passages so users can always trace back to the page. The 2026 update adds an offline mode — the most-used 12 % of content fits in 80 MB on-device.",
+          body: "A custom RAG pipeline indexes the ten official textbooks per board and retrieves passage-level citations on every answer. Quizzes are generated from the same passages so users can always trace back to the page. The 2027 update adds an offline mode — the most-used 12 % of content fits in 80 MB on-device.",
         },
         {
           kind: "solution",
@@ -554,7 +554,7 @@ export const works: Work[] = [
           aspect: "tall",
         },
         {
-          src: "https://images.unsplash.com/photo-1521737711867-ee1791bf2d52?auto=format&fit=crop&w=1800&q=80",
+          src: "https://images.unsplash.com/photo-1617791160505-6f00504e3519?auto=format&fit=crop&w=1800&q=80",
           alt: "Streaks panel showing weekly progress",
           caption: "04 — Streaks panel. Quiet by default, never red.",
           aspect: "wide",
@@ -572,7 +572,7 @@ export const works: Work[] = [
     index: "07",
     title: "Halcyon OS",
     category: "AI Workspace · Editorial",
-    year: "2026",
+    year: "2027",
     summary:
       "A serene AI-first workspace for writers. Predictive outlines fade in like ambient mist; commands surface contextually instead of through menus.",
     role: ["Product Design", "Front-end", "AI Prompts"],
@@ -659,13 +659,13 @@ export const works: Work[] = [
     index: "08",
     title: "Echo Atlas",
     category: "Spatial Audio · WebXR",
-    year: "2026",
+    year: "2027",
     summary:
       "Walk through a sound-mapped city in your browser. WebXR-ready, but designed first for keyboard + mouse — binaural audio steered by your gaze.",
     role: ["Concept", "WebGL", "Audio"],
     stack: ["Three.js", "WebXR", "Web Audio API"],
     cover:
-      "https://images.unsplash.com/photo-1505412932025-fa49aef0d92e?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1614849963640-9cc74b2a826f?auto=format&fit=crop&w=1600&q=80",
     accent: "#9be7ff",
     client: "Self-initiated",
     duration: "7 weeks",
@@ -709,7 +709,7 @@ export const works: Work[] = [
       ],
       gallery: [
         {
-          src: "https://images.unsplash.com/photo-1505412932025-fa49aef0d92e?auto=format&fit=crop&w=1800&q=80",
+          src: "https://images.unsplash.com/photo-1614849963640-9cc74b2a826f?auto=format&fit=crop&w=1800&q=80",
           alt: "Empty street scene with audio anchors",
           caption: "01 — Empty street scene. The anchors are invisible.",
           aspect: "wide",
@@ -717,7 +717,7 @@ export const works: Work[] = [
         {
           src: "https://images.unsplash.com/photo-1493514789931-586cb221d7a7?auto=format&fit=crop&w=1200&q=80",
           alt: "Field recording in progress",
-          caption: "02 — Field recording session, June 2026.",
+          caption: "02 — Field recording session, June 2027.",
           aspect: "tall",
         },
         {
@@ -738,10 +738,10 @@ export const works: Work[] = [
 ];
 
 export const archive = [
-  { year: "2026", title: "Halcyon OS", category: "AI Workspace", role: "Product Design" },
-  { year: "2026", title: "Echo Atlas", category: "Spatial / WebXR", role: "Concept · WebGL" },
-  { year: "2026", title: "Aura Void v2", category: "WebGL", role: "Creative Direction" },
-  { year: "2026", title: "CrackIt 3.0", category: "Product / AI", role: "Product · Engineering" },
+  { year: "2027", title: "Halcyon OS", category: "AI Workspace", role: "Product Design" },
+  { year: "2027", title: "Echo Atlas", category: "Spatial / WebXR", role: "Concept · WebGL" },
+  { year: "2027", title: "Aura Void v2", category: "WebGL", role: "Creative Direction" },
+  { year: "2027", title: "CrackIt 3.0", category: "Product / AI", role: "Product · Engineering" },
   { year: "2025", title: "Terminal State", category: "Editorial", role: "Art Direction" },
   { year: "2025", title: "Monolith UI", category: "Design System", role: "Lead Engineer" },
   { year: "2025", title: "Kinetica", category: "Type / Motion", role: "Concept · Motion" },
@@ -789,7 +789,7 @@ export const experiments: ExperimentExtended[] = [
     title: "Fluid Dynamics Shader",
     summary:
       "Custom GLSL fragment shader implementing a lightweight Navier–Stokes simulation for interactive background distortions.",
-    meta: "GLSL · 2026",
+    meta: "GLSL · 2027",
   },
   {
     slug: "volumetric-lighting",
@@ -798,7 +798,7 @@ export const experiments: ExperimentExtended[] = [
     title: "Volumetric Lighting",
     summary:
       "Raymarching experiments focusing on soft shadows and atmospheric scattering through procedurally-generated fog volumes.",
-    meta: "Three.js · 2026",
+    meta: "Three.js · 2027",
   },
   {
     slug: "particle-systems",
@@ -807,7 +807,7 @@ export const experiments: ExperimentExtended[] = [
     title: "Particle Systems",
     summary:
       "GPGPU particle system with curl-noise advection, instanced rendering and 1.6M particles at 60fps.",
-    meta: "GPGPU · 2026",
+    meta: "GPGPU · 2027",
   },
   {
     slug: "variable-font-scroll",
@@ -843,7 +843,7 @@ export const experiments: ExperimentExtended[] = [
     title: "Shader Storm",
     summary:
       "A composable post-processing chain triggered by the Konami code. RGB shift, scanlines, hue cycling — layered live.",
-    meta: "Postprocessing · 2026",
+    meta: "Postprocessing · 2027",
   },
   {
     slug: "signed-distance-letters",
@@ -852,7 +852,7 @@ export const experiments: ExperimentExtended[] = [
     title: "Signed-Distance Letters",
     summary:
       "Glyphs rendered from a signed-distance field for crisp scaling, soft glow, and instant kerning experiments.",
-    meta: "SDF · 2026",
+    meta: "SDF · 2027",
   },
   {
     slug: "latency-canvas",
@@ -861,7 +861,7 @@ export const experiments: ExperimentExtended[] = [
     title: "Latency Canvas",
     summary:
       "A frame-pacing visualizer drawing your real input → pixel latency. Every dot is one frame, colored by jank.",
-    meta: "Performance · 2026",
+    meta: "Performance · 2027",
   },
   {
     slug: "reaction-diffusion",
@@ -870,7 +870,7 @@ export const experiments: ExperimentExtended[] = [
     title: "Reaction Diffusion",
     summary:
       "A Gray–Scott reaction-diffusion field running on a single canvas pass. Hover seeds chemistry continuously; click reseeds the field.",
-    meta: "Cellular · 2026",
+    meta: "Cellular · 2027",
   },
   {
     slug: "voronoi-cells",
@@ -879,7 +879,7 @@ export const experiments: ExperimentExtended[] = [
     title: "Voronoi Cells",
     summary:
       "A Voronoi tessellation of moving sites — the cursor adds a heavy site that warps the entire diagram in real time.",
-    meta: "Computational Geom · 2026",
+    meta: "Computational Geom · 2027",
   },
   {
     slug: "flow-field",
@@ -888,7 +888,7 @@ export const experiments: ExperimentExtended[] = [
     title: "Flow Field Vectors",
     summary:
       "A grid of arrows reading the curl of a procedural noise field. The cursor injects a local rotational bias into the flow.",
-    meta: "Curl Noise · 2026",
+    meta: "Curl Noise · 2027",
   },
   {
     slug: "lissajous-orbits",
@@ -897,7 +897,7 @@ export const experiments: ExperimentExtended[] = [
     title: "Lissajous Orbits",
     summary:
       "Layered Lissajous curves whose ratios shift with cursor position. The body of the page becomes the parametric instrument.",
-    meta: "Parametric · 2026",
+    meta: "Parametric · 2027",
   },
   {
     slug: "boids-flock",
@@ -906,7 +906,7 @@ export const experiments: ExperimentExtended[] = [
     title: "Boids Flock",
     summary:
       "Reynolds-style flocking — separation, alignment, cohesion. The cursor attracts the flock; hold ⇧ while moving to flip it into a predator.",
-    meta: "Agents · 2026",
+    meta: "Agents · 2027",
   },
   {
     slug: "wave-interference",
@@ -915,7 +915,7 @@ export const experiments: ExperimentExtended[] = [
     title: "Wave Interference",
     summary:
       "Concentric wavefronts emitted from multiple sources. The cursor is a live source; click to drop a permanent emitter and watch the interference fringe form.",
-    meta: "Wave Optics · 2026",
+    meta: "Wave Optics · 2027",
   },
   {
     slug: "kaleidoscope",
@@ -924,7 +924,7 @@ export const experiments: ExperimentExtended[] = [
     title: "Kaleidoscope Mirror",
     summary:
       "A six-fold mirrored brush. The cursor draws into one wedge and the geometry replicates around the centre with alternating chirality.",
-    meta: "Reflection · 2026",
+    meta: "Reflection · 2027",
   },
   {
     slug: "metaballs",
@@ -933,7 +933,7 @@ export const experiments: ExperimentExtended[] = [
     title: "Metaballs Field",
     summary:
       "A field of additive radial gradients approximating an iso-surface. Spheres float and merge softly; the cursor adds a bright bump that pulls the field with it.",
-    meta: "Implicit Surfaces · 2026",
+    meta: "Implicit Surfaces · 2027",
   },
 ];
 
@@ -1125,7 +1125,7 @@ export const journal: {
 }[] = [
   {
     slug: "flexible-page-transitions",
-    date: "2026.04.18",
+    date: "2027.04.18",
     title: "Flexible page transitions: borrowing from Patrick Heng",
     category: "Motion",
     excerpt:
@@ -1134,11 +1134,11 @@ export const journal: {
   },
   {
     slug: "scroll-as-a-medium",
-    date: "2026.02.02",
+    date: "2027.02.02",
     title: "Scroll as a medium, not a mechanic",
     category: "Scroll",
     excerpt:
-      "Reframing scroll: not a way to consume content faster, but a timeline you can choreograph. A taxonomy of scroll patterns we use at the studio in 2026.",
+      "Reframing scroll: not a way to consume content faster, but a timeline you can choreograph. A taxonomy of scroll patterns we use at the studio in 2027.",
     readingTime: "9 min read",
   },
   {
@@ -1179,7 +1179,7 @@ export const journal: {
   },
   {
     slug: "webgl-on-low-end-devices",
-    date: "2026.03.04",
+    date: "2027.03.04",
     title: "WebGL on low-end devices: graceful degradation playbook",
     category: "Performance",
     excerpt:
@@ -1188,7 +1188,7 @@ export const journal: {
   },
   {
     slug: "command-palettes-arent-just-for-devs",
-    date: "2026.01.09",
+    date: "2027.01.09",
     title: "Command palettes aren’t just for devs",
     category: "UI",
     excerpt:
@@ -1246,7 +1246,7 @@ export const milestones: { year: string; title: string; body: string }[] = [
     body: "Brought on a motion designer, a 3D artist, and a producer. Shipped Terminal State and Monolith UI back-to-back.",
   },
   {
-    year: "2026",
+    year: "2027",
     title: "Halcyon OS + Echo Atlas",
     body: "Two ambitious products in active development. Aura Void v2 launches in Q3.",
   },
@@ -1258,7 +1258,7 @@ export const nowFeed: { tag: string; line: string }[] = [
   { tag: "READING", line: "‘Designing Sound’ — Andy Farnell" },
   { tag: "LISTENING", line: "Floating Points — Cascade" },
   { tag: "OBSESSING OVER", line: "the way Patrick Heng times his curtain wipes" },
-  { tag: "BOOKING", line: "Q4 ’26 → Q2 ’27 — two slots open" },
+  { tag: "BOOKING", line: "Q2 ’27 → Q4 ’27 — two slots open" },
 ];
 
 export const expertise = [
@@ -1289,6 +1289,8 @@ export const reelClips: {
   duration: string;
   topic: "Build" | "Concept" | "Reflection";
   body: string;
+  videoSrc: string;
+  poster: string;
 }[] = [
   {
     index: "01",
@@ -1296,6 +1298,10 @@ export const reelClips: {
     duration: "00:24",
     topic: "Build",
     body: "Why one well-tuned fbm function carried an entire site — and how to fall back when the GPU can’t hang.",
+    videoSrc:
+      "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4",
+    poster:
+      "https://images.unsplash.com/photo-1638272181967-7d3772a91265?auto=format&fit=crop&w=1600&q=80",
   },
   {
     index: "02",
@@ -1303,6 +1309,10 @@ export const reelClips: {
     duration: "00:31",
     topic: "Concept",
     body: "Predictive outlines should fade in like mist, not interrupt. The motion system that makes that possible.",
+    videoSrc:
+      "https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_1MB.mp4",
+    poster:
+      "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1600&q=80",
   },
   {
     index: "03",
@@ -1310,13 +1320,21 @@ export const reelClips: {
     duration: "00:42",
     topic: "Build",
     body: "WebXR-ready, but designed first for keyboard + mouse. Spatial audio steered by cursor + gaze.",
+    videoSrc:
+      "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_2MB.mp4",
+    poster:
+      "https://images.unsplash.com/photo-1614849963640-9cc74b2a826f?auto=format&fit=crop&w=1600&q=80",
   },
   {
     index: "04",
-    title: "On craft, in 2026",
+    title: "On craft, in 2027",
     duration: "00:58",
     topic: "Reflection",
-    body: "Why I think portfolios should still be slow to load — if the seconds you spend feel earned.",
+    body: "Why portfolios in 2027 should still be slow to load — if the seconds you spend feel earned.",
+    videoSrc:
+      "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_640x360.m4v",
+    poster:
+      "https://images.unsplash.com/photo-1617791160505-6f00504e3519?auto=format&fit=crop&w=1600&q=80",
   },
 ];
 
@@ -1360,7 +1378,7 @@ export const testimonials: Testimonial[] = [
 
 export const githubFallback: { sha: string; repo: string; message: string; ago: string }[] = [
   { sha: "a1f4c2", repo: "creative-folio", message: "feat(layout): flexible route curtain with destination text", ago: "2h" },
-  { sha: "3b9e02", repo: "creative-folio", message: "chore(content): refresh dates + projects for 2026", ago: "5h" },
+  { sha: "3b9e02", repo: "creative-folio", message: "chore(content): refresh dates + projects for 2027", ago: "5h" },
   { sha: "7c1ab3", repo: "halcyon-os", message: "feat(editor): outline ambient fade + scrub timeline", ago: "1d" },
   { sha: "e520fd", repo: "echo-atlas", message: "experiment: binaural HRTF panning per city ward", ago: "2d" },
   { sha: "9d44ee", repo: "creative-folio", message: "feat(404): particle field with cursor flocking", ago: "3d" },

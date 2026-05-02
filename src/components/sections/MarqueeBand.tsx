@@ -2,7 +2,7 @@ import { Marquee } from "@/components/ui/Marquee";
 
 export function MarqueeBand() {
   return (
-    <section className="border-y border-warmwhite/10 bg-ink-950 py-10 md:py-12">
+    <section className="border-y border-warmwhite/15 bg-ink-950 py-10 md:py-12">
       <Marquee
         size="lg"
         speed={55}

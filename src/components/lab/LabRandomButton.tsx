@@ -44,7 +44,7 @@ export function LabRandomButton({ slugs }: { slugs: string[] }) {
         className="inline-block h-2 w-2 rotate-45 bg-electric transition-transform group-hover:rotate-[225deg]"
       />
       Random experiment
-      <span className="font-mono text-[9px] text-warmwhite/45">R</span>
+      <span className="font-mono text-[9px] text-warmwhite/65">R</span>
     </button>
   );
 }

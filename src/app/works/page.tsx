@@ -30,7 +30,7 @@ export default function WorksPage() {
 
       <section className="relative bg-ink-900 py-16 md:py-24">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-          <ul className="grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/10 md:grid-cols-2">
+          <ul className="grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-2">
             {works.map((w, i) => (
               <Reveal key={w.slug} delay={i * 0.05}>
                 <li className="bg-ink-900">
@@ -95,7 +95,7 @@ export default function WorksPage() {
         </div>
       </section>
 
-      <section className="border-t border-warmwhite/10 bg-ink-950 py-28 md:py-40">
+      <section className="border-t border-warmwhite/15 bg-ink-950 py-28 md:py-40">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
           <header className="flex items-end justify-between">
             <h2 className="font-serif text-[clamp(2rem,5vw,4.5rem)] leading-none tracking-tightest">
@@ -108,22 +108,22 @@ export default function WorksPage() {
               Full Archive →
             </Link>
           </header>
-          <ul className="mt-10 divide-y divide-warmwhite/10 border-y border-warmwhite/10">
+          <ul className="mt-10 divide-y divide-warmwhite/15 border-y border-warmwhite/15">
             {archive.slice(0, 6).map((a, i) => (
               <li
                 key={i}
                 className="grid grid-cols-12 items-baseline gap-3 py-5 font-sans text-sm text-warmwhite/75"
               >
-                <span className="col-span-2 font-mono text-[11px] uppercase tracking-widest text-warmwhite/50">
+                <span className="col-span-2 font-mono text-[11px] uppercase tracking-widest text-warmwhite/65">
                   {a.year}
                 </span>
                 <span className="col-span-5 font-serif text-2xl tracking-tighter text-warmwhite">
                   {a.title}
                 </span>
-                <span className="col-span-3 text-[11px] uppercase tracking-widest text-warmwhite/50">
+                <span className="col-span-3 text-[11px] uppercase tracking-widest text-warmwhite/65">
                   {a.category}
                 </span>
-                <span className="col-span-2 text-right text-[11px] uppercase tracking-widest text-warmwhite/45">
+                <span className="col-span-2 text-right text-[11px] uppercase tracking-widest text-warmwhite/65">
                   {a.role}
                 </span>
               </li>

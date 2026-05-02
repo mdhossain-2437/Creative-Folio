@@ -104,7 +104,7 @@ export default function UsesPage() {
         italic="actually use."
         description="The opinionated answer to ‘what's your setup?’ — the editor, hardware, fonts, and dev tools that pull their weight in 2026. Refreshed each year."
         meta={[
-          { label: "Edition", value: "MMXXVI" },
+          { label: "Edition", value: "MMXXVII" },
           { label: "Refreshed", value: "Q2" },
           { label: "Replaces", value: "uses-2025.md" },
           { label: "Inspired by", value: "uses.tech" },
@@ -117,10 +117,10 @@ export default function UsesPage() {
             {groups.map((group) => (
               <div
                 key={group.title}
-                className="grid grid-cols-1 gap-10 border-t border-warmwhite/10 pt-10 md:grid-cols-12"
+                className="grid grid-cols-1 gap-10 border-t border-warmwhite/15 pt-10 md:grid-cols-12"
               >
                 <div className="md:col-span-3">
-                  <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+                  <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                     {group.eyebrow}
                   </p>
                   <h2 className="mt-3 break-words font-serif text-3xl tracking-tighter md:text-4xl">
@@ -131,7 +131,7 @@ export default function UsesPage() {
                   {group.items.map((item) => (
                     <li
                       key={`${group.title}-${item.name}`}
-                      className="border-t border-warmwhite/10 pt-4"
+                      className="border-t border-warmwhite/15 pt-4"
                     >
                       <p className="font-serif text-xl tracking-tight text-warmwhite md:text-2xl">
                         {item.href ? (
@@ -163,9 +163,9 @@ export default function UsesPage() {
         </div>
       </section>
 
-      <section className="border-t border-warmwhite/10 bg-ink-950 py-20 md:py-28">
+      <section className="border-t border-warmwhite/15 bg-ink-950 py-20 md:py-28">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-          <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+          <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
             ◊ Caveat
           </p>
           <h3 className="mt-4 max-w-3xl font-serif text-[clamp(1.6rem,3vw,2.6rem)] leading-[1.18] tracking-tight">

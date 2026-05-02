@@ -185,8 +185,8 @@ export function CommandPalette() {
         className="cmdk-mask absolute inset-0 cursor-default"
       />
       <div className="relative z-10 w-full max-w-xl overflow-hidden rounded-2xl border border-warmwhite/15 bg-ink-900/95 shadow-2xl backdrop-blur">
-        <div className="flex items-center gap-3 border-b border-warmwhite/10 px-5 py-4">
-          <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/40">⌘K · /</span>
+        <div className="flex items-center gap-3 border-b border-warmwhite/15 px-5 py-4">
+          <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">⌘K · /</span>
           <input
             ref={inputRef}
             value={query}
@@ -200,7 +200,7 @@ export function CommandPalette() {
         </div>
         <ul className="max-h-[55vh] overflow-y-auto py-2">
           {filtered.length === 0 && (
-            <li className="px-5 py-3 font-sans text-[12px] uppercase tracking-widest text-warmwhite/40">
+            <li className="px-5 py-3 font-sans text-[12px] uppercase tracking-widest text-warmwhite/65">
               No matches.
             </li>
           )}
@@ -210,20 +210,20 @@ export function CommandPalette() {
                 onMouseEnter={() => setActive(i)}
                 onClick={() => run(it)}
                 className={`flex w-full items-center justify-between px-5 py-2.5 text-left font-sans text-sm ${
-                  active === i ? "bg-warmwhite/10 text-warmwhite" : "text-warmwhite/75"
+                  active === i ? "bg-warmwhite/15 text-warmwhite" : "text-warmwhite/75"
                 }`}
               >
                 <span>{it.label}</span>
-                <span className="font-mono text-[10px] uppercase tracking-widest text-warmwhite/40">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-warmwhite/65">
                   {it.kind.toUpperCase()} · {it.hint}
                 </span>
               </button>
             </li>
           ))}
         </ul>
-        <div className="flex items-center justify-between border-t border-warmwhite/10 px-5 py-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/40">
+        <div className="flex items-center justify-between border-t border-warmwhite/15 px-5 py-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
           <span>↑/↓ navigate · ↵ select · esc close</span>
-          <span>Delowar.dev · MMXXVI</span>
+          <span>delowarhossain.dev · MMXXVII</span>
         </div>
       </div>
     </div>

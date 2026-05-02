@@ -41,15 +41,15 @@ export function LabPlaygroundHints() {
       <kbd className="rounded border border-warmwhite/15 bg-ink-950 px-1.5 py-0.5 text-warmwhite/80">
         J
       </kbd>
-      <span className="text-warmwhite/45">next</span>
+      <span className="text-warmwhite/65">next</span>
       <kbd className="rounded border border-warmwhite/15 bg-ink-950 px-1.5 py-0.5 text-warmwhite/80">
         K
       </kbd>
-      <span className="text-warmwhite/45">prev</span>
+      <span className="text-warmwhite/65">prev</span>
       <kbd className="rounded border border-warmwhite/15 bg-ink-950 px-1.5 py-0.5 text-warmwhite/80">
         F
       </kbd>
-      <span className="text-warmwhite/45">fullscreen</span>
+      <span className="text-warmwhite/65">fullscreen</span>
     </div>
   );
 }

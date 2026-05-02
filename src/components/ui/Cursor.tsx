@@ -57,7 +57,7 @@ export function Cursor() {
   }, []);
 
   return (
-    <div className="cursor-shell pointer-events-none fixed inset-0 z-[100] hidden md:block">
+    <div className="cursor-shell pointer-events-none fixed inset-0 z-[200] hidden md:block">
       <div
         ref={dotRef}
         className="absolute left-0 top-0 h-1.5 w-1.5 rounded-full bg-warmwhite mix-blend-difference"
@@ -70,7 +70,7 @@ export function Cursor() {
             : variant === "view"
             ? "h-24 w-24 bg-peach text-ink-900"
             : variant === "drag"
-            ? "h-28 w-28 bg-warmwhite/10 text-warmwhite"
+            ? "h-28 w-28 bg-warmwhite/15 text-warmwhite"
             : "h-9 w-9 bg-transparent text-warmwhite"
         }`}
       >

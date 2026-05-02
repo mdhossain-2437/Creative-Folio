@@ -39,13 +39,13 @@ export default function JournalPage() {
               <span>RSS / Atom feed</span>
             </Link>
           </div>
-          <div className="grid grid-cols-12 items-baseline gap-3 border-b border-warmwhite/10 pb-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+          <div className="grid grid-cols-12 items-baseline gap-3 border-b border-warmwhite/15 pb-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
             <span className="col-span-2">Date</span>
             <span className="col-span-7">Title</span>
             <span className="col-span-2">Category</span>
             <span className="col-span-1 text-right">Read</span>
           </div>
-          <ul className="divide-y divide-warmwhite/10">
+          <ul className="divide-y divide-warmwhite/15">
             {journal.map((p, i) => (
               <Reveal key={p.slug} delay={i * 0.04}>
                 <li>
@@ -55,13 +55,13 @@ export default function JournalPage() {
                     data-cursor-label="READ"
                     className="grid grid-cols-12 items-baseline gap-3 py-8 transition-colors hover:bg-warmwhite/[0.02]"
                   >
-                    <span className="col-span-2 font-mono text-[11px] uppercase tracking-widest text-warmwhite/50">
+                    <span className="col-span-2 font-mono text-[11px] uppercase tracking-widest text-warmwhite/65">
                       {p.date}
                     </span>
                     <span className="col-span-7 font-serif text-2xl leading-tight tracking-tighter md:text-3xl">
                       {p.title}
                     </span>
-                    <span className="col-span-2 font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+                    <span className="col-span-2 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                       {p.category}
                     </span>
                     <span className="col-span-1 text-right font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">

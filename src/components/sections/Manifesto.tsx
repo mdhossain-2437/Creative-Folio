@@ -2,9 +2,9 @@ import { Reveal } from "@/components/ui/Reveal";
 
 export function Manifesto() {
   return (
-    <section className="relative border-t border-warmwhite/10 bg-ink-900 py-28 md:py-40">
+    <section className="relative border-t border-warmwhite/15 bg-ink-900 py-28 md:py-40">
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-        <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+        <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
           §01 — Manifesto
         </p>
         <Reveal>
@@ -20,7 +20,7 @@ export function Manifesto() {
           </p>
         </Reveal>
 
-        <div className="mt-16 grid grid-cols-1 gap-10 border-t border-warmwhite/10 pt-10 md:grid-cols-3 md:gap-16">
+        <div className="mt-16 grid grid-cols-1 gap-10 border-t border-warmwhite/15 pt-10 md:grid-cols-3 md:gap-16">
           <Pillar
             tag="Direction"
             title="Editorial Restraint"
@@ -44,8 +44,8 @@ export function Manifesto() {
 
 function Pillar({ tag, title, body }: { tag: string; title: string; body: string }) {
   return (
-    <Reveal className="border-t border-warmwhite/10 pt-6">
-      <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">{tag}</p>
+    <Reveal className="border-t border-warmwhite/15 pt-6">
+      <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">{tag}</p>
       <h3 className="mt-4 font-serif text-3xl tracking-tightest">{title}</h3>
       <p className="mt-3 font-sans text-sm leading-relaxed text-warmwhite/65">{body}</p>
     </Reveal>

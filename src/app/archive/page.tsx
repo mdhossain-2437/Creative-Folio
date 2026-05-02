@@ -42,13 +42,13 @@ export default function ArchivePage() {
 
       <section className="bg-ink-900 py-16 md:py-24">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-          <div className="grid grid-cols-12 items-baseline gap-3 border-b border-warmwhite/10 pb-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+          <div className="grid grid-cols-12 items-baseline gap-3 border-b border-warmwhite/15 pb-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
             <span className="col-span-2">Year</span>
             <span className="col-span-5">Title</span>
             <span className="col-span-3">Category</span>
             <span className="col-span-2 text-right">Role</span>
           </div>
-          <ul className="divide-y divide-warmwhite/10">
+          <ul className="divide-y divide-warmwhite/15">
             {all.map((a, i) => (
               <Reveal key={`${a.title}-${i}`} delay={i * 0.02}>
                 <li>
@@ -98,7 +98,7 @@ function Row({
       <span className="col-span-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
         {category}
       </span>
-      <span className="col-span-2 text-right font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+      <span className="col-span-2 text-right font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
         {role}
       </span>
     </>

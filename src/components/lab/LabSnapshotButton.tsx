@@ -14,7 +14,7 @@ export function LabSnapshotButton({ slug }: { slug: string }) {
     >
       <span aria-hidden className="-mt-px text-[12px] leading-none">⤓</span>
       <span>Save PNG</span>
-      <span aria-hidden className="ml-1 rounded bg-warmwhite/10 px-1.5 py-0.5 text-[9px] tracking-widest text-warmwhite/55 group-hover:bg-warmwhite/15">
+      <span aria-hidden className="ml-1 rounded bg-warmwhite/15 px-1.5 py-0.5 text-[9px] tracking-widest text-warmwhite/55 group-hover:bg-warmwhite/15">
         D
       </span>
     </button>
