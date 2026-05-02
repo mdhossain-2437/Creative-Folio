@@ -99,7 +99,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <main id="main-content">{children}</main>
           </RouteCurtain>
           <MaskFooter>
-            <Footer />
+            <Footer
+              commitSha={process.env.VERCEL_GIT_COMMIT_SHA}
+              buildTime={process.env.VERCEL_DEPLOYMENT_ID ? new Date().toISOString().slice(0, 10) : undefined}
+            />
           </MaskFooter>
           <ShowreelPill />
           <ScrollToTop />
