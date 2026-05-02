@@ -6,12 +6,14 @@ import { site } from "@/lib/site";
 import { applyMotion } from "@/components/ui/MotionToggle";
 import { pushToast } from "@/components/ui/Toast";
 import { unlock } from "@/lib/achievements";
+import { journal, experiments } from "@/lib/data";
 
 type Item = {
   id: string;
   label: string;
   hint?: string;
-  kind: "route" | "action";
+  kind: "route" | "action" | "journal" | "lab";
+  haystack?: string;
 };
 
 export function CommandPalette() {
@@ -43,13 +45,32 @@ export function CommandPalette() {
       hint: a.hint,
       kind: "action",
     }));
-    return [...routes, ...extras, ...actions];
+    const posts: Item[] = journal.map((p) => ({
+      id: `journal:${p.slug}`,
+      label: p.title,
+      hint: `/journal/${p.slug}`,
+      kind: "journal",
+      haystack: `${p.title} ${p.category} ${p.excerpt}`.toLowerCase(),
+    }));
+    const labs: Item[] = experiments.map((e) => ({
+      id: `lab:${e.slug}`,
+      label: e.title,
+      hint: `/lab/${e.slug}`,
+      kind: "lab",
+      haystack: `${e.title} ${e.category} ${e.summary}`.toLowerCase(),
+    }));
+    return [...routes, ...extras, ...actions, ...posts, ...labs];
   }, []);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return items;
-    return items.filter((it) => it.label.toLowerCase().includes(q) || (it.hint ?? "").toLowerCase().includes(q));
+    if (!q) return items.filter((it) => it.kind === "route" || it.kind === "action");
+    return items.filter(
+      (it) =>
+        it.label.toLowerCase().includes(q) ||
+        (it.hint ?? "").toLowerCase().includes(q) ||
+        (it.haystack ?? "").includes(q)
+    );
   }, [items, query]);
 
   useEffect(() => {
@@ -103,7 +124,7 @@ export function CommandPalette() {
 
   const run = (item: Item) => {
     setOpen(false);
-    if (item.kind === "route" && item.hint) {
+    if ((item.kind === "route" || item.kind === "journal" || item.kind === "lab") && item.hint) {
       router.push(item.hint);
       return;
     }
@@ -170,7 +191,7 @@ export function CommandPalette() {
               setQuery(e.target.value);
               setActive(0);
             }}
-            placeholder="Jump to a route, copy email, toggle grid…"
+            placeholder="Jump anywhere, search posts &amp; experiments, copy email…"
             className="flex-1 bg-transparent font-serif text-xl text-warmwhite outline-none placeholder:text-warmwhite/30"
           />
         </div>
@@ -191,7 +212,7 @@ export function CommandPalette() {
               >
                 <span>{it.label}</span>
                 <span className="font-mono text-[10px] uppercase tracking-widest text-warmwhite/40">
-                  {it.kind === "route" ? "ROUTE" : "ACTION"} · {it.hint}
+                  {it.kind.toUpperCase()} · {it.hint}
                 </span>
               </button>
             </li>
