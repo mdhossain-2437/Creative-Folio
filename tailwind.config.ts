@@ -41,6 +41,7 @@ const config: Config = {
         flicker: "flicker 5s linear infinite",
         "digit-roll": "digitRoll 6s steps(10, end) infinite",
         "pulse-soft": "pulseSoft 4s ease-in-out infinite",
+        "toast-in": "toastIn 360ms cubic-bezier(0.22, 1, 0.36, 1)",
       },
       keyframes: {
         marquee: {
@@ -60,6 +61,10 @@ const config: Config = {
         pulseSoft: {
           "0%,100%": { opacity: "0.55" },
           "50%": { opacity: "1" },
+        },
+        toastIn: {
+          "0%": { transform: "translateY(8px)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
         },
       },
     },

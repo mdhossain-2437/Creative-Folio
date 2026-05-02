@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { PageHero } from "@/components/layout/PageHero";
 import { LabDemo } from "@/components/lab/LabDemo";
+import { LabVisitTracker } from "@/components/lab/LabVisitTracker";
 import { experiments } from "@/lib/data";
 
 export const dynamicParams = false;
@@ -240,6 +241,7 @@ export default async function LabSlug({
 
   return (
     <>
+      <LabVisitTracker slug={exp.slug} allSlugs={experiments.map((e) => e.slug)} />
       <PageHero
         eyebrow={`§02.${exp.index} — Lab Playground`}
         title={exp.title.split(" ")[0]}

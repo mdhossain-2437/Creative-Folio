@@ -1,11 +1,51 @@
 "use client";
 
 import Link from "next/link";
+import { useRef } from "react";
 import { Marquee } from "@/components/ui/Marquee";
 import { MotionToggle } from "@/components/ui/MotionToggle";
 import { site } from "@/lib/site";
+import { pushToast } from "@/components/ui/Toast";
+import { unlock } from "@/lib/achievements";
 
 export function Footer() {
+  const tripleRef = useRef<{ count: number; last: number }>({ count: 0, last: 0 });
+
+  const handleWordmarkClick = () => {
+    const now = performance.now();
+    const t = tripleRef.current;
+    if (now - t.last > 600) t.count = 0;
+    t.count += 1;
+    t.last = now;
+    if (t.count >= 3) {
+      t.count = 0;
+      unlock("trickster");
+    }
+  };
+
+  const handleCopyEmail = () => {
+    if (typeof navigator === "undefined") return;
+    navigator.clipboard
+      ?.writeText(site.email)
+      .then(() => {
+        pushToast({
+          id: "copy-email",
+          title: "Email copied",
+          description: site.email,
+          variant: "success",
+        });
+        unlock("scribe");
+      })
+      .catch(() =>
+        pushToast({
+          id: "copy-email-fail",
+          title: "Couldn't copy",
+          description: "Browser blocked clipboard access.",
+          variant: "info",
+        })
+      );
+  };
+
   return (
     <footer className="relative mt-24 border-t border-warmwhite/10 bg-ink-950 pb-10 pt-24">
       <div className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-warmwhite/30 to-transparent" />
@@ -20,15 +60,27 @@ export function Footer() {
               <span className="block italic text-warmwhite/60">Have an idea?</span>
               <span className="block">Let&apos;s build it.</span>
             </h2>
-            <Link
-              href="/contact"
-              data-cursor="hover"
-              data-cursor-label="WRITE"
-              className="mt-10 inline-flex items-center gap-3 rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-warmwhite hover:border-warmwhite hover:bg-warmwhite hover:text-ink-900"
-            >
-              {site.email}
-              <span aria-hidden>↗</span>
-            </Link>
+            <div className="mt-10 flex flex-wrap items-center gap-3">
+              <Link
+                href="/contact"
+                data-cursor="hover"
+                data-cursor-label="WRITE"
+                className="inline-flex items-center gap-3 rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-warmwhite hover:border-warmwhite hover:bg-warmwhite hover:text-ink-900"
+              >
+                {site.email}
+                <span aria-hidden>↗</span>
+              </Link>
+              <button
+                type="button"
+                onClick={handleCopyEmail}
+                data-cursor="hover"
+                data-cursor-label="COPY"
+                aria-label="Copy email address"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-warmwhite/20 font-mono text-xs text-warmwhite/70 transition-colors hover:border-peach/60 hover:text-warmwhite"
+              >
+                ⎘
+              </button>
+            </div>
           </div>
           <div className="grid grid-cols-2 gap-8 lg:col-span-5 lg:grid-cols-3">
             <FooterCol title="Pages" items={site.nav} />
@@ -67,7 +119,18 @@ export function Footer() {
         </div>
 
         <div className="mt-14 grid grid-cols-1 gap-4 font-sans text-[10px] uppercase tracking-widest text-warmwhite/40 md:grid-cols-12 md:items-center">
-          <p className="md:col-span-4">© {new Date().getFullYear()} {site.studio}. All rights reserved.</p>
+          <p className="md:col-span-4">
+            © {new Date().getFullYear()}{" "}
+            <button
+              type="button"
+              onClick={handleWordmarkClick}
+              className="cursor-default uppercase tracking-widest text-warmwhite/55 transition-colors hover:text-warmwhite/80"
+              aria-label="Studio mark"
+            >
+              {site.studio}
+            </button>
+            . All rights reserved.
+          </p>
           <p className="md:col-span-5 md:text-center display-num">
             Lat. 25.10° N · Long. 89.02° E · {site.location}
           </p>

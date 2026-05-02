@@ -1,15 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { unlock } from "@/lib/achievements";
 
 const SHORTCUTS: { keys: string[]; label: string }[] = [
   { keys: ["⌘", "K"], label: "Open command palette" },
   { keys: ["⌘", "⇧", "G"], label: "Toggle grid overlay" },
   { keys: ["?"], label: "Open this shortcut sheet" },
   { keys: ["Esc"], label: "Close any modal / overlay" },
+  { keys: ["G", "→", "Key"], label: "Jump anywhere — h, w, l, p, a, r, j, s, c, n, t" },
+  { keys: ["M"], label: "Toggle calmer motion" },
+  { keys: ["R"], label: "On /lab — open a random experiment" },
   { keys: ["↑", "↑", "↓", "↓", "←", "→", "←", "→", "B", "A"], label: "Konami — shader storm" },
   { keys: ["Tab"], label: "Walk focus through navigation" },
-  { keys: ["R"], label: "Reload showreel modal (when open)" },
   { keys: ["Click", "Reel"], label: "Open the showreel" },
 ];
 
@@ -21,7 +24,11 @@ export function CheatSheet() {
       const editable = ["input", "textarea", "select"].includes(tag);
       if (!editable && e.key === "?" && !e.metaKey && !e.ctrlKey) {
         e.preventDefault();
-        setOpen((p) => !p);
+        setOpen((p) => {
+          const next = !p;
+          if (next) unlock("power-user");
+          return next;
+        });
         return;
       }
       if (e.key === "Escape") setOpen(false);

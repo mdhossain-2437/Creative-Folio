@@ -7,6 +7,11 @@ const ShaderStorm = dynamic(() => import("@/components/ui/ShaderStorm").then((m)
 const CommandPalette = dynamic(() => import("@/components/ui/CommandPalette").then((m) => m.CommandPalette), { ssr: false });
 const CheatSheet = dynamic(() => import("@/components/ui/CheatSheet").then((m) => m.CheatSheet), { ssr: false });
 const ShowreelModal = dynamic(() => import("@/components/ui/ShowreelModal").then((m) => m.ShowreelModal), { ssr: false });
+const ToastHost = dynamic(() => import("@/components/ui/Toast").then((m) => m.ToastHost), { ssr: false });
+const NavShortcuts = dynamic(() => import("@/components/ui/NavShortcuts").then((m) => m.NavShortcuts), { ssr: false });
+const KonamiHint = dynamic(() => import("@/components/ui/KonamiHint").then((m) => m.KonamiHint), { ssr: false });
+const ConsoleBanner = dynamic(() => import("@/components/ui/ConsoleBanner").then((m) => m.ConsoleBanner), { ssr: false });
+const FaviconAnimator = dynamic(() => import("@/components/ui/FaviconAnimator").then((m) => m.FaviconAnimator), { ssr: false });
 
 export function ClientOverlays() {
   return (
@@ -16,6 +21,11 @@ export function ClientOverlays() {
       <CommandPalette />
       <CheatSheet />
       <ShowreelModal />
+      <ToastHost />
+      <NavShortcuts />
+      <KonamiHint />
+      <ConsoleBanner />
+      <FaviconAnimator />
     </>
   );
 }
