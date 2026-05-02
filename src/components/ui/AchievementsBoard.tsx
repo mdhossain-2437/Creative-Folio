@@ -21,6 +21,7 @@ const HINTS: Record<AchievementId, string> = {
   tinkerer: "Read the /uses page end to end.",
   snapshotter: "Press D inside any /lab/<slug> playground.",
   curator: "Open the studio changelog.",
+  designer: "Click any swatch on the /colors page to copy its hex.",
 };
 
 const RARITY: Record<AchievementId, "common" | "rare" | "legendary"> = {
@@ -34,6 +35,7 @@ const RARITY: Record<AchievementId, "common" | "rare" | "legendary"> = {
   "true-believer": "rare",
   tinkerer: "common",
   curator: "common",
+  designer: "common",
   snapshotter: "rare",
   "lab-rat": "legendary",
   "shader-storm": "legendary",
