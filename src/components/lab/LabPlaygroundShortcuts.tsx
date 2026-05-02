@@ -4,6 +4,7 @@
 //   J / ]  → next experiment
 //   K / [  → previous experiment
 //   F      → toggle fullscreen on the playground canvas (selector: data-lab-stage)
+//   D      → download the current canvas frame as a PNG snapshot
 //
 // Standalone keys, ignored when typing in editable elements or when modifiers
 // are held (so the existing G+key chord still works on these pages).
@@ -11,6 +12,50 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { pushToast } from "@/components/ui/Toast";
+import { unlock } from "@/lib/achievements";
+
+export function snapshotLabStage(slug: string): boolean {
+  const stage = document.querySelector<HTMLElement>("[data-lab-stage]");
+  const canvas = stage?.querySelector<HTMLCanvasElement>("canvas");
+  if (!canvas) {
+    pushToast({
+      id: "lab-snap-miss",
+      title: "Nothing to snapshot",
+      description: "This experiment isn't a canvas.",
+      variant: "info",
+      duration: 1800,
+    });
+    return false;
+  }
+  try {
+    const url = canvas.toDataURL("image/png");
+    const a = document.createElement("a");
+    a.href = url;
+    const stamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
+    a.download = `delowar-lab-${slug}-${stamp}.png`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    pushToast({
+      id: `lab-snap:${slug}`,
+      title: "Snapshot saved",
+      description: a.download,
+      variant: "success",
+      duration: 2200,
+    });
+    unlock("snapshotter");
+    return true;
+  } catch {
+    pushToast({
+      id: "lab-snap-fail",
+      title: "Snapshot failed",
+      description: "Browser blocked the canvas export.",
+      variant: "info",
+      duration: 1800,
+    });
+    return false;
+  }
+}
 
 function isEditable(): boolean {
   const tag = (document.activeElement?.tagName || "").toLowerCase();
@@ -77,6 +122,9 @@ export function LabPlaygroundShortcuts({
             });
           });
         }
+      } else if (!e.shiftKey && (key === "d" || key === "D")) {
+        e.preventDefault();
+        snapshotLabStage(slug);
       }
     };
 

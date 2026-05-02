@@ -6,6 +6,7 @@ import { LabDemo } from "@/components/lab/LabDemo";
 import { LabVisitTracker } from "@/components/lab/LabVisitTracker";
 import { LabPlaygroundShortcuts } from "@/components/lab/LabPlaygroundShortcuts";
 import { LabPlaygroundHints } from "@/components/lab/LabPlaygroundHints";
+import { LabSnapshotButton } from "@/components/lab/LabSnapshotButton";
 import { experiments } from "@/lib/data";
 
 export const dynamicParams = false;
@@ -318,6 +319,9 @@ export default async function LabSlug({
               <span>{exp.meta}</span>
               <span aria-hidden>·</span>
               <span>60 fps target</span>
+            </div>
+            <div className="absolute right-6 top-6">
+              <LabSnapshotButton slug={exp.slug} />
             </div>
           </div>
         </div>
