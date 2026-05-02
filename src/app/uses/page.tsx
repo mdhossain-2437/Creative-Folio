@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
+import { UsesVisitTracker } from "@/components/uses/UsesVisitTracker";
 
 export const metadata: Metadata = {
   title: "Uses — Setup & Tooling",
@@ -96,6 +97,7 @@ const groups: Group[] = [
 export default function UsesPage() {
   return (
     <>
+      <UsesVisitTracker />
       <PageHero
         eyebrow="§ 03 — Uses"
         title="What I"

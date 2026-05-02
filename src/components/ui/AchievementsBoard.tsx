@@ -18,6 +18,7 @@ const HINTS: Record<AchievementId, string> = {
   "console-cowboy": "Open the developer tools.",
   trickster: "The wordmark in the footer responds to a knock.",
   "true-believer": "Type the studio's first name. Anywhere not in a text field.",
+  tinkerer: "Read the /uses page end to end.",
 };
 
 const RARITY: Record<AchievementId, "common" | "rare" | "legendary"> = {
@@ -29,6 +30,7 @@ const RARITY: Record<AchievementId, "common" | "rare" | "legendary"> = {
   "console-cowboy": "rare",
   trickster: "rare",
   "true-believer": "rare",
+  tinkerer: "common",
   "lab-rat": "legendary",
   "shader-storm": "legendary",
 };
