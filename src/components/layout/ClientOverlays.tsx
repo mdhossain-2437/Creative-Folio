@@ -16,6 +16,8 @@ const Spotlight = dynamic(() => import("@/components/ui/Spotlight").then((m) => 
 const SecretWordWatcher = dynamic(() => import("@/components/ui/SecretWordWatcher").then((m) => m.SecretWordWatcher), { ssr: false });
 const ShareShortcut = dynamic(() => import("@/components/ui/ShareShortcut").then((m) => m.ShareShortcut), { ssr: false });
 const ScrollProgress = dynamic(() => import("@/components/ui/ScrollProgress").then((m) => m.ScrollProgress), { ssr: false });
+const TabTitleFlicker = dynamic(() => import("@/components/ui/TabTitleFlicker").then((m) => m.TabTitleFlicker), { ssr: false });
+const FirstVisitNudge = dynamic(() => import("@/components/ui/FirstVisitNudge").then((m) => m.FirstVisitNudge), { ssr: false });
 
 export function ClientOverlays() {
   return (
@@ -34,6 +36,8 @@ export function ClientOverlays() {
       <SecretWordWatcher />
       <ShareShortcut />
       <ScrollProgress />
+      <TabTitleFlicker />
+      <FirstVisitNudge />
     </>
   );
 }
