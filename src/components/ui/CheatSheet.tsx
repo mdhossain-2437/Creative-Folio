@@ -57,7 +57,7 @@ export function CheatSheet() {
       >
         <div className="flex items-end justify-between">
           <div>
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
               ◊ Shortcuts
             </p>
             <p className="mt-2 font-serif text-3xl tracking-tight text-warmwhite">
@@ -74,7 +74,7 @@ export function CheatSheet() {
             Close · Esc
           </button>
         </div>
-        <ul className="mt-8 divide-y divide-warmwhite/10 border-y border-warmwhite/10">
+        <ul className="mt-8 divide-y divide-warmwhite/15 border-y border-warmwhite/15">
           {SHORTCUTS.map((s) => (
             <li key={s.label} className="flex items-center justify-between py-3">
               <span className="font-sans text-sm text-warmwhite/80">{s.label}</span>
@@ -91,7 +91,7 @@ export function CheatSheet() {
             </li>
           ))}
         </ul>
-        <p className="mt-6 font-sans text-[10px] uppercase tracking-widest text-warmwhite/40">
+        <p className="mt-6 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
           Press ? again to dismiss
         </p>
       </div>

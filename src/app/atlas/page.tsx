@@ -34,7 +34,7 @@ const GROUP_COLOR: Record<string, string> = {
   works: "text-electric",
   lab: "text-warmwhite/80",
   journal: "text-warmwhite/70",
-  legal: "text-warmwhite/40",
+  legal: "text-warmwhite/65",
 };
 
 export default function AtlasPage() {
@@ -48,7 +48,7 @@ export default function AtlasPage() {
         meta={[
           { label: "Routes", value: String(STARS.length).padStart(2, "0") },
           { label: "Clusters", value: "06" },
-          { label: "Updated", value: "MMXXVI" },
+          { label: "Updated", value: "MMXXVII" },
           { label: "Mode", value: "Static" },
         ]}
       />
@@ -63,7 +63,7 @@ export default function AtlasPage() {
       <section className="bg-ink-900 py-24 md:py-32">
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
           <div className="md:col-span-3">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
               ◊ Reading the map
             </p>
           </div>
@@ -78,9 +78,9 @@ export default function AtlasPage() {
         </div>
       </section>
 
-      <section className="border-t border-warmwhite/10 bg-ink-950 py-24">
+      <section className="border-t border-warmwhite/15 bg-ink-950 py-24">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-          <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+          <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
             ◊ Full directory
           </p>
           <ul className="mt-8 grid grid-cols-1 gap-x-10 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">

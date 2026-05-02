@@ -30,8 +30,8 @@ export function StickyTimeline({ items, label = "§ Timeline" }: { items: Item[]
       <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
         <aside className="md:col-span-5">
           <div className="md:sticky md:top-32">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">{label}</p>
-            <p className="mt-6 font-sans text-[10px] uppercase tracking-widest text-warmwhite/40">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">{label}</p>
+            <p className="mt-6 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
               {String(activeIdx + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
             </p>
             <div className="relative mt-4 h-[clamp(8rem,22vw,18rem)] overflow-hidden">
@@ -71,7 +71,7 @@ export function StickyTimeline({ items, label = "§ Timeline" }: { items: Item[]
                   i === activeIdx ? "bg-peach" : "bg-warmwhite/20"
                 }`}
               />
-              <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+              <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                 §{String(i + 1).padStart(2, "0")} · {it.year}
               </p>
               <h3 className="mt-3 font-serif text-3xl tracking-tight text-warmwhite md:text-4xl">

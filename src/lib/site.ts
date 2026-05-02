@@ -6,13 +6,16 @@ export const site = {
   base: "Panchbibi, Joypurhat, Bangladesh",
   email: "hello@delowarhossain.dev",
   url: "https://delowarhossain.dev",
+  domain: "delowarhossain.dev",
   studio: "The Compiled Thought",
   repo: "https://github.com/mdhossain-2437/Creative-Folio",
   yearStarted: 2017,
-  edition: "MMXXVI / 02.06",
+  edition: "MMXXVII / 03.27",
+  editionShort: "MMXXVII",
+  year: 2027,
   tagline:
     "Bridging editorial design and high-performance creative development. I build immersive digital products where typography, motion, and engineering converge.",
-  availability: "Now booking Q4 ’26 → Q2 ’27",
+  availability: "Now booking Q2 ’27 → Q4 ’27",
   showreel: {
     src: "https://customer-7l7ux9p61w0c0p3z.cloudflarestream.com/c2da8a45e3e02fcd8d80e5e0b69ad214/manifest/video.m3u8",
     poster: "/og.svg",

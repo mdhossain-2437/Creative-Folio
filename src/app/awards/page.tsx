@@ -26,7 +26,7 @@ export default function AwardsPage() {
 
       <section className="bg-ink-900 py-16 md:py-24">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-          <ul className="grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/10 md:grid-cols-2">
+          <ul className="grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-2">
             {awards.map((a, i) => (
               <Reveal key={a.index} delay={i * 0.06}>
                 <li className="flex h-full flex-col justify-between gap-10 bg-ink-900 p-10">

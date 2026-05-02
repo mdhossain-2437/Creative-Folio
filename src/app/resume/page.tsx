@@ -49,11 +49,11 @@ export default function ResumePage() {
             </Block>
 
             <Block title="Experience">
-              <ul className="divide-y divide-warmwhite/10">
+              <ul className="divide-y divide-warmwhite/15">
                 {journey.map((j) => (
                   <Reveal key={j.range}>
                     <li className="grid grid-cols-12 items-baseline gap-4 py-6">
-                      <span className="col-span-12 font-mono text-[11px] uppercase tracking-widest text-warmwhite/50 md:col-span-3">
+                      <span className="col-span-12 font-mono text-[11px] uppercase tracking-widest text-warmwhite/65 md:col-span-3">
                         {j.range}
                       </span>
                       <h3 className="col-span-12 font-serif text-2xl leading-tight tracking-tighter md:col-span-5">
@@ -69,7 +69,7 @@ export default function ResumePage() {
             </Block>
 
             <Block title="Awards">
-              <ul className="grid grid-cols-1 gap-px bg-warmwhite/10 md:grid-cols-2">
+              <ul className="grid grid-cols-1 gap-px bg-warmwhite/15 md:grid-cols-2">
                 {awards.map((a) => (
                   <li key={a.index} className="flex flex-col gap-3 bg-ink-900 p-6 md:p-8">
                     <p className="font-sans text-[10px] uppercase tracking-widest text-peach">
@@ -85,10 +85,10 @@ export default function ResumePage() {
             </Block>
 
             <Block title="Tools">
-              <div className="grid grid-cols-1 gap-px bg-warmwhite/10 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-px bg-warmwhite/15 md:grid-cols-2">
                 {arsenal.map((g) => (
                   <div key={g.title} className="bg-ink-900 p-6 md:p-8">
-                    <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+                    <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                       {g.title}
                     </p>
                     <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 font-serif text-lg tracking-tighter">
@@ -103,7 +103,7 @@ export default function ResumePage() {
 
             <Block title="Education">
               <div className="grid grid-cols-12 items-baseline gap-4 py-2">
-                <span className="col-span-12 font-mono text-[11px] uppercase tracking-widest text-warmwhite/50 md:col-span-3">
+                <span className="col-span-12 font-mono text-[11px] uppercase tracking-widest text-warmwhite/65 md:col-span-3">
                   2020 — 2024
                 </span>
                 <h4 className="col-span-12 font-serif text-2xl leading-tight tracking-tighter md:col-span-5">
@@ -139,7 +139,7 @@ function Section({ label }: { label: string }) {
   return (
     <a
       href={`#${label.toLowerCase()}`}
-      className="block border-l border-warmwhite/15 pl-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/50 hover:text-warmwhite"
+      className="block border-l border-warmwhite/15 pl-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65 hover:text-warmwhite"
     >
       ◌ {label}
     </a>
@@ -148,7 +148,7 @@ function Section({ label }: { label: string }) {
 
 function Block({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section id={title.toLowerCase()} className="border-t border-warmwhite/10 py-12 first:border-t-0 first:pt-0">
+    <section id={title.toLowerCase()} className="border-t border-warmwhite/15 py-12 first:border-t-0 first:pt-0">
       <h2 className="font-serif text-[clamp(2rem,4vw,3.6rem)] leading-none tracking-tightest">{title}</h2>
       <div className="mt-8">{children}</div>
     </section>

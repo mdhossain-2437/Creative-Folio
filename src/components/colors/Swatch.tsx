@@ -77,7 +77,7 @@ export function Swatch({
       onClick={onCopy}
       data-cursor="hover"
       data-cursor-label="COPY"
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-warmwhite/10 text-left transition-colors hover:border-warmwhite/35"
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-warmwhite/15 text-left transition-colors hover:border-warmwhite/35"
       aria-label={`Copy ${name} (${hex})`}
     >
       <div
@@ -102,12 +102,12 @@ export function Swatch({
             {hex.toUpperCase()}
           </span>
         </div>
-        <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-warmwhite/45">
+        <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-warmwhite/65">
           <span>{token}</span>
           <span>rgb({rgbLabel})</span>
         </div>
         <div className="mt-1 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest">
-          <span className="text-warmwhite/45">on ink-950</span>
+          <span className="text-warmwhite/65">on ink-950</span>
           <span
             className={
               wcag === "AAA"
@@ -116,7 +116,7 @@ export function Swatch({
                 ? "text-electric"
                 : wcag === "AA·LG"
                 ? "text-peach"
-                : "text-warmwhite/40"
+                : "text-warmwhite/65"
             }
           >
             {ratio.toFixed(2)}× · {wcag}

@@ -50,24 +50,24 @@ export default function NotFound() {
                 What I&apos;m doing now
               </Link>
             </div>
-            <p className="mt-12 font-sans text-[10px] uppercase tracking-widest text-warmwhite/40">
+            <p className="mt-12 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
               ⌘K opens the command palette · ↑↑↓↓←→←→ba unlocks shader storm
             </p>
           </div>
           <div className="md:col-span-5 md:self-end">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
               ◊ Status board
             </p>
             <ul className="mt-5 space-y-3 font-mono text-[11px] uppercase tracking-widest text-warmwhite/55">
-              <li className="flex items-center justify-between border-b border-warmwhite/10 pb-3">
+              <li className="flex items-center justify-between border-b border-warmwhite/15 pb-3">
                 <span>Server</span>
                 <span className="text-emerald-300">200 ok</span>
               </li>
-              <li className="flex items-center justify-between border-b border-warmwhite/10 pb-3">
+              <li className="flex items-center justify-between border-b border-warmwhite/15 pb-3">
                 <span>Route</span>
                 <span className="text-peach">404 missing</span>
               </li>
-              <li className="flex items-center justify-between border-b border-warmwhite/10 pb-3">
+              <li className="flex items-center justify-between border-b border-warmwhite/15 pb-3">
                 <span>Vibes</span>
                 <span className="text-electric">unbothered</span>
               </li>

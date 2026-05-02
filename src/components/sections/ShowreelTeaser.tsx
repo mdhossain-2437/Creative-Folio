@@ -8,12 +8,12 @@ export function ShowreelTeaser() {
   const { velocity } = useScrollState();
   const skew = Math.max(-3, Math.min(3, velocity));
   return (
-    <section className="relative overflow-hidden border-t border-warmwhite/10 bg-ink-950 py-28 md:py-36">
+    <section className="relative overflow-hidden border-t border-warmwhite/15 bg-ink-950 py-28 md:py-36">
       <div className="pointer-events-none absolute inset-0 vignette" />
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12">
           <div className="md:col-span-5">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
               §03 — Reel · 02:17
             </p>
             <h2
@@ -23,8 +23,8 @@ export function ShowreelTeaser() {
               Six chapters,
               <span className="block italic text-warmwhite/60">one quiet reel.</span>
             </h2>
-            <p className="mt-6 max-w-sm font-sans text-sm leading-relaxed text-warmwhite/65">
-              A vertical reel of selected motion work, 2025–2026. Open it
+            <p className="mt-6 max-w-sm font-sans text-sm leading-relaxed text-warmwhite/80">
+              A vertical reel of selected motion work, 2026–2027. Open it
               fullscreen with the play pill, or jump to any chapter.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -49,19 +49,19 @@ export function ShowreelTeaser() {
             </div>
           </div>
           <div className="md:col-span-7">
-            <ol className="overflow-hidden border-y border-warmwhite/10">
+            <ol className="overflow-hidden border-y border-warmwhite/15">
               {reelClips.map((c) => (
                 <li
                   key={c.index}
                   className="grid grid-cols-12 items-center gap-4 border-b border-warmwhite/5 py-4 last:border-b-0"
                 >
-                  <span className="col-span-2 font-mono text-[10px] uppercase tracking-widest text-warmwhite/40 md:col-span-1">
+                  <span className="col-span-2 font-mono text-[10px] uppercase tracking-widest text-warmwhite/65 md:col-span-1">
                     §{c.index}
                   </span>
                   <span className="col-span-7 font-serif text-xl leading-tight tracking-tight text-warmwhite/85 md:text-2xl">
                     {c.title}
                   </span>
-                  <span className="col-span-2 hidden font-mono text-[10px] uppercase tracking-widest text-warmwhite/40 md:col-span-3 md:block">
+                  <span className="col-span-2 hidden font-mono text-[10px] uppercase tracking-widest text-warmwhite/65 md:col-span-3 md:block">
                     {c.topic}
                   </span>
                   <span className="col-span-3 text-right font-mono text-[10px] uppercase tracking-widest text-warmwhite/55 md:col-span-1">

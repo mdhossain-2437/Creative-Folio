@@ -1155,7 +1155,7 @@ function VariableFontDemo({ compact }: { compact?: boolean }) {
         MOTION
       </div>
       {!compact && (
-        <div className="pointer-events-none absolute bottom-6 left-6 font-mono text-[10px] uppercase tracking-widest text-warmwhite/45">
+        <div className="pointer-events-none absolute bottom-6 left-6 font-mono text-[10px] uppercase tracking-widest text-warmwhite/65">
           Drag the mouse — type reacts to velocity
         </div>
       )}
@@ -1220,7 +1220,7 @@ function SdfGlyphDemo({ compact }: { compact?: boolean }) {
         </span>
       </div>
       {!compact && (
-        <div className="pointer-events-none absolute bottom-6 left-6 font-mono text-[10px] uppercase tracking-widest text-warmwhite/45">
+        <div className="pointer-events-none absolute bottom-6 left-6 font-mono text-[10px] uppercase tracking-widest text-warmwhite/65">
           SDF · move cursor for halo
         </div>
       )}

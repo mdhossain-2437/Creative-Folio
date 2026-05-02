@@ -57,7 +57,7 @@ export default function ColorsPage() {
           { label: "Tokens", value: String(groups.reduce((n, g) => n + g.swatches.length, 0)) },
           { label: "Background", value: "ink-950" },
           { label: "Standard", value: "WCAG 2.2" },
-          { label: "Edition", value: "MMXXVI" },
+          { label: "Edition", value: "MMXXVII" },
         ]}
       />
 
@@ -66,9 +66,9 @@ export default function ColorsPage() {
           <div className="space-y-20">
             {groups.map((group) => (
               <div key={group.title}>
-                <div className="flex items-baseline justify-between border-b border-warmwhite/10 pb-6">
+                <div className="flex items-baseline justify-between border-b border-warmwhite/15 pb-6">
                   <div>
-                    <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+                    <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                       {group.eyebrow}
                     </p>
                     <h2 className="mt-2 break-words font-serif text-3xl tracking-tighter md:text-5xl">
@@ -90,10 +90,10 @@ export default function ColorsPage() {
         </div>
       </section>
 
-      <section className="border-t border-warmwhite/10 bg-ink-900 py-20 md:py-28">
+      <section className="border-t border-warmwhite/15 bg-ink-900 py-20 md:py-28">
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
           <div className="md:col-span-5">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
               ◊ Notes
             </p>
             <h3 className="mt-4 font-serif text-[clamp(1.4rem,2.4vw,2.4rem)] leading-[1.18] text-warmwhite/90">

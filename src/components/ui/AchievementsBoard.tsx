@@ -23,6 +23,8 @@ const HINTS: Record<AchievementId, string> = {
   curator: "Open the studio changelog.",
   designer: "Click any swatch on the /colors page to copy its hex.",
   archivist: "Read every case study to the end.",
+  "capsule-keeper": "Press C to save a time capsule of any page.",
+  "atmosphere-shifter": "Press T to cycle through every atmosphere.",
 };
 
 const RARITY: Record<AchievementId, "common" | "rare" | "legendary"> = {
@@ -41,6 +43,8 @@ const RARITY: Record<AchievementId, "common" | "rare" | "legendary"> = {
   "lab-rat": "legendary",
   "shader-storm": "legendary",
   archivist: "rare",
+  "capsule-keeper": "common",
+  "atmosphere-shifter": "rare",
 };
 
 const STORAGE_KEY = "delowar:achievements:v1";
@@ -97,9 +101,9 @@ export function AchievementsBoard() {
 
   return (
     <div>
-      <div className="flex flex-wrap items-end justify-between gap-6 border-b border-warmwhite/10 pb-8">
+      <div className="flex flex-wrap items-end justify-between gap-6 border-b border-warmwhite/15 pb-8">
         <div>
-          <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+          <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
             ◊ Compendium
           </p>
           <p className="mt-3 font-serif text-3xl tracking-tight text-warmwhite md:text-5xl">
@@ -108,20 +112,20 @@ export function AchievementsBoard() {
           </p>
         </div>
         <div className="w-full max-w-md">
-          <div className="h-1 w-full overflow-hidden rounded-full bg-warmwhite/10">
+          <div className="h-1 w-full overflow-hidden rounded-full bg-warmwhite/15">
             <div
               className="h-full bg-peach transition-[width] duration-700"
               style={{ width: `${hydrated ? pct : 0}%` }}
             />
           </div>
-          <div className="mt-2 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-warmwhite/45">
+          <div className="mt-2 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-warmwhite/65">
             <span>{hydrated ? `${pct}%` : "—%"}</span>
             <span>localStorage · this browser</span>
           </div>
         </div>
       </div>
 
-      <ul className="grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/10 md:grid-cols-2 lg:grid-cols-3 mt-px">
+      <ul className="grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-2 lg:grid-cols-3 mt-px">
         {ids.map((id) => {
           const ach = ACHIEVEMENTS[id];
           const ts = state[id];
@@ -153,19 +157,19 @@ export function AchievementsBoard() {
               </div>
               <p
                 className={`mt-6 font-serif text-2xl leading-tight tracking-tight md:text-[1.7rem] ${
-                  isUnlocked ? "text-warmwhite" : "text-warmwhite/40"
+                  isUnlocked ? "text-warmwhite" : "text-warmwhite/65"
                 }`}
               >
                 {isUnlocked ? ach.title : "Locked"}
               </p>
               <p
                 className={`mt-3 font-sans text-sm leading-relaxed ${
-                  isUnlocked ? "text-warmwhite/70" : "text-warmwhite/45"
+                  isUnlocked ? "text-warmwhite/70" : "text-warmwhite/65"
                 }`}
               >
                 {isUnlocked ? ach.description : HINTS[id]}
               </p>
-              <div className="mt-6 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-warmwhite/40">
+              <div className="mt-6 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-warmwhite/65">
                 <span>§{String(ids.indexOf(id) + 1).padStart(2, "0")}</span>
                 <span>{isUnlocked ? fmtDate(ts) : "—"}</span>
               </div>

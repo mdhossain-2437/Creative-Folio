@@ -66,7 +66,7 @@ export default async function OG() {
               marginBottom: 24,
             }}
           >
-            Edition MMXXVI · Refreshed Q2
+            Edition MMXXVII · Refreshed Q1
           </span>
           <h1
             style={{

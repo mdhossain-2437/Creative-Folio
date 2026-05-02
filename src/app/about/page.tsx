@@ -50,7 +50,7 @@ export default function AboutPage() {
       <section className="bg-ink-900 py-28 md:py-40">
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
           <div className="md:col-span-3">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
               ◊ Philosophy
             </p>
           </div>
@@ -70,7 +70,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="border-y border-warmwhite/10 bg-ink-950 py-10">
+      <section className="border-y border-warmwhite/15 bg-ink-950 py-10">
         <Marquee
           size="lg"
           speed={50}
@@ -81,7 +81,7 @@ export default function AboutPage() {
       <section className="bg-ink-900 py-28 md:py-40">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
           <header className="grid grid-cols-1 gap-10 md:grid-cols-12">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50 md:col-span-3">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65 md:col-span-3">
               ◊ Personal Signals
             </p>
             <h2 className="font-serif text-[clamp(2.5rem,6vw,5rem)] leading-[0.96] tracking-tightest md:col-span-9">
@@ -89,7 +89,7 @@ export default function AboutPage() {
               <span className="italic text-warmwhite/60">non-traditional path.</span>
             </h2>
           </header>
-          <div className="mt-16 grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/10 md:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-16 grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-2 lg:grid-cols-4">
             {[
               {
                 tag: "Base",
@@ -114,7 +114,7 @@ export default function AboutPage() {
             ].map((s, i) => (
               <Reveal key={s.tag} delay={i * 0.06}>
                 <div className="flex h-full flex-col gap-5 bg-ink-900 p-8 md:p-10">
-                  <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50">
+                  <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                     {s.tag}
                   </p>
                   <h3 className="font-serif text-2xl leading-tight tracking-tighter md:text-3xl">
@@ -128,18 +128,18 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="border-t border-warmwhite/10 bg-ink-950 py-28 md:py-40">
+      <section className="border-t border-warmwhite/15 bg-ink-950 py-28 md:py-40">
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
           <div className="md:col-span-3">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
               ◊ The Journey
             </p>
           </div>
           <ol className="md:col-span-9">
             {journey.map((j, i) => (
               <Reveal key={j.range} delay={i * 0.05}>
-                <li className="grid grid-cols-12 items-baseline gap-4 border-b border-warmwhite/10 py-8 last:border-b-0">
-                  <span className="col-span-12 font-mono text-[11px] uppercase tracking-widest text-warmwhite/50 md:col-span-3">
+                <li className="grid grid-cols-12 items-baseline gap-4 border-b border-warmwhite/15 py-8 last:border-b-0">
+                  <span className="col-span-12 font-mono text-[11px] uppercase tracking-widest text-warmwhite/65 md:col-span-3">
                     {j.range}
                   </span>
                   <h3 className="col-span-12 font-serif text-3xl leading-tight tracking-tighter text-warmwhite md:col-span-5 md:text-4xl">
@@ -157,7 +157,7 @@ export default function AboutPage() {
 
       <section className="bg-ink-900 py-28 md:py-40">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-          <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50">
+          <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
             ◊ Expertise
           </p>
           <h2 className="mt-4 font-serif text-[clamp(2.5rem,6vw,5rem)] leading-[0.96] tracking-tightest">

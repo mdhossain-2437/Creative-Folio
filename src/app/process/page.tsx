@@ -30,10 +30,10 @@ export default function ProcessPage() {
 
       <section className="bg-ink-900 py-16">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-          <ol className="grid grid-cols-2 gap-px overflow-hidden bg-warmwhite/10 md:grid-cols-4">
+          <ol className="grid grid-cols-2 gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-4">
             {TIMELINE.map((step, i) => (
               <li key={step} className="bg-ink-900 p-6 text-center md:p-10">
-                <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+                <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <p className="mt-2 font-serif text-3xl tracking-tight text-warmwhite md:text-5xl">
@@ -48,7 +48,7 @@ export default function ProcessPage() {
       {phases.map((p, i) => (
         <section
           key={p.phase}
-          className={`relative border-t border-warmwhite/10 py-24 md:py-32 ${
+          className={`relative border-t border-warmwhite/15 py-24 md:py-32 ${
             i % 2 === 0 ? "bg-ink-900" : "bg-ink-950"
           }`}
         >
@@ -58,7 +58,7 @@ export default function ProcessPage() {
                 <span className="block font-serif text-[clamp(7rem,18vw,16rem)] leading-none tracking-tightest text-warmwhite/80">
                   0{i + 1}
                 </span>
-                <p className="mt-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+                <p className="mt-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                   {p.phase} · {TIMELINE[i]}
                 </p>
               </div>
@@ -96,7 +96,7 @@ export default function ProcessPage() {
                     .map(([k, v]) => (
                       <li
                         key={`${p.phase}-${k}`}
-                        className="flex items-center justify-between border-y border-warmwhite/10 py-3 font-mono text-[12px] uppercase tracking-widest text-warmwhite/55"
+                        className="flex items-center justify-between border-y border-warmwhite/15 py-3 font-mono text-[12px] uppercase tracking-widest text-warmwhite/55"
                       >
                         <span className="text-warmwhite/70">{k}</span>
                         <span className="text-peach normal-case tracking-tight">{v}</span>
@@ -109,7 +109,7 @@ export default function ProcessPage() {
         </section>
       ))}
 
-      <section className="border-t border-warmwhite/10 bg-ink-950 py-24 md:py-32">
+      <section className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
         <div className="mx-auto flex max-w-[1640px] flex-wrap items-center justify-between gap-6 px-6 md:px-10">
           <p className="max-w-md font-serif text-3xl tracking-tight text-warmwhite md:text-5xl">
             Like the process? Let&apos;s start the conversation.

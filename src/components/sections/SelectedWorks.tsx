@@ -12,7 +12,7 @@ export function SelectedWorks() {
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <header className="flex items-end justify-between gap-6">
           <div>
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
               §02 — Selected Works
             </p>
             <h2 className="mt-4 font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[0.95] tracking-tightest">
@@ -87,7 +87,7 @@ function WorkRow({ work, idx }: { work: ReturnType<typeof getWorkType>; idx: num
   }, []);
 
   return (
-    <li className="border-t border-warmwhite/10 last:border-b">
+    <li className="border-t border-warmwhite/15 last:border-b">
       <Reveal delay={idx * 0.05}>
         <Link
           ref={rowRef}
@@ -97,7 +97,7 @@ function WorkRow({ work, idx }: { work: ReturnType<typeof getWorkType>; idx: num
           className="group relative flex items-center justify-between overflow-hidden py-7 md:py-10"
         >
           <span className="flex items-center gap-6 md:gap-12">
-            <span className="display-num font-sans text-[10px] uppercase tracking-widest text-warmwhite/40">
+            <span className="display-num font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
               {work.index} · {work.year}
             </span>
             <span className="font-serif text-[clamp(1.6rem,4vw,3.6rem)] leading-none tracking-tightest transition-transform duration-700 ease-out group-hover:translate-x-3">

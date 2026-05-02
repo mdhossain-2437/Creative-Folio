@@ -257,7 +257,7 @@ export function AtlasConstellation({ stars }: { stars: ConstellationStar[] }) {
   }, [stars, router]);
 
   return (
-    <div className="relative h-[68vh] min-h-[520px] overflow-hidden rounded-3xl border border-warmwhite/10 bg-ink-900">
+    <div className="relative h-[68vh] min-h-[520px] overflow-hidden rounded-3xl border border-warmwhite/15 bg-ink-900">
       <canvas
         ref={canvasRef}
         aria-label="Interactive site map"
@@ -273,7 +273,7 @@ export function AtlasConstellation({ stars }: { stars: ConstellationStar[] }) {
           {hovered.s.label} · <span className="text-ink-950/55">{hovered.s.href}</span>
         </div>
       ) : null}
-      <div className="pointer-events-none absolute bottom-4 left-6 font-mono text-[10px] uppercase tracking-widest text-warmwhite/40">
+      <div className="pointer-events-none absolute bottom-4 left-6 font-mono text-[10px] uppercase tracking-widest text-warmwhite/65">
         ◊ drag to pan · scroll to zoom · click any star
       </div>
     </div>

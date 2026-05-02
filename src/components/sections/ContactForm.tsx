@@ -51,7 +51,7 @@ export function ContactForm() {
       </div>
 
       <div>
-        <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50">◊ What do you need</p>
+        <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">◊ What do you need</p>
         <ul className="mt-4 flex flex-wrap gap-2">
           {services.map((s) => (
             <li key={s}>
@@ -72,7 +72,7 @@ export function ContactForm() {
       </div>
 
       <div>
-        <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50">◊ Budget range</p>
+        <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">◊ Budget range</p>
         <ul className="mt-4 grid grid-cols-2 gap-2 md:grid-cols-4">
           {budgets.map((b) => (
             <li key={b}>
@@ -81,7 +81,7 @@ export function ContactForm() {
                 onClick={() => setBudget(b)}
                 className={`w-full rounded-md border px-4 py-3 font-sans text-[11px] uppercase tracking-widest ${
                   budget === b
-                    ? "border-warmwhite bg-warmwhite/10 text-warmwhite"
+                    ? "border-warmwhite bg-warmwhite/15 text-warmwhite"
                     : "border-warmwhite/15 text-warmwhite/65 hover:border-warmwhite"
                 }`}
               >
@@ -93,7 +93,7 @@ export function ContactForm() {
       </div>
 
       <div>
-        <label className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50">
+        <label className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
           ◊ Project details
         </label>
         <textarea
@@ -105,7 +105,7 @@ export function ContactForm() {
         />
       </div>
 
-      <div className="flex items-center justify-between border-t border-warmwhite/10 pt-6">
+      <div className="flex items-center justify-between border-t border-warmwhite/15 pt-6">
         <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
           By sending you agree to our minimal{" "}
           <a href="/legal/privacy" className="text-warmwhite underline-offset-4 hover:underline">
@@ -144,7 +144,7 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">{label}</span>
+      <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">{label}</span>
       <input
         name={name}
         type={type}

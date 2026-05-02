@@ -82,7 +82,7 @@ export function KonamiHint() {
       aria-hidden
       className="pointer-events-none fixed bottom-6 left-6 z-[125] flex items-center gap-2 rounded-full border border-warmwhite/15 bg-ink-900/85 px-3 py-2 font-mono text-[10px] uppercase tracking-widest text-warmwhite/70 shadow-2xl backdrop-blur"
     >
-      <span className="text-warmwhite/45">◊ konami</span>
+      <span className="text-warmwhite/65">◊ konami</span>
       <span className="flex items-center gap-1">
         {KONAMI.map((k, i) => (
           <span

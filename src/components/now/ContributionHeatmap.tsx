@@ -67,10 +67,10 @@ export async function ContributionHeatmap({ user }: { user: string }) {
   }
 
   return (
-    <div className="rounded-3xl border border-warmwhite/10 bg-ink-900 p-8 md:p-10">
+    <div className="rounded-3xl border border-warmwhite/15 bg-ink-900 p-8 md:p-10">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+          <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
             ◊ GitHub · last 365 days
           </p>
           <p className="mt-2 font-serif text-[clamp(1.6rem,3vw,2.6rem)] leading-none tracking-tightest text-warmwhite">

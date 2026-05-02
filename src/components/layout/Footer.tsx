@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { Marquee } from "@/components/ui/Marquee";
 import { MotionToggle } from "@/components/ui/MotionToggle";
 import { StudioClock } from "@/components/ui/StudioClock";
+import { StatusStrip } from "@/components/layout/StatusStrip";
 import { site } from "@/lib/site";
 import { pushToast } from "@/components/ui/Toast";
 import { unlock } from "@/lib/achievements";
@@ -55,13 +56,15 @@ export function Footer({ commitSha, buildTime }: FooterProps = {}) {
   };
 
   return (
-    <footer className="relative mt-24 border-t border-warmwhite/10 bg-ink-950 pb-10 pt-24">
-      <div className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-warmwhite/30 to-transparent" />
+    <footer className="relative mt-24 border-t border-warmwhite/15 bg-ink-950 pb-10">
+      <div className="pointer-events-none absolute inset-x-0 -top-px h-px bg-gradient-to-r from-transparent via-warmwhite/35 to-transparent" />
 
-      <div className="mx-auto max-w-[1640px] px-6 md:px-10">
+      <StatusStrip />
+
+      <div className="mx-auto max-w-[1640px] px-6 pt-24 md:px-10">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/40">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
               ◊ {site.availability} · Selected projects
             </p>
             <h2 className="mt-6 break-words font-serif text-[clamp(2.5rem,7.5vw,7rem)] leading-[0.94] tracking-tightest">
@@ -125,27 +128,28 @@ export function Footer({ commitSha, buildTime }: FooterProps = {}) {
               "WEBGL · THREE.JS · GLSL",
               site.availability.toUpperCase(),
               "JOYPURHAT, BANGLADESH",
-              "MMXXVI / 02.06",
+              site.edition,
+              "DELOWARHOSSAIN.DEV",
             ]}
           />
         </div>
 
-        <div className="mt-14 grid grid-cols-1 gap-4 font-sans text-[10px] uppercase tracking-widest text-warmwhite/40 md:grid-cols-12 md:items-center">
+        <div className="mt-14 grid grid-cols-1 gap-4 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65 md:grid-cols-12 md:items-center">
           <p className="md:col-span-4">
-            © {new Date().getFullYear()}{" "}
+            © {site.year}{" "}
             <button
               type="button"
               onClick={handleWordmarkClick}
-              className="cursor-default uppercase tracking-widest text-warmwhite/55 transition-colors hover:text-warmwhite/80"
+              className="cursor-default uppercase tracking-widest text-warmwhite/85 transition-colors hover:text-peach"
               aria-label="Studio mark"
             >
               {site.studio}
             </button>
-            . All rights reserved.
+            . All rights reserved · {site.editionShort}.
           </p>
           <p className="md:col-span-5 md:text-center display-num">
             Lat. 25.10° N · Long. 89.02° E · {site.location} ·{" "}
-            <span className="text-warmwhite/65">
+            <span className="text-warmwhite/85">
               <StudioClock />
             </span>{" "}
             BST
@@ -162,12 +166,12 @@ export function Footer({ commitSha, buildTime }: FooterProps = {}) {
                   ? `Built from ${shortSha}${buildTime ? ` · ${buildTime}` : ""}. View source on GitHub.`
                   : "View source on GitHub."
               }
-              className="hidden font-mono text-warmwhite/45 transition-colors hover:text-peach md:inline"
+              className="hidden font-mono text-warmwhite/65 transition-colors hover:text-peach md:inline"
             >
               ◇ {shortSha}
             </a>
             <MotionToggle />
-            <span className="hidden md:inline">v {site.edition}</span>
+            <span className="hidden md:inline text-warmwhite/85">v {site.edition}</span>
           </div>
         </div>
       </div>
@@ -184,7 +188,7 @@ function FooterCol({
 }) {
   return (
     <div>
-      <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/40">{title}</p>
+      <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">{title}</p>
       <ul className="mt-5 space-y-2 font-serif text-lg leading-tight">
         {items.map((it) => (
           <li key={it.href}>

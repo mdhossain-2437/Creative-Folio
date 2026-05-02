@@ -52,7 +52,7 @@ export function LabGrid({ experiments }: Props) {
               <span>{cat}</span>
               <span
                 className={`rounded-sm px-1 py-px text-[9px] tabular-nums ${
-                  active ? "bg-ink-900/15 text-ink-900" : "bg-warmwhite/10 text-warmwhite/55"
+                  active ? "bg-ink-900/15 text-ink-900" : "bg-warmwhite/15 text-warmwhite/55"
                 }`}
               >
                 {count}
@@ -63,11 +63,11 @@ export function LabGrid({ experiments }: Props) {
       </div>
 
       {visible.length === 0 ? (
-        <p className="rounded-2xl border border-warmwhite/10 bg-ink-900/40 px-6 py-12 text-center font-sans text-sm text-warmwhite/55">
+        <p className="rounded-2xl border border-warmwhite/15 bg-ink-900/40 px-6 py-12 text-center font-sans text-sm text-warmwhite/55">
           No experiments in this category yet.
         </p>
       ) : (
-        <ul className="grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/10 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-2 lg:grid-cols-3">
           {visible.map((e, i) => (
             <Reveal key={e.index} delay={i * 0.04}>
               <li className="group relative flex h-full flex-col bg-ink-900">
@@ -86,7 +86,7 @@ export function LabGrid({ experiments }: Props) {
                   <span className="pointer-events-none absolute right-5 top-5 rounded-full border border-warmwhite/25 px-3 py-1 font-sans text-[9px] uppercase tracking-widest text-warmwhite/80 backdrop-blur-sm">
                     Live · interactive
                   </span>
-                  <span className="pointer-events-none absolute bottom-5 right-5 inline-flex h-9 w-9 items-center justify-center rounded-full bg-warmwhite/10 text-warmwhite transition-all duration-500 group-hover:bg-peach group-hover:text-ink-900">
+                  <span className="pointer-events-none absolute bottom-5 right-5 inline-flex h-9 w-9 items-center justify-center rounded-full bg-warmwhite/15 text-warmwhite transition-all duration-500 group-hover:bg-peach group-hover:text-ink-900">
                     ↗
                   </span>
                 </Link>

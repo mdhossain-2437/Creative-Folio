@@ -160,7 +160,7 @@ export default function ChangelogPage() {
         description="A running log of this studio site itself — features, lab experiments, micro-interactions, and the engineering polish that makes them stick. Newest first."
         meta={[
           { label: "Entries", value: String(ENTRIES.length) },
-          { label: "Edition", value: "MMXXVI" },
+          { label: "Edition", value: "MMXXVII" },
           { label: "Source", value: "Hand-curated" },
           { label: "Repo", value: "GitHub" },
         ]}
@@ -168,7 +168,7 @@ export default function ChangelogPage() {
 
       <section className="bg-ink-900 py-24 md:py-32">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-          <ol className="space-y-16 border-l border-warmwhite/10 pl-6 md:pl-10">
+          <ol className="space-y-16 border-l border-warmwhite/15 pl-6 md:pl-10">
             {ENTRIES.map((entry) => {
               const tag = TAG_STYLES[entry.tag];
               return (
@@ -217,7 +217,7 @@ export default function ChangelogPage() {
         </div>
       </section>
 
-      <section className="border-t border-warmwhite/10 bg-ink-950 py-20 md:py-28">
+      <section className="border-t border-warmwhite/15 bg-ink-950 py-20 md:py-28">
         <div className="mx-auto flex max-w-[1640px] flex-wrap items-center justify-between gap-6 px-6 md:px-10">
           <p className="max-w-2xl font-serif text-[clamp(1.4rem,2.4vw,2.4rem)] leading-[1.2] text-warmwhite/85">
             The full diff lives on GitHub — every PR, every commit, every preview deploy.

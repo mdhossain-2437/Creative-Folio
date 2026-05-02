@@ -3,12 +3,12 @@ import { nowFeed } from "@/lib/data";
 
 export function NowTeaser() {
   return (
-    <section className="relative border-t border-warmwhite/10 bg-ink-950 py-28 md:py-36">
+    <section className="relative border-t border-warmwhite/15 bg-ink-950 py-28 md:py-36">
       <div className="pointer-events-none absolute inset-0 grid-lines opacity-20" />
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12">
           <div className="md:col-span-4">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
               §05 — /now
             </p>
             <h2 className="mt-6 font-serif text-[clamp(2.5rem,6vw,5.4rem)] leading-[0.96] tracking-tightest">
@@ -28,10 +28,10 @@ export function NowTeaser() {
               Open /now ↗
             </Link>
           </div>
-          <ul className="md:col-span-8 grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/10 sm:grid-cols-2">
+          <ul className="md:col-span-8 grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/15 sm:grid-cols-2">
             {nowFeed.slice(0, 4).map((it) => (
               <li key={it.tag} className="bg-ink-950 p-6 md:p-8">
-                <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+                <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                   {it.tag}
                 </p>
                 <p className="mt-4 font-serif text-xl leading-snug tracking-tight text-warmwhite md:text-2xl">

@@ -18,6 +18,8 @@ const ShareShortcut = dynamic(() => import("@/components/ui/ShareShortcut").then
 const ScrollProgress = dynamic(() => import("@/components/ui/ScrollProgress").then((m) => m.ScrollProgress), { ssr: false });
 const TabTitleFlicker = dynamic(() => import("@/components/ui/TabTitleFlicker").then((m) => m.TabTitleFlicker), { ssr: false });
 const FirstVisitNudge = dynamic(() => import("@/components/ui/FirstVisitNudge").then((m) => m.FirstVisitNudge), { ssr: false });
+const AtmosphereMode = dynamic(() => import("@/components/ui/AtmosphereMode").then((m) => m.AtmosphereMode), { ssr: false });
+const TimeCapsule = dynamic(() => import("@/components/ui/TimeCapsule").then((m) => m.TimeCapsule), { ssr: false });
 
 export function ClientOverlays() {
   return (
@@ -38,6 +40,8 @@ export function ClientOverlays() {
       <ScrollProgress />
       <TabTitleFlicker />
       <FirstVisitNudge />
+      <AtmosphereMode />
+      <TimeCapsule />
     </>
   );
 }

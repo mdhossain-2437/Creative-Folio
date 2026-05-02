@@ -10,6 +10,47 @@
   color-scheme: dark;
 }
 
+/* MMXXVII Atmosphere modes — toggled by AtmosphereMode.tsx via data-attr.
+   Each mode retones the global background + accent without rebuilding the
+   palette. The defaults stay identical to "aura" for SSR safety. */
+:root[data-atmosphere="aura"] {
+  --bg: #0c0c0c;
+  --fg: #efece9;
+  --accent: #e3bfb4;
+}
+:root[data-atmosphere="storm"] {
+  --bg: #07080c;
+  --fg: #f0f4ef;
+  --accent: #cdfa00;
+}
+:root[data-atmosphere="stillness"] {
+  --bg: #050507;
+  --fg: #ece9e3;
+  --accent: #efece9;
+}
+:root[data-atmosphere="eink"] {
+  --bg: #efece9;
+  --fg: #0c0c0c;
+  --accent: #1f1f1f;
+  color-scheme: light;
+}
+:root[data-atmosphere="eink"] body {
+  background: #efece9;
+  color: #0c0c0c;
+}
+:root[data-atmosphere="eink"] .vignette,
+:root[data-atmosphere="eink"] body.grain-on::before {
+  display: none;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    transition: background-color 600ms ease;
+  }
+  body {
+    transition: background-color 600ms ease, color 600ms ease;
+  }
+}
+
 * {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

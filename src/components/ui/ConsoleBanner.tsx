@@ -26,7 +26,7 @@ export function ConsoleBanner() {
       "color:#cdfa00; font: 11px 'JetBrains Mono', monospace; letter-spacing: 0.18em; text-transform: uppercase;";
 
     /* eslint-disable no-console */
-    console.log("%c  ◊ delowar.dev — folio MMXXVI  ", css);
+    console.log("%c  ◊ delowarhossain.dev — folio MMXXVII  ", css);
     console.log(
       "%cdelowar%c crafts editorial systems, motion engines, and shader-driven UI. " +
         "If you found this, you're already part of the studio.",

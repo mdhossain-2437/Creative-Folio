@@ -31,7 +31,7 @@ export function ReadingProgress({ targetId = "post-body" }: { targetId?: string 
   return (
     <div
       aria-hidden
-      className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[2px] bg-warmwhite/10"
+      className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[2px] bg-warmwhite/15"
     >
       <div
         ref={barRef}

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     "A small Derek-Sivers /now page. The current season — what I'm building, reading, listening to, and obsessing over. Updated monthly.",
 };
 
-const SEASON = "Spring 2026 · Joypurhat";
+const SEASON = "Spring 2027 · Joypurhat";
 
 export default function NowPage() {
   return (
@@ -23,7 +23,7 @@ export default function NowPage() {
         description="A snapshot of what I&apos;m building, reading, and obsessing over right now. The page updates roughly once a month — if it&apos;s out of date, ⌘K and ping me."
         meta={[
           { label: "Updated", value: SEASON },
-          { label: "Booking", value: "Q4 ’26 → Q2 ’27" },
+          { label: "Booking", value: "Q2 ’27 → Q4 ’27" },
           { label: "Inbox", value: "Open" },
           { label: "Mood", value: "Patient · Curious" },
         ]}
@@ -31,10 +31,10 @@ export default function NowPage() {
 
       <section className="bg-ink-900 py-24 md:py-32">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-          <ul className="grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/10 md:grid-cols-2 lg:grid-cols-3">
+          <ul className="grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-2 lg:grid-cols-3">
             {nowFeed.map((it, i) => (
               <li key={it.tag} className="bg-ink-900 p-8 md:p-10">
-                <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+                <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                   §0{i + 1} · {it.tag}
                 </p>
                 <p className="mt-6 font-serif text-2xl leading-snug tracking-tight text-warmwhite md:text-3xl">
@@ -52,7 +52,7 @@ export default function NowPage() {
         </div>
       </section>
 
-      <section className="border-y border-warmwhite/10 bg-ink-950 py-10">
+      <section className="border-y border-warmwhite/15 bg-ink-950 py-10">
         <Marquee
           speed={48}
           items={[
@@ -60,7 +60,7 @@ export default function NowPage() {
             "WRITING · FLEXIBLE PAGE TRANSITIONS",
             "READING · DESIGNING SOUND",
             "LISTENING · FLOATING POINTS",
-            "BOOKING · Q4 2026 → Q2 2027",
+            "BOOKING · Q2 2027 → Q4 2027",
           ]}
         />
       </section>
@@ -68,7 +68,7 @@ export default function NowPage() {
       <section className="bg-ink-900 py-24 md:py-32">
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
           <div className="md:col-span-4">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
               ◊ Recent commits
             </p>
             <p className="mt-6 max-w-sm font-sans text-sm leading-relaxed text-warmwhite/65">
@@ -84,7 +84,7 @@ export default function NowPage() {
               . Falls back to a snapshot if the rate limit catches us.
             </p>
           </div>
-          <ul className="md:col-span-8 divide-y divide-warmwhite/10 border-y border-warmwhite/10">
+          <ul className="md:col-span-8 divide-y divide-warmwhite/15 border-y border-warmwhite/15">
             {githubFallback.map((c) => (
               <li key={c.sha} className="grid grid-cols-12 gap-4 py-5 font-mono text-[12px] uppercase tracking-widest text-warmwhite/65">
                 <span className="col-span-2 text-warmwhite">{c.sha}</span>
@@ -92,16 +92,16 @@ export default function NowPage() {
                 <span className="col-span-5 text-warmwhite/85 normal-case tracking-normal">
                   {c.message}
                 </span>
-                <span className="col-span-2 text-right text-warmwhite/40">{c.ago} ago</span>
+                <span className="col-span-2 text-right text-warmwhite/65">{c.ago} ago</span>
               </li>
             ))}
           </ul>
         </div>
       </section>
 
-      <section className="border-t border-warmwhite/10 bg-ink-950 py-24 md:py-32">
+      <section className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-          <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+          <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
             ◊ Inspired by
           </p>
           <p className="mt-4 max-w-3xl font-serif text-[clamp(1.4rem,2.4vw,2.4rem)] leading-[1.2] text-warmwhite/85">

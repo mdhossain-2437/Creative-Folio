@@ -7,7 +7,7 @@ import { services, process, serviceTiers } from "@/lib/data";
 export const metadata: Metadata = {
   title: "Services & Process",
   description:
-    "Engagement scope, capabilities and the four-phase process — from discovery to production. Booking Q3 2026.",
+    "Engagement scope, capabilities and the four-phase process — from discovery to production. Booking 2027.",
 };
 
 export default function ServicesPage() {
@@ -19,7 +19,7 @@ export default function ServicesPage() {
         italic="& Engagements."
         description="Specialising in high-end digital experiences. Merging technical precision with editorial art direction to create award-winning interactive platforms."
         meta={[
-          { label: "Booking", value: "Q3 — Q4 / 2026" },
+          { label: "Booking", value: "Q2 — Q4 / 2027" },
           { label: "Models", value: "Project · Retainer" },
           { label: "Industries", value: "SaaS · AI · Studios" },
           { label: "Time zone", value: "GMT+6" },
@@ -45,10 +45,10 @@ export default function ServicesPage() {
         </div>
       </PageHero>
 
-      <section className="border-t border-warmwhite/10 bg-ink-900 py-24 md:py-32">
+      <section className="border-t border-warmwhite/15 bg-ink-900 py-24 md:py-32">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
           <header className="grid grid-cols-1 gap-10 md:grid-cols-12">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50 md:col-span-3">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65 md:col-span-3">
               ◊ Tiers
             </p>
             <h2 className="font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[0.94] tracking-tightest md:col-span-9">
@@ -56,12 +56,12 @@ export default function ServicesPage() {
               <span className="italic text-warmwhite/60">to work together.</span>
             </h2>
           </header>
-          <ul className="mt-16 grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/10 md:grid-cols-3">
+          <ul className="mt-16 grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-3">
             {serviceTiers.map((t, i) => (
               <Reveal key={t.index} delay={i * 0.08}>
                 <li className="relative flex h-full flex-col gap-7 bg-ink-900 p-8 md:p-10">
                   <div className="flex items-center justify-between">
-                    <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+                    <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                       {t.index}
                     </span>
                     <span className="font-mono text-[10px] uppercase tracking-widest text-peach">
@@ -74,7 +74,7 @@ export default function ServicesPage() {
                   <p className="font-sans text-sm leading-relaxed text-warmwhite/70">
                     {t.pitch}
                   </p>
-                  <ul className="space-y-2 border-t border-warmwhite/10 pt-5 font-mono text-[11px] uppercase tracking-widest text-warmwhite/55">
+                  <ul className="space-y-2 border-t border-warmwhite/15 pt-5 font-mono text-[11px] uppercase tracking-widest text-warmwhite/55">
                     {t.deliverables.map((d) => (
                       <li key={d} className="flex items-start gap-2">
                         <span className="mt-1 inline-block h-1 w-1 shrink-0 rounded-full bg-electric" />
@@ -82,9 +82,9 @@ export default function ServicesPage() {
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-auto flex items-end justify-between gap-3 border-t border-warmwhite/10 pt-5">
+                  <div className="mt-auto flex items-end justify-between gap-3 border-t border-warmwhite/15 pt-5">
                     <div>
-                      <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/40">
+                      <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                         Best for
                       </p>
                       <p className="mt-2 max-w-[18ch] font-serif text-sm leading-snug text-warmwhite/75">
@@ -92,7 +92,7 @@ export default function ServicesPage() {
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/40">
+                      <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                         From
                       </p>
                       <p className="mt-2 font-serif text-2xl tracking-tight text-warmwhite">
@@ -109,10 +109,10 @@ export default function ServicesPage() {
 
       <section className="bg-ink-900 py-20 md:py-28">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-          <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+          <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
             ◊ Capabilities · what each tier draws from
           </p>
-          <ul className="mt-12 space-y-px overflow-hidden bg-warmwhite/10">
+          <ul className="mt-12 space-y-px overflow-hidden bg-warmwhite/15">
             {services.map((s, i) => (
               <Reveal key={s.index} delay={i * 0.05}>
                 <li className="grid grid-cols-1 gap-6 bg-ink-900 p-8 md:grid-cols-12 md:gap-10 md:p-12">
@@ -144,21 +144,21 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="border-t border-warmwhite/10 bg-ink-950 py-28 md:py-40">
+      <section className="border-t border-warmwhite/15 bg-ink-950 py-28 md:py-40">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
           <header className="grid grid-cols-1 gap-10 md:grid-cols-12">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50 md:col-span-3">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65 md:col-span-3">
               ◊ Process
             </p>
             <h2 className="font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[0.94] tracking-tightest md:col-span-9">
               Concept <span className="italic text-warmwhite/60">to Shader.</span>
             </h2>
           </header>
-          <ol className="mt-16 grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/10 md:grid-cols-4">
+          <ol className="mt-16 grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-4">
             {process.map((p, i) => (
               <Reveal key={p.phase} delay={i * 0.05}>
                 <li className="flex h-full flex-col gap-6 bg-ink-950 p-8 md:p-10">
-                  <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50">
+                  <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                     {p.phase}
                   </span>
                   <h3 className="font-serif text-3xl leading-none tracking-tightest md:text-4xl">
@@ -172,10 +172,10 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <section className="border-t border-warmwhite/10 bg-ink-900 py-28 md:py-40">
+      <section className="border-t border-warmwhite/15 bg-ink-900 py-28 md:py-40">
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
           <div className="md:col-span-3">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/50">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
               ◊ Engagements
             </p>
           </div>
@@ -198,7 +198,7 @@ export default function ServicesPage() {
               },
             ].map((e, i) => (
               <Reveal key={e.title} delay={i * 0.05}>
-                <li className="aura relative flex h-full flex-col gap-5 rounded-md border border-warmwhite/10 bg-ink-900 p-8">
+                <li className="aura relative flex h-full flex-col gap-5 rounded-md border border-warmwhite/15 bg-ink-900 p-8">
                   <p className="font-sans text-[10px] uppercase tracking-widest text-peach">
                     {e.tagline}
                   </p>
