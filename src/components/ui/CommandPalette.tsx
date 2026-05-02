@@ -40,6 +40,7 @@ export function CommandPalette() {
       { id: "route:/achievements", label: "Achievements", hint: "/achievements", kind: "route" },
       { id: "route:/uses", label: "Uses", hint: "/uses", kind: "route" },
       { id: "route:/changelog", label: "Changelog", hint: "/changelog", kind: "route" },
+      { id: "route:/colors", label: "Colors", hint: "/colors", kind: "route" },
     ];
     const actions: Item[] = site.commandActions.map((a) => ({
       id: `action:${a.id}`,
