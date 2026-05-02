@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { unlock } from "@/lib/achievements";
 
 export type ConstellationStar = {
   label: string;
@@ -34,6 +35,10 @@ export function AtlasConstellation({ stars }: { stars: ConstellationStar[] }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const router = useRouter();
   const [hovered, setHovered] = useState<{ s: ConstellationStar; x: number; y: number } | null>(null);
+
+  useEffect(() => {
+    unlock("cartographer");
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;

@@ -4,6 +4,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { site } from "@/lib/site";
 import { applyMotion } from "@/components/ui/MotionToggle";
+import { pushToast } from "@/components/ui/Toast";
+import { unlock } from "@/lib/achievements";
 
 type Item = {
   id: string;
@@ -92,13 +94,41 @@ export function CommandPalette() {
     }
     const id = item.id.replace(/^action:/, "");
     if (id === "copy-email") {
-      navigator.clipboard?.writeText(site.email).catch(() => {});
+      navigator.clipboard
+        ?.writeText(site.email)
+        .then(() => {
+          pushToast({
+            id: "copy-email",
+            title: "Email copied",
+            description: site.email,
+            variant: "success",
+          });
+          unlock("scribe");
+        })
+        .catch(() =>
+          pushToast({
+            id: "copy-email-fail",
+            title: "Couldn't copy",
+            description: "Browser blocked clipboard. Try selecting manually.",
+            variant: "info",
+          })
+        );
     } else if (id === "toggle-grid") {
       window.dispatchEvent(new KeyboardEvent("keydown", { key: "G", shiftKey: true, metaKey: true }));
     } else if (id === "toggle-motion") {
-      const cur = document.body.classList.contains("calm-motion") ? "on" : "off";
-      applyMotion(cur);
-      window.localStorage.setItem("delowar:motion", cur);
+      const next = document.body.classList.contains("calm-motion") ? "on" : "off";
+      applyMotion(next);
+      try {
+        window.localStorage.setItem("delowar:motion", next);
+      } catch {
+        /* silent */
+      }
+      pushToast({
+        id: "motion-toggle",
+        title: next === "off" ? "Calmer build" : "Full motion",
+        description: next === "off" ? "Animations dialled down" : "Animations restored",
+        variant: "info",
+      });
     } else if (id === "open-showreel") {
       window.dispatchEvent(new CustomEvent("delowar:open-showreel"));
     } else if (id === "konami") {
