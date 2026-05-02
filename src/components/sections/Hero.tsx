@@ -4,6 +4,7 @@ import { HeroShader } from "@/components/webgl/HeroShader";
 import { SplitText } from "@/components/ui/SplitText";
 import { Marquee } from "@/components/ui/Marquee";
 import { Magnetic } from "@/components/ui/Magnetic";
+import { HeroGreeting } from "@/components/ui/HeroGreeting";
 import Link from "next/link";
 
 export function Hero() {
@@ -24,6 +25,9 @@ export function Hero() {
         <div className="mt-auto">
           <p className="font-sans text-[11px] uppercase tracking-widest text-warmwhite/60">
             ◌ &nbsp; Delowar Hossain &nbsp;—&nbsp; Folio MMXXVI
+          </p>
+          <p className="mt-3 font-sans text-[11px] uppercase tracking-widest text-warmwhite/45">
+            <HeroGreeting />
           </p>
           <h1 className="mt-4 break-words font-serif leading-[0.88] tracking-tightest text-warmwhite md:mt-6">
             <span className="block text-[clamp(3rem,11vw,11rem)]">

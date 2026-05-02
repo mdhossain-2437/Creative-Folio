@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 import { LabDemo } from "@/components/lab/LabDemo";
+import { LabRandomButton } from "@/components/lab/LabRandomButton";
+import { LabCardCopyLink } from "@/components/lab/LabCardCopyLink";
 import { Reveal } from "@/components/ui/Reveal";
 import { experiments, arsenal } from "@/lib/data";
 import { Marquee } from "@/components/ui/Marquee";
@@ -29,10 +31,16 @@ export default function LabPage() {
 
       <section className="bg-ink-900 py-16 md:py-24">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
+          <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+              ◊ {experiments.length} live experiments · hover any tile to feel it react
+            </p>
+            <LabRandomButton slugs={experiments.map((x) => x.slug)} />
+          </div>
           <ul className="grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/10 md:grid-cols-2 lg:grid-cols-3">
             {experiments.map((e, i) => (
               <Reveal key={e.index} delay={i * 0.04}>
-                <li className="group flex h-full flex-col bg-ink-900">
+                <li className="group relative flex h-full flex-col bg-ink-900">
                   <Link
                     href={`/lab/${e.slug}`}
                     data-cursor="view"
@@ -52,6 +60,7 @@ export default function LabPage() {
                       ↗
                     </span>
                   </Link>
+                  <LabCardCopyLink slug={e.slug} />
                   <div className="flex flex-1 flex-col justify-between gap-6 p-6 md:p-8">
                     <div>
                       <h3 className="break-words font-serif text-xl leading-tight tracking-tighter md:text-2xl">

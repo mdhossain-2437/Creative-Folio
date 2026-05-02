@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { unlock } from "@/lib/achievements";
 
 const KONAMI = [
   "ArrowUp",
@@ -22,6 +23,7 @@ export function ShaderStorm() {
     let buf: string[] = [];
     const trigger = () => {
       setActive(true);
+      unlock("shader-storm");
       window.setTimeout(() => setActive(false), 6000);
     };
     const onKey = (e: KeyboardEvent) => {
