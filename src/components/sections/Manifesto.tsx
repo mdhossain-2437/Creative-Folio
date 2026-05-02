@@ -5,7 +5,7 @@ export function Manifesto() {
     <section className="relative border-t border-warmwhite/15 bg-ink-900 py-28 md:py-40">
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
-          §01 — Manifesto
+          ◊ Manifesto
         </p>
         <Reveal>
           <p className="mt-10 max-w-[1200px] font-serif text-[clamp(1.7rem,3.4vw,3.6rem)] leading-[1.08] tracking-tighter text-warmwhite">

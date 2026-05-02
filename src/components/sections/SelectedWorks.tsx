@@ -13,7 +13,7 @@ export function SelectedWorks() {
         <header className="flex items-end justify-between gap-6">
           <div>
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
-              §02 — Selected Works
+              ◊ Selected Works
             </p>
             <h2 className="mt-4 font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[0.95] tracking-tightest">
               Selected

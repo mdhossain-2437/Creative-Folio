@@ -14,7 +14,7 @@ export function ShowreelTeaser() {
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12">
           <div className="md:col-span-5">
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
-              §03 — Reel · 02:17
+              ◊ Reel · 02:17
             </p>
             <h2
               className="kinetic mt-6 font-serif text-[clamp(2.5rem,6vw,5.4rem)] leading-[0.96] tracking-tightest"

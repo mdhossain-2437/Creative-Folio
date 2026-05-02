@@ -6,7 +6,7 @@ export function MilestonesScroll() {
     <section className="border-t border-warmwhite/15">
       <div className="mx-auto max-w-[1640px] px-6 md:px-10 pt-24">
         <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
-          §04 — Milestones · 2017 → 2027
+          ◊ Milestones · 2017 → 2027
         </p>
         <h2 className="mt-6 max-w-4xl font-serif text-[clamp(2.5rem,6vw,5.4rem)] leading-[0.96] tracking-tightest">
           Ten years. Five chapters.
