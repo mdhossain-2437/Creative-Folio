@@ -314,3 +314,13 @@ body.calm-motion::before {
   );
   mix-blend-mode: screen;
 }
+
+/* Lab playground fullscreen — browsers expand the element to 100vw/100vh
+   automatically, but the `aspect-[16/9]` utility fights that. Reset it. */
+[data-lab-stage]:fullscreen {
+  aspect-ratio: auto;
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  border: 0;
+}

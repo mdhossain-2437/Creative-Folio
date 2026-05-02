@@ -95,6 +95,7 @@ export function Footer() {
                 { label: "Showreel", href: "/showreel" },
                 { label: "Atlas", href: "/atlas" },
                 { label: "Awards", href: "/awards" },
+                { label: "Achievements", href: "/achievements" },
                 { label: "Colophon", href: "/colophon" },
                 { label: "Privacy", href: "/legal/privacy" },
                 { label: "Terms", href: "/legal/terms" },

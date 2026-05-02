@@ -18,6 +18,7 @@ const STATIC_PATHS = [
   "/process",
   "/showreel",
   "/atlas",
+  "/achievements",
   "/legal/privacy",
   "/legal/terms",
 ];

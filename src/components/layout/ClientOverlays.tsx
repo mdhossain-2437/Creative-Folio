@@ -12,6 +12,7 @@ const NavShortcuts = dynamic(() => import("@/components/ui/NavShortcuts").then((
 const KonamiHint = dynamic(() => import("@/components/ui/KonamiHint").then((m) => m.KonamiHint), { ssr: false });
 const ConsoleBanner = dynamic(() => import("@/components/ui/ConsoleBanner").then((m) => m.ConsoleBanner), { ssr: false });
 const FaviconAnimator = dynamic(() => import("@/components/ui/FaviconAnimator").then((m) => m.FaviconAnimator), { ssr: false });
+const Spotlight = dynamic(() => import("@/components/ui/Spotlight").then((m) => m.Spotlight), { ssr: false });
 
 export function ClientOverlays() {
   return (
@@ -26,6 +27,7 @@ export function ClientOverlays() {
       <KonamiHint />
       <ConsoleBanner />
       <FaviconAnimator />
+      <Spotlight />
     </>
   );
 }

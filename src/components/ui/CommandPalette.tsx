@@ -35,6 +35,7 @@ export function CommandPalette() {
       { id: "route:/awards", label: "Awards", hint: "/awards", kind: "route" },
       { id: "route:/archive", label: "Archive", hint: "/archive", kind: "route" },
       { id: "route:/colophon", label: "Colophon", hint: "/colophon", kind: "route" },
+      { id: "route:/achievements", label: "Achievements", hint: "/achievements", kind: "route" },
     ];
     const actions: Item[] = site.commandActions.map((a) => ({
       id: `action:${a.id}`,
@@ -54,9 +55,23 @@ export function CommandPalette() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const isK = e.key === "k" || e.key === "K";
+      const tag = (document.activeElement?.tagName || "").toLowerCase();
+      const editable =
+        ["input", "textarea", "select"].includes(tag) ||
+        Boolean((document.activeElement as HTMLElement | null)?.isContentEditable);
       if (isK && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
         setOpen((o) => !o);
+      } else if (
+        !open &&
+        !editable &&
+        !e.metaKey &&
+        !e.ctrlKey &&
+        !e.altKey &&
+        e.key === "/"
+      ) {
+        e.preventDefault();
+        setOpen(true);
       } else if (e.key === "Escape" && open) {
         setOpen(false);
       } else if (open) {
@@ -147,7 +162,7 @@ export function CommandPalette() {
       />
       <div className="relative z-10 w-full max-w-xl overflow-hidden rounded-2xl border border-warmwhite/15 bg-ink-900/95 shadow-2xl backdrop-blur">
         <div className="flex items-center gap-3 border-b border-warmwhite/10 px-5 py-4">
-          <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/40">⌘K</span>
+          <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/40">⌘K · /</span>
           <input
             ref={inputRef}
             value={query}
