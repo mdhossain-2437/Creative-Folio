@@ -33,6 +33,7 @@ export const site = {
     { label: "Resume", href: "/resume" },
     { label: "Journal", href: "/journal" },
     { label: "Services", href: "/services" },
+    { label: "Uses", href: "/uses" },
     { label: "Contact", href: "/contact" },
   ],
   commandActions: [

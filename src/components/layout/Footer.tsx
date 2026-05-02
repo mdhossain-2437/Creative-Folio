@@ -100,6 +100,7 @@ export function Footer({ commitSha, buildTime }: FooterProps = {}) {
               title="Studio"
               items={[
                 { label: "Now", href: "/now" },
+                { label: "Uses", href: "/uses" },
                 { label: "Showreel", href: "/showreel" },
                 { label: "Atlas", href: "/atlas" },
                 { label: "Awards", href: "/awards" },

@@ -21,6 +21,7 @@ const STATIC_PATHS = [
   "/achievements",
   "/legal/privacy",
   "/legal/terms",
+  "/uses",
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
