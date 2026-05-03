@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { site } from "@/lib/site";
+import { SoundToggle } from "@/components/ui/SoundDesign";
 
 const PRIMARY = ["Index", "Works", "Lab", "About", "Resume", "Journal", "Services", "Contact"];
 
@@ -81,8 +82,9 @@ export function Navbar() {
           })}
         </ul>
 
-        {/* Right cluster: ⌘K + CTA only — status pills moved to footer StatusStrip */}
+        {/* Right cluster: sound toggle + ⌘K + CTA — status pills live in footer StatusStrip */}
         <div className="hidden items-center gap-3 font-sans text-[11px] uppercase tracking-widest md:flex">
+          <SoundToggle />
           <button
             type="button"
             onClick={() =>

@@ -8,9 +8,19 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { site } from "@/lib/site";
 
+function formatCountdown(targetMs: number): string {
+  const diff = targetMs - Date.now();
+  if (diff <= 0) return "00d 00h 00m";
+  const d = Math.floor(diff / 86_400_000);
+  const h = Math.floor((diff % 86_400_000) / 3_600_000);
+  const m = Math.floor((diff % 3_600_000) / 60_000);
+  return `${String(d).padStart(3, "0")}d ${String(h).padStart(2, "0")}h ${String(m).padStart(2, "0")}m`;
+}
+
 export function StatusStrip() {
   const [time, setTime] = useState<string>("—— BD");
   const [stars, setStars] = useState<number | null>(null);
+  const [countdown, setCountdown] = useState<string>("———d ——h ——m");
 
   useEffect(() => {
     const fmt = () => {
@@ -29,6 +39,15 @@ export function StatusStrip() {
     };
     fmt();
     const id = setInterval(fmt, 30_000);
+    return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    // MMXXVII = January 1 2027, 00:00 Asia/Dhaka (UTC+6).
+    const target = Date.UTC(2026, 11, 31, 18, 0, 0); // 2027-01-01T00:00+06:00
+    const tick = () => setCountdown(formatCountdown(target));
+    tick();
+    const id = setInterval(tick, 60_000);
     return () => clearInterval(id);
   }, []);
 
@@ -71,6 +90,15 @@ export function StatusStrip() {
           </span>
           <span aria-hidden className="text-warmwhite/30">·</span>
           <span className="display-num text-warmwhite/65">{site.editionShort}</span>
+          <span aria-hidden className="text-warmwhite/30">·</span>
+          <span
+            className="display-num text-warmwhite/85"
+            title="Time until MMXXVII (2027-01-01, Asia/Dhaka)"
+          >
+            <span className="text-warmwhite/55">→ </span>
+            {countdown}
+            <span className="text-warmwhite/55"> {site.editionShort}</span>
+          </span>
         </div>
 
         <Link

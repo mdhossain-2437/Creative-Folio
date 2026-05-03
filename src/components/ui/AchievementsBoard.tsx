@@ -25,6 +25,7 @@ const HINTS: Record<AchievementId, string> = {
   archivist: "Read every case study to the end.",
   "capsule-keeper": "Press C to save a time capsule of any page.",
   "atmosphere-shifter": "Press T to cycle through every atmosphere.",
+  polyglot: "Type four secret words: peach, storm, quiet, print, reel, menu.",
 };
 
 const RARITY: Record<AchievementId, "common" | "rare" | "legendary"> = {
@@ -45,6 +46,7 @@ const RARITY: Record<AchievementId, "common" | "rare" | "legendary"> = {
   archivist: "rare",
   "capsule-keeper": "common",
   "atmosphere-shifter": "rare",
+  polyglot: "rare",
 };
 
 const STORAGE_KEY = "delowar:achievements:v1";

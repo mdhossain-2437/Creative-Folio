@@ -1,9 +1,10 @@
 "use client";
 
 import { HeroShader } from "@/components/webgl/HeroShader";
-import { SplitText } from "@/components/ui/SplitText";
+import { MagneticLetters } from "@/components/ui/MagneticLetters";
 import { Marquee } from "@/components/ui/Marquee";
 import { Magnetic } from "@/components/ui/Magnetic";
+import { ScrambleText } from "@/components/ui/ScrambleText";
 import Link from "next/link";
 import { site } from "@/lib/site";
 
@@ -16,7 +17,9 @@ export function Hero() {
       <div className="relative z-10 mx-auto flex h-full max-w-[1640px] flex-col px-6 pb-16 pt-28 md:px-10 md:pb-20 md:pt-28">
         {/* Single quiet eyebrow — everything else lives in the StatusStrip / Footer now. */}
         <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
-          ◌ Folio {site.editionShort}
+          <ScrambleText trigger="mount" duration={900}>
+            {`◌ Folio ${site.editionShort}`}
+          </ScrambleText>
         </p>
 
         <div className="mt-auto">
@@ -28,14 +31,10 @@ export function Hero() {
             className="break-words font-serif leading-[0.88] tracking-tightest text-warmwhite"
           >
             <span aria-hidden className="block text-[clamp(3rem,11vw,11rem)]">
-              <SplitText text="Delowar" />
+              <MagneticLetters text="Delowar" />
             </span>
-            <span aria-hidden className="block text-[clamp(3rem,11vw,11rem)]">
-              <SplitText
-                text="Hossain."
-                delay={0.12}
-                className="italic text-warmwhite/90"
-              />
+            <span aria-hidden className="block text-[clamp(3rem,11vw,11rem)] italic text-warmwhite/90">
+              <MagneticLetters text="Hossain." italic />
             </span>
           </h1>
 

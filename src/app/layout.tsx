@@ -14,6 +14,8 @@ import { MaskFooter } from "@/components/ui/MaskFooter";
 import { SkipToContent } from "@/components/ui/SkipToContent";
 import { ScrollToTop } from "@/components/ui/ScrollToTop";
 import { ClientOverlays } from "@/components/layout/ClientOverlays";
+import { SoundProvider } from "@/components/ui/SoundDesign";
+import { CursorSpotlight } from "@/components/ui/CursorSpotlight";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { site } from "@/lib/site";
 
@@ -108,7 +110,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SkipToContent />
         <SmoothScrollProvider>
           <Preloader />
+          <CursorSpotlight />
           <Cursor />
+          <SoundProvider />
           <ClientOverlays />
           <GridOverlay />
           <ScrollMeter />

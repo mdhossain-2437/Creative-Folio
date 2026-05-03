@@ -12,24 +12,42 @@ import { MilestonesScroll } from "@/components/sections/MilestonesScroll";
 import { NowTeaser } from "@/components/sections/NowTeaser";
 import { ShowreelTeaser } from "@/components/sections/ShowreelTeaser";
 import { Testimonials } from "@/components/sections/Testimonials";
+import { SectionRail } from "@/components/ui/SectionRail";
+
+const railItems = [
+  { id: "hero", label: "Hero" },
+  { id: "manifesto", label: "Manifesto" },
+  { id: "works", label: "Works" },
+  { id: "showreel", label: "Reel" },
+  { id: "milestones", label: "Milestones" },
+  { id: "now", label: "Now" },
+  { id: "stats", label: "Stats" },
+  { id: "testimonials", label: "Words" },
+  { id: "awards", label: "Awards" },
+  { id: "capabilities", label: "Studio" },
+  { id: "process", label: "Process" },
+  { id: "journal", label: "Journal" },
+  { id: "sitemap", label: "Map" },
+];
 
 export default function HomePage() {
   return (
     <>
-      <Hero />
-      <Manifesto />
-      <MarqueeBand />
-      <SelectedWorks />
-      <div className="cv-auto"><ShowreelTeaser /></div>
-      <div className="cv-auto"><MilestonesScroll /></div>
-      <div className="cv-auto"><NowTeaser /></div>
-      <div className="cv-auto"><Stats /></div>
-      <div className="cv-auto"><Testimonials /></div>
-      <div className="cv-auto"><AwardsSection /></div>
-      <div className="cv-auto"><Capabilities /></div>
-      <div className="cv-auto"><ProcessSection /></div>
-      <div className="cv-auto"><JournalPreview /></div>
-      <div className="cv-auto"><SiteMap /></div>
+      <SectionRail items={railItems} />
+      <div data-section-id="hero"><Hero /></div>
+      <div data-section-id="manifesto"><Manifesto /></div>
+      <div data-section-id="marquee"><MarqueeBand /></div>
+      <div data-section-id="works"><SelectedWorks /></div>
+      <div data-section-id="showreel" className="cv-auto"><ShowreelTeaser /></div>
+      <div data-section-id="milestones" className="cv-auto"><MilestonesScroll /></div>
+      <div data-section-id="now" className="cv-auto"><NowTeaser /></div>
+      <div data-section-id="stats" className="cv-auto"><Stats /></div>
+      <div data-section-id="testimonials" className="cv-auto"><Testimonials /></div>
+      <div data-section-id="awards" className="cv-auto"><AwardsSection /></div>
+      <div data-section-id="capabilities" className="cv-auto"><Capabilities /></div>
+      <div data-section-id="process" className="cv-auto"><ProcessSection /></div>
+      <div data-section-id="journal" className="cv-auto"><JournalPreview /></div>
+      <div data-section-id="sitemap" className="cv-auto"><SiteMap /></div>
     </>
   );
 }

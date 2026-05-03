@@ -4,6 +4,7 @@ import Link from "next/link";
 import { PageHero } from "@/components/layout/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { SpotlightTile } from "@/components/ui/SpotlightTile";
+import { WorksConstellation } from "@/components/works/WorksConstellation";
 import { works, archive } from "@/lib/data";
 
 export const metadata: Metadata = {
@@ -27,6 +28,8 @@ export default function WorksPage() {
           { label: "Available", value: "Q3 ’26" },
         ]}
       />
+
+      <WorksConstellation works={works} />
 
       <section className="relative bg-ink-900 py-16 md:py-24">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
