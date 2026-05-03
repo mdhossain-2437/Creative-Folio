@@ -1388,6 +1388,9 @@ export const testimonials: Testimonial[] = [
   },
 ];
 
+// Cold-start fallback for the /api/github edge function. Used when GitHub
+// is rate-limited, unreachable, or the GITHUB_PAT secret is missing. Once
+// the live route returns, these are replaced by real PushEvent data.
 export const githubFallback: { sha: string; repo: string; message: string; ago: string }[] = [
   { sha: "a1f4c2", repo: "creative-folio", message: "feat(layout): flexible route curtain with destination text", ago: "2h" },
   { sha: "3b9e02", repo: "creative-folio", message: "chore(content): refresh dates + projects for 2027", ago: "5h" },

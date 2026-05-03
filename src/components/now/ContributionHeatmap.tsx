@@ -1,22 +1,11 @@
-// Server component — fetched at build time + revalidated hourly.
-type Day = { date: string; count: number; level: 0 | 1 | 2 | 3 | 4 };
+// Server component — receives prefetched contribution data from the
+// /api/github edge function (called once per /now request via
+// fetchGitHubData() in src/lib/github-fetch.ts). Renders the same
+// 53×7 SVG heatmap; falls back to an empty grid when stale.
 
-type ApiResponse = {
-  total: { [year: string]: number };
-  contributions: Day[];
-};
+import type { GitHubDay } from "@/lib/github";
 
-async function fetchContributions(user: string): Promise<ApiResponse | null> {
-  try {
-    const res = await fetch(`https://github-contributions-api.jogruber.de/v4/${user}?y=last`, {
-      next: { revalidate: 60 * 60 },
-    });
-    if (!res.ok) return null;
-    return (await res.json()) as ApiResponse;
-  } catch {
-    return null;
-  }
-}
+type Day = GitHubDay;
 
 const LEVEL_FILL = [
   "rgba(239, 236, 233, 0.07)",
@@ -26,9 +15,14 @@ const LEVEL_FILL = [
   "rgba(205, 250, 0, 1)",
 ];
 
-export async function ContributionHeatmap({ user }: { user: string }) {
-  const data = await fetchContributions(user);
+type Props = {
+  user: string;
+  days: Day[];
+  total: number;
+  stale?: boolean;
+};
 
+export function ContributionHeatmap({ user, days, total, stale }: Props) {
   // Layout: 53 columns × 7 rows. Cell 11×11 + 3 px gap → grid is 53*14-3 = 739 wide.
   const CELL = 11;
   const GAP = 3;
@@ -38,11 +32,8 @@ export async function ContributionHeatmap({ user }: { user: string }) {
   const h = rows * (CELL + GAP) - GAP;
 
   // Pad/trim to 53 weeks ending today, Monday-start.
-  let cells: (Day | null)[] = Array.from({ length: cols * rows }, () => null);
-  let total = 0;
-  if (data) {
-    const days = data.contributions;
-    total = days.reduce((acc, d) => acc + d.count, 0);
+  const cells: (Day | null)[] = Array.from({ length: cols * rows }, () => null);
+  if (days.length) {
     // Map each day onto a weekday × week column relative to the latest day.
     const last = new Date(days[days.length - 1]?.date ?? new Date().toISOString().slice(0, 10));
     const lastWeekday = (last.getDay() + 6) % 7; // Monday=0..Sunday=6
@@ -55,6 +46,7 @@ export async function ContributionHeatmap({ user }: { user: string }) {
       cells[weekday * cols + col] = d;
     }
   }
+  const hasData = days.length > 0;
 
   const months: { col: number; label: string }[] = [];
   for (let c = 0; c < cols; c++) {
@@ -74,8 +66,13 @@ export async function ContributionHeatmap({ user }: { user: string }) {
             ◊ GitHub · last 365 days
           </p>
           <p className="mt-2 font-serif text-[clamp(1.6rem,3vw,2.6rem)] leading-none tracking-tightest text-warmwhite">
-            {data ? total.toLocaleString("en") : "—"}
+            {hasData ? total.toLocaleString("en") : "—"}
             <span className="ml-2 text-warmwhite/55">contributions</span>
+            {stale ? (
+              <span className="ml-3 align-middle font-sans text-[9px] uppercase tracking-widest text-warmwhite/45">
+                · cached
+              </span>
+            ) : null}
           </p>
         </div>
         <a
@@ -145,7 +142,7 @@ export async function ContributionHeatmap({ user }: { user: string }) {
           />
         ))}
         <span>more</span>
-        {!data ? (
+        {!hasData ? (
           <span className="ml-auto text-warmwhite/35">— offline; rendering placeholder grid</span>
         ) : null}
       </div>
