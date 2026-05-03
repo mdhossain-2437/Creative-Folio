@@ -6,6 +6,7 @@ import { Marquee } from "@/components/ui/Marquee";
 import { MotionToggle } from "@/components/ui/MotionToggle";
 import { StudioClock } from "@/components/ui/StudioClock";
 import { StatusStrip } from "@/components/layout/StatusStrip";
+import { SignatureSVG } from "@/components/ui/SignatureSVG";
 import { site } from "@/lib/site";
 import { pushToast } from "@/components/ui/Toast";
 import { unlock } from "@/lib/achievements";
@@ -118,7 +119,19 @@ export function Footer({ commitSha, buildTime }: FooterProps = {}) {
           </div>
         </div>
 
-        <div className="mt-20">
+        <div className="mt-20 flex items-end justify-between gap-6 border-t border-warmwhite/15 pt-10">
+          <div>
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
+              ◌ Signed
+            </p>
+            <SignatureSVG className="mt-3 h-20 w-auto max-w-[420px] text-peach md:h-24" />
+          </div>
+          <p className="hidden font-sans text-[10px] uppercase tracking-widest text-warmwhite/55 md:block">
+            handwritten in vector — strokes draw on view
+          </p>
+        </div>
+
+        <div className="mt-12">
           <Marquee
             speed={50}
             items={[

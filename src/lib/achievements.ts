@@ -21,7 +21,8 @@ export type AchievementId =
   | "designer"
   | "archivist"
   | "capsule-keeper"
-  | "atmosphere-shifter";
+  | "atmosphere-shifter"
+  | "polyglot";
 
 const STORAGE_KEY = "delowar:achievements:v1";
 
@@ -100,6 +101,11 @@ export const ACHIEVEMENTS: Record<AchievementId, AchievementMeta> = {
     title: "Atmosphere shifter",
     description:
       "Cycled through every atmosphere. The studio breathes differently now.",
+  },
+  polyglot: {
+    title: "Polyglot",
+    description:
+      "Whispered four secret words. The site knows several incantations.",
   },
 };
 

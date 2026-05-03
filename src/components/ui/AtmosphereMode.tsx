@@ -28,9 +28,49 @@ const LABEL: Record<Mode, string> = {
   eink: "E-ink · printable",
 };
 
+const ACCENT: Record<Mode, string> = {
+  aura: "rgba(227, 191, 180, 0.45)",
+  storm: "rgba(205, 250, 0, 0.42)",
+  stillness: "rgba(7, 7, 8, 0.55)",
+  eink: "rgba(239, 236, 233, 0.55)",
+};
+
 function applyMode(mode: Mode) {
   if (typeof document === "undefined") return;
   document.documentElement.dataset.atmosphere = mode;
+}
+
+function emitShockwave(mode: Mode, originX: number, originY: number) {
+  if (typeof document === "undefined") return;
+  const reduced = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+  if (reduced) return;
+  const wave = document.createElement("div");
+  wave.setAttribute("aria-hidden", "true");
+  wave.style.cssText = [
+    "position:fixed",
+    "left:0",
+    "top:0",
+    "width:100vw",
+    "height:100vh",
+    "pointer-events:none",
+    "z-index:120",
+    `background:radial-gradient(circle at ${originX}px ${originY}px, ${ACCENT[mode]} 0%, transparent 55%)`,
+    `clip-path:circle(0% at ${originX}px ${originY}px)`,
+    "transition:clip-path 720ms cubic-bezier(0.22, 1, 0.36, 1), opacity 480ms ease-out 320ms",
+    "opacity:1",
+    "mix-blend-mode:screen",
+  ].join(";");
+  document.body.appendChild(wave);
+  // Trigger transition next frame
+  requestAnimationFrame(() => {
+    wave.style.clipPath = `circle(150% at ${originX}px ${originY}px)`;
+    wave.style.opacity = "0";
+  });
+  window.setTimeout(() => {
+    wave.remove();
+  }, 1100);
 }
 
 export function AtmosphereMode() {
@@ -45,10 +85,41 @@ export function AtmosphereMode() {
     applyMode("aura");
   }, []);
 
-  const cycle = useCallback(() => {
+  const cycle = useCallback((origin?: { x: number; y: number }) => {
     setMode((curr) => {
       const next = MODES[(MODES.indexOf(curr) + 1) % MODES.length];
       applyMode(next);
+      const x =
+        origin?.x ??
+        (typeof window !== "undefined" ? window.innerWidth - 56 : 0);
+      const y =
+        origin?.y ??
+        (typeof window !== "undefined" ? window.innerHeight - 56 : 0);
+      emitShockwave(next, x, y);
+      pushToast({
+        id: `atmosphere-${next}`,
+        title: "Atmosphere changed",
+        description: LABEL[next],
+        variant: "info",
+      });
+      visitedRef.current.add(next);
+      if (visitedRef.current.size >= MODES.length) {
+        unlock("atmosphere-shifter");
+      }
+      return next;
+    });
+  }, []);
+
+  const setExact = useCallback((next: Mode, origin?: { x: number; y: number }) => {
+    setMode(() => {
+      applyMode(next);
+      const x =
+        origin?.x ??
+        (typeof window !== "undefined" ? window.innerWidth / 2 : 0);
+      const y =
+        origin?.y ??
+        (typeof window !== "undefined" ? window.innerHeight / 2 : 0);
+      emitShockwave(next, x, y);
       pushToast({
         id: `atmosphere-${next}`,
         title: "Atmosphere changed",
@@ -76,9 +147,22 @@ export function AtmosphereMode() {
         cycle();
       }
     };
+    const onAtmosphereSet = (e: Event) => {
+      const detail = (e as CustomEvent<{ mode: Mode }>).detail;
+      if (!detail?.mode) return;
+      if (!MODES.includes(detail.mode)) return;
+      setExact(detail.mode);
+    };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [cycle]);
+    document.addEventListener("folio-atmosphere-set", onAtmosphereSet as EventListener);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.removeEventListener(
+        "folio-atmosphere-set",
+        onAtmosphereSet as EventListener
+      );
+    };
+  }, [cycle, setExact]);
 
   return (
     <div
@@ -89,7 +173,7 @@ export function AtmosphereMode() {
     >
       <button
         type="button"
-        onClick={cycle}
+        onClick={(e) => cycle({ x: e.clientX, y: e.clientY })}
         data-cursor="hover"
         data-cursor-label="ATMOSPHERE"
         aria-label={`Atmosphere: ${LABEL[mode]} · press T to cycle`}
