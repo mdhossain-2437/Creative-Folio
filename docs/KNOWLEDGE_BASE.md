@@ -198,6 +198,31 @@ pnpm build        # production build
 Pre-commit hooks: none. Run `pnpm typecheck && pnpm lint` manually before
 opening a PR.
 
+### Optional environment variables
+
+| Var | Purpose | Where to set |
+| --- | --- | --- |
+| `GITHUB_PAT` | Lifts the `/api/github` route from 60 → 5000 req/hr per IP and unlocks the GraphQL `contributionsCollection` query (real heatmap data instead of the public-proxy fallback). | Vercel → Project → Settings → Environment Variables (all environments). |
+
+To create a token: github.com → Settings → Developer settings → Personal
+access tokens → **Fine-grained tokens** → Generate new token. Repository
+access: *All public repositories* (read-only). Permissions: *Metadata =
+read-only* (that's the only scope needed). Without this, the route still
+works — just rate-limited and falls back to the
+`github-contributions-api.jogruber.de` public proxy for the heatmap.
+
+### `/api/github` (consolidated GitHub data route)
+
+* Single endpoint feeding `StatusStrip` (the `··· GH` pill),
+  `ContributionHeatmap` on `/now`, and the recent-commits list on `/now`.
+* Cache: `s-maxage=1800, stale-while-revalidate=86400` (30-minute fresh,
+  24-hour SWR). Page-level `revalidate = 1800` on `/now`.
+* Implementation: `src/app/api/github/route.ts` thin wrapper over
+  `src/lib/github-fetch.ts` (server-only). The `/now` page calls
+  `fetchGitHubData()` directly — no HTTP roundtrip.
+* Fallback: never throws. On full failure returns a baked snapshot with
+  `stale: true` from `githubFallback` in `src/lib/data.ts`.
+
 ---
 
 ## 8. Mock Asset Sources

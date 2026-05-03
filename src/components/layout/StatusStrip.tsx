@@ -54,11 +54,13 @@ export function StatusStrip() {
   useEffect(() => {
     let cancelled = false;
     const ctrl = new AbortController();
-    fetch("https://api.github.com/users/mdhossain-2437", { signal: ctrl.signal })
+    // Edge route consolidates rate-limited calls + caches at 30 min.
+    // Falls back gracefully when GitHub is down — see /api/github route.
+    fetch("/api/github", { signal: ctrl.signal })
       .then((r) => (r.ok ? r.json() : null))
       .then((j) => {
-        if (cancelled || !j) return;
-        const total = (j.public_repos ?? 0) + (j.followers ?? 0);
+        if (cancelled || !j?.user) return;
+        const total = (j.user.publicRepos ?? 0) + (j.user.followers ?? 0);
         setStars(total);
       })
       .catch(() => {});

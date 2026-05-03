@@ -1,9 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHero } from "@/components/layout/PageHero";
-import { nowFeed, githubFallback } from "@/lib/data";
+import { nowFeed } from "@/lib/data";
 import { Marquee } from "@/components/ui/Marquee";
 import { ContributionHeatmap } from "@/components/now/ContributionHeatmap";
+import { fetchGitHubData } from "@/lib/github-fetch";
+
+// Revalidate the /now page every 30 min so contribution + commits data
+// stays fresh without rebuilding.
+export const revalidate = 1800;
 
 export const metadata: Metadata = {
   title: "Now — What I'm doing this season",
@@ -13,7 +18,8 @@ export const metadata: Metadata = {
 
 const SEASON = "Spring 2027 · Joypurhat";
 
-export default function NowPage() {
+export default async function NowPage() {
+  const gh = await fetchGitHubData();
   return (
     <>
       <PageHero
@@ -48,7 +54,12 @@ export default function NowPage() {
 
       <section className="bg-ink-950 py-16 md:py-24">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-          <ContributionHeatmap user="mdhossain-2437" />
+          <ContributionHeatmap
+            user="mdhossain-2437"
+            days={gh.contributions.days}
+            total={gh.contributions.total}
+            stale={gh.stale}
+          />
         </div>
       </section>
 
@@ -85,7 +96,7 @@ export default function NowPage() {
             </p>
           </div>
           <ul className="md:col-span-8 divide-y divide-warmwhite/15 border-y border-warmwhite/15">
-            {githubFallback.map((c) => (
+            {gh.events.map((c) => (
               <li key={c.sha} className="grid grid-cols-12 gap-4 py-5 font-mono text-[12px] uppercase tracking-widest text-warmwhite/65">
                 <span className="col-span-2 text-warmwhite">{c.sha}</span>
                 <span className="col-span-3 text-peach">{c.repo}</span>
