@@ -10,6 +10,7 @@ import Link from "next/link";
 import { LabDemo } from "@/components/lab/LabDemo";
 import { LabCardCopyLink } from "@/components/lab/LabCardCopyLink";
 import { Reveal } from "@/components/ui/Reveal";
+import { TiltCard } from "@/components/ui/TiltCard";
 import type { ExperimentExtended } from "@/lib/data";
 
 type Props = {
@@ -70,7 +71,7 @@ export function LabGrid({ experiments }: Props) {
         <ul className="grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-2 lg:grid-cols-3">
           {visible.map((e, i) => (
             <Reveal key={e.index} delay={i * 0.04}>
-              <li className="group relative flex h-full flex-col bg-ink-900">
+              <TiltCard as="li" max={5} className="group relative flex h-full flex-col bg-ink-900">
                 <Link
                   href={`/lab/${e.slug}`}
                   data-cursor="view"
@@ -109,7 +110,7 @@ export function LabGrid({ experiments }: Props) {
                     {e.meta} · Open playground →
                   </Link>
                 </div>
-              </li>
+              </TiltCard>
             </Reveal>
           ))}
         </ul>
