@@ -1,4 +1,5 @@
 import { Reveal } from "@/components/ui/Reveal";
+import { WeightShift } from "@/components/ui/WeightShift";
 
 export function Manifesto() {
   return (
@@ -47,7 +48,9 @@ function Pillar({ tag, title, body }: { tag: string; title: string; body: string
     <Reveal className="border-t border-warmwhite/15 pt-6">
       <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">{tag}</p>
       <h3 className="mt-4 font-serif text-3xl tracking-tightest">{title}</h3>
-      <p className="mt-3 font-sans text-sm leading-relaxed text-warmwhite/65">{body}</p>
+      <p className="mt-3 font-sans text-sm leading-relaxed text-warmwhite/65">
+        <WeightShift>{body}</WeightShift>
+      </p>
     </Reveal>
   );
 }

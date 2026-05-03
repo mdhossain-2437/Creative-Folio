@@ -157,7 +157,13 @@ re-run `pnpm build` to verify no runtime errors.
 
 | Feature | Trigger | Component |
 | --- | --- | --- |
-| Atmosphere modes (aura/storm/stillness/eink) | press **T** or click pill | `AtmosphereMode.tsx` + `globals.css` data-attribute |
+| Atmosphere modes (aura/storm/stillness/eink/terminal) | press **T** or click pill · Shift-click pill copies a `?atmosphere=<mode>` shareable URL | `AtmosphereMode.tsx` + `globals.css` data-attribute |
+| Page-dwell counter | appears bottom-left after 30 s on a page; "settled" achievement at 3 min | `PageDwellCounter.tsx` |
+| Smart back-link pill | floating "Back to <referrer>" pill on `/works/[slug]` | `SmartBackLink.tsx` |
+| Ghost cursors | 2-3 faint canned cursor trails replay near hero | `GhostCursors.tsx` |
+| Variable-weight type | body copy morphs `wght 320 → 540` on scroll-in | `WeightShift.tsx` |
+| Hero fluid displacement | curl-noise WebGL2 ripple over hero H1 | `HeroFluidDisplacement.tsx` |
+| 3D reel chapter carousel | Three.js cylinder gallery on `/showreel` (drag/scroll/buttons) | `ReelChapterCarousel.tsx` |
 | Time capsule (snapshot of page state) | press **C** | `TimeCapsule.tsx` |
 | Funny page titles | tab loses focus + scroll milestones | `TabTitleFlicker.tsx` |
 | Dynamic SEO JSON-LD (Person + WebSite + Organization) | always | `JsonLd.tsx` |

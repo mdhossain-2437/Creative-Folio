@@ -43,6 +43,48 @@
   display: none;
 }
 
+/* Terminal — green-on-black CRT scanlines (Pack D, 5th mode). Stays in the
+   "dark" color-scheme bucket but tints the foreground green and overlays
+   horizontal scanlines + a subtle phosphor flicker. Disabled when reduced
+   motion is on. */
+:root[data-atmosphere="terminal"] {
+  --bg: #030604;
+  --fg: #b8ffd0;
+  --accent: #00dc5a;
+  color-scheme: dark;
+}
+:root[data-atmosphere="terminal"] body {
+  background: #030604;
+  color: #b8ffd0;
+}
+:root[data-atmosphere="terminal"] .vignette {
+  background: radial-gradient(circle at center, transparent 30%, rgba(0, 30, 12, 0.9) 100%);
+}
+:root[data-atmosphere="terminal"]::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 220, 90, 0.05) 0px,
+    rgba(0, 220, 90, 0.05) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: screen;
+}
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-atmosphere="terminal"]::after {
+    animation: terminal-scan 6s linear infinite;
+  }
+  @keyframes terminal-scan {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 6px; }
+  }
+}
+
 /* When any modal is open (ShowreelModal, CommandPalette, etc.) hide the
    floating overlays that live at z-30 / z-[60] (ShowreelPill,
    AtmosphereMode, ScrollToTop) so they don't poke through the modal
