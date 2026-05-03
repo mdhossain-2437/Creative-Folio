@@ -7,6 +7,7 @@ import { PageHero } from "@/components/layout/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { CaseStudyGallery } from "@/components/works/CaseStudyGallery";
 import { WorkVisitTracker } from "@/components/works/WorkVisitTracker";
+import { SmartBackLink } from "@/components/works/SmartBackLink";
 
 type Params = { slug: string };
 
@@ -48,6 +49,7 @@ export default async function CaseStudy({ params }: { params: Promise<Params> })
   return (
     <>
       <WorkVisitTracker slug={work.slug} />
+      <SmartBackLink />
       <PageHero
         eyebrow={`§ Case ${work.index} — ${work.category}`}
         title={work.title}

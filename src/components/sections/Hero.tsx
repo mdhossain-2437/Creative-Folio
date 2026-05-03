@@ -1,10 +1,12 @@
 "use client";
 
 import { HeroShader } from "@/components/webgl/HeroShader";
+import { HeroFluidDisplacement } from "@/components/webgl/HeroFluidDisplacement";
 import { MagneticLetters } from "@/components/ui/MagneticLetters";
 import { Marquee } from "@/components/ui/Marquee";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { ScrambleText } from "@/components/ui/ScrambleText";
+import { GhostCursors } from "@/components/ui/GhostCursors";
 import Link from "next/link";
 import { site } from "@/lib/site";
 
@@ -12,6 +14,8 @@ export function Hero() {
   return (
     <section className="relative h-[100svh] min-h-[760px] w-full overflow-hidden">
       <HeroShader />
+      <HeroFluidDisplacement />
+      <GhostCursors />
       <div className="vignette absolute inset-0" />
 
       <div className="relative z-10 mx-auto flex h-full max-w-[1640px] flex-col px-6 pb-16 pt-28 md:px-10 md:pb-20 md:pt-28">

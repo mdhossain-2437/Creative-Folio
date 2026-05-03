@@ -1,21 +1,39 @@
 "use client";
 
-// Animated favicon — draws the wordmark glyph onto a canvas and shifts the
-// accent through the brand palette every 4s. Pauses when the tab is hidden.
-// Falls back silently in browsers that don't support data-URI favicon swaps.
+// Favicon — accent-tinted glyph canvas. Used to cycle through brand
+// colours; now switches in lock-step with the active atmosphere mode
+// (5 modes: aura · storm · stillness · eink · terminal). Pauses when
+// the tab is hidden. Falls back silently in browsers that don't
+// support data-URI favicon swaps.
 
 import { useEffect } from "react";
 
-const PALETTE = ["#cdfa00", "#e3bfb4", "#9aa6c2", "#efece9"];
+type AtmosphereKey = "aura" | "storm" | "stillness" | "eink" | "terminal";
 
-function drawIcon(color: string, size = 64): string {
+const PALETTE: Record<AtmosphereKey, { bg: string; accent: string; glyph: string }> = {
+  aura: { bg: "#0c0c0c", accent: "#e3bfb4", glyph: "#0c0c0c" },
+  storm: { bg: "#07080c", accent: "#cdfa00", glyph: "#0c0c0c" },
+  stillness: { bg: "#050507", accent: "#efece9", glyph: "#0c0c0c" },
+  eink: { bg: "#efece9", accent: "#0c0c0c", glyph: "#efece9" },
+  terminal: { bg: "#030604", accent: "#00dc5a", glyph: "#030604" },
+};
+
+function readMode(): AtmosphereKey {
+  if (typeof document === "undefined") return "aura";
+  const v = document.documentElement.dataset.atmosphere;
+  if (v && v in PALETTE) return v as AtmosphereKey;
+  return "aura";
+}
+
+function drawIcon(mode: AtmosphereKey, size = 64): string {
+  const { bg, accent, glyph } = PALETTE[mode];
   const canvas = document.createElement("canvas");
   canvas.width = size;
   canvas.height = size;
   const ctx = canvas.getContext("2d");
   if (!ctx) return "";
   // Background
-  ctx.fillStyle = "#0c0c0c";
+  ctx.fillStyle = bg;
   ctx.beginPath();
   const r = 12;
   ctx.moveTo(r, 0);
@@ -30,7 +48,7 @@ function drawIcon(color: string, size = 64): string {
   ctx.closePath();
   ctx.fill();
   // Diamond accent
-  ctx.fillStyle = color;
+  ctx.fillStyle = accent;
   ctx.beginPath();
   ctx.moveTo(size / 2, size * 0.2);
   ctx.lineTo(size * 0.8, size / 2);
@@ -39,7 +57,7 @@ function drawIcon(color: string, size = 64): string {
   ctx.closePath();
   ctx.fill();
   // Glyph "D"
-  ctx.fillStyle = "#0c0c0c";
+  ctx.fillStyle = glyph;
   ctx.font = "bold 28px 'Newsreader', Georgia, serif";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
@@ -64,36 +82,31 @@ function setFavicon(href: string) {
 export function FaviconAnimator() {
   useEffect(() => {
     if (typeof window === "undefined" || typeof document === "undefined") return;
-    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
-    let i = 0;
-    let timer: number | undefined;
-    const cycle = () => {
+    let last: AtmosphereKey | null = null;
+    const apply = () => {
       try {
-        const url = drawIcon(PALETTE[i % PALETTE.length]);
+        if (document.hidden) return;
+        const mode = readMode();
+        if (mode === last) return;
+        last = mode;
+        const url = drawIcon(mode);
         if (url) setFavicon(url);
-        i += 1;
       } catch {
         /* silent */
       }
     };
-    const start = () => {
-      cycle();
-      timer = window.setInterval(cycle, 4000);
-    };
-    const stop = () => {
-      if (timer !== undefined) {
-        window.clearInterval(timer);
-        timer = undefined;
-      }
-    };
+    apply();
+    const obs = new MutationObserver(apply);
+    obs.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-atmosphere"],
+    });
     const onVis = () => {
-      if (document.hidden) stop();
-      else if (timer === undefined) start();
+      if (!document.hidden) apply();
     };
-    start();
     document.addEventListener("visibilitychange", onVis);
     return () => {
-      stop();
+      obs.disconnect();
       document.removeEventListener("visibilitychange", onVis);
     };
   }, []);

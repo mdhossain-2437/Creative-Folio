@@ -22,7 +22,8 @@ export type AchievementId =
   | "archivist"
   | "capsule-keeper"
   | "atmosphere-shifter"
-  | "polyglot";
+  | "polyglot"
+  | "settled";
 
 const STORAGE_KEY = "delowar:achievements:v1";
 
@@ -106,6 +107,11 @@ export const ACHIEVEMENTS: Record<AchievementId, AchievementMeta> = {
     title: "Polyglot",
     description:
       "Whispered four secret words. The site knows several incantations.",
+  },
+  settled: {
+    title: "Settled",
+    description:
+      "Spent three quiet minutes on a single page. The studio knows you're reading.",
   },
 };
 

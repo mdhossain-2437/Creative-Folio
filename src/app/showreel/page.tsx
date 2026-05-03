@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PageHero } from "@/components/layout/PageHero";
 import { reelClips } from "@/lib/data";
 import { ShowreelOpener } from "@/components/sections/ShowreelOpener";
+import { ReelChapterCarouselClient } from "@/components/showreel/ReelChapterCarouselClient";
 
 export const metadata: Metadata = {
   title: "Showreel — 02:17 of selected motion",
@@ -27,6 +28,8 @@ export default function ShowreelPage() {
       >
         <ShowreelOpener label="Open immersive view" />
       </PageHero>
+
+      <ReelChapterCarouselClient clips={reelClips} />
 
       <section className="bg-ink-900 py-20 md:py-28">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">

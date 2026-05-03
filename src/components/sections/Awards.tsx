@@ -29,7 +29,7 @@ export function AwardsSection() {
               <TiltCard
                 as="li"
                 max={4}
-                className="relative flex h-full flex-col justify-between gap-10 overflow-hidden bg-ink-950 p-8 md:p-10"
+                className="group/card relative flex h-full flex-col justify-between gap-10 overflow-hidden bg-ink-950 p-8 transition-shadow duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:shadow-[0_28px_64px_-26px_rgba(227,191,180,0.32)] motion-reduce:transition-none motion-reduce:hover:shadow-none md:p-10"
               >
                 <span
                   aria-hidden
