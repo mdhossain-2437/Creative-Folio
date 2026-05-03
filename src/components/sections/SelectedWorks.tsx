@@ -2,9 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { works } from "@/lib/data";
 import { Reveal } from "@/components/ui/Reveal";
+import { ScrambleText } from "@/components/ui/ScrambleText";
+import { WorkCoverDisplacement } from "@/components/works/WorkCoverDisplacement";
 
 export function SelectedWorks() {
   return (
@@ -13,7 +15,7 @@ export function SelectedWorks() {
         <header className="flex items-end justify-between gap-6">
           <div>
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
-              §02 — Selected Works
+              <ScrambleText>§02 — Selected Works</ScrambleText>
             </p>
             <h2 className="mt-4 font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[0.95] tracking-tightest">
               Selected
@@ -54,6 +56,9 @@ export function SelectedWorks() {
 function WorkRow({ work, idx }: { work: ReturnType<typeof getWorkType>; idx: number }) {
   const rowRef = useRef<HTMLAnchorElement>(null);
   const peekRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [intensity, setIntensity] = useState(0);
+  const [peekMouse, setPeekMouse] = useState({ x: 0.5, y: 0.5 });
 
   useEffect(() => {
     const row = rowRef.current;
@@ -66,15 +71,33 @@ function WorkRow({ work, idx }: { work: ReturnType<typeof getWorkType>; idx: num
       peek.style.transform = `translate3d(${e.clientX - r.left - peek.offsetWidth / 2}px, ${
         e.clientY - r.top - peek.offsetHeight / 2
       }px, 0)`;
+      const pr = peek.getBoundingClientRect();
+      setPeekMouse({
+        x: Math.max(0, Math.min(1, (e.clientX - pr.left) / pr.width)),
+        y: Math.max(0, Math.min(1, (e.clientY - pr.top) / pr.height)),
+      });
     };
     const onEnter = () => {
       visible = true;
       peek.style.opacity = "1";
       peek.style.transform += " scale(1)";
+      setIntensity(1);
+      const video = videoRef.current;
+      if (video) {
+        video.currentTime = 0;
+        video.play().catch(() => {
+          /* autoplay blocked — fall back to static cover silently */
+        });
+      }
     };
     const onLeave = () => {
       visible = false;
       peek.style.opacity = "0";
+      setIntensity(0);
+      const video = videoRef.current;
+      if (video) {
+        video.pause();
+      }
     };
     row.addEventListener("mousemove", onMove);
     row.addEventListener("mouseenter", onEnter);
@@ -122,6 +145,25 @@ function WorkRow({ work, idx }: { work: ReturnType<typeof getWorkType>; idx: num
               sizes="320px"
               className="object-cover"
             />
+            <WorkCoverDisplacement
+              src={work.cover}
+              alt=""
+              intensity={intensity}
+              mouse={peekMouse}
+              className="absolute inset-0 h-full w-full mix-blend-screen opacity-80"
+            />
+            {work.previewSrc && (
+              <video
+                ref={videoRef}
+                src={work.previewSrc}
+                muted
+                loop
+                playsInline
+                preload="none"
+                aria-hidden
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            )}
             <div
               className="absolute inset-0 mix-blend-multiply"
               style={{ background: work.accent + "55" }}
