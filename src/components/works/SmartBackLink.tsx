@@ -7,8 +7,12 @@
 //   - Same-origin anywhere else → "← Back to <pretty path>"
 //   - External or empty → fallback "← /works"
 // Dismissable. Hidden on touch / when modal is open. Bottom-right corner.
+//
+// Rendered via createPortal into document.body so ancestor filter / transform
+// effects on the case-study main column don't break `position: fixed`.
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 
 type LinkInfo = { href: string; label: string };
@@ -52,18 +56,20 @@ function resolveBack(): LinkInfo {
 export function SmartBackLink() {
   const [info, setInfo] = useState<LinkInfo | null>(null);
   const [dismissed, setDismissed] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const isTouch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
     if (isTouch) return; // mobile already has browser back
     setInfo(resolveBack());
+    setMounted(true);
     if (reduce) return;
   }, []);
 
-  if (!info || dismissed) return null;
+  if (!info || dismissed || !mounted) return null;
 
-  return (
+  const pill = (
     <div
       data-floating-overlay
       className="floating-overlay fixed bottom-6 right-[14rem] z-30 hidden md:flex items-center gap-1 rounded-full border border-warmwhite/20 bg-ink-950/85 backdrop-blur shadow-2xl"
@@ -89,4 +95,6 @@ export function SmartBackLink() {
       </button>
     </div>
   );
+
+  return createPortal(pill, document.body);
 }
