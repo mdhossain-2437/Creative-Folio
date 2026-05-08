@@ -13,20 +13,45 @@ const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
   "@id": `${site.url}/#person`,
+  // Branded-search signals: Google's entity resolver weights `name`,
+  // `alternateName`, and `givenName + familyName` heavily when matching
+  // a freeform query like "delowar hossain" to a Knowledge Graph entity.
   name: site.name,
   givenName: "Delowar",
   familyName: "Hossain",
-  alternateName: ["Delowar", "Md Delowar Hossain"],
+  additionalName: "Md",
+  alternateName: [
+    "Delowar",
+    "Md Delowar Hossain",
+    "Delowar Hossain",
+    "delowarhossain",
+    "delowarhossain.dev",
+  ],
   url: site.url,
-  jobTitle: "Creative Developer & UI/UX Designer",
+  mainEntityOfPage: site.url,
+  identifier: site.url,
+  jobTitle: [
+    "Creative Developer",
+    "UI/UX Designer",
+    "Full-Stack Developer",
+    "AI Engineer",
+    "Website Developer",
+  ].join(" · "),
   description: site.tagline,
   email: `mailto:${site.email}`,
+  // Image is the most important field for Google Image Search to associate
+  // the portrait with the name. We declare it in two forms — `image` (the
+  // simple URL) AND a structured ImageObject with caption + dimensions —
+  // so both classic image search and AI-driven image grounding can pick it up.
   image: {
     "@type": "ImageObject",
     url: `${site.url}${site.portrait}`,
+    contentUrl: `${site.url}${site.portrait}`,
     width: 1326,
     height: 1147,
-    caption: `${site.name} — portrait`,
+    caption: `${site.name} — Creative Developer & UI/UX Designer in Joypurhat, Bangladesh`,
+    representativeOfPage: true,
+    license: site.url,
   },
   nationality: { "@type": "Country", name: "Bangladesh" },
   address: {
@@ -90,9 +115,28 @@ const personSchema = {
     "Motion Design",
     "Design Systems",
     "Generative AI Integration",
+    "LangChain",
+    "OpenAI Integration",
     "Lenis Smooth Scroll",
+    "Performance Engineering",
+    "Full-Stack Development",
   ],
   knowsLanguage: ["en", "bn"],
+  // Educational background — surfaces in Knowledge Panel "Education" row.
+  alumniOf: {
+    "@type": "EducationalOrganization",
+    name: "B.A. Political Science",
+    description: "Self-taught engineer with a Political Science background.",
+  },
+  // Recognitions — fed from the awards page on the live site
+  // (Awwwards, CSS Design Awards, FWA, Product Hunt). Listed as plain
+  // strings since each award lives at its own canonical URL elsewhere.
+  award: [
+    "Awwwards Honorable Mention (2024)",
+    "CSS Design Awards — Best UI Design (2024)",
+    "FWA — Site of the Day (2024)",
+    "Product Hunt — #3 Product of the Day (2024)",
+  ],
 };
 
 const websiteSchema = {

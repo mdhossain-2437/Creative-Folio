@@ -41,27 +41,49 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
+  // Branded-search title: leads with "Delowar Hossain" so the page titled
+  // shows up first when someone searches that name on Google / Bing.
+  // Subpages use the template "%s · Delowar Hossain" to keep the name
+  // attached to every result.
   title: {
-    default: `${site.name} — Creative Developer · ${site.editionShort}`,
+    default: `${site.name} — Creative Developer & UI/UX Designer in Bangladesh`,
     template: `%s · ${site.name}`,
   },
-  description: site.tagline,
+  // Description leads with the full name + role + location so the SERP
+  // snippet reads as a person bio (best practice for Knowledge-Panel
+  // worthy entities).
+  description: `${site.name} is a creative developer and UI/UX designer based in ${site.location}. Building immersive, performance-focused web experiences with WebGL, Three.js, GSAP, Next.js and AI integration. ${site.editionShort} edition portfolio.`,
   keywords: [
+    // Branded keywords (highest weight)
+    "Delowar Hossain",
+    "Md Delowar Hossain",
+    "delowarhossain",
+    "delowarhossain.dev",
+    "Delowar",
+    // Role + location
     "creative developer",
-    "ui ux designer",
+    "creative developer Bangladesh",
+    "creative developer Joypurhat",
+    "ui ux designer Bangladesh",
+    "website developer Bangladesh",
+    "full-stack developer Bangladesh",
+    "AI engineer Bangladesh",
+    // Stack
     "WebGL",
     "Three.js",
     "GSAP",
     "Next.js",
-    "shaders",
-    "Bangladesh",
-    "Delowar Hossain",
-    "delowarhossain.dev",
-    "portfolio",
-    "2027",
-    "MMXXVII",
+    "React",
+    "TypeScript",
+    "GLSL shaders",
+    "Lenis",
+    // Disambiguation + recognition
     "awwwards",
-    "creative developer 2027",
+    "css design awards",
+    "FWA",
+    // Edition
+    "MMXXVII",
+    "2027 portfolio",
     "future-stack portfolio",
   ],
   authors: [{ name: site.name, url: site.url }],
@@ -69,19 +91,36 @@ export const metadata: Metadata = {
   publisher: site.studio,
   applicationName: `${site.name} — ${site.editionShort}`,
   openGraph: {
-    title: `${site.name} — Creative Developer · ${site.editionShort}`,
-    description: site.tagline,
-    type: "website",
+    title: `${site.name} — Creative Developer & UI/UX Designer`,
+    description: `Portfolio of ${site.name}, creative developer and UI/UX designer based in ${site.location}. WebGL · Three.js · GSAP · Next.js · AI integration. ${site.editionShort} edition.`,
+    type: "profile",
+    firstName: "Delowar",
+    lastName: "Hossain",
+    username: "mdhossain2437",
     siteName: site.name,
     url: site.url,
     locale: "en_US",
+    images: [
+      {
+        url: site.portrait,
+        width: 1326,
+        height: 1147,
+        alt: `${site.name} — Creative Developer & UI/UX Designer in ${site.location}`,
+        type: "image/png",
+      },
+      {
+        url: "/og.svg",
+        alt: `${site.name} — ${site.editionShort} Portfolio`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     creator: "@mdhossain2437",
     site: "@mdhossain2437",
-    title: `${site.name} — Creative Developer · ${site.editionShort}`,
-    description: site.tagline,
+    title: `${site.name} — Creative Developer & UI/UX Designer`,
+    description: `Portfolio of ${site.name}, creative developer based in ${site.location}.`,
+    images: [site.portrait],
   },
   alternates: {
     canonical: site.url,
