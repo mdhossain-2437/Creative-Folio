@@ -166,6 +166,7 @@ re-run `pnpm build` to verify no runtime errors.
 | 3D reel chapter carousel | Three.js cylinder gallery on `/showreel` (drag/scroll/buttons) | `ReelChapterCarousel.tsx` |
 | Time capsule (snapshot of page state) | press **C** | `TimeCapsule.tsx` |
 | Funny page titles | tab loses focus + scroll milestones | `TabTitleFlicker.tsx` |
+| Idle drift | after 60 s of zero input, slow marquees + dim accent · `data-idle="true"` on `<html>` | `IdleDrift.tsx` + `globals.css` |
 | Dynamic SEO JSON-LD (Person + WebSite + Organization) | always | `JsonLd.tsx` |
 | StatusStrip (time / temp / GH stars / booking) | always above footer | `StatusStrip.tsx` |
 | Showreel video player | `delowar:open-showreel` event | `ShowreelModal.tsx` |

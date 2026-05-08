@@ -89,7 +89,7 @@ export function SmartBackLink() {
         onClick={() => setDismissed(true)}
         data-cursor="hover"
         data-cursor-label="DISMISS"
-        className="inline-flex h-full items-center pr-3 pl-1 py-2 text-warmwhite/45 transition-colors hover:text-warmwhite focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
+        className="inline-flex h-full items-center pr-3 pl-1 py-2 text-warmwhite/70 transition-colors hover:text-warmwhite focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
       >
         <span aria-hidden className="text-[12px]">×</span>
       </button>
