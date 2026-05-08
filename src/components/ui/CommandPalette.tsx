@@ -189,6 +189,20 @@ export function CommandPalette() {
       });
     } else if (id === "open-showreel") {
       window.dispatchEvent(new CustomEvent("delowar:open-showreel"));
+    } else if (id === "download-resume") {
+      const a = document.createElement("a");
+      a.href = "/resume.pdf";
+      a.download = "Md-Delowar-Hossain-Resume.pdf";
+      a.rel = "noopener";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      pushToast({
+        id: "resume-download",
+        title: "Resume queued",
+        description: "Md-Delowar-Hossain-Resume.pdf",
+        variant: "success",
+      });
     } else if (id === "konami") {
       window.dispatchEvent(new CustomEvent("delowar:shader-storm"));
     }

@@ -133,6 +133,28 @@ export function NavShortcuts() {
         // Cheat sheet handles `?` itself; this is a no-op.
         return;
       }
+      // `d` — download the 2026 resume PDF directly. Useful for recruiters
+      // who want the file without clicking through to /resume first.
+      // Skip on /lab/[slug] where `d` already means "download canvas PNG".
+      if (key === "d" && !pathname.startsWith("/lab/")) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        const a = document.createElement("a");
+        a.href = "/resume.pdf";
+        a.download = "Md-Delowar-Hossain-Resume.pdf";
+        a.rel = "noopener";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        pushToast({
+          id: "resume-download",
+          title: "Resume queued",
+          description: "Md-Delowar-Hossain-Resume.pdf",
+          variant: "info",
+          duration: 2200,
+        });
+        return;
+      }
     };
     window.addEventListener("keydown", onKey);
 

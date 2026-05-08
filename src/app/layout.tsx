@@ -92,6 +92,26 @@ export const metadata: Metadata = {
   },
   category: "technology",
   formatDetection: { email: false, address: false, telephone: false },
+  // Search-engine + AI-engine verification meta tags. Read from env so
+  // they stay out of source. If unset Next omits the tag (no-op).
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION,
+    other: {
+      "msvalidate.01": process.env.NEXT_PUBLIC_BING_VERIFICATION ?? "",
+      "yandex-verification": process.env.NEXT_PUBLIC_YANDEX_VERIFICATION ?? "",
+    },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
 };
 
 export const viewport: Viewport = {

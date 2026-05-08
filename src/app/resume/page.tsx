@@ -7,7 +7,8 @@ import { site } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Resume",
   description:
-    "Delowar Hossain — Creative Developer & UI/UX Designer. Full resume: experience, education, expertise, and recognition.",
+    "Delowar Hossain — Creative Developer & UI/UX Designer. Full resume: experience, education, expertise, and recognition. Download the 2026 PDF.",
+  alternates: { canonical: `${site.url}/resume` },
 };
 
 export default function ResumePage() {
@@ -24,7 +25,29 @@ export default function ResumePage() {
           { label: "Email", value: site.email },
           { label: "Studio", value: site.studio },
         ]}
-      />
+      >
+        <div className="flex flex-wrap items-center gap-3">
+          <a
+            href={site.resume}
+            download="Md-Delowar-Hossain-Resume.pdf"
+            data-cursor="hover"
+            data-cursor-label="DOWNLOAD"
+            className="rounded-full bg-warmwhite px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-ink-900 hover:bg-peach"
+          >
+            Download PDF (2026)
+          </a>
+          <a
+            href={site.resumeMirror}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-cursor="hover"
+            data-cursor-label="DRIVE"
+            className="rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest hover:border-warmwhite"
+          >
+            Drive mirror
+          </a>
+        </div>
+      </PageHero>
 
       <section className="bg-ink-900 py-24 md:py-32">
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-12 px-6 md:grid-cols-12 md:px-10">
