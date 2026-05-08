@@ -22,6 +22,8 @@ const AtmosphereMode = dynamic(() => import("@/components/ui/AtmosphereMode").th
 const TimeCapsule = dynamic(() => import("@/components/ui/TimeCapsule").then((m) => m.TimeCapsule), { ssr: false });
 const PageDwellCounter = dynamic(() => import("@/components/ui/PageDwellCounter").then((m) => m.PageDwellCounter), { ssr: false });
 const IdleDrift = dynamic(() => import("@/components/ui/IdleDrift").then((m) => m.IdleDrift), { ssr: false });
+const SectionProgressDots = dynamic(() => import("@/components/ui/SectionProgressDots").then((m) => m.SectionProgressDots), { ssr: false });
+const KonamiFlash = dynamic(() => import("@/components/ui/KonamiFlash").then((m) => m.KonamiFlash), { ssr: false });
 
 export function ClientOverlays() {
   return (
@@ -34,12 +36,14 @@ export function ClientOverlays() {
       <ToastHost />
       <NavShortcuts />
       <KonamiHint />
+      <KonamiFlash />
       <ConsoleBanner />
       <FaviconAnimator />
       <Spotlight />
       <SecretWordWatcher />
       <ShareShortcut />
       <ScrollProgress />
+      <SectionProgressDots />
       <TabTitleFlicker />
       <FirstVisitNudge />
       <AtmosphereMode />

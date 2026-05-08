@@ -87,7 +87,7 @@ export default function AboutPage() {
         </div>
       </PageHero>
 
-      <section className="bg-ink-900 py-24 md:py-32">
+      <section id="philosophy" data-section-label="Philosophy" className="bg-ink-900 py-24 md:py-32">
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
           <div className="md:col-span-4">
             <Reveal>
@@ -148,7 +148,7 @@ export default function AboutPage() {
         />
       </section>
 
-      <section className="bg-ink-900 py-28 md:py-40">
+      <section id="signals" data-section-label="Signals" className="bg-ink-900 py-28 md:py-40">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
           <header className="grid grid-cols-1 gap-10 md:grid-cols-12">
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65 md:col-span-3">
@@ -198,7 +198,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="border-t border-warmwhite/15 bg-ink-950 py-28 md:py-40">
+      <section id="journey" data-section-label="Journey" className="border-t border-warmwhite/15 bg-ink-950 py-28 md:py-40">
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
           <div className="md:col-span-3">
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
@@ -225,7 +225,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-ink-900 py-28 md:py-40">
+      <section id="expertise" data-section-label="Expertise" className="bg-ink-900 py-28 md:py-40">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
           <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
             ◊ Expertise

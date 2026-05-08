@@ -7,6 +7,7 @@ import { MotionToggle } from "@/components/ui/MotionToggle";
 import { StudioClock } from "@/components/ui/StudioClock";
 import { StatusStrip } from "@/components/layout/StatusStrip";
 import { SignatureSVG } from "@/components/ui/SignatureSVG";
+import { QuoteOfTheDay } from "@/components/ui/QuoteOfTheDay";
 import { site } from "@/lib/site";
 import { pushToast } from "@/components/ui/Toast";
 import { unlock } from "@/lib/achievements";
@@ -128,6 +129,16 @@ export function Footer({ commitSha, buildTime }: FooterProps = {}) {
           </div>
           <p className="hidden font-sans text-[10px] uppercase tracking-widest text-warmwhite/55 md:block">
             handwritten in vector — strokes draw on view
+          </p>
+        </div>
+
+        <div className="mt-16 grid grid-cols-1 gap-10 border-t border-warmwhite/15 pt-10 md:grid-cols-12">
+          <div className="md:col-span-7">
+            <QuoteOfTheDay />
+          </div>
+          <p className="md:col-span-5 md:text-right font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
+            ◌ A new quote rotates in at 00:00 UTC. <br className="hidden md:block" />
+            Click to copy. Sixty-four total.
           </p>
         </div>
 

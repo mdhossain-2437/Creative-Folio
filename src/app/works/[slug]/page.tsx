@@ -87,7 +87,7 @@ export default async function CaseStudy({ params }: { params: Promise<Params> })
 
 function CoverHero({ work }: { work: Work }) {
   return (
-    <section className="bg-ink-900 py-16 md:py-24">
+    <section id="cover" data-section-label="Cover" className="bg-ink-900 py-16 md:py-24">
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <Reveal>
           <div className="relative aspect-[16/9] w-full overflow-hidden rounded-md">
@@ -122,7 +122,7 @@ function BriefAndMeta({ work }: { work: Work }) {
   ];
 
   return (
-    <section className="border-t border-warmwhite/15 bg-ink-900 py-24 md:py-32">
+    <section id="brief" data-section-label="Brief" className="border-t border-warmwhite/15 bg-ink-900 py-24 md:py-32">
       <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-12 px-6 md:grid-cols-12 md:px-10">
         <aside className="md:col-span-4">
           <div className="md:sticky md:top-28 md:max-h-[calc(100vh-7rem)] md:overflow-y-auto md:pr-4">
@@ -208,7 +208,7 @@ function SectionsBlock({ work }: { work: Work }) {
   if (rest.length === 0) return null;
 
   return (
-    <section className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
+    <section id="approach" data-section-label="Approach" className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <ul className="grid grid-cols-1 gap-16 md:gap-24">
           {rest.map((s, i) => (
@@ -246,7 +246,7 @@ function SectionsBlock({ work }: { work: Work }) {
 function GallerySection({ work }: { work: Work }) {
   const study = work.caseStudy!;
   return (
-    <section className="border-t border-warmwhite/15 bg-ink-900 py-24 md:py-32">
+    <section id="gallery" data-section-label="Gallery" className="border-t border-warmwhite/15 bg-ink-900 py-24 md:py-32">
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <div className="mb-10 flex flex-wrap items-end justify-between gap-6 md:mb-14">
           <div>
@@ -273,7 +273,7 @@ function MetricsSection({ work }: { work: Work }) {
   const study = work.caseStudy!;
   if (study.metrics.length === 0) return null;
   return (
-    <section className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
+    <section id="numbers" data-section-label="Numbers" className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
           ◊ Numbers
@@ -300,7 +300,7 @@ function DeliverablesSection({ work }: { work: Work }) {
   const outcome = study.sections.find((s) => s.kind === "outcome");
 
   return (
-    <section className="border-t border-warmwhite/15 bg-ink-900 py-24 md:py-32">
+    <section id="deliverables" data-section-label="Deliverables" className="border-t border-warmwhite/15 bg-ink-900 py-24 md:py-32">
       <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-16 px-6 md:grid-cols-12 md:px-10">
         <div className="md:col-span-5">
           <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
@@ -344,7 +344,7 @@ function DeliverablesSection({ work }: { work: Work }) {
 function TestimonialSection({ work }: { work: Work }) {
   const t = work.caseStudy!.testimonial!;
   return (
-    <section className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
+    <section id="testimonial" data-section-label="Testimonial" className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
       <div className="mx-auto max-w-[1200px] px-6 md:px-10">
         <Reveal>
           <p
@@ -373,6 +373,8 @@ function TestimonialSection({ work }: { work: Work }) {
 function StackSection({ work }: { work: Work }) {
   return (
     <section
+      id="stack"
+      data-section-label="Stack"
       data-work-end
       className="border-t border-warmwhite/15 bg-ink-900 py-24 md:py-32"
     >
@@ -396,7 +398,7 @@ function StackSection({ work }: { work: Work }) {
 
 function PrevNextSection({ prev, next }: { prev: Work; next: Work }) {
   return (
-    <section className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
+    <section id="more-cases" data-section-label="More cases" className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
           <Link
