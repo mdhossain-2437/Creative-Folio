@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { PageHero } from "@/components/layout/PageHero";
+import { AskAiPrompts } from "@/components/ai/AskAiPrompts";
 import { site } from "@/lib/site";
 import { works, expertise, services } from "@/lib/data";
 
@@ -105,7 +106,7 @@ export default function AiSummaryPage() {
       />
 
       {/* Portrait + identity block — ungarnished H2 + dl for AI parseability. */}
-      <section className="bg-ink-900 py-24 md:py-32">
+      <section id="identity" data-section-label="Identity" className="bg-ink-900 py-24 md:py-32">
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
           <div className="md:col-span-4">
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-warmwhite/15 bg-ink-950">
@@ -205,12 +206,13 @@ export default function AiSummaryPage() {
               motion, and shaders that earn their pixels. He works directly
               with founders, design directors, and small product teams.
             </p>
+            <AskAiPrompts />
           </div>
         </div>
       </section>
 
       {/* Expertise + services — flat lists, easy for AI engines to extract. */}
-      <section className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
+      <section id="expertise" data-section-label="Expertise" className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
           <div className="md:col-span-3">
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
@@ -247,7 +249,7 @@ export default function AiSummaryPage() {
       </section>
 
       {/* Top works — name + one-line summary, AI-friendly. */}
-      <section className="bg-ink-900 py-24 md:py-32">
+      <section id="works" data-section-label="Selected works" className="bg-ink-900 py-24 md:py-32">
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
           <div className="md:col-span-3">
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
@@ -271,7 +273,7 @@ export default function AiSummaryPage() {
       </section>
 
       {/* FAQ — FAQPage JSON-LD attached above. */}
-      <section className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
+      <section id="faq" data-section-label="FAQ" className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
           <div className="md:col-span-3">
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
@@ -291,7 +293,7 @@ export default function AiSummaryPage() {
         </div>
       </section>
 
-      <section className="border-t border-warmwhite/15 bg-ink-900 py-20">
+      <section id="more" data-section-label="Read more" className="border-t border-warmwhite/15 bg-ink-900 py-20">
         <div className="mx-auto flex max-w-[1640px] flex-wrap items-center justify-between gap-6 px-6 md:px-10">
           <p className="font-sans text-sm leading-relaxed text-warmwhite/75">
             Need more? Read{" "}
