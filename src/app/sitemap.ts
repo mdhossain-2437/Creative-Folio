@@ -7,6 +7,7 @@ const STATIC_PATHS = [
   "/works",
   "/lab",
   "/about",
+  "/ai",
   "/resume",
   "/journal",
   "/services",
@@ -34,5 +35,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...journal.map((j) => ({ url: `${site.url}/journal/${j.slug}`, lastModified: now })),
     ...experiments.map((e) => ({ url: `${site.url}/lab/${e.slug}`, lastModified: now })),
     { url: `${site.url}/journal/feed.xml`, lastModified: now },
+    { url: `${site.url}/llms.txt`, lastModified: now },
+    { url: `${site.url}/llms-full.txt`, lastModified: now },
   ];
 }

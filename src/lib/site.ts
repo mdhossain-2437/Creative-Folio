@@ -23,6 +23,13 @@ export const site = {
     poster: "/og.svg",
     label: "Reel · 02:17",
   },
+  // Identity assets — committed binaries in /public.
+  // Resume: 2026 print-ready PDF (also mirrored on Google Drive, see resumeMirror).
+  // Portrait: hero portrait used for /about, JSON-LD Person.image, OG fallbacks.
+  resume: "/resume.pdf",
+  resumeMirror: "https://drive.google.com/file/d/1u7AbFJlZBbZUuDZdmEfxRPb4viRdxZwu/view?usp=sharing",
+  resumeMirrorAlt: "https://drive.google.com/file/d/1i8TW22F1tu1afbcYzQg1CSBUg9-_ZX5s/view?usp=sharing",
+  portrait: "/profile.png",
   socials: [
     { label: "GITHUB", href: "https://github.com/mdhossain-2437" },
     { label: "TWITTER", href: "https://twitter.com/mdhossain2437" },
@@ -40,9 +47,11 @@ export const site = {
     { label: "Services", href: "/services" },
     { label: "Uses", href: "/uses" },
     { label: "Contact", href: "/contact" },
+    { label: "AI Summary", href: "/ai" },
   ],
   commandActions: [
     { id: "copy-email", label: "Copy email", hint: "hello@delowarhossain.dev" },
+    { id: "download-resume", label: "Download resume (PDF)", hint: "press D anywhere" },
     { id: "toggle-grid", label: "Toggle layout grid", hint: "⌘+Shift+G" },
     { id: "toggle-motion", label: "Toggle motion (Off/On)", hint: "calmer build" },
     { id: "open-showreel", label: "Play showreel", hint: "02:17" },
