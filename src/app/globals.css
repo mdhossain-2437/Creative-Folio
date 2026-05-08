@@ -95,6 +95,24 @@
   transform: translateY(8px);
   transition: opacity 220ms ease, transform 220ms ease;
 }
+
+/* IdleDrift — after ~60s of zero input the IdleDrift component sets
+   `data-idle="true"` on <html>. Slow the marquees, dim the accent, and
+   add a barely-perceptible breathe to the hero shader. Disabled when the
+   user requests reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-idle="true"] .marquee-track {
+    animation-duration: 60s !important;
+  }
+  :root[data-idle="true"] .vignette {
+    opacity: 0.92;
+    transition: opacity 1200ms ease;
+  }
+  :root[data-idle="true"] [data-cursor="default"] {
+    opacity: 0.6;
+    transition: opacity 800ms ease;
+  }
+}
 @media (prefers-reduced-motion: no-preference) {
   html {
     transition: background-color 600ms ease;

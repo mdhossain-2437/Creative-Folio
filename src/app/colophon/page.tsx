@@ -50,6 +50,54 @@ export default function ColophonPage() {
         </div>
       </section>
 
+      <section className="border-t border-warmwhite/15 bg-ink-900 py-24 md:py-32">
+        <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
+          <div className="md:col-span-3">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
+              ◊ Open-source stack
+            </p>
+            <p className="mt-2 font-sans text-sm leading-relaxed text-warmwhite/70">
+              Every dependency this folio runs on. None of these are mine —
+              none of this site exists without them.
+            </p>
+          </div>
+          <ul className="md:col-span-9 grid grid-cols-1 gap-x-8 gap-y-3 font-sans text-sm md:grid-cols-2">
+            {[
+              ["Next.js 15", "Vercel · App Router, RSC", "https://nextjs.org"],
+              ["React 18", "Meta · UI runtime", "https://react.dev"],
+              ["TypeScript", "Microsoft · types everywhere", "https://www.typescriptlang.org"],
+              ["Tailwind CSS", "Tailwind Labs · design tokens", "https://tailwindcss.com"],
+              ["GSAP", "GreenSock · timeline-grade motion", "https://gsap.com"],
+              ["Lenis", "Studio Freight · smooth scroll", "https://github.com/darkroomengineering/lenis"],
+              ["Framer Motion", "Framer · spring + gesture", "https://www.framer.com/motion/"],
+              ["Three.js", "Mr.doob · WebGL runtime", "https://threejs.org"],
+              ["@react-three/fiber", "pmndrs · R3F glue", "https://r3f.docs.pmnd.rs"],
+              ["@react-three/drei", "pmndrs · R3F utilities", "https://drei.docs.pmnd.rs"],
+              ["Lucide React", "Lucide · icon set", "https://lucide.dev"],
+              ["Newsreader", "Production Type · serif", "https://fonts.google.com/specimen/Newsreader"],
+              ["Inter", "Rasmus Andersson · sans", "https://rsms.me/inter/"],
+              ["JetBrains Mono", "JetBrains · mono", "https://www.jetbrains.com/lp/mono/"],
+            ].map(([k, v, href]) => (
+              <li key={k} className="flex items-baseline justify-between gap-3 border-b border-warmwhite/10 pb-2">
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-cursor="hover"
+                  data-cursor-label="OPEN"
+                  className="text-warmwhite hover:text-peach"
+                >
+                  {k}
+                </a>
+                <span className="font-sans text-[11px] uppercase tracking-widest text-warmwhite/65">
+                  {v}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       <section className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
           <h2 className="font-serif text-[clamp(2.5rem,6vw,5rem)] leading-[0.95] tracking-tightest">

@@ -5,11 +5,9 @@ export const site = {
   location: "Joypurhat, Bangladesh",
   base: "Panchbibi, Joypurhat, Bangladesh",
   email: "hello@delowarhossain.dev",
-  // Live deploy URL for the MMXXVII edition. While we wait for 2027 to land,
-  // this points at the `2027.delowarhossain.dev` subdomain (with `mmxxvii.delowarhossain.dev`
-  // configured as a 308 redirect alias on Vercel). When 2027 actually arrives,
-  // flip this back to `https://delowarhossain.dev`.
-  url: "https://2027.delowarhossain.dev",
+  // Canonical production domain. The MMXXVII edition is published directly
+  // at the apex domain.
+  url: "https://delowarhossain.dev",
   domain: "delowarhossain.dev",
   studio: "The Compiled Thought",
   repo: "https://github.com/mdhossain-2437/Creative-Folio",

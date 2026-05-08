@@ -69,7 +69,7 @@ export function ContributionHeatmap({ user, days, total, stale }: Props) {
             {hasData ? total.toLocaleString("en") : "—"}
             <span className="ml-2 text-warmwhite/55">contributions</span>
             {stale ? (
-              <span className="ml-3 align-middle font-sans text-[9px] uppercase tracking-widest text-warmwhite/45">
+              <span className="ml-3 align-middle font-sans text-[9px] uppercase tracking-widest text-warmwhite/70">
                 · cached
               </span>
             ) : null}
@@ -143,7 +143,7 @@ export function ContributionHeatmap({ user, days, total, stale }: Props) {
         ))}
         <span>more</span>
         {!hasData ? (
-          <span className="ml-auto text-warmwhite/35">— offline; rendering placeholder grid</span>
+          <span className="ml-auto text-warmwhite/70">— offline; rendering placeholder grid</span>
         ) : null}
       </div>
     </div>
