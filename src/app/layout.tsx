@@ -6,6 +6,7 @@ import { Cursor } from "@/components/ui/Cursor";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Preloader } from "@/components/layout/Preloader";
+import { RoutePrefetcher } from "@/components/layout/RoutePrefetcher";
 import { GridOverlay } from "@/components/ui/GridOverlay";
 import { ScrollMeter } from "@/components/ui/ScrollMeter";
 import { RouteCurtain } from "@/components/layout/RouteCurtain";
@@ -158,6 +159,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SkipToContent />
         <SmoothScrollProvider>
           <Preloader />
+          <RoutePrefetcher />
           <CursorSpotlight />
           <Cursor />
           <SoundProvider />

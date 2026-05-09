@@ -202,8 +202,24 @@ export function HeroFluidDisplacement() {
     };
     raf = requestAnimationFrame(tick);
 
+    // Pause the rAF loop when the hero scrolls off-screen — no point
+    // burning GPU on a hidden canvas. Resumes when it scrolls back in.
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !raf) {
+          raf = requestAnimationFrame(tick);
+        } else if (!entry.isIntersecting && raf) {
+          cancelAnimationFrame(raf);
+          raf = 0;
+        }
+      },
+      { threshold: 0.01 },
+    );
+    io.observe(canvas);
+
     return () => {
-      cancelAnimationFrame(raf);
+      io.disconnect();
+      if (raf) cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseleave", onLeave);

@@ -244,8 +244,23 @@ export function AtlasConstellation({ stars }: { stars: ConstellationStar[] }) {
     };
     raf = requestAnimationFrame(tick);
 
+    // Pause atlas rendering when scrolled off-screen.
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !raf) {
+          raf = requestAnimationFrame(tick);
+        } else if (!entry.isIntersecting && raf) {
+          cancelAnimationFrame(raf);
+          raf = 0;
+        }
+      },
+      { threshold: 0.01 },
+    );
+    io.observe(canvas);
+
     return () => {
-      cancelAnimationFrame(raf);
+      io.disconnect();
+      if (raf) cancelAnimationFrame(raf);
       canvas.removeEventListener("pointermove", onPointerMove);
       canvas.removeEventListener("pointermove", onPointerMoveDrag);
       canvas.removeEventListener("pointerdown", onPointerDown);

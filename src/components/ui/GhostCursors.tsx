@@ -106,7 +106,24 @@ export function GhostCursors() {
       rafRef.current = requestAnimationFrame(tick);
     };
     rafRef.current = requestAnimationFrame(tick);
+
+    // Pause when the hero scrolls off-screen — ghosts only matter while
+    // visible. Saves a per-frame loop over the dot list on every page.
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && rafRef.current === 0) {
+          rafRef.current = requestAnimationFrame(tick);
+        } else if (!entry.isIntersecting && rafRef.current) {
+          cancelAnimationFrame(rafRef.current);
+          rafRef.current = 0;
+        }
+      },
+      { threshold: 0.01 },
+    );
+    io.observe(container);
+
     return () => {
+      io.disconnect();
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, []);

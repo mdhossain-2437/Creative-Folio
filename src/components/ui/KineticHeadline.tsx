@@ -1,8 +1,10 @@
-"use client";
-
 import { ReactNode } from "react";
-import { useScrollState } from "@/components/providers/SmoothScrollProvider";
 
+// Kinetic headline — skews with scroll velocity. Pure CSS now: the
+// `.kinetic` class reads `--scroll-vy` (written by SmoothScrollProvider
+// every tick) directly. No React state, no re-renders. The optional
+// `intensity` prop is preserved as a per-element multiplier so existing
+// callers keep working.
 export function KineticHeadline({
   children,
   className,
@@ -12,12 +14,14 @@ export function KineticHeadline({
   className?: string;
   intensity?: number;
 }) {
-  const { velocity } = useScrollState();
-  const skew = Math.max(-4, Math.min(4, velocity * intensity));
   return (
     <span
       className={`kinetic ${className ?? ""}`}
-      style={{ ["--vy" as never]: skew.toFixed(3) }}
+      style={
+        intensity !== 1
+          ? ({ ["--vy" as never]: `calc(var(--scroll-vy, 0) * ${intensity})` } as React.CSSProperties)
+          : undefined
+      }
     >
       {children}
     </span>
