@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, type ReactNode } from "react";
+import { damp, clampDt, K } from "@/lib/damp";
 
 type Props = {
   children: ReactNode;
@@ -45,10 +46,16 @@ export function TiltCard({
     let ty = 0;
     let cx = 0;
     let cy = 0;
+    let last = performance.now();
 
     const apply = () => {
-      cx += (tx - cx) * 0.18;
-      cy += (ty - cy) * 0.18;
+      const now = performance.now();
+      const dt = clampDt((now - last) / 1000);
+      last = now;
+      // Frame-rate-independent decay so the tilt feels identical on
+      // 60/120/240Hz panels.
+      cx = damp(cx, tx, K.K_FAST, dt);
+      cy = damp(cy, ty, K.K_FAST, dt);
       const rx = (cy * max).toFixed(2);
       const ry = (-cx * max).toFixed(2);
       const scale = noScale ? 1 : 1.012;
@@ -65,6 +72,7 @@ export function TiltCard({
     };
 
     const onEnter = () => {
+      last = performance.now();
       raf = requestAnimationFrame(apply);
     };
 
