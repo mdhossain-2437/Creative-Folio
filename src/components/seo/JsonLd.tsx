@@ -123,11 +123,24 @@ const personSchema = {
   ],
   knowsLanguage: ["en", "bn"],
   // Educational background — surfaces in Knowledge Panel "Education" row.
-  alumniOf: {
-    "@type": "EducationalOrganization",
-    name: "B.A. Political Science",
-    description: "Self-taught engineer with a Political Science background.",
-  },
+  // Two entries: current Computer Science studies at University of the
+  // People, plus the prior B.A. in Political Science. Listing both makes
+  // the timeline legible to AI engines and Google.
+  alumniOf: [
+    {
+      "@type": "EducationalOrganization",
+      name: "University of the People",
+      url: "https://www.uopeople.edu/",
+      description:
+        "B.Sc. Computer Science (in progress). Aspiring Software Engineer.",
+    },
+    {
+      "@type": "EducationalOrganization",
+      name: "B.A. Political Science",
+      description:
+        "Bachelor of Arts — systems-level thinking applied to product, behaviour, and communication.",
+    },
+  ],
   // Recognitions — fed from the awards page on the live site
   // (Awwwards, CSS Design Awards, FWA, Product Hunt). Listed as plain
   // strings since each award lives at its own canonical URL elsewhere.

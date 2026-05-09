@@ -33,9 +33,39 @@ export const site = {
   socials: [
     { label: "GITHUB", href: "https://github.com/mdhossain-2437" },
     { label: "TWITTER", href: "https://twitter.com/mdhossain2437" },
-    { label: "LINKEDIN", href: "https://www.linkedin.com/in/mdhossain-2437" },
+    { label: "LINKEDIN", href: "https://www.linkedin.com/in/mdhossain2437" },
     { label: "READ.CV", href: "https://read.cv/delowar" },
   ],
+  // Educational background — surfaces in JSON-LD Person.alumniOf and on
+  // the /about page. Order = most-recent-first.
+  education: [
+    {
+      institution: "University of the People",
+      degree: "B.Sc. Computer Science (in progress)",
+      role: "Aspiring Software Engineer",
+      url: "https://www.uopeople.edu/",
+    },
+    {
+      institution: "B.A. Political Science",
+      degree: "Bachelor of Arts",
+      role: "Scholarly Modernity",
+    },
+  ],
+  // GitHub identity (canonical handle, profile URL, public-repo highlights).
+  // Used by the /about open-source block and JSON-LD sameAs.
+  github: {
+    handle: "mdhossain-2437",
+    url: "https://github.com/mdhossain-2437",
+    bio: "A passionate self-taught developer from Bangladesh.",
+    repos: 127,
+    highlights: [
+      { name: "open-multi-agent", note: "Production-grade multi-agent orchestration framework." },
+      { name: "Creative-Folio", note: "This portfolio (MMXXVII edition)." },
+      { name: "streamflix", note: "Streaming UI experiment, Next.js + TypeScript." },
+      { name: "nexify-engine", note: "Creative engine playground." },
+      { name: "open-source-the-compiled-thought-themes", note: "Dark themes, developer fonts, animations." },
+    ],
+  },
   nav: [
     { label: "Index", href: "/" },
     { label: "Works", href: "/works" },

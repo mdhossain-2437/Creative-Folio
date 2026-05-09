@@ -63,8 +63,9 @@ export default function AboutPage() {
         meta={[
           { label: "Base", value: site.base },
           { label: "Studio", value: site.studio },
-          { label: "Education", value: "B.A. Political Science" },
-          { label: "Practice", value: "Self-Taught Engineer" },
+          { label: "Education", value: "B.Sc. CS · UoPeople (in progress)" },
+          { label: "Background", value: "B.A. Political Science" },
+          { label: "Practice", value: "Aspiring Software Engineer" },
         ]}
       >
         <div className="flex items-center gap-3">
@@ -125,14 +126,17 @@ export default function AboutPage() {
             <Reveal>
               <p className="mt-8 font-sans text-base leading-relaxed text-warmwhite/85 md:text-lg">
                 {site.name} (also known as Delowar) is a self-taught creative
-                developer and UI/UX designer based in {site.base}. He has been
-                building for the web since {site.yearStarted} and runs an
-                independent studio called {site.studio}. His practice spans
-                creative frontend engineering with WebGL, Three.js, GLSL,
-                GSAP, Lenis, and Next.js — alongside design systems, motion
-                systems, and generative AI integration into product
-                interfaces. He works remotely with clients worldwide and is
-                {" "}
+                developer, UI/UX designer, and aspiring software engineer
+                based in {site.base}. He is currently studying B.Sc.
+                Computer Science at the University of the People (online),
+                building a formal foundation on top of years of independent
+                practice. He has been building for the web since
+                {" "}{site.yearStarted} and runs an independent studio called
+                {" "}{site.studio}. His practice spans creative frontend
+                engineering with WebGL, Three.js, GLSL, GSAP, Lenis, and
+                Next.js — alongside design systems, motion systems, and
+                generative AI integration into product interfaces. He works
+                remotely with clients worldwide and is{" "}
                 <span className="text-warmwhite">currently {site.availability.toLowerCase()}</span>.
               </p>
             </Reveal>
@@ -195,6 +199,110 @@ export default function AboutPage() {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* Education + Open Source — surfaces UoPeople CS studies and the
+          GitHub footprint. Both feed JSON-LD's alumniOf and sameAs. */}
+      <section
+        id="education"
+        data-section-label="Education"
+        className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32"
+      >
+        <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
+          <div className="md:col-span-3">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
+              ◊ Education
+            </p>
+            <h2 className="mt-4 font-serif text-[clamp(2rem,4vw,3.5rem)] leading-[0.96] tracking-tightest">
+              Aspiring{" "}
+              <span className="italic text-peach">software engineer.</span>
+            </h2>
+            <p className="mt-4 font-sans text-sm leading-relaxed text-warmwhite/65">
+              Formal Computer Science studies stacked on top of years of
+              self-taught practice — political-science fluency in systems,
+              CS fluency in their machinery.
+            </p>
+          </div>
+          <ol className="md:col-span-9">
+            {site.education.map((edu, i) => (
+              <Reveal key={edu.institution} delay={i * 0.05}>
+                <li className="grid grid-cols-12 items-baseline gap-4 border-b border-warmwhite/15 py-7 last:border-b-0">
+                  <span className="col-span-12 font-mono text-[11px] uppercase tracking-widest text-warmwhite/65 md:col-span-3">
+                    {edu.degree}
+                  </span>
+                  <h3 className="col-span-12 font-serif text-2xl leading-tight tracking-tighter text-warmwhite md:col-span-5 md:text-3xl">
+                    {edu.url ? (
+                      <a
+                        href={edu.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        data-cursor="hover"
+                        className="hover:text-peach"
+                      >
+                        {edu.institution}
+                      </a>
+                    ) : (
+                      edu.institution
+                    )}
+                  </h3>
+                  <p className="col-span-12 font-sans text-sm leading-relaxed text-warmwhite/65 md:col-span-4">
+                    {edu.role}
+                  </p>
+                </li>
+              </Reveal>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section
+        id="open-source"
+        data-section-label="Open Source"
+        className="border-t border-warmwhite/15 bg-ink-900 py-24 md:py-32"
+      >
+        <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
+          <div className="md:col-span-4">
+            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
+              ◊ Open Source · GitHub
+            </p>
+            <h2 className="mt-4 font-serif text-[clamp(2rem,4vw,3.5rem)] leading-[0.96] tracking-tightest">
+              <span className="italic text-warmwhite/60">{site.github.repos}+</span> public repos.
+            </h2>
+            <p className="mt-4 font-sans text-sm leading-relaxed text-warmwhite/85">
+              {site.github.bio}
+            </p>
+            <a
+              href={site.github.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="hover"
+              data-cursor-label="GITHUB"
+              className="mt-6 inline-flex items-center gap-2 rounded-full border border-warmwhite/30 px-5 py-2.5 font-sans text-[11px] uppercase tracking-widest hover:border-peach hover:text-peach"
+            >
+              @{site.github.handle} ↗
+            </a>
+          </div>
+          <ul className="md:col-span-8 grid grid-cols-1 gap-3 md:grid-cols-2">
+            {site.github.highlights.map((repo, i) => (
+              <Reveal key={repo.name} delay={i * 0.04}>
+                <li className="flex flex-col gap-2 rounded-2xl border border-warmwhite/15 bg-ink-950 p-5">
+                  <a
+                    href={`https://github.com/${site.github.handle}/${repo.name}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-cursor="hover"
+                    className="font-mono text-sm text-warmwhite hover:text-peach"
+                  >
+                    {repo.name}
+                  </a>
+                  <p className="font-sans text-sm leading-relaxed text-warmwhite/65">
+                    {repo.note}
+                  </p>
+                </li>
+              </Reveal>
+            ))}
+          </ul>
         </div>
       </section>
 
