@@ -154,6 +154,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${newsreader.variable} ${inter.variable} ${mono.variable}`}>
       <head>
         <JsonLd />
+        {/* rel="me" verification chain. The fediverse, IndieAuth, and a number
+            of identity engines walk these links to confirm that the same
+            person controls every linked profile. The browser shows them as
+            normal <link> tags; verifiers fetch them programmatically. The
+            actual outbound profile must point back to this domain in its
+            "Website" field for the chain to validate (already configured on
+            GitHub, LinkedIn, and X). */}
+        {site.socials.map((s) => (
+          <link key={s.href} rel="me" href={s.href} />
+        ))}
+        <link rel="me" href={`mailto:${site.email}`} />
+        <link rel="author" href="/humans.txt" type="text/plain" />
       </head>
       <body className="bg-ink-900 text-warmwhite font-sans antialiased selection:bg-peach selection:text-ink-900">
         <SkipToContent />

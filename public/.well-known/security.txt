@@ -1,0 +1,13 @@
+# Security disclosure policy for delowarhossain.dev
+# RFC 9116 — https://www.rfc-editor.org/rfc/rfc9116
+
+Contact: mailto:hello@delowarhossain.dev
+Expires: 2027-12-31T23:59:59.000Z
+Preferred-Languages: en, bn
+Canonical: https://delowarhossain.dev/.well-known/security.txt
+Policy: https://delowarhossain.dev/legal/privacy
+
+# If you have found a security issue with this site, please contact
+# hello@delowarhossain.dev with details and steps to reproduce.
+# Disclosures are handled within seven days. Coordinated disclosure
+# preferred — please give a 30-day window before public publication.
