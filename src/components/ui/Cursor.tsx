@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { damp, clampDt, K } from "@/lib/damp";
+import { subscribeRaf } from "@/lib/rafBus";
 
 export function Cursor() {
   const dotRef = useRef<HTMLDivElement>(null);
@@ -17,8 +18,6 @@ export function Cursor() {
     let my = window.innerHeight / 2;
     let rx = mx;
     let ry = my;
-    let raf = 0;
-    let last = performance.now();
 
     const onMove = (e: MouseEvent) => {
       mx = e.clientX;
@@ -26,19 +25,15 @@ export function Cursor() {
       dot.style.transform = `translate3d(${mx}px, ${my}px, 0) translate(-50%, -50%)`;
     };
 
-    const tick = () => {
-      const now = performance.now();
-      const dt = clampDt((now - last) / 1000);
-      last = now;
-      // Frame-rate-independent exponential decay (paper § "Mathematical
-      // Precision in Interaction Design"). Identical motion at 60Hz,
-      // 90Hz, 120Hz, 144Hz, 240Hz.
-      rx = damp(rx, mx, K.K_FAST, dt);
-      ry = damp(ry, my, K.K_FAST, dt);
+    // Frame-rate-independent exponential decay on a SHARED rAF bus, so
+    // the cursor ring updates in the same frame Lenis writes the new
+    // scroll position (paper § "Scroll Management").
+    const off = subscribeRaf((_now, dt) => {
+      const d = clampDt(dt);
+      rx = damp(rx, mx, K.K_FAST, d);
+      ry = damp(ry, my, K.K_FAST, d);
       ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
+    });
     window.addEventListener("mousemove", onMove);
 
     const onOver = (e: MouseEvent) => {
@@ -58,7 +53,7 @@ export function Cursor() {
     document.addEventListener("mouseover", onOver);
 
     return () => {
-      cancelAnimationFrame(raf);
+      off();
       window.removeEventListener("mousemove", onMove);
       document.removeEventListener("mouseover", onOver);
     };

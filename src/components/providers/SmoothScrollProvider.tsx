@@ -2,6 +2,7 @@
 
 import { ReactNode, useEffect, useRef } from "react";
 import Lenis from "lenis";
+import { subscribeRafPriority } from "@/lib/rafBus";
 
 // Smooth-scroll provider. Re-architected for performance.
 //
@@ -114,15 +115,17 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
       },
     );
 
-    let raf = 0;
-    const tick = (time: number) => {
+    // Subscribe to the shared `rafBus` with negative priority so Lenis
+    // ticks BEFORE any canvas / cursor subscriber. This guarantees the
+    // updated scroll position + `--scroll-vy` CSS-var are available
+    // when the canvases render in the same frame
+    // (paper § "Scroll Management").
+    const off = subscribeRafPriority((time: number) => {
       lenis.raf(time);
-      raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
+    }, -10);
 
     return () => {
-      cancelAnimationFrame(raf);
+      off();
       lenis.destroy();
     };
   }, []);
