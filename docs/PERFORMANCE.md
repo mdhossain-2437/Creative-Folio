@@ -337,7 +337,65 @@ ring follows. Damping the dot makes it feel laggy.
 
 ---
 
-## 11. Future-Performance Roadmap
+## 11. WebGL Context Options + DPR Caps (`dpr.ts`)
+
+The paper § "Performance Budget" warns that retina iPhones report
+`devicePixelRatio = 3`, which means a default canvas renders **9× as
+many pixels** as a regular display. On a passive ambient shader this
+melts the GPU before any "real" workload starts.
+
+### Context options
+
+Every `getContext("webgl"|"webgl2", …)` call passes:
+
+```ts
+{
+  antialias: false,       // we use FXAA in-shader where needed
+  powerPreference: "high-performance" | "low-power",
+}
+```
+
+`high-performance` for the **interactive** shaders (Hero, Hero fluid,
+work covers). `low-power` for **passive** shaders (NoiseField) — this
+hint asks hybrid macOS/Windows GPUs to stay on the integrated chip,
+saving battery and avoiding thermal throttling.
+
+### `src/lib/dpr.ts`
+
+A central place for the four caps:
+
+| Constant | Value | Where |
+| --- | --- | --- |
+| `DPR_HERO`    | `1.5`  | HeroShader, HeroFluidDisplacement |
+| `DPR_CANVAS`  | `1.5`  | WorkCoverDisplacement, LabDemo (default) |
+| `DPR_AMBIENT` | `1.25` | NoiseField (passive) |
+| `DPR_COMPACT` | `1.0`  | LabDemo cards in `/lab` grid (10+ on screen) |
+
+Always read `cappedDpr(cap)` once per `resize`, not per frame. The
+browser can change `devicePixelRatio` when the user zooms.
+
+### Lazy initial sizing in `LabDemo`
+
+`/lab` mounts ~17 demo cards at once. Instead of calling each demo's
+`init()` (which allocates typed-array stores) upfront, the first `fit()`
+call is deferred until the canvas's `IntersectionObserver` fires. Cards
+the user never scrolls to never pay the init cost.
+
+```ts
+let initialised = false;
+const start = () => {
+  if (raf) return;
+  if (!initialised) {
+    fit();          // first paint of this canvas
+    initialised = true;
+  }
+  raf = requestAnimationFrame(tickFrame);
+};
+```
+
+---
+
+## 12. Future-Performance Roadmap
 
 - **WebGPU fallback for `HeroShader`.** Detect `navigator.gpu`, prefer it
   on supported browsers. Fall back to current WebGL2.

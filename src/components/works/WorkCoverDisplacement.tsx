@@ -8,6 +8,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { damp, clampDt, K } from "@/lib/damp";
+import { cappedDpr, DPR_CANVAS } from "@/lib/dpr";
 
 const VERT = `
 attribute vec2 a_pos;
@@ -95,6 +96,7 @@ export function WorkCoverDisplacement({
     const gl = canvas.getContext("webgl", {
       antialias: false,
       premultipliedAlpha: false,
+      powerPreference: "high-performance" as WebGLPowerPreference,
     });
     if (!gl) {
       setSupported(false);
@@ -197,7 +199,7 @@ export function WorkCoverDisplacement({
     const resize = () => {
       const w = canvas.clientWidth || 1;
       const h = canvas.clientHeight || 1;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = cappedDpr(DPR_CANVAS);
       canvas.width = Math.round(w * dpr);
       canvas.height = Math.round(h * dpr);
       gl.viewport(0, 0, canvas.width, canvas.height);

@@ -12,6 +12,7 @@
 
 import { useEffect, useRef } from "react";
 import { damp, clampDt, K } from "@/lib/damp";
+import { cappedDpr, DPR_HERO } from "@/lib/dpr";
 
 const VERT = `#version 300 es
 in vec2 a_pos;
@@ -112,7 +113,12 @@ export function HeroFluidDisplacement() {
 
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const gl = canvas.getContext("webgl2", { premultipliedAlpha: false, alpha: true });
+    const gl = canvas.getContext("webgl2", {
+      premultipliedAlpha: false,
+      alpha: true,
+      antialias: false,
+      powerPreference: "high-performance",
+    });
     if (!gl) return;
 
     const compile = (type: number, src: string): WebGLShader | null => {
@@ -155,7 +161,7 @@ export function HeroFluidDisplacement() {
     const uTime = gl.getUniformLocation(prog, "u_time");
     const uActive = gl.getUniformLocation(prog, "u_active");
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = cappedDpr(DPR_HERO);
     const resize = () => {
       const r = canvas.getBoundingClientRect();
       const w = Math.max(1, Math.floor(r.width * dpr));

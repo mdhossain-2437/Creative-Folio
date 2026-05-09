@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { cappedDpr, DPR_AMBIENT } from "@/lib/dpr";
 
 // Lightweight ambient noise canvas used as a section background.
 const FRAG = `
@@ -52,7 +53,12 @@ export function NoiseField({
   useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
-    const gl = canvas.getContext("webgl", { antialias: false });
+    const gl = canvas.getContext("webgl", {
+      antialias: false,
+      // Passive ambient background — explicitly request the low-power
+      // GPU on hybrid systems (paper § "Performance Budget").
+      powerPreference: "low-power" as WebGLPowerPreference,
+    });
     if (!gl) return;
     const prog = gl.createProgram()!;
     const vs = gl.createShader(gl.VERTEX_SHADER)!;
@@ -77,7 +83,7 @@ export function NoiseField({
     gl.uniform1f(uSeed, seed);
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.2);
+      const dpr = cappedDpr(DPR_AMBIENT);
       canvas.width = Math.floor(canvas.clientWidth * dpr);
       canvas.height = Math.floor(canvas.clientHeight * dpr);
       gl.viewport(0, 0, canvas.width, canvas.height);
