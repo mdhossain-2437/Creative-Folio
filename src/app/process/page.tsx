@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PageHero } from "@/components/layout/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { process as phases } from "@/lib/data";
+import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
   title: "Process — How I work",
@@ -15,6 +16,12 @@ const TIMELINE = ["LISTEN", "SKETCH", "BUILD", "SHIP"];
 export default function ProcessPage() {
   return (
     <>
+      <PageSchema
+        path="/process"
+        name="Process — How I work"
+        description="The four-phase studio process: Discovery, Design, Prototype, Production. How I move from a blank Figma file to a shipped, award-grade web experience."
+        crumbs={[{ name: "Home", href: "/" }, { name: "Process", href: "/process" }]}
+      />
       <PageHero
         eyebrow="§04 — How I work"
         title="The"

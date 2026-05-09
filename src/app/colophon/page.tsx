@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 import { site } from "@/lib/site";
+import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
   title: "Colophon — The Making Of",
@@ -10,6 +11,12 @@ export const metadata: Metadata = {
 export default function ColophonPage() {
   return (
     <>
+      <PageSchema
+        path="/colophon"
+        name="Colophon — The Making Of"
+        description="How this site was built — stack, type, motion and a few notes on craft."
+        crumbs={[{ name: "Home", href: "/" }, { name: "Colophon", href: "/colophon" }]}
+      />
       <PageHero
         eyebrow="§ Colophon — The Making Of"
         title="Colophon"

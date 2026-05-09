@@ -4,6 +4,7 @@ import { PageHero } from "@/components/layout/PageHero";
 import { reelClips } from "@/lib/data";
 import { ShowreelOpener } from "@/components/sections/ShowreelOpener";
 import { ReelChapterCarouselClient } from "@/components/showreel/ReelChapterCarouselClient";
+import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
   title: "Showreel — 02:17 of selected motion",
@@ -14,6 +15,12 @@ export const metadata: Metadata = {
 export default function ShowreelPage() {
   return (
     <>
+      <PageSchema
+        path="/showreel"
+        name="Showreel — 02:17 of selected motion"
+        description="A vertical reel of selected work, 2026–2027. Six chapters, autoplay muted, click any chapter to scrub."
+        crumbs={[{ name: "Home", href: "/" }, { name: "Showreel", href: "/showreel" }]}
+      />
       <PageHero
         eyebrow="§08 — Reel"
         title="Showreel"

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 import { UsesVisitTracker } from "@/components/uses/UsesVisitTracker";
+import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
   title: "Uses — Setup & Tooling",
@@ -97,6 +98,12 @@ const groups: Group[] = [
 export default function UsesPage() {
   return (
     <>
+      <PageSchema
+        path="/uses"
+        name="Uses — Setup & Tooling"
+        description="What I actually use day-to-day to build the studio — editor, OS, hardware, fonts, and a short list of dev tools that pull their weight."
+        crumbs={[{ name: "Home", href: "/" }, { name: "Uses", href: "/uses" }]}
+      />
       <UsesVisitTracker />
       <PageHero
         eyebrow="§ 03 — Uses"

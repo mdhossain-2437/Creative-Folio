@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PageHero } from "@/components/layout/PageHero";
 import { archive, works } from "@/lib/data";
 import { Reveal } from "@/components/ui/Reveal";
+import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
   title: "Archive — All Works",
@@ -29,6 +30,12 @@ export default function ArchivePage() {
 
   return (
     <>
+      <PageSchema
+        path="/archive"
+        name="Archive — All Works"
+        description="An exhaustive index of every project, every year — from solo experiments to client engagements."
+        crumbs={[{ name: "Home", href: "/" }, { name: "Archive", href: "/archive" }]}
+      />
       <PageHero
         eyebrow="§ Archive — All Works"
         title="The"

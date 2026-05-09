@@ -6,6 +6,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { SpotlightTile } from "@/components/ui/SpotlightTile";
 import { WorksConstellation } from "@/components/works/WorksConstellation";
 import { works, archive } from "@/lib/data";
+import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
   title: "Selected Works",
@@ -16,6 +17,12 @@ export const metadata: Metadata = {
 export default function WorksPage() {
   return (
     <>
+      <PageSchema
+        path="/works"
+        name="Selected Works"
+        description="A curated collection of digital experiences, interactive installations and experimental web architecture by Delowar Hossain."
+        crumbs={[{ name: "Home", href: "/" }, { name: "Works", href: "/works" }]}
+      />
       <PageHero
         eyebrow="§02 — Selected & Works"
         title="Selected"

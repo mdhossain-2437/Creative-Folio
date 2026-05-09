@@ -6,6 +6,7 @@ import { Marquee } from "@/components/ui/Marquee";
 import { journey, expertise } from "@/lib/data";
 import { site } from "@/lib/site";
 import Link from "next/link";
+import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
   title: "About — Story & Philosophy",
@@ -51,6 +52,12 @@ const aboutFaqSchema = {
 export default function AboutPage() {
   return (
     <>
+      <PageSchema
+        path="/about"
+        name="About — Delowar Hossain"
+        description="Delowar Hossain — creative developer in Bangladesh. Background, philosophy and the thinking behind the work across development, AI and interface design."
+        crumbs={[{ name: "Home", href: "/" }, { name: "About", href: "/about" }]}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(aboutFaqSchema) }}

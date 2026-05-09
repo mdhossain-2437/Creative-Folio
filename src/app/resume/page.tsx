@@ -3,6 +3,7 @@ import { PageHero } from "@/components/layout/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { journey, expertise, awards, arsenal } from "@/lib/data";
 import { site } from "@/lib/site";
+import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
   title: "Resume",
@@ -14,6 +15,12 @@ export const metadata: Metadata = {
 export default function ResumePage() {
   return (
     <>
+      <PageSchema
+        path="/resume"
+        name="Resume — Delowar Hossain"
+        description="Delowar Hossain — Creative Developer & UI/UX Designer. Full resume: experience, education, expertise, and recognition. Download the 2026 PDF."
+        crumbs={[{ name: "Home", href: "/" }, { name: "Resume", href: "/resume" }]}
+      />
       <PageHero
         eyebrow="§ Resume — A Living Document"
         title="Delowar"

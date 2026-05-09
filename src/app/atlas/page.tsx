@@ -4,6 +4,7 @@ import { PageHero } from "@/components/layout/PageHero";
 import { works, journal, experiments } from "@/lib/data";
 import { site } from "@/lib/site";
 import { AtlasConstellation, type ConstellationStar } from "@/components/atlas/AtlasConstellation";
+import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
   title: "Atlas — Site map as a constellation",
@@ -40,6 +41,12 @@ const GROUP_COLOR: Record<string, string> = {
 export default function AtlasPage() {
   return (
     <>
+      <PageSchema
+        path="/atlas"
+        name="Atlas — Site Map"
+        description="Every route on the site, laid out as a star map. Hover any star to preview, click any star to fly there."
+        crumbs={[{ name: "Home", href: "/" }, { name: "Atlas", href: "/atlas" }]}
+      />
       <PageHero
         eyebrow="§09 — Atlas"
         title="Site"

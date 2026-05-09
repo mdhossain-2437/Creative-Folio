@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PageHero } from "@/components/layout/PageHero";
 import { ChangelogVisitTracker } from "@/components/changelog/ChangelogVisitTracker";
 import { site } from "@/lib/site";
+import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
   title: "Changelog — What shipped & when",
@@ -152,6 +153,12 @@ const TAG_STYLES: Record<Tag, { label: string; cls: string }> = {
 export default function ChangelogPage() {
   return (
     <>
+      <PageSchema
+        path="/changelog"
+        name="Changelog — What shipped & when"
+        description="A running log of the studio site itself — feature drops, lab experiments, micro-interactions and engineering polish, in reverse-chronological order."
+        crumbs={[{ name: "Home", href: "/" }, { name: "Changelog", href: "/changelog" }]}
+      />
       <ChangelogVisitTracker />
       <PageHero
         eyebrow="§ 09 — Changelog"
