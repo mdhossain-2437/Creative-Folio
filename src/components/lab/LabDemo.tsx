@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { NoiseField } from "@/components/webgl/NoiseField";
 import { damp, clampDt, K } from "@/lib/damp";
+import { cappedDpr, DPR_CANVAS, DPR_COMPACT } from "@/lib/dpr";
 
 // Each lab experiment has its own dedicated demo — no two slugs share a
 // renderer. Every demo is cursor-reactive and pauses via IntersectionObserver
@@ -79,9 +80,7 @@ function CanvasDemo({
     const ctx = canvas.getContext("2d", { alpha: false });
     if (!ctx) return;
 
-    const dpr = compact
-      ? Math.min(window.devicePixelRatio || 1, 1)
-      : Math.min(window.devicePixelRatio || 1, 1.5);
+    const dpr = compact ? cappedDpr(DPR_COMPACT) : cappedDpr(DPR_CANVAS);
     const m = emptyMouse();
     const store: Store = {};
     let reseedRequested = false;
@@ -147,7 +146,13 @@ function CanvasDemo({
     window.addEventListener("pointerup", onUp);
     window.addEventListener("resize", fit);
 
-    fit();
+    // Lazy initial sizing: paper § "Performance Budget" — defer the
+    // first `fit()` (which calls each demo's `init()` and allocates
+    // typed-array stores) until the canvas actually scrolls into the
+    // viewport. The /lab grid mounts ~17 cards at once; without this
+    // we'd allocate ~17 store contexts upfront for cards the user may
+    // never scroll to.
+    let initialised = false;
 
     let raf = 0;
     let last = performance.now();
@@ -186,6 +191,10 @@ function CanvasDemo({
     };
     const start = () => {
       if (raf) return;
+      if (!initialised) {
+        fit();
+        initialised = true;
+      }
       last = performance.now();
       raf = requestAnimationFrame(tickFrame);
     };

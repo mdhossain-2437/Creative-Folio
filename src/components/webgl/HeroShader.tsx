@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { damp, clampDt, K } from "@/lib/damp";
+import { cappedDpr, DPR_HERO } from "@/lib/dpr";
 
 const VERT = `
 attribute vec2 a_pos;
@@ -145,7 +146,7 @@ export function HeroShader({ className = "" }: { className?: string }) {
     const target = { x: 0, y: 0 };
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const dpr = cappedDpr(DPR_HERO);
       const w = canvas.clientWidth;
       const h = canvas.clientHeight;
       canvas.width = Math.floor(w * dpr);
@@ -162,7 +163,7 @@ export function HeroShader({ className = "" }: { className?: string }) {
 
     const onMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      const dpr = cappedDpr(DPR_HERO);
       target.x = (e.clientX - rect.left) * dpr;
       target.y = (rect.height - (e.clientY - rect.top)) * dpr;
     };
