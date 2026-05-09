@@ -7,6 +7,7 @@
 
 import { useEffect, useRef } from "react";
 import { damp, clampDt, K } from "@/lib/damp";
+import { subscribeRaf } from "@/lib/rafBus";
 
 export function Spotlight() {
   const ref = useRef<HTMLDivElement>(null);
@@ -26,36 +27,26 @@ export function Spotlight() {
       el.style.opacity = calm ? "0" : "";
     };
 
-    let raf = 0;
     let tx = window.innerWidth / 2;
     let ty = window.innerHeight / 2;
     let cx = tx;
     let cy = ty;
-    let last = performance.now();
 
     const onMove = (e: PointerEvent) => {
       tx = e.clientX;
       ty = e.clientY;
-      if (!raf) {
-        last = performance.now();
-        raf = requestAnimationFrame(loop);
-      }
     };
 
-    const loop = () => {
-      raf = 0;
-      const now = performance.now();
-      const dt = clampDt((now - last) / 1000);
-      last = now;
-      // Frame-rate-independent exponential decay so the spotlight tracks
-      // identically on 60/120/240Hz displays.
-      cx = damp(cx, tx, K.K_FAST, dt);
-      cy = damp(cy, ty, K.K_FAST, dt);
+    // Frame-rate-independent decay on the shared rAF bus. Updating the
+    // transform unconditionally is cheaper than the close-enough early
+    // exit the previous version had to use to throttle its dedicated
+    // rAF loop.
+    const off = subscribeRaf((_now, dt) => {
+      const d = clampDt(dt);
+      cx = damp(cx, tx, K.K_FAST, d);
+      cy = damp(cy, ty, K.K_FAST, d);
       el.style.transform = `translate3d(${cx - 240}px, ${cy - 240}px, 0)`;
-      if (Math.abs(tx - cx) > 0.4 || Math.abs(ty - cy) > 0.4) {
-        raf = requestAnimationFrame(loop);
-      }
-    };
+    });
 
     updateVisibility();
     window.addEventListener("pointermove", onMove, { passive: true });
@@ -67,7 +58,7 @@ export function Spotlight() {
       window.removeEventListener("pointermove", onMove);
       motion?.removeEventListener?.("change", updateVisibility);
       observer.disconnect();
-      if (raf) cancelAnimationFrame(raf);
+      off();
     };
   }, []);
 

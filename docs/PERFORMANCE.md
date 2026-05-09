@@ -395,7 +395,53 @@ const start = () => {
 
 ---
 
-## 12. Future-Performance Roadmap
+## 12. Shared rAF Bus (`rafBus.ts`)
+
+Paper § "Scroll Management": *"Lenis allows the developers to
+synchronize the scroll position with the WebGL rendering loop, ensuring
+that every pixel of motion on the screen corresponds exactly to the
+user's input."*
+
+Without a shared loop every cursor / spotlight / Lenis tick allocates
+its own `requestAnimationFrame` callback. The browser still vsyncs them,
+but order is non-deterministic. Lenis can update scroll AFTER a canvas
+has already drawn — so the canvas paints with last-frame's scroll
+position and the user sees a 1-frame lag.
+
+### Architecture
+
+`src/lib/rafBus.ts` exposes:
+
+- `subscribeRaf(cb)` — append a tick callback. Returns an unsubscribe.
+- `subscribeRafPriority(cb, priority)` — same, but inserts in priority
+  order. Negative priority runs first.
+
+The bus runs **one** `requestAnimationFrame` for the whole app.
+Subscribers receive `(now, dt)` where `dt` is in seconds (so it composes
+directly with `damp()`).
+
+### Order of operations
+
+| Subscriber | Priority | Why |
+| --- | --- | --- |
+| `SmoothScrollProvider` (Lenis) | `-10` | Must update scroll FIRST so canvases that read `--scroll-vy` or `getScrollState()` see the new frame's value. |
+| `Cursor` (ring follow) | `0` | Reads mouse, writes transform. |
+| `Spotlight` (soft-light radial) | `0` | Reads mouse, writes transform. |
+
+When adding a new global animation that needs to be synchronised with
+scroll, **subscribe to the bus** instead of starting your own
+`requestAnimationFrame`. Per-canvas / per-component WebGL renderers can
+still use their own rAF — the IO-paused pattern in § 2 means they only
+run while visible, so they don't benefit from the bus.
+
+### Error isolation
+
+A subscriber that throws is logged in dev and skipped in prod. The bus
+keeps running so one buggy canvas can't take down the cursor or scroll.
+
+---
+
+## 13. Future-Performance Roadmap
 
 - **WebGPU fallback for `HeroShader`.** Detect `navigator.gpu`, prefer it
   on supported browsers. Fall back to current WebGL2.
