@@ -8,6 +8,19 @@ import { LabPlaygroundShortcuts } from "@/components/lab/LabPlaygroundShortcuts"
 import { LabPlaygroundHints } from "@/components/lab/LabPlaygroundHints";
 import { LabSnapshotButton } from "@/components/lab/LabSnapshotButton";
 import { experiments } from "@/lib/data";
+import { site } from "@/lib/site";
+
+// Map an experiment's `meta` string (e.g. "GLSL · 2027", "Three.js · 2026") to
+// the canonical Schema.org `programmingLanguage` token. Falls back to
+// JavaScript for hand-rolled canvas demos.
+function inferLanguage(meta: string): string {
+  const m = meta.toLowerCase();
+  if (m.includes("glsl") || m.includes("shader")) return "GLSL";
+  if (m.includes("webgpu") || m.includes("wgsl")) return "WGSL";
+  if (m.includes("three") || m.includes("webgl")) return "JavaScript / WebGL2";
+  if (m.includes("audio") || m.includes("fft")) return "JavaScript / Web Audio";
+  return "JavaScript";
+}
 
 export const dynamicParams = false;
 
@@ -283,9 +296,58 @@ export default async function LabSlug({
   if (!exp) return notFound();
   const note = NOTES[exp.slug];
   const idx = experiments.findIndex((e) => e.slug === exp.slug);
+  const url = `${site.url}/lab/${exp.slug}`;
+
+  // SoftwareSourceCode tells search engines (and AI engines) this is a
+  // self-contained code experiment, not a marketing surface. Pairs with
+  // the per-slug OG card to lift /lab/* into rich-results-eligible
+  // territory.
+  const sourceCodeSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "@id": `${url}#sourcecode`,
+    name: exp.title,
+    description: note?.brief ?? exp.summary,
+    abstract: exp.summary,
+    codeRepository: "https://github.com/mdhossain-2437/Creative-Folio",
+    programmingLanguage: inferLanguage(exp.meta),
+    runtimePlatform: "WebGL2 / Canvas2D (browser)",
+    targetProduct: {
+      "@type": "WebApplication",
+      name: `${exp.title} — Lab Playground`,
+      url,
+      browserRequirements: "Requires WebGL2 or Canvas2D capable browser",
+      applicationCategory: "DeveloperApplication",
+      operatingSystem: "Any (browser)",
+    },
+    author: { "@type": "Person", "@id": `${site.url}#person`, name: site.name, url: site.url },
+    keywords: [exp.category, ...exp.meta.split(/[·|,]/).map((s) => s.trim()).filter(Boolean)],
+    inLanguage: "en",
+    license: "https://opensource.org/licenses/MIT",
+    image: `${url}/opengraph-image`,
+    url,
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      { "@type": "ListItem", position: 2, name: "Lab", item: `${site.url}/lab` },
+      { "@type": "ListItem", position: 3, name: exp.title, item: url },
+    ],
+  };
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(sourceCodeSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <LabVisitTracker slug={exp.slug} allSlugs={experiments.map((e) => e.slug)} />
       <LabPlaygroundShortcuts slug={exp.slug} allSlugs={experiments.map((e) => e.slug)} />
       <LabPlaygroundHints />

@@ -3,6 +3,15 @@ import Link from "next/link";
 import { PageHero } from "@/components/layout/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { services, process, serviceTiers } from "@/lib/data";
+import { site } from "@/lib/site";
+
+// Parse "From $4,800" → 4800; "$8,800/mo" → 8800. Returns undefined when
+// the price isn't a clean number so JSON-LD omits the field rather than
+// shipping a malformed PriceSpecification.
+function parsePriceUSD(s: string): number | undefined {
+  const match = s.replace(/,/g, "").match(/\$(\d+(?:\.\d+)?)/);
+  return match ? Number(match[1]) : undefined;
+}
 
 export const metadata: Metadata = {
   title: "Services & Process",
@@ -11,8 +20,86 @@ export const metadata: Metadata = {
 };
 
 export default function ServicesPage() {
+  // Schema.org Service + OfferCatalog gives Google the rich-results
+  // eligibility for service offerings (price snippets, provider link).
+  // The OfferCatalog wraps the three serviceTiers as Offer entries with
+  // priceCurrency + priceSpecification.
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${site.url}/services#service`,
+    name: "Creative Development & Design Engagements",
+    description:
+      "High-end digital experiences merging editorial art direction with creative development. Project, retainer, and embedded engagement models.",
+    provider: {
+      "@type": "Person",
+      "@id": `${site.url}#person`,
+      name: site.name,
+      url: site.url,
+    },
+    serviceType: services.map((s) => s.title),
+    areaServed: "Worldwide",
+    availableLanguage: ["English", "Bengali"],
+    url: `${site.url}/services`,
+    offers: {
+      "@type": "OfferCatalog",
+      name: "Engagement Tiers",
+      itemListElement: serviceTiers.map((tier) => {
+        const price = parsePriceUSD(tier.starts);
+        // Retainer prices are per-month; sprint/engagement are flat.
+        const isMonthly = /\/mo/i.test(tier.starts);
+        return {
+          "@type": "Offer",
+          name: tier.name,
+          description: tier.pitch,
+          eligibleDuration: tier.duration,
+          ...(price
+            ? {
+                priceSpecification: {
+                  "@type": isMonthly
+                    ? "UnitPriceSpecification"
+                    : "PriceSpecification",
+                  price,
+                  priceCurrency: "USD",
+                  ...(isMonthly
+                    ? { unitText: "per month", referenceQuantity: { "@type": "QuantitativeValue", unitCode: "MON", value: 1 } }
+                    : { description: "Starting price" }),
+                },
+              }
+            : {}),
+          itemOffered: {
+            "@type": "Service",
+            name: tier.name,
+            description: tier.pitch,
+            // Deliverables become the service's serviceType list — these
+            // surface in some rich-results contexts as feature bullets.
+            serviceType: tier.deliverables,
+          },
+        };
+      }),
+    },
+    termsOfService: `${site.url}/colophon`,
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      { "@type": "ListItem", position: 2, name: "Services", item: `${site.url}/services` },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <PageHero
         eyebrow="§ Services & Process"
         title="Expertise"
