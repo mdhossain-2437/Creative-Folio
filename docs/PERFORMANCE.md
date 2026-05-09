@@ -441,7 +441,59 @@ keeps running so one buggy canvas can't take down the cursor or scroll.
 
 ---
 
-## 13. Future-Performance Roadmap
+## 13. Pre-Baked Noise (`bakeNoise.ts`)
+
+Paper § "Generative Reveal Animation":
+
+> To avoid the high cost of calculating noise values in real-time for
+> every pixel, the noise patterns are 'baked' into textures in
+> advance. The shader then samples these pre-calculated textures and
+> offsets them using a simple time variable, creating the illusion of
+> complex generative art with the performance cost of a simple texture
+> lookup.
+
+`src/lib/bakeNoise.ts` exports `bakeValueNoise()` which returns a
+cached, tileable 256² pixel buffer. The first call computes the
+pattern; subsequent calls return the cached buffer.
+
+The shader uploads it once at mount with:
+- `gl.LINEAR` filtering — replaces the in-shader smoothstep blend.
+- `gl.REPEAT` wrap — lets the shader scroll the texture by adding a
+  `time * direction` offset to the UV without ever sampling outside
+  the period.
+
+Per-pixel cost drops from `4 * hash + smoothstep` per octave to a
+single `texture2D` fetch. Currently used in `NoiseField.tsx`. Same
+trick can be applied to `HeroFluidDisplacement.tsx` if profiling
+shows the curl-noise loop becoming a bottleneck.
+
+---
+
+## 14. Spatial Hashing for Atlas Connection Lines
+
+`AtlasConstellation` draws faint lines between stars within a `link`
+distance (currently 140 CSS px). The naive O(N²) all-pairs scan with
+N≈50 stars meant ~1225 distance checks per frame.
+
+Replaced with a spatial hash bucket:
+
+```ts
+const buckets = new Map<number, number[]>();
+for (let i = 0; i < N; i++) {
+  const cx = Math.floor(screen[i].sx / link);
+  const cy = Math.floor(screen[i].sy / link);
+  const key = ((cx & 0xffff) << 16) | (cy & 0xffff);
+  buckets.get(key)?.push(i) ?? buckets.set(key, [i]);
+}
+// Each star only checks its own cell + 8 neighbour cells.
+```
+
+Drops to O(N · 9 · k) where k is the average number of stars per
+cell — empirically ~150 distance checks per frame instead of ~1225.
+
+---
+
+## 15. Future-Performance Roadmap
 
 - **WebGPU fallback for `HeroShader`.** Detect `navigator.gpu`, prefer it
   on supported browsers. Fall back to current WebGL2.
