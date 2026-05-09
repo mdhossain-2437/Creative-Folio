@@ -279,7 +279,65 @@ Before merging a PR that touches anything in this file's domain:
 
 ---
 
-## 10. Future-Performance Roadmap
+## 10. Frame-Rate-Independent Damping (`damp.ts`)
+
+The studio canon for "buttery" cursor + camera follow — same formula
+Immersive Garden, Robot Studio, and Active Theory cite in the David Whyte
+case study and elsewhere:
+
+```
+current = current + (target - current) * (1 - exp(-k * dt))
+```
+
+This replaces the classic 60fps-tuned linear lerp
+(`current += (target - current) * 0.18`) with a frame-rate-independent
+exponential decay. On a 60Hz panel both formulas produce the same motion;
+on a 144Hz panel the linear version moves 2.4x faster, while the
+exponential version stays identical. Same maths anywhere — cursor ring,
+hero shader cursor follow, fluid displacement, work cover hover, atlas
+constellation drift.
+
+### Helper: `src/lib/damp.ts`
+
+```ts
+import { damp, clampDt, K } from "@/lib/damp";
+
+let last = performance.now();
+const tick = () => {
+  const now = performance.now();
+  const dt = clampDt((now - last) / 1000);
+  last = now;
+  current = damp(current, target, K.K_FAST, dt);
+  // ...
+  requestAnimationFrame(tick);
+};
+```
+
+### Pre-tuned `K` constants
+
+| Constant | Old factor at 60fps | Use case |
+| --- | --- | --- |
+| `K_SLOW`   | `* 0.05` | Idle-active blends (hero fluid) |
+| `K_HERO`   | `* 0.06` | Hero shader cursor |
+| `K_GENTLE` | `* 0.08` | Slant / soft attributes |
+| `K_MID`    | `* 0.12` | Hover intensity (work cover) |
+| `K_FAST`   | `* 0.18` | Cursor ring, spotlight, magnetic |
+| `K_SNAP`   | `* 0.25` | Quick snaps |
+
+### `clampDt`
+
+Caps `dt` at 50ms (default) so a tab-switch + Page-Visibility quirks
+can't produce a single frame with `dt = 2s`. Ensures every frame
+behaves like a frame.
+
+### When NOT to damp
+
+Cursor **dot** position should snap directly (no damping) — only the
+ring follows. Damping the dot makes it feel laggy.
+
+---
+
+## 11. Future-Performance Roadmap
 
 - **WebGPU fallback for `HeroShader`.** Detect `navigator.gpu`, prefer it
   on supported browsers. Fall back to current WebGL2.

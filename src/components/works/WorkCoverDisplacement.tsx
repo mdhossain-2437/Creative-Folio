@@ -7,6 +7,7 @@
 // reduced-motion or when WebGL is unavailable.
 
 import { useEffect, useRef, useState } from "react";
+import { damp, clampDt, K } from "@/lib/damp";
 
 const VERT = `
 attribute vec2 a_pos;
@@ -189,6 +190,7 @@ export function WorkCoverDisplacement({
 
     let raf = 0;
     const start = performance.now();
+    let last = start;
     let smoothInt = 0;
     let smoothX = 0.5;
     let smoothY = 0.5;
@@ -205,10 +207,16 @@ export function WorkCoverDisplacement({
     ro.observe(canvas);
 
     const tick = () => {
-      const t = (performance.now() - start) / 1000;
-      smoothInt += (stateRef.current.intensity - smoothInt) * 0.12;
-      smoothX += (stateRef.current.mouseX - smoothX) * 0.18;
-      smoothY += (stateRef.current.mouseY - smoothY) * 0.18;
+      const now = performance.now();
+      const t = (now - start) / 1000;
+      const dt = clampDt((now - last) / 1000);
+      last = now;
+      // Frame-rate-independent exponential decay so cover hover
+      // intensity + mouse-tracked displacement stay identical across
+      // 60/120/240Hz refresh rates.
+      smoothInt = damp(smoothInt, stateRef.current.intensity, K.K_MID, dt);
+      smoothX = damp(smoothX, stateRef.current.mouseX, K.K_FAST, dt);
+      smoothY = damp(smoothY, stateRef.current.mouseY, K.K_FAST, dt);
       gl.uniform1f(uTime, t);
       gl.uniform1f(uInt, smoothInt);
       gl.uniform2f(uMouse, smoothX, 1 - smoothY);

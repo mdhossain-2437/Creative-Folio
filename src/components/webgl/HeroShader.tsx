@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { damp, clampDt, K } from "@/lib/damp";
 
 const VERT = `
 attribute vec2 a_pos;
@@ -170,11 +171,18 @@ export function HeroShader({ className = "" }: { className?: string }) {
     let raf = 0;
     let visible = true;
     const start = performance.now();
+    let last = start;
     const tick = () => {
       if (!visible) return;
-      mouse.x += (target.x - mouse.x) * 0.06;
-      mouse.y += (target.y - mouse.y) * 0.06;
-      const t = (performance.now() - start) / 1000;
+      const now = performance.now();
+      const dt = clampDt((now - last) / 1000);
+      last = now;
+      // Frame-rate-independent exponential decay (paper § "Mathematical
+      // Precision in Interaction Design"). Replaces the classic 60fps
+      // linear lerp; identical motion on 60/120/144/240Hz panels.
+      mouse.x = damp(mouse.x, target.x, K.K_HERO, dt);
+      mouse.y = damp(mouse.y, target.y, K.K_HERO, dt);
+      const t = (now - start) / 1000;
       gl.uniform2f(uMouse, mouse.x, mouse.y);
       gl.uniform1f(uTime, t);
       gl.drawArrays(gl.TRIANGLES, 0, 3);

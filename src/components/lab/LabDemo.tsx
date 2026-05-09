@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef } from "react";
 import { NoiseField } from "@/components/webgl/NoiseField";
+import { damp, clampDt, K } from "@/lib/damp";
 
 // Each lab experiment has its own dedicated demo — no two slugs share a
 // renderer. Every demo is cursor-reactive and pauses via IntersectionObserver
@@ -425,7 +426,7 @@ const fftInit: InitFn = ({ store }) => {
   store.bars = new Float32Array(64);
   store.targets = new Float32Array(64);
 };
-const fftTick: TickFn = ({ ctx, w, h, t, m, store, dpr }) => {
+const fftTick: TickFn = ({ ctx, w, h, t, dt, m, store, dpr }) => {
   const bars = store.bars as Float32Array;
   const targets = store.targets as Float32Array;
   ctx.fillStyle = "#070708";
@@ -437,7 +438,9 @@ const fftTick: TickFn = ({ ctx, w, h, t, m, store, dpr }) => {
     const groove = Math.max(0, Math.sin(t * 0.6 + ph * 0.3) * 0.4);
     const cursor = m.inside ? Math.max(0, 1 - Math.abs(i / N - m.x / w) * 5) * 0.6 : 0;
     targets[i] = Math.min(1, beat * 0.5 + groove + cursor);
-    bars[i] += (targets[i] - bars[i]) * 0.18;
+    // Frame-rate-independent decay so spectrum bars rise at identical
+    // speed on 60 / 120 / 144 / 240Hz panels.
+    bars[i] = damp(bars[i], targets[i], K.K_FAST, dt);
   }
   const bw = w / N;
   for (let i = 0; i < N; i++) {
@@ -787,7 +790,7 @@ const lissaInit: InitFn = ({ store }) => {
   aHist[1] = 2;
   store.aHist = aHist;
 };
-const lissaTick: TickFn = ({ ctx, w, h, t, m, dpr, compact, store }) => {
+const lissaTick: TickFn = ({ ctx, w, h, t, dt, m, dpr, compact, store }) => {
   ctx.fillStyle = "rgba(7,7,8,0.18)";
   ctx.fillRect(0, 0, w, h);
   const cx = w / 2;
@@ -797,8 +800,10 @@ const lissaTick: TickFn = ({ ctx, w, h, t, m, dpr, compact, store }) => {
   const aHist = store.aHist as Float32Array;
   const targetA = m.inside ? 2 + (m.x / w) * 5 : 3;
   const targetB = m.inside ? 2 + (m.y / h) * 5 : 2;
-  aHist[0] += (targetA - aHist[0]) * 0.05;
-  aHist[1] += (targetB - aHist[1]) * 0.05;
+  // Frame-rate-independent decay so the curve morphs at identical speed
+  // on 60 / 120 / 144 / 240Hz panels.
+  aHist[0] = damp(aHist[0], targetA, K.K_SLOW, dt);
+  aHist[1] = damp(aHist[1], targetB, K.K_SLOW, dt);
   const a = aHist[0];
   const b = aHist[1];
   const layers = compact ? 2 : 4;
@@ -1107,10 +1112,16 @@ function VariableFontDemo({ compact }: { compact?: boolean }) {
     };
     wrap.addEventListener("pointermove", onMove);
     let raf = 0;
+    let last = performance.now();
     const tick = () => {
-      weight += (450 - weight) * 0.06;
-      slant += (0 - slant) * 0.08;
-      stretch += (90 - stretch) * 0.06;
+      const now = performance.now();
+      const dt = clampDt((now - last) / 1000);
+      last = now;
+      // Frame-rate-independent decay back to neutral when the pointer
+      // stops moving — same feel on 60/120/240Hz panels.
+      weight = damp(weight, 450, K.K_HERO, dt);
+      slant = damp(slant, 0, K.K_GENTLE, dt);
+      stretch = damp(stretch, 90, K.K_HERO, dt);
       text.style.fontWeight = String(Math.max(200, Math.min(900, weight)));
       text.style.fontStretch = `${Math.max(70, Math.min(140, stretch))}%`;
       text.style.fontStyle = slant < -2 ? "italic" : "normal";

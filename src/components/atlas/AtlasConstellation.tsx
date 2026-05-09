@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { unlock } from "@/lib/achievements";
+import { clampDt } from "@/lib/damp";
 
 export type ConstellationStar = {
   label: string;
@@ -177,7 +178,15 @@ export function AtlasConstellation({ stars }: { stars: ConstellationStar[] }) {
     canvas.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("resize", fit);
 
+    let lastFrame = performance.now();
     const tick = () => {
+      const now = performance.now();
+      const dt = clampDt((now - lastFrame) / 1000);
+      lastFrame = now;
+      // Normalize the original 60fps-tuned velocity (0.00012 per frame)
+      // to seconds, so star drift looks identical at 60 / 90 / 120 / 144Hz
+      // (paper § "Mathematical Precision in Interaction Design").
+      const dtScale = dt * 60;
       ctx.clearRect(0, 0, cw, ch);
 
       const cssW = canvas.clientWidth;
@@ -212,10 +221,10 @@ export function AtlasConstellation({ stars }: { stars: ConstellationStar[] }) {
       }
       ctx.globalAlpha = 1;
 
-      // ── ambient drift
+      // ── ambient drift (frame-rate independent)
       for (const p of placed) {
-        p.x += p.vx;
-        p.y += p.vy;
+        p.x += p.vx * dtScale;
+        p.y += p.vy * dtScale;
         if (p.x < 0.02 || p.x > 0.98) p.vx *= -1;
         if (p.y < 0.02 || p.y > 0.98) p.vy *= -1;
       }

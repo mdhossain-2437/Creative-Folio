@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { damp, clampDt, K } from "@/lib/damp";
 
 export function Cursor() {
   const dotRef = useRef<HTMLDivElement>(null);
@@ -17,6 +18,7 @@ export function Cursor() {
     let rx = mx;
     let ry = my;
     let raf = 0;
+    let last = performance.now();
 
     const onMove = (e: MouseEvent) => {
       mx = e.clientX;
@@ -25,8 +27,14 @@ export function Cursor() {
     };
 
     const tick = () => {
-      rx += (mx - rx) * 0.18;
-      ry += (my - ry) * 0.18;
+      const now = performance.now();
+      const dt = clampDt((now - last) / 1000);
+      last = now;
+      // Frame-rate-independent exponential decay (paper § "Mathematical
+      // Precision in Interaction Design"). Identical motion at 60Hz,
+      // 90Hz, 120Hz, 144Hz, 240Hz.
+      rx = damp(rx, mx, K.K_FAST, dt);
+      ry = damp(ry, my, K.K_FAST, dt);
       ring.style.transform = `translate3d(${rx}px, ${ry}px, 0) translate(-50%, -50%)`;
       raf = requestAnimationFrame(tick);
     };

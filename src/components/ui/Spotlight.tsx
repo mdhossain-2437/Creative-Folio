@@ -6,6 +6,7 @@
 // the user toggles calm motion. Disabled on coarse pointers (touch).
 
 import { useEffect, useRef } from "react";
+import { damp, clampDt, K } from "@/lib/damp";
 
 export function Spotlight() {
   const ref = useRef<HTMLDivElement>(null);
@@ -30,17 +31,26 @@ export function Spotlight() {
     let ty = window.innerHeight / 2;
     let cx = tx;
     let cy = ty;
+    let last = performance.now();
 
     const onMove = (e: PointerEvent) => {
       tx = e.clientX;
       ty = e.clientY;
-      if (!raf) raf = requestAnimationFrame(loop);
+      if (!raf) {
+        last = performance.now();
+        raf = requestAnimationFrame(loop);
+      }
     };
 
     const loop = () => {
       raf = 0;
-      cx += (tx - cx) * 0.18;
-      cy += (ty - cy) * 0.18;
+      const now = performance.now();
+      const dt = clampDt((now - last) / 1000);
+      last = now;
+      // Frame-rate-independent exponential decay so the spotlight tracks
+      // identically on 60/120/240Hz displays.
+      cx = damp(cx, tx, K.K_FAST, dt);
+      cy = damp(cy, ty, K.K_FAST, dt);
       el.style.transform = `translate3d(${cx - 240}px, ${cy - 240}px, 0)`;
       if (Math.abs(tx - cx) > 0.4 || Math.abs(ty - cy) > 0.4) {
         raf = requestAnimationFrame(loop);

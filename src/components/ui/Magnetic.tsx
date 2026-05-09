@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode, useEffect, useRef } from "react";
+import { damp, clampDt, K } from "@/lib/damp";
 
 export function Magnetic({
   children,
@@ -20,9 +21,13 @@ export function Magnetic({
     let y = 0;
     let tx = 0;
     let ty = 0;
+    let last = performance.now();
     const tick = () => {
-      x += (tx - x) * 0.18;
-      y += (ty - y) * 0.18;
+      const now = performance.now();
+      const dt = clampDt((now - last) / 1000);
+      last = now;
+      x = damp(x, tx, K.K_FAST, dt);
+      y = damp(y, ty, K.K_FAST, dt);
       el.style.transform = `translate3d(${x}px, ${y}px, 0)`;
       raf = requestAnimationFrame(tick);
     };

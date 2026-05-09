@@ -11,6 +11,7 @@
 // touch. Only mounted inside the Hero container.
 
 import { useEffect, useRef } from "react";
+import { damp, clampDt, K } from "@/lib/damp";
 
 const VERT = `#version 300 es
 in vec2 a_pos;
@@ -189,10 +190,16 @@ export function HeroFluidDisplacement() {
     let raf = 0;
     let lastActive = 0;
     const start = performance.now();
+    let last = start;
     const tick = () => {
-      const t = (performance.now() - start) / 1000;
-      // Ease activeness toward the target value (mouse moves vs idle).
-      lastActive += (active - lastActive) * 0.05;
+      const now = performance.now();
+      const t = (now - start) / 1000;
+      const dt = clampDt((now - last) / 1000);
+      last = now;
+      // Frame-rate-independent exponential decay. Replaces a 60fps-tuned
+      // linear lerp so the idle↔active fluid blend stays the same speed
+      // on 60/120/240Hz panels.
+      lastActive = damp(lastActive, active, K.K_SLOW, dt);
       gl.uniform2f(uRes, canvas.width, canvas.height);
       gl.uniform2f(uMouse, mx, my);
       gl.uniform1f(uTime, t);
