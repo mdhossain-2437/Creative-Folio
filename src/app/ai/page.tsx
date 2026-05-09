@@ -49,7 +49,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "What is Delowar Hossain's background?",
-    a: `Self-taught engineer. B.A. Political Science (non-CSE track). Active practice since ${site.yearStarted}. Works under the studio "${site.studio}".`,
+    a: `Self-taught creative developer and aspiring software engineer. Currently studying B.Sc. Computer Science at the University of the People (online), on top of a B.A. in Political Science. Active web practice since ${site.yearStarted}. Works under the studio "${site.studio}".`,
   },
   {
     q: "Can I download Delowar Hossain's resume?",

@@ -22,17 +22,10 @@ export const runtime = "edge";
 export const dynamic = "force-dynamic";
 
 export async function POST(req: Request) {
-  const key = process.env.NEXT_PUBLIC_INDEXNOW_KEY;
-  if (!key) {
-    return NextResponse.json(
-      {
-        ok: false,
-        error:
-          "NEXT_PUBLIC_INDEXNOW_KEY is not set. Generate a key at https://www.bing.com/indexnow#implementation and add it to Vercel project env.",
-      },
-      { status: 503 },
-    );
-  }
+  // Match the same fallback chain as /indexnow.txt so the protocol works
+  // out-of-the-box. Override via Vercel env when rotating.
+  const DEFAULT_KEY = "fd368c2ed2b146b08786d891a327f465";
+  const key = process.env.NEXT_PUBLIC_INDEXNOW_KEY ?? DEFAULT_KEY;
 
   let urls: string[] = [site.url, `${site.url}/sitemap.xml`];
   try {
