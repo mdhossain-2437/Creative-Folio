@@ -99,7 +99,11 @@ export function Footer({ commitSha, buildTime }: FooterProps = {}) {
             <FooterCol title="Pages" items={site.nav} />
             <FooterCol
               title="Connect"
-              items={site.socials.map((s) => ({ label: s.label, href: s.href }))}
+              // rel="me" attribute on outbound social links closes the
+              // identity-verification loop with the matching <link rel="me">
+              // tags in <head>. IndieAuth + Mastodon validate that BOTH
+              // sides of the chain agree.
+              items={site.socials.map((s) => ({ label: s.label, href: s.href, rel: "me" }))}
             />
             <FooterCol
               title="Studio"
@@ -208,24 +212,46 @@ function FooterCol({
   items,
 }: {
   title: string;
-  items: { label: string; href: string }[];
+  items: { label: string; href: string; rel?: string }[];
 }) {
   return (
     <div>
       <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">{title}</p>
       <ul className="mt-5 space-y-2 font-serif text-lg leading-tight">
-        {items.map((it) => (
-          <li key={it.href}>
-            <Link
-              href={it.href}
-              data-cursor="hover"
-              data-cursor-label="VIEW"
-              className="text-warmwhite/85 hover:text-peach"
-            >
-              {it.label}
-            </Link>
-          </li>
-        ))}
+        {items.map((it) => {
+          // External links (Connect column — socials) get rel + target.
+          // Internal next/link routing keeps the App Router prefetch on the
+          // pages + studio columns.
+          const isExternal = /^https?:\/\//.test(it.href);
+          if (isExternal) {
+            return (
+              <li key={it.href}>
+                <a
+                  href={it.href}
+                  data-cursor="hover"
+                  data-cursor-label="VIEW"
+                  rel={it.rel ? `${it.rel} noopener` : "noopener"}
+                  target="_blank"
+                  className="text-warmwhite/85 hover:text-peach"
+                >
+                  {it.label}
+                </a>
+              </li>
+            );
+          }
+          return (
+            <li key={it.href}>
+              <Link
+                href={it.href}
+                data-cursor="hover"
+                data-cursor-label="VIEW"
+                className="text-warmwhite/85 hover:text-peach"
+              >
+                {it.label}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

@@ -1,0 +1,24 @@
+/* humanstxt.org */
+/* TEAM */
+
+  Creative Developer & UI/UX Designer: Delowar Hossain
+  Contact: hello [at] delowarhossain.dev
+  From: Joypurhat, Bangladesh
+  GitHub: @mdhossain-2437
+  LinkedIn: in/mdhossain2437
+  X: @mdhossain2437
+
+/* THANKS */
+
+  Patrick Heng — for showing what route transitions can be.
+  immersive-g.com — performance benchmark.
+  The open-source community — Three.js, GSAP, Lenis, Next.js.
+
+/* SITE */
+
+  Edition: MMXXVII (2027)
+  Studio: The Compiled Thought
+  Domain: delowarhossain.dev
+  Standards: HTML5, CSS3, ES2024, WebGL2
+  Components: Next.js 15, React 19, Tailwind, GSAP, Three.js, Lenis
+  Software: Vercel, GitHub, VSCode, Figma
