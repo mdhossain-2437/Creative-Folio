@@ -4,6 +4,7 @@ import { LabRandomButton } from "@/components/lab/LabRandomButton";
 import { LabGrid } from "@/components/lab/LabGrid";
 import { experiments, arsenal } from "@/lib/data";
 import { Marquee } from "@/components/ui/Marquee";
+import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
   title: "The Lab — Experiments",
@@ -14,6 +15,12 @@ export const metadata: Metadata = {
 export default function LabPage() {
   return (
     <>
+      <PageSchema
+        path="/lab"
+        name="The Lab — Experiments"
+        description="Technical explorations: WebGL, GLSL shaders, motion systems and creative coding patterns. Where code meets art."
+        crumbs={[{ name: "Home", href: "/" }, { name: "Lab", href: "/lab" }]}
+      />
       <PageHero
         eyebrow="§02 — Experimentation"
         title="The"

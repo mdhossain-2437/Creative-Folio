@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { awards } from "@/lib/data";
+import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
   title: "Awards — Trophy Room",
@@ -12,6 +13,12 @@ export const metadata: Metadata = {
 export default function AwardsPage() {
   return (
     <>
+      <PageSchema
+        path="/awards"
+        name="Awards — Trophy Room"
+        description="International design and engineering recognition for the work of Delowar Hossain."
+        crumbs={[{ name: "Home", href: "/" }, { name: "Awards", href: "/awards" }]}
+      />
       <PageHero
         eyebrow="§ The Trophy Room"
         title="Awards"

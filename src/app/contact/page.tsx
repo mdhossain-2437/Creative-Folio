@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 import { ContactForm } from "@/components/sections/ContactForm";
 import { site } from "@/lib/site";
+import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
   title: "Contact — Start a Project",
@@ -11,6 +12,12 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
+      <PageSchema
+        path="/contact"
+        name="Contact — Start a Project"
+        description="Inquiries, collaborations, retainers, and the occasional 'just hi'. Open Q2 — Q4 / 2027."
+        crumbs={[{ name: "Home", href: "/" }, { name: "Contact", href: "/contact" }]}
+      />
       <PageHero
         eyebrow="§ Contact & Colophon"
         title="Start a"

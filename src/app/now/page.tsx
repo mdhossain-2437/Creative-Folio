@@ -5,6 +5,7 @@ import { nowFeed } from "@/lib/data";
 import { Marquee } from "@/components/ui/Marquee";
 import { ContributionHeatmap } from "@/components/now/ContributionHeatmap";
 import { fetchGitHubData } from "@/lib/github-fetch";
+import { PageSchema } from "@/components/seo/PageSchema";
 
 // Revalidate the /now page every 30 min so contribution + commits data
 // stays fresh without rebuilding.
@@ -22,6 +23,12 @@ export default async function NowPage() {
   const gh = await fetchGitHubData();
   return (
     <>
+      <PageSchema
+        path="/now"
+        name="Now — What I'm doing this season"
+        description="A small Derek-Sivers /now page. The current season — what I'm building, reading, listening to, and obsessing over. Updated monthly."
+        crumbs={[{ name: "Home", href: "/" }, { name: "Now", href: "/now" }]}
+      />
       <PageHero
         eyebrow="§07 — /now"
         title="Now."

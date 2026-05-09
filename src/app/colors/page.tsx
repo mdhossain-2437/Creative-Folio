@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 import { Swatch } from "@/components/colors/Swatch";
 import { ColorsVisitTracker } from "@/components/colors/ColorsVisitTracker";
+import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
   title: "Colors — Studio Palette",
@@ -47,6 +48,12 @@ const groups: Group[] = [
 export default function ColorsPage() {
   return (
     <>
+      <PageSchema
+        path="/colors"
+        name="Colors — Studio Palette"
+        description="The exact hex values, Tailwind tokens, and on-ink contrast ratios for the studio's brand palette. Click any swatch to copy its hex."
+        crumbs={[{ name: "Home", href: "/" }, { name: "Colors", href: "/colors" }]}
+      />
       <ColorsVisitTracker />
       <PageHero
         eyebrow="§ 04 — Colors"

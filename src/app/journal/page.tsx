@@ -3,6 +3,7 @@ import Link from "next/link";
 import { PageHero } from "@/components/layout/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { journal } from "@/lib/data";
+import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
   title: "Journal",
@@ -13,6 +14,12 @@ export const metadata: Metadata = {
 export default function JournalPage() {
   return (
     <>
+      <PageSchema
+        path="/journal"
+        name="Journal — Notes on Craft"
+        description="Thoughts, experiments and technical deep-dives on creative development, motion design, AI and the discipline of craft."
+        crumbs={[{ name: "Home", href: "/" }, { name: "Journal", href: "/journal" }]}
+      />
       <PageHero
         eyebrow="§04 — Journal"
         title="Journal"
