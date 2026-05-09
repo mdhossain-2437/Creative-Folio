@@ -219,8 +219,25 @@ export function WorkCoverDisplacement({
     };
     raf = requestAnimationFrame(tick);
 
+    // Pause when off-screen — works grid covers can stack four high; we
+    // don't want all of them burning GPU when the user is on a different
+    // section.
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !raf) {
+          raf = requestAnimationFrame(tick);
+        } else if (!entry.isIntersecting && raf) {
+          cancelAnimationFrame(raf);
+          raf = 0;
+        }
+      },
+      { threshold: 0.01 },
+    );
+    io.observe(canvas);
+
     return () => {
-      cancelAnimationFrame(raf);
+      io.disconnect();
+      if (raf) cancelAnimationFrame(raf);
       ro.disconnect();
       gl.deleteTexture(tex);
       gl.deleteBuffer(buf);

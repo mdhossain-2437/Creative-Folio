@@ -1,12 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useScrollState } from "@/components/providers/SmoothScrollProvider";
 import { reelClips } from "@/lib/data";
 
+// ShowreelTeaser — kinetic h2 inherits `--scroll-vy` from the document
+// root via the `.kinetic` CSS class. No React-side scroll state.
 export function ShowreelTeaser() {
-  const { velocity } = useScrollState();
-  const skew = Math.max(-3, Math.min(3, velocity));
   return (
     <section className="relative overflow-hidden border-t border-warmwhite/15 bg-ink-950 py-28 md:py-40">
       <div className="pointer-events-none absolute inset-0 vignette" />
@@ -16,10 +15,7 @@ export function ShowreelTeaser() {
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
               §03 — Reel · 02:17
             </p>
-            <h2
-              className="kinetic mt-6 font-serif text-[clamp(2.5rem,6vw,5.4rem)] leading-[0.96] tracking-tightest"
-              style={{ ["--vy" as never]: skew.toFixed(3) }}
-            >
+            <h2 className="kinetic mt-6 font-serif text-[clamp(2.5rem,6vw,5.4rem)] leading-[0.96] tracking-tightest">
               Six chapters,
               <span className="block italic text-warmwhite/60">one quiet reel.</span>
             </h2>

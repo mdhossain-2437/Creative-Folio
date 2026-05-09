@@ -432,9 +432,12 @@ body.calm-motion::after {
   backdrop-filter: blur(14px) saturate(1.2);
 }
 
-/* Kinetic skew (driven via inline --vy) */
+/* Kinetic skew — reads `--scroll-vy` directly from the document root.
+   The Lenis provider writes that var every tick, so this is fully
+   GPU-driven without any React reconciliation. The legacy `--vy`
+   custom prop is honoured as a fallback (per-element override). */
 .kinetic {
-  transform: skewY(calc(var(--vy, 0) * 1deg));
+  transform: skewY(calc(var(--vy, var(--scroll-vy, 0)) * 1deg));
   transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: transform;
 }
