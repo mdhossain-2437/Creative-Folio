@@ -100,19 +100,8 @@ export const metadata: Metadata = {
     siteName: site.name,
     url: site.url,
     locale: "en_US",
-    images: [
-      {
-        url: site.portrait,
-        width: 1326,
-        height: 1147,
-        alt: `${site.name} — Creative Developer & UI/UX Designer in ${site.location}`,
-        type: "image/png",
-      },
-      {
-        url: "/og.svg",
-        alt: `${site.name} — ${site.editionShort} Portfolio`,
-      },
-    ],
+    // og:image is auto-populated by the `app/opengraph-image.tsx` file
+    // convention — a 1200x630 edge-rendered card with the portrait + name.
   },
   twitter: {
     card: "summary_large_image",
@@ -120,7 +109,7 @@ export const metadata: Metadata = {
     site: "@mdhossain2437",
     title: `${site.name} — Creative Developer & UI/UX Designer`,
     description: `Portfolio of ${site.name}, creative developer based in ${site.location}.`,
-    images: [site.portrait],
+    // twitter:image auto-populated by `app/twitter-image.tsx`.
   },
   alternates: {
     canonical: site.url,

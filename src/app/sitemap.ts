@@ -52,7 +52,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entry("", {
       priority: 1.0,
       changeFrequency: "daily",
-      images: [PORTRAIT, OG_FALLBACK],
+      images: [PORTRAIT, `${site.url}/opengraph-image`, OG_FALLBACK],
       lastModified: now,
     }),
     entry("/about", {
