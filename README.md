@@ -7,7 +7,7 @@ typography-first, immersive, and built with the modern web stack.
 
 ## Stack
 
-- **Framework:** Next.js 15 (App Router, RSC, static export-friendly)
+- **Framework:** Next.js 16 (App Router, RSC, Turbopack stable)
 - **Language:** TypeScript (strict)
 - **Styling:** Tailwind CSS + custom design tokens
 - **Type:** Newsreader (display serif), Inter (UI), JetBrains Mono (code)

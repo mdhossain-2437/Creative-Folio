@@ -157,7 +157,7 @@ export function Footer({ commitSha, buildTime }: FooterProps = {}) {
               site.availability.toUpperCase(),
               "JOYPURHAT, BANGLADESH",
               site.edition,
-              "DELOWARHOSSAIN.DEV",
+              `${site.name.toUpperCase()} · MMXXVII`,
             ]}
           />
         </div>

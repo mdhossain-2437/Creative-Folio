@@ -70,7 +70,7 @@ When the year ticks (e.g. 2027 → 2028):
 
 | Layer | Tech | Notes |
 | --- | --- | --- |
-| Framework | Next.js 15 (App Router, RSC) | static-first, server actions in `/api` |
+| Framework | Next.js 16 (App Router, RSC, Turbopack stable) | static-first, server actions in `/api` |
 | Language | TypeScript strict | path alias `@/*` → `src/*` |
 | Styling | Tailwind + custom tokens | tokens in `tailwind.config.ts` |
 | Motion | GSAP, Lenis, Framer Motion | reduced-motion respected globally |
@@ -211,7 +211,7 @@ Validators: securityheaders.com, csp-evaluator.withgoogle.com,
 hstspreload.org. Goal: **A** rating, A+ once HSTS preload is approved.
 
 CSP intentionally retains `'unsafe-inline'` and `'unsafe-eval'` because
-Next 15's RSC boot script and framer-motion need them. Switching to
+Next 16's RSC boot script and framer-motion need them. Switching to
 `strict-dynamic + nonce` is a future-2028 task — see §10.
 
 ### IndexNow

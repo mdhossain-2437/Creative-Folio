@@ -1,6 +1,6 @@
 export const site = {
   name: "Delowar Hossain",
-  shortName: "Delowar.dev",
+  shortName: "Delowar Hossain",
   role: "Creative Developer & UI/UX Designer",
   location: "Joypurhat, Bangladesh",
   base: "Panchbibi, Joypurhat, Bangladesh",
