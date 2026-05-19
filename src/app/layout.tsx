@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Newsreader, JetBrains_Mono } from "next/font/google";
+import { Inter, Newsreader, JetBrains_Mono, Sacramento } from "next/font/google";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { Cursor } from "@/components/ui/Cursor";
@@ -38,6 +38,17 @@ const mono = JetBrains_Mono({
   subsets: ["latin"],
   variable: "--font-jetbrains",
   display: "swap",
+});
+
+// Sacramento — a single-weight formal signature script used exclusively
+// for the footer SignatureSVG. Loaded with display:swap so the fallback
+// (cursive) shows immediately and the real face hot-swaps in once
+// available without blocking layout.
+const sacramento = Sacramento({
+  subsets: ["latin"],
+  variable: "--font-sacramento",
+  display: "swap",
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -151,7 +162,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${newsreader.variable} ${inter.variable} ${mono.variable}`}>
+    <html lang="en" className={`${newsreader.variable} ${inter.variable} ${mono.variable} ${sacramento.variable}`}>
       <head>
         <JsonLd />
         {/* rel="me" verification chain. The fediverse, IndieAuth, and a number

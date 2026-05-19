@@ -702,8 +702,8 @@ const voronoiTick: TickFn = ({ ctx, w, h, m, store, compact, dpr }) => {
   const sites = store.sites as Float32Array;
   const N = store.N as number;
   for (let i = 0; i < N; i++) {
-    let x = sites[i * 4] + sites[i * 4 + 2];
-    let y = sites[i * 4 + 1] + sites[i * 4 + 3];
+    const x = sites[i * 4] + sites[i * 4 + 2];
+    const y = sites[i * 4 + 1] + sites[i * 4 + 3];
     if (x < 0 || x > w) sites[i * 4 + 2] *= -1;
     if (y < 0 || y > h) sites[i * 4 + 3] *= -1;
     sites[i * 4] = Math.max(0, Math.min(w, x));
