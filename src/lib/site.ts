@@ -77,6 +77,7 @@ export const site = {
     { label: "Services", href: "/services" },
     { label: "Uses", href: "/uses" },
     { label: "Contact", href: "/contact" },
+    { label: "Portfolios", href: "/portfolios" },
     { label: "AI Summary", href: "/ai" },
   ],
   commandActions: [

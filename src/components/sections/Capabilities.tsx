@@ -22,17 +22,21 @@ export function Capabilities() {
                 <p className="display-num font-sans text-[10px] uppercase tracking-widest text-warmwhite/65 md:col-span-1">
                   {s.index}
                 </p>
-                <h3 className="font-serif text-[clamp(2rem,5vw,4.5rem)] leading-[0.96] tracking-tightest md:col-span-5">
+                <h3 className="font-serif text-[clamp(2rem,5vw,4.5rem)] leading-[0.96] tracking-tightest md:col-span-4">
                   {s.title}
                 </h3>
                 <p className="font-sans text-sm leading-relaxed text-warmwhite/70 md:col-span-4 md:text-base">
                   {s.summary}
                 </p>
-                <ul className="flex flex-wrap gap-2 md:col-span-2 md:justify-end">
-                  {s.tags.map((t) => (
+                {/* Tag pills — always rendered as a strict 2×2 grid so all four
+                    services share the exact same visual rhythm regardless of
+                    individual tag length (fixes the previous flex-wrap where
+                    services 01 and 04 looked taller/shorter than 02 and 03). */}
+                <ul className="grid grid-cols-2 gap-2 self-center md:col-span-3 md:justify-end">
+                  {s.tags.slice(0, 4).map((t) => (
                     <li
                       key={t}
-                      className="rounded-full border border-warmwhite/20 px-3 py-1 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65"
+                      className="inline-flex h-8 items-center justify-center whitespace-nowrap rounded-full border border-warmwhite/20 px-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/75 transition-colors hover:border-peach/60 hover:text-peach"
                     >
                       {t}
                     </li>

@@ -44,6 +44,7 @@ const SECONDARY_ROUTES = [
   "/changelog",
   "/uses",
   "/showreel",
+  "/portfolios",
 ];
 
 export function RoutePrefetcher() {
