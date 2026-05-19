@@ -7,11 +7,42 @@ import { SpotlightTile } from "@/components/ui/SpotlightTile";
 import { WorksConstellation } from "@/components/works/WorksConstellation";
 import { works, archive } from "@/lib/data";
 import { PageSchema } from "@/components/seo/PageSchema";
+import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Selected Works",
   description:
     "A curated collection of digital experiences, interactive installations and experimental web architecture by Delowar Hossain.",
+};
+
+// ItemList JSON-LD — turns the /works route into a list result. Google
+// prefers ItemList over CollectionPage for portfolio indexes; each item
+// is a CreativeWork pointing back at its own case-study URL. This lets
+// the page rank for "delowar hossain selected works" plus serve as a
+// strong internal-linking root for every project page.
+const worksItemList = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "@id": `${site.url}/works#list`,
+  name: "Selected Works — Delowar Hossain",
+  url: `${site.url}/works`,
+  numberOfItems: works.length,
+  itemListOrder: "https://schema.org/ItemListOrderDescending",
+  itemListElement: works.map((w, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    url: `${site.url}/works/${w.slug}`,
+    item: {
+      "@type": "CreativeWork",
+      "@id": `${site.url}/works/${w.slug}#work`,
+      name: w.title,
+      url: `${site.url}/works/${w.slug}`,
+      description: w.summary,
+      image: w.cover,
+      dateCreated: w.year,
+      creator: { "@id": `${site.url}/#person` },
+    },
+  })),
 };
 
 export default function WorksPage() {
@@ -22,6 +53,10 @@ export default function WorksPage() {
         name="Selected Works"
         description="A curated collection of digital experiences, interactive installations and experimental web architecture by Delowar Hossain."
         crumbs={[{ name: "Home", href: "/" }, { name: "Works", href: "/works" }]}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(worksItemList) }}
       />
       <PageHero
         eyebrow="§02 — Selected & Works"
@@ -40,15 +75,20 @@ export default function WorksPage() {
 
       <section className="relative bg-ink-900 py-16 md:py-24">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-          <ul className="grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-2">
+          {/* Works grid — every tile is now the same height so the columns
+              read as a clean editorial sheet. The cover keeps the 4:3
+              SpotlightTile crop; the body underneath uses a deterministic
+              row layout (title clamped to 2 lines, summary clamped to 3,
+              stack pinned to one row, footer hugging the bottom). */}
+          <ul className="grid grid-cols-1 items-stretch gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-2">
             {works.map((w, i) => (
               <Reveal key={w.slug} delay={i * 0.05}>
-                <li className="bg-ink-900">
+                <li className="h-full bg-ink-900">
                   <Link
                     href={`/works/${w.slug}`}
                     data-cursor="view"
                     data-cursor-label="OPEN CASE"
-                    className="group block"
+                    className="group flex h-full flex-col"
                   >
                     <SpotlightTile accent={w.accent}>
                       <div className="spotlight-tile-img absolute inset-0 will-change-transform">
@@ -74,28 +114,26 @@ export default function WorksPage() {
                         </span>
                       </div>
                     </SpotlightTile>
-                    <div className="flex flex-col gap-4 p-6 md:p-10">
-                      <h3 className="font-serif text-[clamp(2rem,4vw,4rem)] leading-[0.95] tracking-tightest">
+                    <div className="flex flex-1 flex-col gap-4 p-6 md:p-10">
+                      <h3 className="line-clamp-2 min-h-[2.4em] font-serif text-[clamp(2rem,4vw,4rem)] leading-[0.95] tracking-tightest">
                         {w.title}
                       </h3>
-                      <p className="max-w-prose font-sans text-sm leading-relaxed text-warmwhite/65 md:text-base">
+                      <p className="line-clamp-3 min-h-[4.5em] max-w-prose font-sans text-sm leading-relaxed text-warmwhite/65 md:text-base">
                         {w.summary}
                       </p>
-                      <ul className="mt-2 flex flex-wrap gap-2">
-                        {w.stack.map((s) => (
+                      <ul className="mt-2 flex min-h-[2rem] flex-wrap gap-2">
+                        {w.stack.slice(0, 4).map((s) => (
                           <li
                             key={s}
-                            className="rounded-full border border-warmwhite/20 px-3 py-1 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65"
+                            className="inline-flex h-7 items-center rounded-full border border-warmwhite/20 px-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65"
                           >
                             {s}
                           </li>
                         ))}
                       </ul>
-                      {w.award && (
-                        <p className="mt-4 font-sans text-[10px] uppercase tracking-widest text-peach">
-                          ✦ {w.award}
-                        </p>
-                      )}
+                      <p className="mt-auto pt-4 font-sans text-[10px] uppercase tracking-widest text-peach">
+                        {w.award ? `✦ ${w.award}` : "— Selected work"}
+                      </p>
                     </div>
                   </Link>
                 </li>

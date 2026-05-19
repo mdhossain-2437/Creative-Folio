@@ -2,21 +2,15 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Newsreader, JetBrains_Mono, Sacramento } from "next/font/google";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
-import { Cursor } from "@/components/ui/Cursor";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Preloader } from "@/components/layout/Preloader";
-import { RoutePrefetcher } from "@/components/layout/RoutePrefetcher";
-import { GridOverlay } from "@/components/ui/GridOverlay";
-import { ScrollMeter } from "@/components/ui/ScrollMeter";
 import { RouteCurtain } from "@/components/layout/RouteCurtain";
-import { ShowreelPill } from "@/components/ui/ShowreelPill";
 import { MaskFooter } from "@/components/ui/MaskFooter";
 import { SkipToContent } from "@/components/ui/SkipToContent";
-import { ScrollToTop } from "@/components/ui/ScrollToTop";
 import { ClientOverlays } from "@/components/layout/ClientOverlays";
 import { SoundProvider } from "@/components/ui/SoundDesign";
-import { CursorSpotlight } from "@/components/ui/CursorSpotlight";
+import { LazyChrome } from "@/components/layout/LazyChrome";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { site } from "@/lib/site";
 
@@ -182,13 +176,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SkipToContent />
         <SmoothScrollProvider>
           <Preloader />
-          <RoutePrefetcher />
-          <CursorSpotlight />
-          <Cursor />
+          <LazyChrome />
           <SoundProvider />
           <ClientOverlays />
-          <GridOverlay />
-          <ScrollMeter />
           <Navbar />
           <RouteCurtain>
             <main id="main-content">{children}</main>
@@ -199,8 +189,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               buildTime={process.env.VERCEL_DEPLOYMENT_ID ? new Date().toISOString().slice(0, 10) : undefined}
             />
           </MaskFooter>
-          <ShowreelPill />
-          <ScrollToTop />
         </SmoothScrollProvider>
       </body>
     </html>

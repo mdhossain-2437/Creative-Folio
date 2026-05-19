@@ -1,5 +1,14 @@
 import { site } from "@/lib/site";
-import { works, journal, experiments, journey, expertise, services, awards } from "@/lib/data";
+import {
+  works,
+  journal,
+  experiments,
+  journey,
+  expertise,
+  services,
+  awards,
+  portfolios,
+} from "@/lib/data";
 
 // /llms-full.txt — the deeper, full-content variant of /llms.txt for AI
 // crawlers that want the entire site as plain text in one shot. We dump
@@ -60,6 +69,24 @@ export function GET(): Response {
     sections.push("");
     sections.push(a.summary);
     sections.push("");
+  });
+
+  sections.push("## Year-by-year portfolio editions");
+  sections.push("");
+  sections.push(
+    `Delowar Hossain rebuilds his portfolio from scratch every year — each edition is its own codename and visual register. ${portfolios.length} editions documented at ${site.url}/portfolios.`,
+  );
+  sections.push("");
+  portfolios.forEach((p) => {
+    sections.push(`### ${p.year} · ${p.edition} — ${p.codename} (${p.status})`);
+    sections.push("");
+    sections.push(p.description);
+    sections.push("");
+    if (p.highlights.length > 0) {
+      sections.push("Highlights:");
+      p.highlights.forEach((h) => sections.push(`- ${h}`));
+      sections.push("");
+    }
   });
 
   sections.push("## Selected works");

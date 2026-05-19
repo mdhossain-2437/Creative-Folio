@@ -789,7 +789,20 @@ export type ExperimentSlug =
   | "boids-flock"
   | "wave-interference"
   | "kaleidoscope"
-  | "metaballs";
+  | "metaballs"
+  | "truchet-tiles"
+  | "perlin-terrain"
+  | "dvd-bouncer"
+  | "starfield-warp"
+  | "vortex-spiral"
+  | "rope-physics"
+  | "plasma-classic"
+  | "sand-piles"
+  | "rotation-blur"
+  | "constellation-net"
+  | "morphing-blob"
+  | "chromatic-aberration"
+  | "paper-folding";
 
 export type ExperimentExtended = Experiment & { slug: ExperimentSlug };
 
@@ -947,6 +960,123 @@ export const experiments: ExperimentExtended[] = [
       "A field of additive radial gradients approximating an iso-surface. Spheres float and merge softly; the cursor adds a bright bump that pulls the field with it.",
     meta: "Implicit Surfaces · 2027",
   },
+  {
+    slug: "truchet-tiles",
+    index: "18",
+    category: "Tiling",
+    title: "Truchet Tiles",
+    summary:
+      "A grid of tiles whose orientations are seeded by the cursor — drag to retune the pattern; tile arcs snap into continuous serpentine rivers.",
+    meta: "Generative · 2027",
+  },
+  {
+    slug: "perlin-terrain",
+    index: "19",
+    category: "Topography",
+    title: "Perlin Terrain",
+    summary:
+      "A scrolling 2.5D heightfield drawn line-by-line from a Perlin field. The cursor lifts the ridge it hovers; click to shift the scroll direction.",
+    meta: "Heightfield · 2027",
+  },
+  {
+    slug: "dvd-bouncer",
+    index: "20",
+    category: "Throwback",
+    title: "DVD Bouncer",
+    summary:
+      "The classic 90s screensaver — colour cycles on every wall hit. Click to nudge the trajectory; hold ⇧ to spawn a second DVD that tracks the first.",
+    meta: "Demoscene · 2027",
+  },
+  {
+    slug: "starfield-warp",
+    index: "21",
+    category: "Space",
+    title: "Starfield Warp",
+    summary:
+      "Radial starfield with trails. Cursor warps the field's vanishing point; click pushes the warp factor up so the trails stretch into hyperdrive.",
+    meta: "Radial · 2027",
+  },
+  {
+    slug: "vortex-spiral",
+    index: "22",
+    category: "Curl",
+    title: "Vortex Spiral",
+    summary:
+      "A logarithmic spiral of particles orbiting the cursor. Inward bias drags them home, outward bias kicks them into a fleeing galaxy.",
+    meta: "Polar · 2027",
+  },
+  {
+    slug: "rope-physics",
+    index: "23",
+    category: "Physics",
+    title: "Rope Physics",
+    summary:
+      "A Verlet-integrated rope pinned to the top edge — the cursor grabs the free end and the chain swings with gravity, friction and slack.",
+    meta: "Verlet · 2027",
+  },
+  {
+    slug: "plasma-classic",
+    index: "24",
+    category: "Demo",
+    title: "Plasma Classic",
+    summary:
+      "A four-sine plasma palette running per-pixel through a low-cost lookup. Cursor offsets the palette index for live colour mood shifts.",
+    meta: "Demoscene · 2027",
+  },
+  {
+    slug: "sand-piles",
+    index: "25",
+    category: "Cellular",
+    title: "Falling Sand",
+    summary:
+      "A two-state falling-sand automaton — drag to paint sand, watch it settle into piles. Click to convert sand to stone so other grains pile on it.",
+    meta: "Automata · 2027",
+  },
+  {
+    slug: "rotation-blur",
+    index: "26",
+    category: "Optical",
+    title: "Rotation Blur",
+    summary:
+      "A pinwheel of radial spokes rendered with progressive motion-blur. Cursor controls the angular velocity — fast feels like a turbine, slow like a fan.",
+    meta: "Optics · 2027",
+  },
+  {
+    slug: "constellation-net",
+    index: "27",
+    category: "Network",
+    title: "Constellation Net",
+    summary:
+      "Floating nodes that connect to one another inside a proximity radius — the cursor is the brightest node, lit lines fade with distance.",
+    meta: "Graph · 2027",
+  },
+  {
+    slug: "morphing-blob",
+    index: "28",
+    category: "SDF",
+    title: "Morphing Blob",
+    summary:
+      "A super-formula blob whose petals breathe with time. The cursor distorts the SDF locally; click to lock the current silhouette as a still.",
+    meta: "Implicit · 2027",
+  },
+  {
+    slug: "chromatic-aberration",
+    index: "29",
+    category: "Type",
+    title: "Chromatic Aberration",
+    summary:
+      "Three-layer RGB-shifted typography whose offset scales with cursor velocity. Standing still it crisps; flicking the mouse shears it apart.",
+    meta: "Type Glitch · 2027",
+  },
+  {
+    slug: "paper-folding",
+    index: "30",
+    category: "Origami",
+    title: "Paper Folding",
+    summary:
+      "A grid of triangle folds whose crease angles follow a noise field. Cursor pulls the field's centre; the paper crinkles toward your hover.",
+    meta: "Folded · 2027",
+  },
 ];
 
 export const arsenal: { title: string; items: string[] }[] = [
@@ -1059,30 +1189,101 @@ export const serviceTiers: {
   },
 ];
 
-export const process: { phase: string; title: string; summary: string }[] = [
+export type Phase = {
+  phase: string;
+  title: string;
+  summary: string;
+  /** 3–5 ordered micro-steps the phase actually walks through. */
+  steps: string[];
+  /** Tangible artefacts the client receives at the end of the phase. */
+  deliverables: string[];
+  /** Tools / stack the studio reaches for during the phase. */
+  tools: string[];
+  /** Duration as a rough range — used in the timeline strip. */
+  duration: string;
+};
+
+export const process: Phase[] = [
   {
     phase: "Phase I",
     title: "Discovery",
     summary:
       "Understand narrative constraints. Map the audience, the systems, and the technical envelope before a single pixel.",
+    steps: [
+      "Brief intake & strategic call",
+      "Audience + competitive landscape audit",
+      "Content + technical inventory",
+      "Information architecture sketch",
+      "Success metrics + KPI agreement",
+    ],
+    deliverables: [
+      "Discovery deck (PDF)",
+      "Sitemap + content matrix",
+      "Tone-of-voice notes",
+    ],
+    tools: ["Figma · FigJam", "Notion", "Linear", "Loom"],
+    duration: "1–2 weeks",
   },
   {
     phase: "Phase II",
     title: "Design",
     summary:
       "Establish the visual grid, typography rules, and static art direction. Prototype the silence between elements.",
+    steps: [
+      "Mood-board + reference cull",
+      "Type + colour token system",
+      "Editorial grid + key frames",
+      "High-fidelity static comps",
+      "Accessibility + contrast pass",
+    ],
+    deliverables: [
+      "Design system tokens",
+      "Static high-fidelity pages",
+      "Logo / brand mark exploration",
+    ],
+    tools: ["Figma", "Tailwind tokens", "Style Dictionary"],
+    duration: "2–3 weeks",
   },
   {
     phase: "Phase III",
     title: "Prototype",
     summary:
       "Draft core WebGL scenes, motion curves, and the choreography between page transitions and content systems.",
+    steps: [
+      "Motion script + easing studies",
+      "Interactive prototype in Next.js",
+      "WebGL / shader sketches",
+      "Page-transition choreography",
+      "Performance budget set",
+    ],
+    deliverables: [
+      "Clickable Next.js prototype",
+      "Motion design doc",
+      "Shader & canvas studies",
+    ],
+    tools: ["Next.js · React", "GSAP · ScrollTrigger", "Three.js · raw WebGL2", "Lenis"],
+    duration: "2–4 weeks",
   },
   {
     phase: "Phase IV",
     title: "Production",
     summary:
       "Write custom GLSL shaders, build the engineering layer, ship with measurable performance and accessibility.",
+    steps: [
+      "Component build-out + content wiring",
+      "GLSL / shader production pass",
+      "Performance budget audit (Core Web Vitals)",
+      "Accessibility audit (WCAG AA)",
+      "SEO + structured data sweep",
+      "Hand-off + launch retainer",
+    ],
+    deliverables: [
+      "Production codebase (TypeScript)",
+      "Lighthouse + a11y report",
+      "Launch + 30-day retainer",
+    ],
+    tools: ["TypeScript", "Next.js 16", "GLSL", "Vercel / Cloudflare", "Playwright"],
+    duration: "3–6 weeks",
   },
 ];
 
@@ -1385,6 +1586,103 @@ export const testimonials: Testimonial[] = [
     name: "Marcus Lindqvist",
     title: "Creative Director",
     company: "Atelier Nord",
+  },
+];
+
+// Year-by-year portfolio editions. Every yearly portfolio is its own
+// codename + visual identity. The newest entries are first. Used by the
+// `/portfolios` route and the home-page Legacy section.
+export type PortfolioEdition = {
+  year: string;
+  edition: string; // roman numeral year, e.g. MMXXVII
+  codename: string;
+  status: "Current" | "Live" | "Archived";
+  href?: string; // external archive (optional)
+  description: string;
+  accent: string;
+  highlights: string[];
+};
+
+export const portfolios: PortfolioEdition[] = [
+  {
+    year: "2027",
+    edition: "MMXXVII",
+    codename: "The Compiled Thought",
+    status: "Current",
+    description:
+      "Editorial newsroom architecture. WebGL hero, Lenis-smoothed scroll, GSAP-pinned process timeline, 30 live lab experiments. Built for sub-100ms interaction, AA contrast, and dual JSON-LD + AI-engine surfaces.",
+    accent: "#e3bfb4",
+    highlights: ["Next.js 16 · React 19", "raw WebGL2 + GLSL", "30 lab demos", "365-day quote rotation"],
+  },
+  {
+    year: "2026",
+    edition: "MMXXVI",
+    codename: "Studio Press",
+    status: "Archived",
+    description:
+      "Single-page editorial micro-folio. Variable-font scroll, three case studies, an inline showreel. Pruned to the bare essentials between two larger systems.",
+    accent: "#a3b8c4",
+    highlights: ["Single-page", "Variable fonts", "Three case studies", "Inline showreel"],
+  },
+  {
+    year: "2025",
+    edition: "MMXXV",
+    codename: "Terminal State",
+    status: "Archived",
+    description:
+      "Monolith design-system showcase. Dark UI, dense data, terminal aesthetics. Built around a colour-token system, a custom kinetic cursor and an audio-reactive prelude.",
+    accent: "#9ca3af",
+    highlights: ["Design tokens", "Terminal UI", "Kinetic cursor", "Audio prelude"],
+  },
+  {
+    year: "2024",
+    edition: "MMXXIV",
+    codename: "Void Engine",
+    status: "Archived",
+    description:
+      "Awwwards-jury experimental folio. Three.js heavy: GPU particles, post-processing chain, a custom shader-based page transition. Optimised for desktop showpiece browsing.",
+    accent: "#6f6fff",
+    highlights: ["Three.js + GPGPU", "Custom transitions", "Audio-reactive", "WebGL showcase"],
+  },
+  {
+    year: "2023",
+    edition: "MMXXIII",
+    codename: "Quiet Office",
+    status: "Archived",
+    description:
+      "A studio-mode rebrand year. Editorial scaffolding, retypeset case studies, an explicit working-with section. Earned a Site Inspire feature and a Typewolf nod.",
+    accent: "#f6cf76",
+    highlights: ["Editorial scaffolding", "Working-with sheet", "Site Inspire feature"],
+  },
+  {
+    year: "2022",
+    edition: "MMXXII",
+    codename: "Folio v1",
+    status: "Archived",
+    description:
+      "The first formal portfolio. Built on plain HTML + SCSS + a hand-rolled scroll engine. Three case studies, a long-form about page, no JavaScript framework at all.",
+    accent: "#7fb88c",
+    highlights: ["Vanilla JS", "Hand-rolled scroll", "Three case studies"],
+  },
+  {
+    year: "2021",
+    edition: "MMXXI",
+    codename: "Sketch & Ship",
+    status: "Archived",
+    description:
+      "A side-by-side dev journal. Daily sketches and the shippable code that emerged from each. Half public scrapbook, half evidence of practice.",
+    accent: "#d18bbf",
+    highlights: ["Daily logs", "Dev journal", "Public scrapbook"],
+  },
+  {
+    year: "2020",
+    edition: "MMXX",
+    codename: "The Founding",
+    status: "Archived",
+    description:
+      "The studio's founding portfolio. Three logo commissions, a Bangla newspaper redesign concept, and the first piece written under the studio's voice. The beginning of the practice.",
+    accent: "#b59a72",
+    highlights: ["Founding year", "First commissions", "Bangla redesign concept"],
   },
 ];
 

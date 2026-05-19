@@ -5,10 +5,18 @@
 // viewer can drag, scroll-wheel-pan, and click a card to open its case
 // study. The grid below remains intact — this is an additive Awwwards-y
 // alternate view, not a replacement.
+//
+// Infinite roaming: the layout is computed inside a fixed-size *tile* and
+// the surface renders a 3×3 grid of identical tiles. The pan transform
+// is then taken modulo the tile size so as the viewer drags in any
+// direction the field repeats seamlessly — there is no edge to bump
+// into. We accept the slight cost of rendering 9× the tile contents to
+// gain a true infinite canvas; counts here are small (≤ 24 works) and
+// every card is virtualised by the browser anyway.
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Work } from "@/lib/data";
 
 type Props = {
@@ -28,6 +36,10 @@ function seededLayout(works: Work[]) {
     };
   });
 }
+
+// Three offsets in each axis = 3×3 = 9 tile copies. Enough to fill any
+// viewport with a wrapped pan offset in either direction.
+const TILE_OFFSETS = [-1, 0, 1] as const;
 
 export function WorksConstellation({ works }: Props) {
   const stage = useRef<HTMLDivElement>(null);
@@ -93,13 +105,31 @@ export function WorksConstellation({ works }: Props) {
     };
   }, [enabled, pan.x, pan.y]);
 
+  const layout = useMemo(() => seededLayout(works), [works]);
+
+  // Tile size — must be large enough to contain the whole layout plus a
+  // safety margin so the cards from a neighbouring tile copy don't
+  // visually overlap. 220 + (n-1)*38 is the outer spiral radius; we
+  // double it and add card-bleed padding.
+  const tile = useMemo(() => {
+    const outer = 220 + Math.max(0, works.length - 1) * 38;
+    const pad = 420; // card half-width + breathing room
+    const w = outer * 2 + pad;
+    const h = outer * 2 + pad;
+    return { w, h };
+  }, [works.length]);
+
   if (!enabled) return null;
 
-  const layout = seededLayout(works);
+  // Wrap the pan position so it always stays within a single tile period.
+  // Without this the underlying translate3d grows unbounded over long
+  // drags and the 3×3 copies eventually drift out of the viewport.
+  const wrappedX = ((pan.x % tile.w) + tile.w) % tile.w - tile.w;
+  const wrappedY = ((pan.y % tile.h) + tile.h) % tile.h - tile.h;
 
   return (
     <section
-      aria-label="Drag to explore the archive"
+      aria-label="Drag to explore the archive — infinite canvas"
       className="relative h-[78vh] min-h-[640px] overflow-hidden border-y border-warmwhite/15 bg-ink-950"
     >
       <div
@@ -112,51 +142,66 @@ export function WorksConstellation({ works }: Props) {
           ref={surface}
           className="pointer-events-none absolute left-1/2 top-1/2"
           style={{
-            transform: `translate3d(${pan.x}px, ${pan.y}px, 0)`,
+            transform: `translate3d(${wrappedX}px, ${wrappedY}px, 0)`,
             transition: dragging.current
               ? "none"
               : "transform 700ms cubic-bezier(0.22,1,0.36,1)",
             willChange: "transform",
           }}
         >
-          {works.map((w, i) => {
-            const pos = layout[i];
-            return (
-              <Link
-                key={w.slug}
-                href={`/works/${w.slug}`}
-                data-cursor="view"
-                data-cursor-label="OPEN"
-                className="group pointer-events-auto absolute block h-44 w-72 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-md ring-1 ring-warmwhite/15 transition-transform duration-500 hover:scale-[1.04] hover:ring-peach/50"
+          {TILE_OFFSETS.map((tdx) =>
+            TILE_OFFSETS.map((tdy) => (
+              <div
+                key={`tile-${tdx}-${tdy}`}
+                className="absolute left-0 top-0"
                 style={{
-                  left: `${pos.x}px`,
-                  top: `${pos.y}px`,
-                  transform: `translate(-50%, -50%) rotate(${pos.rotate}deg)`,
+                  transform: `translate3d(${tdx * tile.w}px, ${tdy * tile.h}px, 0)`,
                 }}
+                aria-hidden={tdx !== 0 || tdy !== 0 ? "true" : undefined}
               >
-                <Image
-                  src={w.cover}
-                  alt={w.title}
-                  fill
-                  sizes="288px"
-                  className="object-cover"
-                />
-                <span
-                  className="pointer-events-none absolute inset-0 mix-blend-multiply opacity-60"
-                  style={{ background: w.accent + "60" }}
-                />
-                <span className="pointer-events-none absolute inset-x-3 bottom-3 flex items-baseline justify-between font-sans text-[10px] uppercase tracking-widest text-warmwhite">
-                  <span>{w.index} · {w.title}</span>
-                  <span className="text-warmwhite/70">{w.year}</span>
-                </span>
-              </Link>
-            );
-          })}
+                {works.map((w, i) => {
+                  const pos = layout[i];
+                  const isMaster = tdx === 0 && tdy === 0;
+                  return (
+                    <Link
+                      key={`${w.slug}-${tdx}-${tdy}`}
+                      href={`/works/${w.slug}`}
+                      data-cursor="view"
+                      data-cursor-label="OPEN"
+                      tabIndex={isMaster ? 0 : -1}
+                      className="group pointer-events-auto absolute block h-44 w-72 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-md ring-1 ring-warmwhite/15 transition-transform duration-500 hover:scale-[1.04] hover:ring-peach/50"
+                      style={{
+                        left: `${pos.x}px`,
+                        top: `${pos.y}px`,
+                        transform: `translate(-50%, -50%) rotate(${pos.rotate}deg)`,
+                      }}
+                    >
+                      <Image
+                        src={w.cover}
+                        alt={w.title}
+                        fill
+                        sizes="288px"
+                        className="object-cover"
+                      />
+                      <span
+                        className="pointer-events-none absolute inset-0 mix-blend-multiply opacity-60"
+                        style={{ background: w.accent + "60" }}
+                      />
+                      <span className="pointer-events-none absolute inset-x-3 bottom-3 flex items-baseline justify-between font-sans text-[10px] uppercase tracking-widest text-warmwhite">
+                        <span>{w.index} · {w.title}</span>
+                        <span className="text-warmwhite/70">{w.year}</span>
+                      </span>
+                    </Link>
+                  );
+                })}
+              </div>
+            ))
+          )}
         </div>
 
         <div className="pointer-events-none absolute left-6 top-6 flex items-center gap-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
           <span className="inline-flex h-2 w-2 animate-pulse rounded-full bg-peach" />
-          <span>Drag to roam · {works.length} projects · scroll horiz to pan</span>
+          <span>Drag to roam · {works.length} projects · ∞ infinite field</span>
         </div>
         <button
           type="button"

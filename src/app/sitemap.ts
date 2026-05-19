@@ -91,6 +91,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entry("/awards", { priority: 0.6, changeFrequency: "monthly", images: [OG_FALLBACK] }),
     entry("/now", { priority: 0.5, changeFrequency: "weekly", images: [OG_FALLBACK] }),
     entry("/uses", { priority: 0.5, changeFrequency: "monthly", images: [OG_FALLBACK] }),
+    entry("/portfolios", { priority: 0.7, changeFrequency: "monthly", images: [OG_FALLBACK, `${site.url}/portfolios/opengraph-image`] }),
     entry("/colophon", { priority: 0.5, changeFrequency: "monthly" }),
     entry("/atlas", { priority: 0.5, changeFrequency: "monthly" }),
     entry("/colors", { priority: 0.4, changeFrequency: "monthly" }),

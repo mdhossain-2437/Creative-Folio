@@ -480,6 +480,115 @@ body.calm-motion::after {
   color: #070708;
 }
 
+/* Reel scrubber — the showreel modal uses an <input type="range"> with
+   `.reel-scrub`. By default we strip native chrome (appearance:none); we
+   restore an explicit, visible peach thumb so the user can see and grab
+   the scrub-head while dragging, and a focus halo for keyboard users. */
+.reel-scrub {
+  -webkit-appearance: none;
+  appearance: none;
+  outline: none;
+  position: relative;
+  /* Keep room for the thumb without breaking layout. */
+  padding: 0;
+  height: 18px;
+  /* The actual filled track is painted via the inline `style` background
+     in ShowreelModal — keep this element transparent so the inline
+     gradient shows through. */
+  background: transparent;
+}
+.reel-scrub::-webkit-slider-runnable-track {
+  height: 6px;
+  background: transparent;
+  border-radius: 999px;
+}
+.reel-scrub::-moz-range-track {
+  height: 6px;
+  background: rgba(239, 236, 233, 0.18);
+  border-radius: 999px;
+}
+.reel-scrub::-moz-range-progress {
+  height: 6px;
+  background: #e3bfb4;
+  border-radius: 999px;
+}
+.reel-scrub::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-top: -5px;
+  border-radius: 999px;
+  background: #e3bfb4;
+  border: 2px solid #0c0c0c;
+  box-shadow: 0 0 0 1px rgba(227, 191, 180, 0.55), 0 2px 8px rgba(0, 0, 0, 0.5);
+  cursor: grab;
+  transition: transform 200ms ease;
+}
+.reel-scrub::-webkit-slider-thumb:hover {
+  transform: scale(1.18);
+}
+.reel-scrub:active::-webkit-slider-thumb {
+  cursor: grabbing;
+  transform: scale(1.18);
+}
+.reel-scrub::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: #e3bfb4;
+  border: 2px solid #0c0c0c;
+  box-shadow: 0 0 0 1px rgba(227, 191, 180, 0.55), 0 2px 8px rgba(0, 0, 0, 0.5);
+  cursor: grab;
+  transition: transform 200ms ease;
+}
+.reel-scrub:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 4px rgba(227, 191, 180, 0.45), 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+.reel-scrub:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 4px rgba(227, 191, 180, 0.45), 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Generic range slider indicator — any <input type="range"> not already
+   styled by `.reel-scrub` gets a tiny, visible peach handle so the
+   user knows where they're dragging. Honours reduced-motion. */
+input[type="range"]:not(.reel-scrub) {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 14px;
+  background: transparent;
+  outline: none;
+}
+input[type="range"]:not(.reel-scrub)::-webkit-slider-runnable-track {
+  height: 4px;
+  background: rgba(239, 236, 233, 0.18);
+  border-radius: 999px;
+}
+input[type="range"]:not(.reel-scrub)::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -5px;
+  border-radius: 999px;
+  background: #e3bfb4;
+  border: 2px solid #0c0c0c;
+  cursor: pointer;
+}
+input[type="range"]:not(.reel-scrub)::-moz-range-track {
+  height: 4px;
+  background: rgba(239, 236, 233, 0.18);
+  border-radius: 999px;
+}
+input[type="range"]:not(.reel-scrub)::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  background: #e3bfb4;
+  border: 2px solid #0c0c0c;
+  cursor: pointer;
+}
+
 /* Print stylesheet — strips chrome, animations, dark backgrounds. The point is
    that someone hitting Cmd+P on a journal post or contact page gets a clean,
    readable B&W layout. Decorative elements with `data-no-print` are dropped. */

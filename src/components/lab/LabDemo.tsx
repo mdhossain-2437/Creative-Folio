@@ -1248,6 +1248,659 @@ function SdfGlyphDemo({ compact }: { compact?: boolean }) {
   );
 }
 
+// ────────────────────────────────────────────────────────────────────────────
+// ── Additional experiments 18 – 30 ──────────────────────────────────────────
+// ────────────────────────────────────────────────────────────────────────────
+// Each demo below is a self-contained Canvas2D study. They follow the same
+// budget rules as the originals — pause via IntersectionObserver, react to
+// the cursor, write only into the existing `store` slot, and keep allocation
+// to the init phase so the per-frame `tick` stays GC-quiet.
+
+// ── 18 — Truchet Tiles ──────────────────────────────────────────────────────
+const truchetInit: InitFn = ({ w, h, store, compact }) => {
+  const size = compact ? 28 : 36;
+  const cols = Math.ceil(w / size) + 1;
+  const rows = Math.ceil(h / size) + 1;
+  const tiles = new Uint8Array(cols * rows);
+  for (let i = 0; i < tiles.length; i++) tiles[i] = Math.random() < 0.5 ? 0 : 1;
+  store.tiles = tiles;
+  store.cols = cols;
+  store.rows = rows;
+  store.size = size;
+};
+const truchetTick: TickFn = ({ ctx, w, h, m, store, dpr, t }) => {
+  const tiles = store.tiles as Uint8Array;
+  const cols = store.cols as number;
+  const rows = store.rows as number;
+  const size = store.size as number;
+  ctx.fillStyle = "#0c0c0c";
+  ctx.fillRect(0, 0, w, h);
+  // re-orient tiles near the cursor over time
+  if (m.inside) {
+    const mc = Math.floor(m.x / size);
+    const mr = Math.floor(m.y / size);
+    const radius = 3;
+    for (let dy = -radius; dy <= radius; dy++) {
+      for (let dx = -radius; dx <= radius; dx++) {
+        const c = mc + dx;
+        const r = mr + dy;
+        if (c < 0 || c >= cols || r < 0 || r >= rows) continue;
+        if (Math.random() < 0.02) tiles[r * cols + c] ^= 1;
+      }
+    }
+  }
+  ctx.strokeStyle = "rgba(227,191,180,0.78)";
+  ctx.lineWidth = Math.max(1.4, 2 * dpr);
+  const r = size * 0.5;
+  for (let row = 0; row < rows; row++) {
+    for (let col = 0; col < cols; col++) {
+      const x = col * size;
+      const y = row * size;
+      const orient = tiles[row * cols + col];
+      ctx.beginPath();
+      if (orient === 0) {
+        ctx.arc(x, y, r, 0, Math.PI * 0.5);
+        ctx.moveTo(x + size, y + size);
+        ctx.arc(x + size, y + size, r, Math.PI, Math.PI * 1.5);
+      } else {
+        ctx.arc(x + size, y, r, Math.PI * 0.5, Math.PI);
+        ctx.moveTo(x, y + size);
+        ctx.arc(x, y + size, r, Math.PI * 1.5, Math.PI * 2);
+      }
+      ctx.stroke();
+    }
+  }
+  // subtle pulse so the panel reads as alive even at rest
+  const a = (Math.sin(t * 0.6) * 0.5 + 0.5) * 0.06;
+  ctx.fillStyle = `rgba(227,191,180,${a})`;
+  ctx.fillRect(0, 0, w, h);
+};
+
+// ── 19 — Perlin Terrain (line-by-line scrolling heightfield) ────────────────
+const terrainInit: InitFn = ({ store }) => {
+  store.offset = 0;
+  store.dir = 1;
+};
+const terrainTick: TickFn = ({ ctx, w, h, t, m, store, dpr, compact }) => {
+  ctx.fillStyle = "rgba(12,12,12,0.32)";
+  ctx.fillRect(0, 0, w, h);
+  const step = compact ? 14 : 8;
+  const cols = Math.ceil(w / step);
+  if (m.pressed) store.dir = -(store.dir as number);
+  store.offset = (store.offset as number) + (store.dir as number) * 0.5;
+  const off = store.offset as number;
+  const hover = m.inside ? Math.max(0, 1 - Math.abs(m.x - w / 2) / (w / 2)) : 0;
+  const layers = 18;
+  for (let l = 0; l < layers; l++) {
+    const yBase = (h * 0.35) + (l / layers) * (h * 0.55);
+    ctx.beginPath();
+    for (let c = 0; c <= cols; c++) {
+      const x = c * step;
+      const noise =
+        Math.sin((c + off + l * 12) * 0.07) * 18 +
+        Math.sin((c + off * 0.6 + l * 4) * 0.21) * 10 +
+        Math.cos((c + off * 0.3) * 0.05 + l) * 8;
+      const lift = hover * 36 * Math.exp(-Math.pow((x - m.x) / (w * 0.18), 2));
+      const y = yBase + noise - lift - (1 - l / layers) * 22;
+      if (c === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.lineTo(w, h);
+    ctx.lineTo(0, h);
+    ctx.closePath();
+    const alpha = 0.06 + l * 0.025;
+    ctx.fillStyle = `rgba(227,191,180,${alpha})`;
+    ctx.fill();
+    ctx.strokeStyle = `rgba(255,225,210,${0.18 + l * 0.012})`;
+    ctx.lineWidth = Math.max(1, 0.8 * dpr);
+    ctx.stroke();
+  }
+  // horizon glow
+  const sun = ctx.createRadialGradient(w / 2, h * 0.32, 0, w / 2, h * 0.32, w * 0.4);
+  sun.addColorStop(0, "rgba(255,210,170,0.18)");
+  sun.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.fillStyle = sun;
+  ctx.fillRect(0, 0, w, h);
+  void t;
+};
+
+// ── 20 — DVD Bouncer ────────────────────────────────────────────────────────
+const dvdInit: InitFn = ({ w, h, store }) => {
+  const make = (x: number, y: number) => ({
+    x,
+    y,
+    vx: 2 + Math.random(),
+    vy: 1.4 + Math.random(),
+    hue: Math.random() * 360,
+  });
+  store.boxes = [make(w * 0.4, h * 0.4)];
+};
+const dvdTick: TickFn = ({ ctx, w, h, dt, m, store, dpr }) => {
+  type Box = { x: number; y: number; vx: number; vy: number; hue: number };
+  const boxes = store.boxes as Box[];
+  ctx.fillStyle = "rgba(8,8,8,0.42)";
+  ctx.fillRect(0, 0, w, h);
+  const bw = 140 * dpr;
+  const bh = 70 * dpr;
+  if (m.pressed && m.shift && boxes.length < 4) {
+    boxes.push({ x: m.x, y: m.y, vx: -1.6, vy: 1.8, hue: 200 });
+  }
+  for (const b of boxes) {
+    b.x += b.vx * dt * 60;
+    b.y += b.vy * dt * 60;
+    let bounced = false;
+    if (b.x < 0) { b.x = 0; b.vx = Math.abs(b.vx); bounced = true; }
+    if (b.x + bw > w) { b.x = w - bw; b.vx = -Math.abs(b.vx); bounced = true; }
+    if (b.y < 0) { b.y = 0; b.vy = Math.abs(b.vy); bounced = true; }
+    if (b.y + bh > h) { b.y = h - bh; b.vy = -Math.abs(b.vy); bounced = true; }
+    if (bounced) b.hue = (b.hue + 47) % 360;
+    if (m.pressed && !m.shift) {
+      // nudge toward cursor
+      const dx = m.x - (b.x + bw / 2);
+      const dy = m.y - (b.y + bh / 2);
+      b.vx += dx * 0.0005;
+      b.vy += dy * 0.0005;
+    }
+    ctx.fillStyle = `hsl(${b.hue} 70% 62%)`;
+    ctx.fillRect(b.x, b.y, bw, bh);
+    ctx.fillStyle = "rgba(12,12,12,0.85)";
+    ctx.font = `${Math.floor(bh * 0.42)}px serif`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("DH", b.x + bw / 2, b.y + bh / 2);
+  }
+};
+
+// ── 21 — Starfield Warp ─────────────────────────────────────────────────────
+const starInit: InitFn = ({ store, compact }) => {
+  const N = compact ? 220 : 520;
+  const arr = new Float32Array(N * 3);
+  for (let i = 0; i < N; i++) {
+    arr[i * 3] = Math.random() * 2 - 1;
+    arr[i * 3 + 1] = Math.random() * 2 - 1;
+    arr[i * 3 + 2] = Math.random();
+  }
+  store.stars = arr;
+  store.N = N;
+  store.warp = 1;
+};
+const starTick: TickFn = ({ ctx, w, h, dt, m, store, dpr }) => {
+  const arr = store.stars as Float32Array;
+  const N = store.N as number;
+  ctx.fillStyle = "rgba(8,8,10,0.32)";
+  ctx.fillRect(0, 0, w, h);
+  const cx = m.inside ? m.x : w * 0.5;
+  const cy = m.inside ? m.y : h * 0.5;
+  const targetWarp = m.pressed ? 3.6 : 1.3;
+  store.warp = (store.warp as number) + (targetWarp - (store.warp as number)) * dt * 3;
+  const warp = store.warp as number;
+  ctx.lineCap = "round";
+  for (let i = 0; i < N; i++) {
+    const ix = i * 3;
+    let z = arr[ix + 2];
+    z -= dt * 0.5 * warp;
+    if (z <= 0.02) {
+      arr[ix] = Math.random() * 2 - 1;
+      arr[ix + 1] = Math.random() * 2 - 1;
+      z = 1;
+    }
+    arr[ix + 2] = z;
+    const px = arr[ix] / z;
+    const py = arr[ix + 1] / z;
+    const x = cx + px * w * 0.5;
+    const y = cy + py * h * 0.5;
+    const tail = warp * 12;
+    const pz = Math.min(1, z + 0.03);
+    const x2 = cx + (arr[ix] / pz) * w * 0.5;
+    const y2 = cy + (arr[ix + 1] / pz) * h * 0.5;
+    const a = (1 - z) * 0.9;
+    ctx.strokeStyle = `rgba(255,236,222,${a})`;
+    ctx.lineWidth = (1 + (1 - z) * 2.5) * dpr;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x - (x - x2) * tail * 0.06, y - (y - y2) * tail * 0.06);
+    ctx.stroke();
+  }
+};
+
+// ── 22 — Vortex Spiral ──────────────────────────────────────────────────────
+const vortexInit: InitFn = ({ store, compact }) => {
+  const N = compact ? 280 : 720;
+  const arr = new Float32Array(N * 3); // a, r, life
+  for (let i = 0; i < N; i++) {
+    arr[i * 3] = Math.random() * Math.PI * 2;
+    arr[i * 3 + 1] = Math.random();
+    arr[i * 3 + 2] = Math.random();
+  }
+  store.parts = arr;
+  store.N = N;
+};
+const vortexTick: TickFn = ({ ctx, w, h, t, m, store, dpr }) => {
+  const arr = store.parts as Float32Array;
+  const N = store.N as number;
+  ctx.fillStyle = "rgba(10,10,12,0.30)";
+  ctx.fillRect(0, 0, w, h);
+  const cx = m.inside ? m.x : w / 2;
+  const cy = m.inside ? m.y : h / 2;
+  const inward = m.pressed ? -0.4 : 0.18;
+  const maxR = Math.min(w, h) * 0.48;
+  ctx.fillStyle = "rgba(227,191,180,0.85)";
+  for (let i = 0; i < N; i++) {
+    const ix = i * 3;
+    let a = arr[ix];
+    let r = arr[ix + 1];
+    a += 0.012 + (1 - r) * 0.04;
+    r += inward * 0.004;
+    if (r > 1) r = 0;
+    if (r < 0) r = 1;
+    arr[ix] = a;
+    arr[ix + 1] = r;
+    const rr = r * maxR * (1 + Math.sin(t + i * 0.7) * 0.02);
+    const x = cx + Math.cos(a) * rr;
+    const y = cy + Math.sin(a) * rr;
+    const s = (1.2 + (1 - r) * 2.4) * dpr;
+    ctx.fillRect(x - s / 2, y - s / 2, s, s);
+  }
+};
+
+// ── 23 — Rope Physics (Verlet chain) ────────────────────────────────────────
+const ropeInit: InitFn = ({ w, h, store, compact }) => {
+  const N = compact ? 28 : 48;
+  const seg = (h * 0.85) / N;
+  const arr = new Float32Array(N * 4); // x, y, px, py
+  for (let i = 0; i < N; i++) {
+    arr[i * 4] = w * 0.5;
+    arr[i * 4 + 1] = h * 0.08 + i * seg;
+    arr[i * 4 + 2] = arr[i * 4];
+    arr[i * 4 + 3] = arr[i * 4 + 1];
+  }
+  store.rope = arr;
+  store.N = N;
+  store.seg = seg;
+};
+const ropeTick: TickFn = ({ ctx, w, h, m, store, dpr }) => {
+  const arr = store.rope as Float32Array;
+  const N = store.N as number;
+  const seg = store.seg as number;
+  ctx.fillStyle = "rgba(10,10,12,0.40)";
+  ctx.fillRect(0, 0, w, h);
+  // verlet step
+  const g = 0.6;
+  const friction = 0.992;
+  for (let i = 0; i < N; i++) {
+    const ix = i * 4;
+    const x = arr[ix];
+    const y = arr[ix + 1];
+    const vx = (x - arr[ix + 2]) * friction;
+    const vy = (y - arr[ix + 3]) * friction;
+    arr[ix + 2] = x;
+    arr[ix + 3] = y;
+    arr[ix] = x + vx;
+    arr[ix + 1] = y + vy + g;
+  }
+  // pin top
+  arr[0] = w * 0.5;
+  arr[1] = h * 0.08;
+  // pin tail to cursor when held
+  if (m.inside && m.pressed) {
+    const last = (N - 1) * 4;
+    arr[last] = m.x;
+    arr[last + 1] = m.y;
+  }
+  // constraint passes
+  for (let pass = 0; pass < 4; pass++) {
+    for (let i = 0; i < N - 1; i++) {
+      const ax = i * 4;
+      const bx = (i + 1) * 4;
+      const dx = arr[bx] - arr[ax];
+      const dy = arr[bx + 1] - arr[ax + 1];
+      const d = Math.hypot(dx, dy) || 0.0001;
+      const diff = (seg - d) / d;
+      const ox = dx * 0.5 * diff;
+      const oy = dy * 0.5 * diff;
+      if (i !== 0) {
+        arr[ax] -= ox;
+        arr[ax + 1] -= oy;
+      }
+      arr[bx] += ox;
+      arr[bx + 1] += oy;
+    }
+  }
+  // draw
+  ctx.strokeStyle = "rgba(227,191,180,0.85)";
+  ctx.lineWidth = 3 * dpr;
+  ctx.beginPath();
+  ctx.moveTo(arr[0], arr[1]);
+  for (let i = 1; i < N; i++) ctx.lineTo(arr[i * 4], arr[i * 4 + 1]);
+  ctx.stroke();
+  // weight at the tail
+  const last = (N - 1) * 4;
+  ctx.fillStyle = "rgba(255,225,210,0.95)";
+  ctx.beginPath();
+  ctx.arc(arr[last], arr[last + 1], 10 * dpr, 0, Math.PI * 2);
+  ctx.fill();
+};
+
+// ── 24 — Plasma Classic ─────────────────────────────────────────────────────
+const plasmaTick: TickFn = ({ ctx, w, h, t, m, dpr }) => {
+  const step = Math.max(6, Math.floor(8 * dpr));
+  const offsetX = m.inside ? (m.x / w - 0.5) * 4 : 0;
+  for (let y = 0; y < h; y += step) {
+    for (let x = 0; x < w; x += step) {
+      const v =
+        Math.sin(x * 0.012 + t) +
+        Math.sin(y * 0.018 + t * 1.3) +
+        Math.sin((x + y) * 0.01 + t * 0.7 + offsetX) +
+        Math.sin(Math.sqrt((x - w / 2) ** 2 + (y - h / 2) ** 2) * 0.012 + t);
+      const v01 = (v + 4) / 8;
+      const hue = 18 + v01 * 35;
+      const sat = 50 + v01 * 30;
+      const lit = 35 + v01 * 30;
+      ctx.fillStyle = `hsl(${hue} ${sat}% ${lit}%)`;
+      ctx.fillRect(x, y, step, step);
+    }
+  }
+};
+
+// ── 25 — Falling Sand ───────────────────────────────────────────────────────
+const sandInit: InitFn = ({ w, h, store, compact }) => {
+  const cell = compact ? 6 : 4;
+  const cols = Math.floor(w / cell);
+  const rows = Math.floor(h / cell);
+  const grid = new Uint8Array(cols * rows);
+  store.grid = grid;
+  store.cols = cols;
+  store.rows = rows;
+  store.cell = cell;
+};
+const sandTick: TickFn = ({ ctx, w, h, m, store }) => {
+  const grid = store.grid as Uint8Array;
+  const cols = store.cols as number;
+  const rows = store.rows as number;
+  const cell = store.cell as number;
+  // paint with cursor (drag = sand, click=stone)
+  if (m.inside) {
+    const cx = Math.floor(m.x / cell);
+    const cy = Math.floor(m.y / cell);
+    const radius = m.pressed ? 4 : 2;
+    for (let dy = -radius; dy <= radius; dy++) {
+      for (let dx = -radius; dx <= radius; dx++) {
+        const c = cx + dx;
+        const r = cy + dy;
+        if (c < 0 || c >= cols || r < 0 || r >= rows) continue;
+        if (Math.random() < 0.55) grid[r * cols + c] = m.pressed && m.shift ? 2 : 1;
+      }
+    }
+  }
+  // physics — iterate rows bottom-up
+  for (let r = rows - 2; r >= 0; r--) {
+    for (let c = 0; c < cols; c++) {
+      const idx = r * cols + c;
+      const v = grid[idx];
+      if (v !== 1) continue;
+      const below = (r + 1) * cols + c;
+      if (grid[below] === 0) {
+        grid[below] = 1;
+        grid[idx] = 0;
+      } else {
+        const dir = Math.random() < 0.5 ? -1 : 1;
+        const diag = (r + 1) * cols + c + dir;
+        if (c + dir >= 0 && c + dir < cols && grid[diag] === 0) {
+          grid[diag] = 1;
+          grid[idx] = 0;
+        }
+      }
+    }
+  }
+  // render
+  ctx.fillStyle = "#0a0a0c";
+  ctx.fillRect(0, 0, w, h);
+  for (let r = 0; r < rows; r++) {
+    for (let c = 0; c < cols; c++) {
+      const v = grid[r * cols + c];
+      if (!v) continue;
+      ctx.fillStyle = v === 2 ? "#6a655f" : "#e3bfb4";
+      ctx.fillRect(c * cell, r * cell, cell, cell);
+    }
+  }
+};
+
+// ── 26 — Rotation Blur (motion-blurred pinwheel) ────────────────────────────
+const rotInit: InitFn = ({ store }) => {
+  store.angle = 0;
+  store.vel = 0.6;
+};
+const rotTick: TickFn = ({ ctx, w, h, dt, m, store, dpr }) => {
+  // progressive blur — paint dark with low alpha so prior frames bleed.
+  ctx.fillStyle = "rgba(10,10,12,0.18)";
+  ctx.fillRect(0, 0, w, h);
+  const targetVel = m.inside ? Math.hypot(m.vx, m.vy) * 0.02 + 0.2 : 0.4;
+  store.vel = (store.vel as number) + (targetVel - (store.vel as number)) * dt * 4;
+  store.angle = (store.angle as number) + (store.vel as number) * dt * 4;
+  const cx = w * 0.5;
+  const cy = h * 0.5;
+  const radius = Math.min(w, h) * 0.4;
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(store.angle as number);
+  const spokes = 12;
+  for (let i = 0; i < spokes; i++) {
+    const a = (i / spokes) * Math.PI * 2;
+    const x = Math.cos(a) * radius;
+    const y = Math.sin(a) * radius;
+    ctx.strokeStyle = `rgba(227,191,180,${0.4 + (i / spokes) * 0.5})`;
+    ctx.lineWidth = 4 * dpr;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+    ctx.fillStyle = "rgba(255,225,210,0.95)";
+    ctx.beginPath();
+    ctx.arc(x, y, 6 * dpr, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.restore();
+};
+
+// ── 27 — Constellation Net ──────────────────────────────────────────────────
+const netInit: InitFn = ({ w, h, store, compact }) => {
+  const N = compact ? 36 : 80;
+  const arr = new Float32Array(N * 4); // x, y, vx, vy
+  for (let i = 0; i < N; i++) {
+    arr[i * 4] = Math.random() * w;
+    arr[i * 4 + 1] = Math.random() * h;
+    arr[i * 4 + 2] = (Math.random() - 0.5) * 0.4;
+    arr[i * 4 + 3] = (Math.random() - 0.5) * 0.4;
+  }
+  store.nodes = arr;
+  store.N = N;
+};
+const netTick: TickFn = ({ ctx, w, h, m, store, dpr }) => {
+  const arr = store.nodes as Float32Array;
+  const N = store.N as number;
+  ctx.fillStyle = "rgba(8,8,10,0.40)";
+  ctx.fillRect(0, 0, w, h);
+  const linkR = Math.min(w, h) * 0.18;
+  const linkR2 = linkR * linkR;
+  // move
+  for (let i = 0; i < N; i++) {
+    const ix = i * 4;
+    arr[ix] += arr[ix + 2];
+    arr[ix + 1] += arr[ix + 3];
+    if (arr[ix] < 0 || arr[ix] > w) arr[ix + 2] *= -1;
+    if (arr[ix + 1] < 0 || arr[ix + 1] > h) arr[ix + 3] *= -1;
+  }
+  // links
+  for (let i = 0; i < N; i++) {
+    const ix = i * 4;
+    for (let j = i + 1; j < N; j++) {
+      const jx = j * 4;
+      const dx = arr[ix] - arr[jx];
+      const dy = arr[ix + 1] - arr[jx + 1];
+      const d2 = dx * dx + dy * dy;
+      if (d2 > linkR2) continue;
+      const a = 1 - d2 / linkR2;
+      ctx.strokeStyle = `rgba(227,191,180,${a * 0.6})`;
+      ctx.lineWidth = Math.max(0.6, dpr * 0.6);
+      ctx.beginPath();
+      ctx.moveTo(arr[ix], arr[ix + 1]);
+      ctx.lineTo(arr[jx], arr[jx + 1]);
+      ctx.stroke();
+    }
+  }
+  // cursor node
+  if (m.inside) {
+    for (let i = 0; i < N; i++) {
+      const ix = i * 4;
+      const dx = arr[ix] - m.x;
+      const dy = arr[ix + 1] - m.y;
+      const d2 = dx * dx + dy * dy;
+      if (d2 > linkR2 * 2) continue;
+      const a = 1 - d2 / (linkR2 * 2);
+      ctx.strokeStyle = `rgba(255,225,210,${a})`;
+      ctx.lineWidth = Math.max(1, dpr);
+      ctx.beginPath();
+      ctx.moveTo(arr[ix], arr[ix + 1]);
+      ctx.lineTo(m.x, m.y);
+      ctx.stroke();
+    }
+    ctx.fillStyle = "rgba(255,225,210,1)";
+    ctx.beginPath();
+    ctx.arc(m.x, m.y, 6 * dpr, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  // node dots
+  ctx.fillStyle = "rgba(227,191,180,0.85)";
+  for (let i = 0; i < N; i++) {
+    const ix = i * 4;
+    ctx.fillRect(arr[ix] - dpr, arr[ix + 1] - dpr, 2 * dpr, 2 * dpr);
+  }
+};
+
+// ── 28 — Morphing Blob (super-formula) ──────────────────────────────────────
+const blobInit: InitFn = ({ store }) => {
+  store.frozen = false;
+};
+const blobTick: TickFn = ({ ctx, w, h, t, m, store, dpr }) => {
+  if (m.pressed) store.frozen = !store.frozen;
+  ctx.fillStyle = "rgba(10,10,12,0.36)";
+  ctx.fillRect(0, 0, w, h);
+  const cx = w * 0.5;
+  const cy = h * 0.5;
+  const r = Math.min(w, h) * 0.32;
+  const time = store.frozen ? 0 : t;
+  const samples = 220;
+  ctx.strokeStyle = "rgba(227,191,180,0.95)";
+  ctx.lineWidth = 2 * dpr;
+  ctx.beginPath();
+  for (let i = 0; i <= samples; i++) {
+    const a = (i / samples) * Math.PI * 2;
+    // super-formula radius
+    const m1 = 6 + Math.sin(time * 0.4) * 2;
+    const rad =
+      r *
+      (1 +
+        Math.sin(a * m1 + time * 1.2) * 0.12 +
+        Math.cos(a * (m1 + 2) - time) * 0.08);
+    let x = cx + Math.cos(a) * rad;
+    let y = cy + Math.sin(a) * rad;
+    if (m.inside) {
+      const dx = m.x - x;
+      const dy = m.y - y;
+      const d = Math.hypot(dx, dy);
+      if (d < r) {
+        const f = (1 - d / r) * 30;
+        x += dx * 0.02 + f * Math.cos(a);
+        y += dy * 0.02 + f * Math.sin(a);
+      }
+    }
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  ctx.stroke();
+  // inner glow
+  const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+  glow.addColorStop(0, "rgba(255,225,210,0.18)");
+  glow.addColorStop(1, "rgba(0,0,0,0)");
+  ctx.fillStyle = glow;
+  ctx.fillRect(0, 0, w, h);
+};
+
+// ── 29 — Chromatic Aberration (typographic) ─────────────────────────────────
+const chromaInit: InitFn = ({ store }) => {
+  store.shake = 0;
+};
+const chromaTick: TickFn = ({ ctx, w, h, dt, m, store, dpr }) => {
+  const targetShake = m.inside ? Math.hypot(m.vx, m.vy) * 0.4 : 0.6;
+  store.shake = (store.shake as number) + (targetShake - (store.shake as number)) * dt * 6;
+  const shake = Math.min(40, store.shake as number);
+  ctx.fillStyle = "rgba(10,10,12,0.42)";
+  ctx.fillRect(0, 0, w, h);
+  const text = "DELOWAR · HOSSAIN";
+  const size = Math.min(w / 8, h / 3);
+  ctx.font = `bold ${size}px serif`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  const cx = w / 2;
+  const cy = h / 2;
+  ctx.globalCompositeOperation = "lighter";
+  ctx.fillStyle = "rgba(255,72,72,0.85)";
+  ctx.fillText(text, cx - shake * dpr, cy);
+  ctx.fillStyle = "rgba(72,255,168,0.85)";
+  ctx.fillText(text, cx, cy);
+  ctx.fillStyle = "rgba(72,168,255,0.85)";
+  ctx.fillText(text, cx + shake * dpr, cy);
+  ctx.globalCompositeOperation = "source-over";
+};
+
+// ── 30 — Paper Folding ──────────────────────────────────────────────────────
+const foldInit: InitFn = ({ store }) => {
+  store.last = 0;
+};
+const foldTick: TickFn = ({ ctx, w, h, t, m, dpr, compact }) => {
+  ctx.fillStyle = "#0a0a0c";
+  ctx.fillRect(0, 0, w, h);
+  const cell = compact ? 38 : 28;
+  const cx = m.inside ? m.x : w / 2;
+  const cy = m.inside ? m.y : h / 2;
+  for (let y = -cell; y < h + cell; y += cell) {
+    for (let x = -cell; x < w + cell; x += cell) {
+      const dx = x + cell / 2 - cx;
+      const dy = y + cell / 2 - cy;
+      const d = Math.hypot(dx, dy);
+      const noise =
+        Math.sin(x * 0.02 + t * 0.6) + Math.cos(y * 0.025 + t * 0.5);
+      const lift = Math.exp(-d / (w * 0.18)) * 0.6 + noise * 0.18;
+      const shade = Math.max(0, Math.min(1, 0.4 + lift * 0.45));
+      ctx.fillStyle = `rgba(227,191,180,${shade * 0.85})`;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + cell, y);
+      ctx.lineTo(x, y + cell);
+      ctx.closePath();
+      ctx.fill();
+      const shade2 = Math.max(0, Math.min(1, 0.5 - lift * 0.45));
+      ctx.fillStyle = `rgba(255,225,210,${shade2 * 0.6})`;
+      ctx.beginPath();
+      ctx.moveTo(x + cell, y);
+      ctx.lineTo(x + cell, y + cell);
+      ctx.lineTo(x, y + cell);
+      ctx.closePath();
+      ctx.fill();
+    }
+  }
+  // outline grid for crease feel
+  ctx.strokeStyle = "rgba(8,8,10,0.45)";
+  ctx.lineWidth = Math.max(0.6, dpr * 0.7);
+  for (let x = 0; x < w; x += cell) {
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.lineTo(x, h);
+    ctx.stroke();
+  }
+};
+
 // Memoize the shader-storm init so the seed prop doesn't tear down the
 // canvas runtime on every parent render.
 function ShaderStormDemo({ seed, compact }: { seed: number; compact: boolean }) {
@@ -1307,6 +1960,32 @@ export function LabDemo({
       return <VariableFontDemo compact={compact} />;
     case "signed-distance-letters":
       return <SdfGlyphDemo compact={compact} />;
+    case "truchet-tiles":
+      return <CanvasDemo init={truchetInit} tick={truchetTick} compact={compact} fpsCap={compact ? 24 : 40} />;
+    case "perlin-terrain":
+      return <CanvasDemo init={terrainInit} tick={terrainTick} compact={compact} fpsCap={compact ? 24 : 48} />;
+    case "dvd-bouncer":
+      return <CanvasDemo init={dvdInit} tick={dvdTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+    case "starfield-warp":
+      return <CanvasDemo init={starInit} tick={starTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+    case "vortex-spiral":
+      return <CanvasDemo init={vortexInit} tick={vortexTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+    case "rope-physics":
+      return <CanvasDemo init={ropeInit} tick={ropeTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+    case "plasma-classic":
+      return <CanvasDemo tick={plasmaTick} compact={compact} fpsCap={compact ? 22 : 36} />;
+    case "sand-piles":
+      return <CanvasDemo init={sandInit} tick={sandTick} compact={compact} fpsCap={compact ? 24 : 45} />;
+    case "rotation-blur":
+      return <CanvasDemo init={rotInit} tick={rotTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+    case "constellation-net":
+      return <CanvasDemo init={netInit} tick={netTick} compact={compact} fpsCap={compact ? 24 : 50} />;
+    case "morphing-blob":
+      return <CanvasDemo init={blobInit} tick={blobTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+    case "chromatic-aberration":
+      return <CanvasDemo init={chromaInit} tick={chromaTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+    case "paper-folding":
+      return <CanvasDemo init={foldInit} tick={foldTick} compact={compact} fpsCap={compact ? 20 : 36} />;
     default:
       return <NoiseField seed={seed} />;
   }

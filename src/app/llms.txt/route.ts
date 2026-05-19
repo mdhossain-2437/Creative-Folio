@@ -1,5 +1,5 @@
 import { site } from "@/lib/site";
-import { works, journal, experiments } from "@/lib/data";
+import { works, journal, experiments, portfolios } from "@/lib/data";
 
 // /llms.txt — emerging convention (Anthropic / Mintlify, late 2024) for
 // giving large-language-model crawlers a curated, structured map of a
@@ -36,6 +36,14 @@ export function GET(): Response {
     `- [AI summary](${site.url}/ai): clean factual page optimized for AI engines`,
     `- [Now](${site.url}/now): current focus`,
     `- [Uses](${site.url}/uses): tools and stack`,
+    `- [Portfolios](${site.url}/portfolios): year-by-year archive of every annual portfolio edition`,
+    "",
+    "## Portfolio editions (year-by-year)",
+    "",
+    ...portfolios.map(
+      (p) =>
+        `- ${p.year} · ${p.edition} — ${p.codename} (${p.status}): ${p.description}`,
+    ),
     "",
     "## Selected works",
     "",

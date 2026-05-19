@@ -12,6 +12,7 @@ import { MilestonesScroll } from "@/components/sections/MilestonesScroll";
 import { NowTeaser } from "@/components/sections/NowTeaser";
 import { ShowreelTeaser } from "@/components/sections/ShowreelTeaser";
 import { Testimonials } from "@/components/sections/Testimonials";
+import { PortfoliosTeaser } from "@/components/sections/PortfoliosTeaser";
 import { SectionRail } from "@/components/ui/SectionRail";
 
 const railItems = [
@@ -26,6 +27,7 @@ const railItems = [
   { id: "awards", label: "Awards" },
   { id: "capabilities", label: "Studio" },
   { id: "process", label: "Process" },
+  { id: "portfolios", label: "Editions" },
   { id: "journal", label: "Journal" },
   { id: "sitemap", label: "Map" },
 ];
@@ -46,6 +48,7 @@ export default function HomePage() {
       <div data-section-id="awards" className="cv-auto"><AwardsSection /></div>
       <div data-section-id="capabilities" className="cv-auto"><Capabilities /></div>
       <div data-section-id="process" className="cv-auto"><ProcessSection /></div>
+      <div data-section-id="portfolios" className="cv-auto"><PortfoliosTeaser /></div>
       <div data-section-id="journal" className="cv-auto"><JournalPreview /></div>
       <div data-section-id="sitemap" className="cv-auto"><SiteMap /></div>
     </>
