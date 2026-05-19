@@ -12,7 +12,7 @@
 * **Repo:** `mdhossain-2437/Creative-Folio`
 * **Owner:** Delowar Hossain — `delowarhossain.dev` · Joypurhat, Bangladesh
 * **Edition:** **MMXXVII** (2027)
-* **Stack:** Next.js 15 · TypeScript · Tailwind · GSAP · raw WebGL2 · Lenis · Framer Motion
+* **Stack:** Next.js 16 · React 19 · TypeScript · Tailwind · GSAP · raw WebGL2 · Lenis · Framer Motion
 * **Package manager:** pnpm
 * **Education:** B.Sc. Computer Science (in progress, University of the People) + B.A. Political Science
 
