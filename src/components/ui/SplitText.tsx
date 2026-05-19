@@ -2,6 +2,14 @@
 
 import { useEffect, useRef } from "react";
 
+// React 19 narrows dynamic JSX tag types — funnel through a typed alias
+// so `ref` + `className` stay assignable when callers swap the element.
+type AsTag = React.ComponentType<{
+  ref?: React.Ref<HTMLElement>;
+  className?: string;
+  children?: React.ReactNode;
+}>;
+
 // Simple character-mask reveal using IntersectionObserver. No GSAP runtime cost on idle.
 export function SplitText({
   text,
@@ -43,13 +51,14 @@ export function SplitText({
 
   const words = text.split(" ");
 
+  const Component = Tag as unknown as AsTag;
   return (
-    <Tag ref={ref as React.Ref<HTMLElement>} className={className}>
+    <Component ref={ref} className={className}>
       {words.map((w, i) => (
         <span key={i} className="word-mask mr-[0.25em]">
           <span data-w>{w}</span>
         </span>
       ))}
-    </Tag>
+    </Component>
   );
 }

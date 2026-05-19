@@ -2,6 +2,15 @@
 
 import { ReactNode, useEffect, useRef } from "react";
 
+// React 19's tightened typing makes dynamic `as` props infer `never` for
+// children / ref unless we forward through a permissive component shape.
+// We rely on call sites to keep the contract honest.
+type AsTag = React.ComponentType<{
+  ref?: React.Ref<HTMLElement>;
+  className?: string;
+  children?: ReactNode;
+}>;
+
 export function Reveal({
   children,
   delay = 0,
@@ -32,9 +41,10 @@ export function Reveal({
     io.observe(el);
     return () => io.disconnect();
   }, [delay]);
+  const Component = Tag as unknown as AsTag;
   return (
-    <Tag ref={ref as React.Ref<HTMLElement>} className={`reveal ${className}`}>
+    <Component ref={ref} className={`reveal ${className}`}>
       {children}
-    </Tag>
+    </Component>
   );
 }

@@ -129,7 +129,7 @@ export function Footer({ commitSha, buildTime }: FooterProps = {}) {
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
               ◌ Signed
             </p>
-            <SignatureSVG className="mt-3 h-20 w-auto max-w-[420px] text-peach md:h-24" />
+            <SignatureSVG className="mt-3 h-24 w-auto max-w-[520px] text-peach md:h-28" />
           </div>
           <p className="hidden font-sans text-[10px] uppercase tracking-widest text-warmwhite/55 md:block">
             handwritten in vector — strokes draw on view

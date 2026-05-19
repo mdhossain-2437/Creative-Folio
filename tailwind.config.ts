@@ -24,6 +24,13 @@ const config: Config = {
         serif: ["var(--font-newsreader)", "Newsreader", "ui-serif", "Georgia", "serif"],
         sans: ["var(--font-inter)", "Inter", "ui-sans-serif", "system-ui", "sans-serif"],
         mono: ["var(--font-jetbrains)", "JetBrains Mono", "ui-monospace", "monospace"],
+        script: [
+          "var(--font-sacramento)",
+          "Sacramento",
+          "Snell Roundhand",
+          "Apple Chancery",
+          "cursive",
+        ],
       },
       letterSpacing: {
         tightest: "-0.045em",

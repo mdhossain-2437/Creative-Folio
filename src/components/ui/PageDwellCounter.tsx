@@ -34,7 +34,7 @@ export function PageDwellCounter() {
 
     setElapsedMs(0);
     const start = performance.now();
-    let raf = 0;
+    const raf = 0;
     let interval: number | undefined;
 
     const tick = () => {

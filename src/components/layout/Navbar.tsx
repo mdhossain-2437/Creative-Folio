@@ -41,11 +41,12 @@ export function Navbar() {
           href="/"
           data-cursor="hover"
           data-cursor-label="HOME"
+          aria-label={`${site.name} — home`}
           className="group inline-flex items-baseline gap-2 font-serif text-xl tracking-tight text-warmwhite focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
         >
-          <span className="relative">
-            <span className="italic">D</span>elowar
-            <span className="text-warmwhite/65">.dev</span>
+          <span className="relative whitespace-nowrap">
+            <span className="italic">D</span>elowar{" "}
+            <span className="italic text-warmwhite/85">Hossain</span>
           </span>
           <span
             aria-hidden
