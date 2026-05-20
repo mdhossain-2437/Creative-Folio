@@ -12,13 +12,13 @@ import { site } from "@/lib/site";
 
 export function Hero() {
   return (
-    <section className="relative h-[100svh] min-h-[760px] w-full overflow-hidden">
+    <section className="relative h-[100svh] min-h-[640px] w-full overflow-hidden md:min-h-[760px]">
       <HeroShader />
       <HeroFluidDisplacement />
       <GhostCursors />
       <div className="vignette absolute inset-0" />
 
-      <div className="relative z-10 mx-auto flex h-full max-w-[1640px] flex-col px-6 pb-16 pt-28 md:px-10 md:pb-20 md:pt-28">
+      <div className="relative z-10 mx-auto flex h-full max-w-[1640px] flex-col px-6 pb-16 pt-24 md:px-10 md:pb-20 md:pt-28">
         {/* Single quiet eyebrow — everything else lives in the StatusStrip / Footer now. */}
         <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
           <ScrambleText trigger="mount" duration={900}>
@@ -47,7 +47,7 @@ export function Hero() {
               Creative Developer. Award-grade web experiences where typography,
               motion, and engineering converge.
             </p>
-            <div className="flex items-center gap-3 md:col-span-5 md:justify-end">
+            <div className="flex flex-wrap items-center gap-3 md:col-span-5 md:justify-end">
               <Magnetic>
                 <Link
                   href="/works"

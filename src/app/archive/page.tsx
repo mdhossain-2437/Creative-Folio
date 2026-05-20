@@ -49,7 +49,7 @@ export default function ArchivePage() {
 
       <section className="bg-ink-900 py-16 md:py-24">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-          <div className="grid grid-cols-12 items-baseline gap-3 border-b border-warmwhite/15 pb-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
+          <div className="hidden grid-cols-12 items-baseline gap-3 border-b border-warmwhite/15 pb-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65 md:grid">
             <span className="col-span-2">Year</span>
             <span className="col-span-5">Title</span>
             <span className="col-span-3">Category</span>
@@ -64,12 +64,12 @@ export default function ArchivePage() {
                       href={`/works/${a.slug}`}
                       data-cursor="view"
                       data-cursor-label="OPEN"
-                      className="grid grid-cols-12 items-baseline gap-3 py-6 transition-colors hover:bg-warmwhite/[0.03]"
+                      className="grid grid-cols-1 items-baseline gap-1 py-5 transition-colors hover:bg-warmwhite/[0.03] md:grid-cols-12 md:gap-3 md:py-6"
                     >
                       <Row {...a} />
                     </Link>
                   ) : (
-                    <div className="grid grid-cols-12 items-baseline gap-3 py-6">
+                    <div className="grid grid-cols-1 items-baseline gap-1 py-5 md:grid-cols-12 md:gap-3 md:py-6">
                       <Row {...a} />
                     </div>
                   )}
@@ -96,16 +96,16 @@ function Row({
 }) {
   return (
     <>
-      <span className="col-span-2 font-mono text-[11px] uppercase tracking-widest text-warmwhite/55">
+      <span className="font-mono text-[11px] uppercase tracking-widest text-warmwhite/55 md:col-span-2">
         {year}
       </span>
-      <span className="col-span-5 font-serif text-2xl tracking-tighter text-warmwhite md:text-3xl">
+      <span className="font-serif text-2xl tracking-tighter text-warmwhite md:col-span-5 md:text-3xl">
         {title}
       </span>
-      <span className="col-span-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
+      <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55 md:col-span-3">
         {category}
       </span>
-      <span className="col-span-2 text-right font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
+      <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65 md:col-span-2 md:text-right">
         {role}
       </span>
     </>

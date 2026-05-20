@@ -104,13 +104,13 @@ export default async function NowPage() {
           </div>
           <ul className="md:col-span-8 divide-y divide-warmwhite/15 border-y border-warmwhite/15">
             {gh.events.map((c) => (
-              <li key={c.sha} className="grid grid-cols-12 gap-4 py-5 font-mono text-[12px] uppercase tracking-widest text-warmwhite/65">
-                <span className="col-span-2 text-warmwhite">{c.sha}</span>
-                <span className="col-span-3 text-peach">{c.repo}</span>
-                <span className="col-span-5 text-warmwhite/85 normal-case tracking-normal">
+              <li key={c.sha} className="grid grid-cols-2 gap-x-3 gap-y-1 py-5 font-mono text-[12px] uppercase tracking-widest text-warmwhite/65 md:grid-cols-12 md:gap-4">
+                <span className="text-warmwhite md:col-span-2">{c.sha}</span>
+                <span className="text-right text-peach md:col-span-3 md:text-left">{c.repo}</span>
+                <span className="col-span-2 text-warmwhite/85 normal-case tracking-normal md:col-span-5">
                   {c.message}
                 </span>
-                <span className="col-span-2 text-right text-warmwhite/65">{c.ago} ago</span>
+                <span className="col-span-2 text-warmwhite/65 md:col-span-2 md:text-right">{c.ago} ago</span>
               </li>
             ))}
           </ul>

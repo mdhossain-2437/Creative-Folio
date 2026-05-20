@@ -118,26 +118,26 @@ export function Navbar() {
         </button>
       </nav>
       <div
-        className={`pointer-events-auto fixed inset-0 z-40 origin-top bg-ink-950 transition-transform duration-700 ease-out md:hidden ${
+        className={`pointer-events-auto fixed inset-0 z-40 origin-top overflow-y-auto bg-ink-950 transition-transform duration-700 ease-out md:hidden ${
           open ? "scale-y-100" : "scale-y-0"
         }`}
       >
-        <div className="flex h-full flex-col px-6 pb-10 pt-24">
-          <ul className="flex flex-1 flex-col justify-center gap-2 font-serif text-5xl">
+        <div className="flex min-h-full flex-col px-6 pb-10 pt-24">
+          <ul className="flex flex-1 flex-col justify-center gap-1 font-serif text-3xl leading-none sm:text-4xl">
             {site.nav.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="block py-2 leading-none tracking-tighter"
+                  className="block py-1.5 leading-none tracking-tighter"
                 >
                   {item.label}
                 </Link>
               </li>
             ))}
           </ul>
-          <div className="flex items-center justify-between font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
+          <div className="mt-8 flex flex-wrap items-center justify-between gap-2 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
             <span>{site.location}</span>
-            <Link href="/contact">{site.email}</Link>
+            <Link href="/contact" className="break-all">{site.email}</Link>
           </div>
         </div>
       </div>

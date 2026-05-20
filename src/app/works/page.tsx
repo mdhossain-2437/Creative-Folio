@@ -143,9 +143,9 @@ export default function WorksPage() {
         </div>
       </section>
 
-      <section className="border-t border-warmwhite/15 bg-ink-950 py-28 md:py-40">
+      <section className="border-t border-warmwhite/15 bg-ink-950 py-20 md:py-28 lg:py-40">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-          <header className="flex items-end justify-between">
+          <header className="flex flex-wrap items-end justify-between gap-4">
             <h2 className="font-serif text-[clamp(2rem,5vw,4.5rem)] leading-none tracking-tightest">
               The Archive
             </h2>
@@ -160,18 +160,18 @@ export default function WorksPage() {
             {archive.slice(0, 6).map((a, i) => (
               <li
                 key={i}
-                className="grid grid-cols-12 items-baseline gap-3 py-5 font-sans text-sm text-warmwhite/75"
+                className="grid grid-cols-1 items-baseline gap-1 py-5 font-sans text-sm text-warmwhite/75 md:grid-cols-12 md:gap-3"
               >
-                <span className="col-span-2 font-mono text-[11px] uppercase tracking-widest text-warmwhite/65">
+                <span className="font-mono text-[11px] uppercase tracking-widest text-warmwhite/65 md:col-span-2">
                   {a.year}
                 </span>
-                <span className="col-span-5 font-serif text-2xl tracking-tighter text-warmwhite">
+                <span className="font-serif text-2xl tracking-tighter text-warmwhite md:col-span-5">
                   {a.title}
                 </span>
-                <span className="col-span-3 text-[11px] uppercase tracking-widest text-warmwhite/65">
+                <span className="text-[11px] uppercase tracking-widest text-warmwhite/65 md:col-span-3">
                   {a.category}
                 </span>
-                <span className="col-span-2 text-right text-[11px] uppercase tracking-widest text-warmwhite/65">
+                <span className="text-[11px] uppercase tracking-widest text-warmwhite/65 md:col-span-2 md:text-right">
                   {a.role}
                 </span>
               </li>

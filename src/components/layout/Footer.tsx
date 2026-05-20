@@ -142,7 +142,7 @@ export function Footer({ commitSha, buildTime }: FooterProps = {}) {
           </div>
           <p className="md:col-span-5 md:text-right font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
             ◌ A new quote rotates in at 00:00 UTC. <br className="hidden md:block" />
-            Click to copy. Sixty-four total.
+            Click to copy. Three hundred sixty-five total.
           </p>
         </div>
 
