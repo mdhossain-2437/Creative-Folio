@@ -47,7 +47,7 @@ export function Capabilities() {
           ))}
         </ul>
 
-        <div className="mt-14 flex items-center justify-between border-t border-warmwhite/15 pt-10">
+        <div className="mt-14 flex flex-wrap items-center justify-between gap-4 border-t border-warmwhite/15 pt-10">
           <p className="font-sans text-[11px] uppercase tracking-widest text-warmwhite/55">
             Process · Discovery → Design → Prototype → Production
           </p>

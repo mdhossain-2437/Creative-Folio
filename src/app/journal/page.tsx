@@ -46,7 +46,7 @@ export default function JournalPage() {
               <span>RSS / Atom feed</span>
             </Link>
           </div>
-          <div className="grid grid-cols-12 items-baseline gap-3 border-b border-warmwhite/15 pb-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
+          <div className="hidden grid-cols-12 items-baseline gap-3 border-b border-warmwhite/15 pb-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65 md:grid">
             <span className="col-span-2">Date</span>
             <span className="col-span-7">Title</span>
             <span className="col-span-2">Category</span>
@@ -60,21 +60,21 @@ export default function JournalPage() {
                     href={`/journal/${p.slug}`}
                     data-cursor="view"
                     data-cursor-label="READ"
-                    className="grid grid-cols-12 items-baseline gap-3 py-8 transition-colors hover:bg-warmwhite/[0.02]"
+                    className="grid grid-cols-1 items-baseline gap-2 py-6 transition-colors hover:bg-warmwhite/[0.02] md:grid-cols-12 md:gap-3 md:py-8"
                   >
-                    <span className="col-span-2 font-mono text-[11px] uppercase tracking-widest text-warmwhite/65">
+                    <span className="font-mono text-[11px] uppercase tracking-widest text-warmwhite/65 md:col-span-2">
                       {p.date}
                     </span>
-                    <span className="col-span-7 font-serif text-2xl leading-tight tracking-tighter md:text-3xl">
+                    <span className="font-serif text-2xl leading-tight tracking-tighter md:col-span-7 md:text-3xl">
                       {p.title}
                     </span>
-                    <span className="col-span-2 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
+                    <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65 md:col-span-2">
                       {p.category}
                     </span>
-                    <span className="col-span-1 text-right font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
+                    <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55 md:col-span-1 md:text-right">
                       {p.readingTime}
                     </span>
-                    <p className="col-span-12 max-w-3xl font-sans text-sm leading-relaxed text-warmwhite/55 md:col-span-9 md:col-start-3">
+                    <p className="max-w-3xl font-sans text-sm leading-relaxed text-warmwhite/55 md:col-span-9 md:col-start-3">
                       {p.excerpt}
                     </p>
                   </Link>
