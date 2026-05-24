@@ -8,7 +8,7 @@ import { PageSchema } from "@/components/seo/PageSchema";
 export const metadata: Metadata = {
   title: "Resume",
   description:
-    "Delowar Hossain — Creative Developer & UI/UX Designer. Full resume: experience, education, expertise, and recognition. Download the 2026 PDF.",
+    "Delowar Hossain — Creative Developer & UI/UX Designer. Full resume: experience, education, expertise, and recognition. Download the 2027 PDF.",
   alternates: { canonical: `${site.url}/resume` },
 };
 
@@ -39,9 +39,10 @@ export default function ResumePage() {
             download="Md-Delowar-Hossain-Resume.pdf"
             data-cursor="hover"
             data-cursor-label="DOWNLOAD"
-            className="rounded-full bg-warmwhite px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-ink-900 hover:bg-peach"
+            aria-label="Download resume PDF (2027 edition)"
+            className="inline-flex items-center gap-2 rounded-full bg-warmwhite px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-ink-900 transition-colors hover:bg-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
           >
-            Download PDF (2026)
+            Download PDF (2027) <span aria-hidden>↓</span>
           </a>
           <a
             href={site.resumeMirror}
@@ -49,9 +50,10 @@ export default function ResumePage() {
             rel="noopener noreferrer"
             data-cursor="hover"
             data-cursor-label="DRIVE"
-            className="rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest hover:border-warmwhite"
+            aria-label="Open Drive mirror of the resume (new tab)"
+            className="inline-flex items-center gap-2 rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-warmwhite transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
           >
-            Drive mirror
+            Drive mirror <span aria-hidden>↗</span>
           </a>
         </div>
       </PageHero>
@@ -169,7 +171,7 @@ function Section({ label }: { label: string }) {
   return (
     <a
       href={`#${label.toLowerCase()}`}
-      className="block border-l border-warmwhite/15 pl-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65 hover:text-warmwhite"
+      className="block rounded-sm border-l border-warmwhite/15 pl-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65 transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
     >
       ◌ {label}
     </a>

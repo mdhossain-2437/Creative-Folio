@@ -48,9 +48,9 @@ export function PortfoliosTeaser() {
             href="/portfolios"
             data-cursor="view"
             data-cursor-label="OPEN ARCHIVE"
-            className="inline-flex w-fit items-center gap-2 self-start rounded-full border border-peach/55 px-5 py-3 font-sans text-[10px] uppercase tracking-widest text-peach transition-colors hover:bg-peach hover:text-ink-900 md:self-end"
+            className="inline-flex w-fit items-center gap-2 self-start rounded-full border border-peach/55 px-5 py-3 font-sans text-[10px] uppercase tracking-widest text-peach transition-colors hover:bg-peach hover:text-ink-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach md:self-end"
           >
-            See all {portfolios.length.toString().padStart(2, "0")} editions →
+            See all {portfolios.length.toString().padStart(2, "0")} editions <span aria-hidden>↗</span>
           </Link>
         </header>
 
@@ -92,7 +92,7 @@ export function PortfoliosTeaser() {
                       data-cursor="view"
                       data-cursor-label="OPEN LIVE"
                       aria-label={`Open the ${p.year} portfolio (${p.codename}) in a new tab`}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-warmwhite/25 px-3 py-1.5 font-sans text-[10px] uppercase tracking-widest text-warmwhite/85 transition-colors hover:border-peach hover:text-peach"
+                      className="inline-flex items-center gap-1.5 rounded-full border border-warmwhite/25 px-3 py-1.5 font-sans text-[10px] uppercase tracking-widest text-warmwhite/85 transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
                     >
                       ↗ {new URL(p.href).host}
                     </a>

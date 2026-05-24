@@ -72,12 +72,14 @@ export default function ContactPage() {
                     <a
                       href={s.href}
                       target="_blank"
-                      rel="noreferrer"
+                      rel="noopener noreferrer me"
                       data-cursor="hover"
                       data-cursor-label="OPEN"
-                      className="block rounded-full border border-warmwhite/20 px-4 py-3 font-sans text-[11px] uppercase tracking-widest text-warmwhite/85 hover:border-warmwhite"
+                      aria-label={`Open ${s.label} in a new tab`}
+                      className="inline-flex w-full items-center justify-between gap-2 rounded-full border border-warmwhite/20 px-4 py-3 font-sans text-[11px] uppercase tracking-widest text-warmwhite/85 transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
                     >
-                      {s.label} ↗
+                      <span>{s.label}</span>
+                      <span aria-hidden>↗</span>
                     </a>
                   </li>
                 ))}

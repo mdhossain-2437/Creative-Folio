@@ -50,58 +50,72 @@ export function ContactForm() {
         <Field label="Project URL or brief" name="url" placeholder="https://…" />
       </div>
 
-      <div>
-        <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">◊ What do you need</p>
+      <fieldset>
+        <legend className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
+          ◊ What do you need
+        </legend>
         <ul className="mt-4 flex flex-wrap gap-2">
-          {services.map((s) => (
-            <li key={s}>
-              <button
-                type="button"
-                onClick={() => toggle(s)}
-                className={`rounded-full border px-4 py-2 font-sans text-[11px] uppercase tracking-widest transition-colors ${
-                  picked.has(s)
-                    ? "border-warmwhite bg-warmwhite text-ink-900"
-                    : "border-warmwhite/25 text-warmwhite/80 hover:border-warmwhite"
-                }`}
-              >
-                {s}
-              </button>
-            </li>
-          ))}
+          {services.map((s) => {
+            const isOn = picked.has(s);
+            return (
+              <li key={s}>
+                <button
+                  type="button"
+                  onClick={() => toggle(s)}
+                  aria-pressed={isOn}
+                  className={`rounded-full border px-4 py-2 font-sans text-[11px] uppercase tracking-widest transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach ${
+                    isOn
+                      ? "border-warmwhite bg-warmwhite text-ink-900"
+                      : "border-warmwhite/25 text-warmwhite/80 hover:border-warmwhite"
+                  }`}
+                >
+                  {s}
+                </button>
+              </li>
+            );
+          })}
         </ul>
-      </div>
+      </fieldset>
+
+      <fieldset>
+        <legend className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
+          ◊ Budget range
+        </legend>
+        <ul className="mt-4 grid grid-cols-2 gap-2 md:grid-cols-4" role="radiogroup" aria-label="Budget range">
+          {budgets.map((b) => {
+            const isOn = budget === b;
+            return (
+              <li key={b}>
+                <button
+                  type="button"
+                  onClick={() => setBudget(b)}
+                  role="radio"
+                  aria-checked={isOn}
+                  className={`w-full rounded-md border px-4 py-3 font-sans text-[11px] uppercase tracking-widest transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach ${
+                    isOn
+                      ? "border-warmwhite bg-warmwhite/15 text-warmwhite"
+                      : "border-warmwhite/15 text-warmwhite/65 hover:border-warmwhite"
+                  }`}
+                >
+                  {b}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </fieldset>
 
       <div>
-        <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">◊ Budget range</p>
-        <ul className="mt-4 grid grid-cols-2 gap-2 md:grid-cols-4">
-          {budgets.map((b) => (
-            <li key={b}>
-              <button
-                type="button"
-                onClick={() => setBudget(b)}
-                className={`w-full rounded-md border px-4 py-3 font-sans text-[11px] uppercase tracking-widest ${
-                  budget === b
-                    ? "border-warmwhite bg-warmwhite/15 text-warmwhite"
-                    : "border-warmwhite/15 text-warmwhite/65 hover:border-warmwhite"
-                }`}
-              >
-                {b}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div>
-        <label className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
+        <label htmlFor="contact-message" className="block font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
           ◊ Project details
         </label>
         <textarea
+          id="contact-message"
           name="message"
           rows={5}
           required
           placeholder="Tell me what you’re building, the audience, the vibe, the rough timeline…"
-          className="mt-3 w-full resize-none rounded-md border border-warmwhite/15 bg-transparent px-4 py-4 font-sans text-base text-warmwhite placeholder:text-warmwhite/30 focus:border-warmwhite focus:outline-none"
+          className="mt-3 w-full resize-none rounded-md border border-warmwhite/15 bg-transparent px-4 py-4 font-sans text-base text-warmwhite placeholder:text-warmwhite/30 transition-colors focus:border-warmwhite focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
         />
       </div>
 
@@ -117,9 +131,10 @@ export function ContactForm() {
           <button
             type="submit"
             disabled={state === "submitting"}
+            aria-disabled={state === "submitting"}
             data-cursor="view"
             data-cursor-label="SEND"
-            className="rounded-full bg-warmwhite px-7 py-4 font-sans text-[11px] uppercase tracking-widest text-ink-900 transition-colors hover:bg-peach disabled:opacity-60"
+            className="rounded-full bg-warmwhite px-7 py-4 font-sans text-[11px] uppercase tracking-widest text-ink-900 transition-colors hover:bg-peach disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
           >
             {state === "submitting" ? "Sending…" : "Send Inquiry"}
           </button>
@@ -144,13 +159,21 @@ function Field({
 }) {
   return (
     <label className="block">
-      <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">{label}</span>
+      <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
+        {label}
+        {required && (
+          <span aria-hidden className="ml-1 text-peach">
+            *
+          </span>
+        )}
+      </span>
       <input
         name={name}
         type={type}
         placeholder={placeholder}
         required={required}
-        className="mt-2 w-full border-b border-warmwhite/15 bg-transparent py-3 font-serif text-xl text-warmwhite placeholder:text-warmwhite/30 focus:border-warmwhite focus:outline-none"
+        aria-required={required}
+        className="mt-2 w-full border-b border-warmwhite/15 bg-transparent py-3 font-serif text-xl text-warmwhite placeholder:text-warmwhite/30 transition-colors focus:border-warmwhite focus:outline-none focus-visible:border-peach"
       />
     </label>
   );

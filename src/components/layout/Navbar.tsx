@@ -20,9 +20,27 @@ export function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Close menu on route change.
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
+
+  // Lock body scroll while the mobile menu is open + dismiss on Escape so
+  // the menu behaves like a proper modal sheet on phones.
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    if (!open) return;
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
 
   const primaryNav = site.nav.filter((n) => PRIMARY.includes(n.label));
 
@@ -111,33 +129,65 @@ export function Navbar() {
         <button
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
+          aria-controls="mobile-nav-sheet"
           onClick={() => setOpen((o) => !o)}
-          className="md:hidden rounded-full border border-warmwhite/35 px-4 py-2 text-[10px] uppercase tracking-widest text-warmwhite/85"
+          className="md:hidden rounded-full border border-warmwhite/35 px-4 py-2 font-sans text-[10px] uppercase tracking-widest text-warmwhite/85 transition-colors hover:border-warmwhite hover:text-warmwhite focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
         >
           {open ? "Close" : "Menu"}
         </button>
       </nav>
       <div
-        className={`pointer-events-auto fixed inset-0 z-40 origin-top overflow-y-auto bg-ink-950 transition-transform duration-700 ease-out md:hidden ${
-          open ? "scale-y-100" : "scale-y-0"
+        id="mobile-nav-sheet"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Site navigation"
+        aria-hidden={!open}
+        className={`pointer-events-auto fixed inset-0 z-40 origin-top overflow-y-auto bg-ink-950/95 backdrop-blur-xl transition-[transform,opacity] duration-500 ease-out md:hidden ${
+          open
+            ? "scale-y-100 opacity-100"
+            : "pointer-events-none scale-y-0 opacity-0"
         }`}
       >
         <div className="flex min-h-full flex-col px-6 pb-10 pt-24">
-          <ul className="flex flex-1 flex-col justify-center gap-1 font-serif text-3xl leading-none sm:text-4xl">
-            {site.nav.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="block py-1.5 leading-none tracking-tighter"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
+          <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
+            ◊ Index · {site.editionShort}
+          </p>
+          <ul className="mt-6 flex flex-1 flex-col justify-center gap-1 font-serif text-3xl leading-none sm:text-4xl">
+            {site.nav.map((item, i) => {
+              const active = pathname === item.href;
+              return (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    aria-current={active ? "page" : undefined}
+                    onClick={() => setOpen(false)}
+                    className={`flex items-baseline gap-3 py-1.5 leading-none tracking-tighter transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach ${
+                      active ? "text-peach" : "text-warmwhite hover:text-peach"
+                    }`}
+                  >
+                    <span className="display-num font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span>{item.label}</span>
+                    {active && (
+                      <span aria-hidden className="ml-2 font-sans text-[10px] uppercase tracking-widest text-peach/70">
+                        ◊ here
+                      </span>
+                    )}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-2 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
+          <div className="mt-8 flex flex-wrap items-center justify-between gap-2 border-t border-warmwhite/15 pt-6 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
             <span>{site.location}</span>
-            <Link href="/contact" className="break-all">{site.email}</Link>
+            <Link
+              href="/contact"
+              onClick={() => setOpen(false)}
+              className="break-all underline-offset-2 hover:text-peach hover:underline"
+            >
+              {site.email}
+            </Link>
           </div>
         </div>
       </div>

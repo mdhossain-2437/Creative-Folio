@@ -80,17 +80,17 @@ export default function AboutPage() {
             href="/resume"
             data-cursor="hover"
             data-cursor-label="RESUME"
-            className="rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest hover:border-warmwhite"
+            className="inline-flex items-center gap-2 rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-warmwhite transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
           >
-            Download Resume
+            Download Resume <span aria-hidden>↗</span>
           </Link>
           <Link
             href="/contact"
             data-cursor="hover"
             data-cursor-label="WRITE"
-            className="rounded-full bg-warmwhite px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-ink-900 hover:bg-peach"
+            className="inline-flex items-center gap-2 rounded-full bg-warmwhite px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-ink-900 transition-colors hover:bg-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
           >
-            Get in Touch
+            Get in Touch <span aria-hidden>↗</span>
           </Link>
         </div>
       </PageHero>
@@ -245,7 +245,8 @@ export default function AboutPage() {
                         target="_blank"
                         rel="noopener noreferrer"
                         data-cursor="hover"
-                        className="hover:text-peach"
+                        aria-label={`Visit ${edu.institution} (opens in a new tab)`}
+                        className="rounded-sm transition-colors hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
                       >
                         {edu.institution}
                       </a>
@@ -282,12 +283,13 @@ export default function AboutPage() {
             <a
               href={site.github.url}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener noreferrer me"
               data-cursor="hover"
               data-cursor-label="GITHUB"
-              className="mt-6 inline-flex items-center gap-2 rounded-full border border-warmwhite/30 px-5 py-2.5 font-sans text-[11px] uppercase tracking-widest hover:border-peach hover:text-peach"
+              aria-label={`Open ${site.github.handle} GitHub profile in a new tab`}
+              className="mt-6 inline-flex items-center gap-2 rounded-full border border-warmwhite/30 px-5 py-2.5 font-sans text-[11px] uppercase tracking-widest text-warmwhite transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
             >
-              @{site.github.handle} ↗
+              @{site.github.handle} <span aria-hidden>↗</span>
             </a>
           </div>
           <ul className="md:col-span-8 grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -299,7 +301,8 @@ export default function AboutPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     data-cursor="hover"
-                    className="font-mono text-sm text-warmwhite hover:text-peach"
+                    aria-label={`Open ${repo.name} on GitHub (new tab)`}
+                    className="rounded-sm font-mono text-sm text-warmwhite transition-colors hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
                   >
                     {repo.name}
                   </a>

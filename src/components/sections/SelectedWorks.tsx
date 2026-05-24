@@ -28,9 +28,9 @@ export function SelectedWorks() {
             href="/works"
             data-cursor="hover"
             data-cursor-label="ARCHIVE"
-            className="hidden font-sans text-[11px] uppercase tracking-widest text-warmwhite/70 hover:text-warmwhite md:inline-flex"
+            className="hidden items-baseline gap-2 rounded-full border border-warmwhite/15 px-4 py-2 font-sans text-[10px] uppercase tracking-widest text-warmwhite/85 transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach md:inline-flex"
           >
-            View All Archive →
+            View All Archive <span aria-hidden>↗</span>
           </Link>
         </header>
 
@@ -43,9 +43,9 @@ export function SelectedWorks() {
         <div className="mt-16 flex justify-center md:hidden">
           <Link
             href="/works"
-            className="rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest"
+            className="inline-flex items-center gap-2 rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-warmwhite transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
           >
-            View Archive →
+            View Archive <span aria-hidden>↗</span>
           </Link>
         </div>
       </div>
@@ -117,7 +117,8 @@ function WorkRow({ work, idx }: { work: ReturnType<typeof getWorkType>; idx: num
           href={`/works/${work.slug}`}
           data-cursor="view"
           data-cursor-label="OPEN"
-          className="group relative flex items-center justify-between overflow-hidden py-7 md:py-10"
+          aria-label={`Open case study: ${work.title} — ${work.category}, ${work.year}`}
+          className="group relative flex items-center justify-between overflow-hidden py-7 transition-colors hover:bg-warmwhite/[0.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-peach md:py-10"
         >
           <span className="flex items-center gap-6 md:gap-12">
             <span className="display-num font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">

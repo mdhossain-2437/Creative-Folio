@@ -95,7 +95,10 @@ export default async function NowPage() {
                 href="https://github.com/mdhossain-2437"
                 data-cursor="hover"
                 data-cursor-label="GITHUB"
-                className="text-peach underline-offset-4 hover:underline"
+                target="_blank"
+                rel="noopener noreferrer me"
+                aria-label="Open GitHub profile mdhossain-2437 in a new tab"
+                className="rounded-sm text-peach underline-offset-4 transition-colors hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
               >
                 github.com/mdhossain-2437
               </Link>
@@ -130,7 +133,10 @@ export default async function NowPage() {
               href="https://nownownow.com"
               data-cursor="hover"
               data-cursor-label="NOWNOWNOW"
-              className="text-warmwhite underline-offset-4 hover:underline"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open nownownow.com in a new tab"
+              className="rounded-sm text-warmwhite underline-offset-4 transition-colors hover:text-peach hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
             >
               nownownow.com
             </Link>

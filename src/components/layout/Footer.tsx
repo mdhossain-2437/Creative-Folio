@@ -78,7 +78,7 @@ export function Footer({ commitSha, buildTime }: FooterProps = {}) {
                 href="/contact"
                 data-cursor="hover"
                 data-cursor-label="WRITE"
-                className="inline-flex items-center gap-3 rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-warmwhite hover:border-warmwhite hover:bg-warmwhite hover:text-ink-900"
+                className="inline-flex max-w-full items-center gap-3 break-all rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-warmwhite transition-colors hover:border-warmwhite hover:bg-warmwhite hover:text-ink-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
               >
                 {site.email}
                 <span aria-hidden>↗</span>
@@ -88,8 +88,8 @@ export function Footer({ commitSha, buildTime }: FooterProps = {}) {
                 onClick={handleCopyEmail}
                 data-cursor="hover"
                 data-cursor-label="COPY"
-                aria-label="Copy email address"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-warmwhite/20 font-mono text-xs text-warmwhite/70 transition-colors hover:border-peach/60 hover:text-warmwhite"
+                aria-label="Copy email address to clipboard"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-warmwhite/20 font-mono text-xs text-warmwhite/70 transition-colors hover:border-peach/60 hover:text-warmwhite focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
               >
                 ⎘
               </button>
@@ -232,7 +232,7 @@ function FooterCol({
                   data-cursor-label="VIEW"
                   rel={it.rel ? `${it.rel} noopener` : "noopener"}
                   target="_blank"
-                  className="text-warmwhite/85 hover:text-peach"
+                  className="inline-block rounded-sm text-warmwhite/85 transition-colors hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
                 >
                   {it.label}
                 </a>
@@ -245,7 +245,7 @@ function FooterCol({
                 href={it.href}
                 data-cursor="hover"
                 data-cursor-label="VIEW"
-                className="text-warmwhite/85 hover:text-peach"
+                className="inline-block rounded-sm text-warmwhite/85 transition-colors hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
               >
                 {it.label}
               </Link>

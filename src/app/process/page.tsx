@@ -126,17 +126,17 @@ export default function ProcessPage() {
               href="/contact"
               data-cursor="hover"
               data-cursor-label="WRITE"
-              className="rounded-full bg-warmwhite px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-ink-900 hover:bg-peach"
+              className="inline-flex items-center gap-2 rounded-full bg-warmwhite px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-ink-900 transition-colors hover:bg-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
             >
-              Brief me →
+              Brief me <span aria-hidden>↗</span>
             </Link>
             <Link
               href="/services"
               data-cursor="hover"
               data-cursor-label="TIERS"
-              className="rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest hover:border-warmwhite"
+              className="inline-flex items-center gap-2 rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-warmwhite transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
             >
-              See tiers
+              See tiers <span aria-hidden>↗</span>
             </Link>
           </div>
         </div>

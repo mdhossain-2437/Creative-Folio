@@ -154,9 +154,9 @@ export default function PortfoliosPage() {
                     data-cursor="view"
                     data-cursor-label="OPEN LIVE"
                     aria-label={`Open the ${p.year} portfolio (${p.codename}) in a new tab`}
-                    className="inline-flex w-fit items-center gap-2 rounded-full border border-warmwhite/25 px-4 py-2 font-sans text-[10px] uppercase tracking-widest text-warmwhite transition-colors hover:border-peach hover:text-peach"
+                    className="inline-flex w-fit items-center gap-2 rounded-full border border-warmwhite/25 px-4 py-2 font-sans text-[10px] uppercase tracking-widest text-warmwhite transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
                   >
-                    ↗ {new URL(p.href).host}
+                    <span aria-hidden>↗</span> {new URL(p.href).host}
                   </a>
                 ) : (
                   <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">

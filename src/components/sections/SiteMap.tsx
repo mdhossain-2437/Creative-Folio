@@ -51,12 +51,13 @@ export function SiteMap() {
                       href={it.href}
                       data-cursor="hover"
                       data-cursor-label="OPEN"
-                      className="group block"
+                      aria-label={`${it.title} — ${it.note}`}
+                      className="group block rounded-md transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
                     >
-                      <p className="flex items-baseline justify-between gap-3 font-serif text-2xl tracking-tighter text-warmwhite group-hover:text-peach">
+                      <p className="flex items-baseline justify-between gap-3 font-serif text-2xl tracking-tighter text-warmwhite transition-colors duration-300 group-hover:text-peach">
                         <span>{it.title}</span>
-                        <span aria-hidden className="text-warmwhite/65 group-hover:text-peach">
-                          →
+                        <span aria-hidden className="text-warmwhite/65 transition-all duration-300 group-hover:translate-x-1 group-hover:text-peach">
+                          ↗
                         </span>
                       </p>
                       <p className="mt-2 font-sans text-sm leading-relaxed text-warmwhite/55">
