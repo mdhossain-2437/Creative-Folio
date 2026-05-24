@@ -182,16 +182,34 @@ button {
   height: 100%;
 }
 
-/* Reveal animation utility */
+/* Reveal animation utility.
+ * Sections fade up + un-blur on scroll-in. Slight blur on entry adds a
+ * gentle "rack focus" feel and helps mask any layout-thrash from images
+ * loading just-in-time. Reduced-motion users skip the transform/blur. */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(28px);
+  filter: blur(6px);
 }
 .reveal.is-in {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 1s var(--easing, cubic-bezier(0.22, 1, 0.36, 1)),
-    transform 1s var(--easing, cubic-bezier(0.22, 1, 0.36, 1));
+  filter: blur(0);
+  transition:
+    opacity 1s var(--easing, cubic-bezier(0.22, 1, 0.36, 1)),
+    transform 1s var(--easing, cubic-bezier(0.22, 1, 0.36, 1)),
+    filter 1s var(--easing, cubic-bezier(0.22, 1, 0.36, 1));
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 0;
+    transform: none;
+    filter: none;
+  }
+  .reveal.is-in {
+    opacity: 1;
+    transition: opacity 0.4s ease;
+  }
 }
 
 .text-balance {

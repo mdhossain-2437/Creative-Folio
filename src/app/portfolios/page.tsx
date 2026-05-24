@@ -33,7 +33,7 @@ export default function PortfoliosPage() {
     name: "Year-by-Year Portfolios — Delowar Hossain",
     url: `${site.url}/portfolios`,
     description:
-      "Every annual portfolio edition Delowar Hossain has shipped — from 2020's founding portfolio to the current MMXXVII edition.",
+      "Every annual portfolio edition Delowar Hossain has shipped — from 2023's first edition to the current MMXXVII edition.",
     author: { "@id": `${site.url}/#person` },
     isPartOf: { "@id": `${site.url}/#website` },
     mainEntity: {
@@ -79,7 +79,7 @@ export default function PortfoliosPage() {
         meta={[
           { label: "Editions", value: portfolios.length.toString().padStart(2, "0") },
           { label: "Current", value: portfolios[0]?.edition ?? "MMXXVII" },
-          { label: "Oldest", value: portfolios[portfolios.length - 1]?.year ?? "2020" },
+          { label: "Oldest", value: portfolios[portfolios.length - 1]?.year ?? "2023" },
           { label: "Cadence", value: "Annual" },
         ]}
       />
@@ -152,10 +152,11 @@ export default function PortfoliosPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                     data-cursor="view"
-                    data-cursor-label="OPEN ARCHIVE"
+                    data-cursor-label="OPEN LIVE"
+                    aria-label={`Open the ${p.year} portfolio (${p.codename}) in a new tab`}
                     className="inline-flex w-fit items-center gap-2 rounded-full border border-warmwhite/25 px-4 py-2 font-sans text-[10px] uppercase tracking-widest text-warmwhite transition-colors hover:border-peach hover:text-peach"
                   >
-                    ↗ Visit archive
+                    ↗ {new URL(p.href).host}
                   </a>
                 ) : (
                   <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">

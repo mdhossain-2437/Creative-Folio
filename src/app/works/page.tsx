@@ -64,7 +64,7 @@ export default function WorksPage() {
         italic="& Works."
         description="A curated collection of digital experiences, interactive installations, and experimental web architecture. Exploring the intersection of motion, depth, and editorial typography."
         meta={[
-          { label: "Years", value: "2020 — Now" },
+          { label: "Years", value: "2023 — Now" },
           { label: "Total", value: "32" },
           { label: "Awarded", value: "12" },
           { label: "Available", value: "Q3 ’26" },

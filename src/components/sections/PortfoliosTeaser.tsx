@@ -1,12 +1,19 @@
 // PortfoliosTeaser — home-page section that surfaces the year-by-year
 // archive of every portfolio edition Delowar Hossain has shipped. Shows
-// the four most-recent editions; "see all eight" CTA points to
-// `/portfolios`.
+// the four most-recent editions; "see all" CTA points to `/portfolios`.
 //
 // Why on the home page: this is one of the most-asked questions in the
 // inbox ("what did your 2024 portfolio look like?"). Surfacing the
 // archive at the top of the funnel removes a question and adds a
 // long-tail SEO target ("delowar hossain portfolio 2024", etc.).
+//
+// Each card is two layers:
+//   · the card itself links to the archive page (so screen-readers and
+//     keyboard users always have a clear primary action), and
+//   · when the edition has its own subdomain (2023/2024/.../2026, or
+//     delowarhossain.delowarhossain.dev for the current MMXXVII build)
+//     a small "↗ open live" pill in the corner opens that archive in a
+//     new tab.
 
 import Link from "next/link";
 import { portfolios } from "@/lib/data";
@@ -31,7 +38,10 @@ export function PortfoliosTeaser() {
               Every year a <span className="italic text-peach">new portfolio.</span>
             </h2>
             <p className="mt-4 max-w-prose font-sans text-sm leading-relaxed text-warmwhite/65 md:text-base">
-              The studio rebuilds its portfolio from scratch every year — a different codename, a different visual register, a different idea about what a portfolio should be. {portfolios.length} editions and counting.
+              The studio rebuilds its portfolio from scratch every year — a different codename,
+              a different visual register, a different idea about what a portfolio should be.
+              {" "}{portfolios.length} editions and counting, each one still live at its own
+              subdomain.
             </p>
           </div>
           <Link
@@ -47,12 +57,7 @@ export function PortfoliosTeaser() {
         <ol className="grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-2 lg:grid-cols-4">
           {featured.map((p, i) => (
             <Reveal key={p.year + p.codename} as="li" delay={i * 0.05}>
-              <Link
-                href="/portfolios"
-                data-cursor="view"
-                data-cursor-label="OPEN ARCHIVE"
-                className="group relative flex h-full flex-col gap-5 bg-ink-900 p-6 transition-colors hover:bg-ink-950 md:p-8"
-              >
+              <article className="group relative flex h-full flex-col gap-5 bg-ink-900 p-6 transition-colors hover:bg-ink-950 md:p-8">
                 <span
                   aria-hidden
                   className="pointer-events-none absolute right-4 top-3 font-serif text-[clamp(3rem,6vw,5rem)] leading-none tracking-tightest opacity-15 transition-opacity duration-500 group-hover:opacity-30"
@@ -76,10 +81,32 @@ export function PortfoliosTeaser() {
                 <p className="line-clamp-3 font-sans text-sm leading-relaxed text-warmwhite/65">
                   {p.description}
                 </p>
-                <span className="mt-auto font-sans text-[10px] uppercase tracking-widest text-warmwhite/45 transition-colors group-hover:text-peach">
-                  {p.status === "Current" ? "✦ You are here" : "↗ View archive"}
-                </span>
-              </Link>
+
+                {/* Primary action — opens that year's archive subdomain in a new tab when available. */}
+                <div className="mt-auto flex flex-wrap items-center gap-2">
+                  {p.href && (
+                    <a
+                      href={p.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-cursor="view"
+                      data-cursor-label="OPEN LIVE"
+                      aria-label={`Open the ${p.year} portfolio (${p.codename}) in a new tab`}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-warmwhite/25 px-3 py-1.5 font-sans text-[10px] uppercase tracking-widest text-warmwhite/85 transition-colors hover:border-peach hover:text-peach"
+                    >
+                      ↗ {new URL(p.href).host}
+                    </a>
+                  )}
+                  <Link
+                    href="/portfolios"
+                    data-cursor="view"
+                    data-cursor-label="ARCHIVE"
+                    className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45 transition-colors hover:text-peach"
+                  >
+                    {p.status === "Current" ? "✦ You are here" : "↗ View archive"}
+                  </Link>
+                </div>
+              </article>
             </Reveal>
           ))}
         </ol>

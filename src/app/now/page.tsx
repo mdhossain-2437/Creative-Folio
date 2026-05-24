@@ -36,7 +36,7 @@ export default async function NowPage() {
         description="A snapshot of what I&apos;m building, reading, and obsessing over right now. The page updates roughly once a month — if it&apos;s out of date, ⌘K and ping me."
         meta={[
           { label: "Updated", value: SEASON },
-          { label: "Booking", value: "Q2 ’27 → Q4 ’27" },
+          { label: "Booking", value: "Q1 ’27 → Q4 ’27" },
           { label: "Inbox", value: "Open" },
           { label: "Mood", value: "Patient · Curious" },
         ]}

@@ -106,7 +106,7 @@ export default function ServicesPage() {
         italic="& Engagements."
         description="Specialising in high-end digital experiences. Merging technical precision with editorial art direction to create award-winning interactive platforms."
         meta={[
-          { label: "Booking", value: "Q2 — Q4 / 2027" },
+          { label: "Booking", value: "Q1 — Q4 / 2027" },
           { label: "Models", value: "Project · Retainer" },
           { label: "Industries", value: "SaaS · AI · Studios" },
           { label: "Time zone", value: "GMT+6" },

@@ -6,7 +6,7 @@ import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
   title: "Contact — Start a Project",
-  description: "Inquiries, collaborations, retainers, and the occasional ‘just hi’. Open Q2 — Q4 / 2027.",
+  description: "Inquiries, collaborations, retainers, and the occasional ‘just hi’. Open Q1 — Q4 / 2027.",
 };
 
 export default function ContactPage() {
@@ -15,7 +15,7 @@ export default function ContactPage() {
       <PageSchema
         path="/contact"
         name="Contact — Start a Project"
-        description="Inquiries, collaborations, retainers, and the occasional 'just hi'. Open Q2 — Q4 / 2027."
+        description="Inquiries, collaborations, retainers, and the occasional 'just hi'. Open Q1 — Q4 / 2027."
         crumbs={[{ name: "Home", href: "/" }, { name: "Contact", href: "/contact" }]}
       />
       <PageHero
@@ -25,7 +25,7 @@ export default function ContactPage() {
         description="The fastest way is the form below — or write directly. I read everything and reply within 48 hours, weekdays."
         meta={[
           { label: "Email", value: site.email },
-          { label: "Booking", value: "Q2 — Q4 / 2027" },
+          { label: "Booking", value: "Q1 — Q4 / 2027" },
           { label: "Time zone", value: "GMT+6" },
           { label: "Location", value: site.location },
         ]}
@@ -41,17 +41,24 @@ export default function ContactPage() {
               href={`mailto:${site.email}`}
               data-cursor="hover"
               data-cursor-label="WRITE"
-              className="mt-6 block font-serif text-[clamp(2rem,5vw,4.5rem)] leading-[0.95] tracking-tightest text-warmwhite hover:text-peach"
+              className="mt-6 inline-flex max-w-full items-baseline gap-2 break-all font-serif text-[clamp(1.5rem,2.6vw,2.4rem)] leading-tight tracking-tight text-warmwhite transition-colors hover:text-peach"
             >
-              {site.email}
+              <span aria-hidden className="font-sans text-[10px] uppercase tracking-widest text-peach">
+                ↗
+              </span>
+              <span>{site.email}</span>
             </a>
+            <p className="mt-3 max-w-md font-sans text-sm leading-relaxed text-warmwhite/55">
+              Briefs, retainers, collaborations, or just a hello. Read every line, reply within
+              48 hours on weekdays.
+            </p>
 
             <dl className="mt-12 grid grid-cols-2 gap-y-8">
               <Item label="Location" value={site.base} />
               <Item label="Studio" value={site.studio} />
               <Item label="Hours" value="Mon — Fri · 09:00 → 18:00 GMT+6" />
               <Item label="Languages" value="English · Bangla" />
-              <Item label="Booking" value="Open · Q2 — Q4 / 2027" />
+              <Item label="Booking" value="Open · Q1 — Q4 / 2027" />
               <Item label="Reply time" value="≤ 48 hours, weekdays" />
             </dl>
 

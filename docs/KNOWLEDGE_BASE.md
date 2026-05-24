@@ -40,7 +40,7 @@ first before making changes. Companion documents:
 
 **Practice**
 
-- Self-taught creative developer since 2018.
+- Self-taught creative developer since 2023.
 - Aspiring Software Engineer formalising CS fundamentals at UoPeople.
 - Independent studio The Compiled Thought.
 - Works remotely with clients worldwide.

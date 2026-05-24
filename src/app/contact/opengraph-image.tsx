@@ -17,7 +17,7 @@ export default async function OG() {
     title: "Hello",
     titlePeriod: true,
     subtitle:
-      "Inquiries, collaborations, retainers. Open Q2 — Q4 / 2027. The studio replies within two business days.",
+      "Inquiries, collaborations, retainers. Open Q1 — Q4 / 2027. The studio replies within two business days.",
     path: "/contact",
   });
 }
