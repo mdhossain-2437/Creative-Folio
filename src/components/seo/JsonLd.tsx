@@ -255,7 +255,7 @@ const faqSchema = {
       acceptedAnswer: {
         "@type": "Answer",
         text:
-          "The Compiled Thought is the studio name Delowar Hossain has shipped portfolios and editorial work under since 2020. It produces creative-developer engagements, an annual portfolio edition, public lab experiments and a journal on craft, code, taste and sustaining practice.",
+          "The Compiled Thought is the studio name Delowar Hossain has shipped portfolios and editorial work under since 2023. It produces creative-developer engagements, an annual portfolio edition, public lab experiments and a journal on craft, code, taste and sustaining practice.",
       },
     },
     {

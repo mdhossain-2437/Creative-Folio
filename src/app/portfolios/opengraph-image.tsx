@@ -67,7 +67,7 @@ export default async function OG() {
               marginBottom: 24,
             }}
           >
-            {portfolios.length.toString().padStart(2, "0")} editions · {portfolios[portfolios.length - 1]?.year ?? "2020"} → {portfolios[0]?.year ?? "2027"}
+            {portfolios.length.toString().padStart(2, "0")} editions · {portfolios[portfolios.length - 1]?.year ?? "2023"} → {portfolios[0]?.year ?? "2027"}
           </span>
           <h1
             style={{
@@ -90,7 +90,7 @@ export default async function OG() {
               lineHeight: 1.3,
             }}
           >
-            Every annual portfolio edition Delowar Hossain has shipped — from the founding portfolio in 2020 to the current MMXXVII edition.
+            Every annual portfolio edition Delowar Hossain has shipped — from the first edition in 2023 to the current MMXXVII edition.
           </p>
         </div>
 

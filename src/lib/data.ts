@@ -754,14 +754,13 @@ export const archive = [
   { year: "2027", title: "Echo Atlas", category: "Spatial / WebXR", role: "Concept · WebGL" },
   { year: "2027", title: "Aura Void v2", category: "WebGL", role: "Creative Direction" },
   { year: "2027", title: "CrackIt 3.0", category: "Product / AI", role: "Product · Engineering" },
+  { year: "2026", title: "Studio Press", category: "Editorial", role: "Solo · End-to-end" },
   { year: "2025", title: "Terminal State", category: "Editorial", role: "Art Direction" },
   { year: "2025", title: "Monolith UI", category: "Design System", role: "Lead Engineer" },
   { year: "2025", title: "Kinetica", category: "Type / Motion", role: "Concept · Motion" },
   { year: "2024", title: "Void Engine", category: "WebGL · Audio", role: "WebGL Engineer" },
   { year: "2024", title: "DriveRent", category: "Product", role: "Engineering" },
-  { year: "2022", title: "Folio v1", category: "Personal", role: "Solo" },
-  { year: "2020", title: "The Compiled Thought", category: "Studio", role: "Founder" },
-  { year: "2017", title: "First Logo Commission", category: "Branding", role: "Solo" },
+  { year: "2023", title: "Quiet Office", category: "Personal", role: "Solo · First portfolio" },
 ];
 
 export type Experiment = {
@@ -1412,56 +1411,56 @@ export const journal: {
 
 export const journey: { range: string; title: string; summary: string }[] = [
   {
-    range: "2025 — Now",
+    range: "2026 — Now",
     title: "Creative Developer · The Compiled Thought",
     summary:
-      "Leading creative engineering on award-winning sites. Shipping immersive WebGL, AI-native interfaces, and editorial product systems for studios and Series-A startups.",
+      "Building award-tier creative engineering for the studio. Shipping immersive WebGL, scroll-driven editorial systems, and AI-native product surfaces.",
   },
   {
-    range: "2023 — 2025",
-    title: "Full-Stack & Frontend Engineer",
+    range: "2025 — 2026",
+    title: "Frontend & Motion Engineer",
     summary:
-      "Built scalable web platforms serving tens of thousands of users. React / Next.js / Node / cloud — with a strong design sensibility and a love of motion.",
+      "Went deep on GSAP, Lenis, and raw WebGL2. Built shader-driven heroes, scroll-pinned process timelines, and the first WebGL displacement transitions.",
   },
   {
-    range: "2020 — 2023",
-    title: "Self-Taught Engineer",
+    range: "2024 — 2025",
+    title: "Freelance React Developer",
     summary:
-      "Started the coding journey while finishing a B.A. in Political Science. Daily reps in the open-source ecosystem and the first GLSL deep-dive.",
+      "Picked up Next.js, Tailwind, and the App Router. Shipped client landing pages, the 2024.delowarhossain.dev rebuild, and first end-to-end Vercel deployments.",
   },
   {
-    range: "2017 — 2020",
-    title: "Independent Designer",
+    range: "2023 — 2024",
+    title: "First line of code",
     summary:
-      "Logo, branding, and editorial design for local businesses. Where the typographic obsession really started.",
+      "Started the programming journey at 17. Daily HTML + CSS reps, vanilla JS experiments, and the first deployed personal site at 2023.delowarhossain.dev.",
   },
 ];
 
 export const milestones: { year: string; title: string; body: string }[] = [
   {
-    year: "2017",
-    title: "First commission",
-    body: "Hand-lettered a logo for a Joypurhat café. Got paid in chai. Decided design was the move.",
-  },
-  {
-    year: "2020",
-    title: "Founded The Compiled Thought",
-    body: "A one-person studio for editorial-led digital work. First creative-development project shipped six months later.",
-  },
-  {
     year: "2023",
-    title: "First Site of the Day",
-    body: "Awwwards SOTD for a kinetic editorial site. Spent the next twelve months refusing every brief that wasn’t WebGL.",
+    title: "First line of code",
+    body: "Started the programming journey at 17. Daily HTML + CSS reps, vanilla JS experiments, and the first deployed personal site at 2023.delowarhossain.dev.",
+  },
+  {
+    year: "2024",
+    title: "First freelance brief",
+    body: "Picked up React, Tailwind, and the Next.js mental model. Shipped the 2024.delowarhossain.dev rebuild and the first client landing pages.",
   },
   {
     year: "2025",
-    title: "Studio scales to four",
-    body: "Brought on a motion designer, a 3D artist, and a producer. Shipped Terminal State and Monolith UI back-to-back.",
+    title: "WebGL + motion deep-dive",
+    body: "Went all-in on GSAP, Lenis, and raw WebGL2. Rebuilt the portfolio at 2025.delowarhossain.dev around shader-driven heroes and editorial typography.",
+  },
+  {
+    year: "2026",
+    title: "Studio voice locked in",
+    body: "Shipped the 2026.delowarhossain.dev edition — editorial-first, scroll-pinned process timelines, and the first WebGL displacement transitions.",
   },
   {
     year: "2027",
-    title: "Halcyon OS + Echo Atlas",
-    body: "Two ambitious products in active development. Aura Void v2 launches in Q3.",
+    title: "MMXXVII · Creative-Folio",
+    body: "Next.js 16 · React 19 · GSAP · Lenis · raw WebGL2. Open for Q1 ’27 → Q4 ’27. Two ambitious products in active development.",
   },
 ];
 
@@ -1471,7 +1470,7 @@ export const nowFeed: { tag: string; line: string }[] = [
   { tag: "READING", line: "‘Designing Sound’ — Andy Farnell" },
   { tag: "LISTENING", line: "Floating Points — Cascade" },
   { tag: "OBSESSING OVER", line: "the way Patrick Heng times his curtain wipes" },
-  { tag: "BOOKING", line: "Q2 ’27 → Q4 ’27 — two slots open" },
+  { tag: "BOOKING", line: "Q1 ’27 → Q4 ’27 — open for select briefs" },
 ];
 
 export const expertise = [
@@ -1490,9 +1489,9 @@ export const expertise = [
 ];
 
 export const stats = [
-  { label: "Selected Works", value: "42" },
-  { label: "Years Practicing", value: "09" },
-  { label: "Awards & Mentions", value: "18" },
+  { label: "Selected Works", value: "24" },
+  { label: "Years Coding", value: "05" },
+  { label: "Portfolios Shipped", value: "05" },
   { label: "Avg. Lighthouse", value: "98" },
 ];
 
@@ -1609,8 +1608,9 @@ export const portfolios: PortfolioEdition[] = [
     edition: "MMXXVII",
     codename: "The Compiled Thought",
     status: "Current",
+    href: "https://delowarhossain.delowarhossain.dev",
     description:
-      "Editorial newsroom architecture. WebGL hero, Lenis-smoothed scroll, GSAP-pinned process timeline, 30 live lab experiments. Built for sub-100ms interaction, AA contrast, and dual JSON-LD + AI-engine surfaces.",
+      "Editorial newsroom architecture. WebGL hero, Lenis-smoothed scroll, scroll-driven process timeline, 30 live lab experiments. Built for sub-100ms interaction, AA contrast, and dual JSON-LD + AI-engine surfaces.",
     accent: "#e3bfb4",
     highlights: ["Next.js 16 · React 19", "raw WebGL2 + GLSL", "30 lab demos", "365-day quote rotation"],
   },
@@ -1618,7 +1618,8 @@ export const portfolios: PortfolioEdition[] = [
     year: "2026",
     edition: "MMXXVI",
     codename: "Studio Press",
-    status: "Archived",
+    status: "Live",
+    href: "https://2026.delowarhossain.dev",
     description:
       "Single-page editorial micro-folio. Variable-font scroll, three case studies, an inline showreel. Pruned to the bare essentials between two larger systems.",
     accent: "#a3b8c4",
@@ -1628,7 +1629,8 @@ export const portfolios: PortfolioEdition[] = [
     year: "2025",
     edition: "MMXXV",
     codename: "Terminal State",
-    status: "Archived",
+    status: "Live",
+    href: "https://2025.delowarhossain.dev",
     description:
       "Monolith design-system showcase. Dark UI, dense data, terminal aesthetics. Built around a colour-token system, a custom kinetic cursor and an audio-reactive prelude.",
     accent: "#9ca3af",
@@ -1638,9 +1640,10 @@ export const portfolios: PortfolioEdition[] = [
     year: "2024",
     edition: "MMXXIV",
     codename: "Void Engine",
-    status: "Archived",
+    status: "Live",
+    href: "https://2024.delowarhossain.dev",
     description:
-      "Awwwards-jury experimental folio. Three.js heavy: GPU particles, post-processing chain, a custom shader-based page transition. Optimised for desktop showpiece browsing.",
+      "Experimental folio leaning hard on Three.js: GPU particles, post-processing chain, a custom shader-based page transition. Optimised for desktop showpiece browsing.",
     accent: "#6f6fff",
     highlights: ["Three.js + GPGPU", "Custom transitions", "Audio-reactive", "WebGL showcase"],
   },
@@ -1648,41 +1651,12 @@ export const portfolios: PortfolioEdition[] = [
     year: "2023",
     edition: "MMXXIII",
     codename: "Quiet Office",
-    status: "Archived",
+    status: "Live",
+    href: "https://2023.delowarhossain.dev",
     description:
-      "A studio-mode rebrand year. Editorial scaffolding, retypeset case studies, an explicit working-with section. Earned a Site Inspire feature and a Typewolf nod.",
+      "The first formal portfolio. Editorial scaffolding, hand-built scroll engine, three case studies, a long-form about page — written in the studio's voice from day one.",
     accent: "#f6cf76",
-    highlights: ["Editorial scaffolding", "Working-with sheet", "Site Inspire feature"],
-  },
-  {
-    year: "2022",
-    edition: "MMXXII",
-    codename: "Folio v1",
-    status: "Archived",
-    description:
-      "The first formal portfolio. Built on plain HTML + SCSS + a hand-rolled scroll engine. Three case studies, a long-form about page, no JavaScript framework at all.",
-    accent: "#7fb88c",
-    highlights: ["Vanilla JS", "Hand-rolled scroll", "Three case studies"],
-  },
-  {
-    year: "2021",
-    edition: "MMXXI",
-    codename: "Sketch & Ship",
-    status: "Archived",
-    description:
-      "A side-by-side dev journal. Daily sketches and the shippable code that emerged from each. Half public scrapbook, half evidence of practice.",
-    accent: "#d18bbf",
-    highlights: ["Daily logs", "Dev journal", "Public scrapbook"],
-  },
-  {
-    year: "2020",
-    edition: "MMXX",
-    codename: "The Founding",
-    status: "Archived",
-    description:
-      "The studio's founding portfolio. Three logo commissions, a Bangla newspaper redesign concept, and the first piece written under the studio's voice. The beginning of the practice.",
-    accent: "#b59a72",
-    highlights: ["Founding year", "First commissions", "Bangla redesign concept"],
+    highlights: ["Editorial scaffolding", "Hand-rolled scroll", "Three case studies", "First edition"],
   },
 ];
 

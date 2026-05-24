@@ -43,7 +43,7 @@ export default function ArchivePage() {
         description="An exhaustive index of every project, every year — from solo experiments and side studies to client engagements and collaborations."
         meta={[
           { label: "Total", value: all.length.toString() },
-          { label: "Period", value: "2020 — Now" },
+          { label: "Period", value: "2023 — Now" },
         ]}
       />
 

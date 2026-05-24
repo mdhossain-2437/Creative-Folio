@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { site } from "@/lib/site";
 import { SoundToggle } from "@/components/ui/SoundDesign";
 
-const PRIMARY = ["Index", "Works", "Lab", "About", "Resume", "Journal", "Services", "Portfolios", "Contact"];
+const PRIMARY = ["Index", "Works", "Lab", "About", "Resume", "Journal", "Services", "Contact"];
 
 export function Navbar() {
   const pathname = usePathname();
