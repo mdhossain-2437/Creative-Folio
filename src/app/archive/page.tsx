@@ -64,12 +64,13 @@ export default function ArchivePage() {
                       href={`/works/${a.slug}`}
                       data-cursor="view"
                       data-cursor-label="OPEN"
-                      className="grid grid-cols-1 items-baseline gap-1 py-5 transition-colors hover:bg-warmwhite/[0.03] md:grid-cols-12 md:gap-3 md:py-6"
+                      aria-label={`Open case study: ${a.title} — ${a.category}, ${a.year}`}
+                      className="grid grid-cols-1 items-baseline gap-1 px-3 py-5 transition-colors hover:bg-warmwhite/[0.03] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-peach md:grid-cols-12 md:gap-3 md:py-6"
                     >
                       <Row {...a} />
                     </Link>
                   ) : (
-                    <div className="grid grid-cols-1 items-baseline gap-1 py-5 md:grid-cols-12 md:gap-3 md:py-6">
+                    <div className="grid grid-cols-1 items-baseline gap-1 px-3 py-5 md:grid-cols-12 md:gap-3 md:py-6">
                       <Row {...a} />
                     </div>
                   )}

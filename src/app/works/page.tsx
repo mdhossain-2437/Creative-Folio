@@ -67,7 +67,7 @@ export default function WorksPage() {
           { label: "Years", value: "2023 — Now" },
           { label: "Total", value: "32" },
           { label: "Awarded", value: "12" },
-          { label: "Available", value: "Q3 ’26" },
+          { label: "Available", value: "Q1 ’27" },
         ]}
       />
 
@@ -88,7 +88,8 @@ export default function WorksPage() {
                     href={`/works/${w.slug}`}
                     data-cursor="view"
                     data-cursor-label="OPEN CASE"
-                    className="group flex h-full flex-col"
+                    aria-label={`Open case study: ${w.title} — ${w.category}, ${w.year}`}
+                    className="group flex h-full flex-col rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-peach"
                   >
                     <SpotlightTile accent={w.accent}>
                       <div className="spotlight-tile-img absolute inset-0 will-change-transform">
@@ -151,9 +152,11 @@ export default function WorksPage() {
             </h2>
             <Link
               href="/archive"
-              className="font-sans text-[11px] uppercase tracking-widest text-warmwhite/70 hover:text-warmwhite"
+              data-cursor="hover"
+              data-cursor-label="ARCHIVE"
+              className="inline-flex items-baseline gap-2 rounded-full border border-warmwhite/15 px-4 py-2 font-sans text-[10px] uppercase tracking-widest text-warmwhite/85 transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
             >
-              Full Archive →
+              Full Archive <span aria-hidden>↗</span>
             </Link>
           </header>
           <ul className="mt-10 divide-y divide-warmwhite/15 border-y border-warmwhite/15">

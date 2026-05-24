@@ -55,9 +55,9 @@ export function Capabilities() {
             href="/services"
             data-cursor="hover"
             data-cursor-label="SERVICES"
-            className="font-sans text-[11px] uppercase tracking-widest text-warmwhite hover:text-peach"
+            className="inline-flex items-center gap-2 rounded-full border border-warmwhite/15 px-4 py-2 font-sans text-[10px] uppercase tracking-widest text-warmwhite/85 transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
           >
-            View Services →
+            View Services <span aria-hidden>↗</span>
           </Link>
         </div>
       </div>

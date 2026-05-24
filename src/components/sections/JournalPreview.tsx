@@ -19,9 +19,9 @@ export function JournalPreview() {
             href="/journal"
             data-cursor="hover"
             data-cursor-label="ALL POSTS"
-            className="hidden font-sans text-[11px] uppercase tracking-widest text-warmwhite/70 hover:text-warmwhite md:inline-flex"
+            className="hidden items-baseline gap-2 rounded-full border border-warmwhite/15 px-4 py-2 font-sans text-[10px] uppercase tracking-widest text-warmwhite/85 transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach md:inline-flex"
           >
-            All Posts →
+            All Posts <span aria-hidden>↗</span>
           </Link>
         </header>
 
@@ -33,12 +33,13 @@ export function JournalPreview() {
                   href={`/journal/${p.slug}`}
                   data-cursor="view"
                   data-cursor-label="READ"
-                  className="grid grid-cols-1 items-baseline gap-3 py-7 transition-colors hover:bg-warmwhite/[0.02] md:grid-cols-12 md:gap-6"
+                  aria-label={`Read: ${p.title} — ${p.category}, ${p.readingTime}, ${p.date}`}
+                  className="group grid grid-cols-1 items-baseline gap-3 px-3 py-7 transition-colors hover:bg-warmwhite/[0.03] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-peach md:grid-cols-12 md:gap-6"
                 >
                   <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65 md:col-span-2">
                     {p.date}
                   </span>
-                  <span className="font-serif text-2xl leading-tight tracking-tighter md:col-span-7 md:text-3xl">
+                  <span className="font-serif text-2xl leading-tight tracking-tighter text-warmwhite transition-colors duration-300 group-hover:text-peach md:col-span-7 md:text-3xl">
                     {p.title}
                   </span>
                   <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65 md:col-span-2">

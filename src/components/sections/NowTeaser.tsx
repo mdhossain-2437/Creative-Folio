@@ -23,9 +23,9 @@ export function NowTeaser() {
               href="/now"
               data-cursor="hover"
               data-cursor-label="OPEN"
-              className="mt-8 inline-flex items-center gap-2 rounded-full border border-warmwhite/30 px-5 py-2.5 font-sans text-[11px] uppercase tracking-widest hover:border-warmwhite"
+              className="mt-8 inline-flex items-center gap-2 rounded-full border border-warmwhite/30 px-5 py-2.5 font-sans text-[11px] uppercase tracking-widest text-warmwhite transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
             >
-              Open /now ↗
+              Open /now <span aria-hidden>↗</span>
             </Link>
           </div>
           <ul className="md:col-span-8 grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/15 sm:grid-cols-2">

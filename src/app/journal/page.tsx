@@ -60,12 +60,13 @@ export default function JournalPage() {
                     href={`/journal/${p.slug}`}
                     data-cursor="view"
                     data-cursor-label="READ"
-                    className="grid grid-cols-1 items-baseline gap-2 py-6 transition-colors hover:bg-warmwhite/[0.02] md:grid-cols-12 md:gap-3 md:py-8"
+                    aria-label={`Read: ${p.title} — ${p.category}, ${p.readingTime}, ${p.date}`}
+                    className="group grid grid-cols-1 items-baseline gap-2 px-3 py-6 transition-colors hover:bg-warmwhite/[0.03] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-peach md:grid-cols-12 md:gap-3 md:py-8"
                   >
                     <span className="font-mono text-[11px] uppercase tracking-widest text-warmwhite/65 md:col-span-2">
                       {p.date}
                     </span>
-                    <span className="font-serif text-2xl leading-tight tracking-tighter md:col-span-7 md:text-3xl">
+                    <span className="font-serif text-2xl leading-tight tracking-tighter text-warmwhite transition-colors duration-300 group-hover:text-peach md:col-span-7 md:text-3xl">
                       {p.title}
                     </span>
                     <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65 md:col-span-2">
