@@ -19,6 +19,13 @@
 //   · Expanded (hover/focus-within): glides out to the right, revealing
 //     full uppercase tracked labels. Background opacity steps up.
 //
+// Hero gate:
+//   The rail stays **fully hidden while the hero is in view** — the
+//   landing screen is meant to feel immersive, not navigational.
+//   It fades in once the user has scrolled at least ~70% of the
+//   first viewport (i.e., they've committed to reading further) and
+//   fades out again if they scroll back to the top.
+//
 // Layout (tablet, md–lg):
 //   · Bottom-pinned compact center pill with active label + scroll %.
 //   · Sits centered so it never collides with ShowreelPill (bottom-left)
@@ -49,6 +56,7 @@ export function SectionRail({ items }: { items: Item[] }) {
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false); // mobile bottom-pill expanded
   const [expanded, setExpanded] = useState(false); // desktop hover/focus
+  const [pastHero, setPastHero] = useState(false); // gate: hide while hero in view
 
   // Defer the portal until after first paint — document.body needs to
   // exist and we want SSR markup to stay empty for clean hydration.
@@ -92,9 +100,11 @@ export function SectionRail({ items }: { items: Item[] }) {
     return () => io.disconnect();
   }, [items]);
 
-  // Total page scroll progress (0..1). Drives the peach playhead and the
-  // mobile progress bar. Uses passive scroll + rAF throttle so it never
-  // blocks the main thread.
+  // Total page scroll progress (0..1) + hero-gate. The pastHero flag
+  // flips true once the user has scrolled ≥70% of the first viewport;
+  // a small hysteresis (drops back to false only below 50%) prevents
+  // jitter at the boundary. Uses passive scroll + rAF throttle so it
+  // never blocks the main thread.
   useEffect(() => {
     if (typeof window === "undefined") return;
     let ticking = false;
@@ -102,6 +112,12 @@ export function SectionRail({ items }: { items: Item[] }) {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const p = max > 0 ? window.scrollY / max : 0;
       setProgress(Math.max(0, Math.min(1, p)));
+      const y = window.scrollY;
+      const vh = window.innerHeight;
+      setPastHero((prev) => {
+        if (!prev) return y > vh * 0.7;
+        return y > vh * 0.5;
+      });
       ticking = false;
     };
     const onScroll = () => {
@@ -145,7 +161,12 @@ export function SectionRail({ items }: { items: Item[] }) {
           setExpanded(false);
         }
       }}
-      className="floating-overlay pointer-events-auto fixed left-3 top-1/2 z-[45] hidden -translate-y-1/2 lg:block"
+      aria-hidden={!pastHero}
+      className={`floating-overlay fixed left-3 top-1/2 z-[45] hidden -translate-y-1/2 transition-[opacity,transform] duration-500 ease-out lg:block ${
+        pastHero
+          ? "pointer-events-auto opacity-100 -translate-x-0"
+          : "pointer-events-none -translate-x-3 opacity-0"
+      }`}
     >
       <div
         className={`relative flex flex-col gap-3 rounded-2xl border border-warmwhite/10 backdrop-blur-md transition-[background-color,border-color,padding,box-shadow] duration-300 ease-out ${
@@ -270,7 +291,12 @@ export function SectionRail({ items }: { items: Item[] }) {
   const mobile = (
     <div
       data-floating-overlay
-      className="floating-overlay pointer-events-auto fixed bottom-3 z-[45] inset-x-4 md:inset-x-auto md:left-1/2 md:w-auto md:max-w-md md:-translate-x-1/2 lg:hidden"
+      aria-hidden={!pastHero}
+      className={`floating-overlay fixed bottom-3 z-[45] inset-x-4 transition-[opacity,transform] duration-500 ease-out md:inset-x-auto md:left-1/2 md:w-auto md:max-w-md md:-translate-x-1/2 lg:hidden ${
+        pastHero
+          ? "pointer-events-auto translate-y-0 opacity-100"
+          : "pointer-events-none translate-y-3 opacity-0"
+      }`}
     >
       {/* Collapsed pill */}
       {!open && (
