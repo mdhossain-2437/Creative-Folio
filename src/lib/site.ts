@@ -32,8 +32,10 @@ export const site = {
   portrait: "/profile.png",
   socials: [
     { label: "GITHUB", href: "https://github.com/mdhossain-2437" },
-    { label: "TWITTER", href: "https://twitter.com/mdhossain2437" },
     { label: "LINKEDIN", href: "https://www.linkedin.com/in/mdhossain2437" },
+    { label: "TWITTER", href: "https://twitter.com/mdhossain2437" },
+    { label: "INSTAGRAM", href: "https://www.instagram.com/mdhossain2437" },
+    { label: "FACEBOOK", href: "https://www.facebook.com/mdhossain2437" },
     { label: "READ.CV", href: "https://read.cv/delowar" },
   ],
   // Educational background — surfaces in JSON-LD Person.alumniOf and on
