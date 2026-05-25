@@ -5,15 +5,29 @@
 // typography system (serif headlines, micro-uppercase labels, peach
 // accent) rather than reading as generic tech-UI dots.
 //
-// Layout:
-//   · A vertical column wrapped in a soft floating panel.
-//   · At the top: a serif §0X / N display showing the active chapter.
-//   · A column of section labels with subtle hairlines between, all
-//     uppercase 10px tracked.
-//   · A peach hairline "playhead" that grows down the rail in lockstep
-//     with the active index, reinforcing scroll progress.
-//   · On mobile (< md) the rail becomes a slim bottom-anchored pill with
-//     just the active label + progress bar so it never crowds the page.
+// Compact philosophy:
+//   The rail is intentionally **slim and translucent** by default — it's
+//   a quiet wayfinder, not a sidebar. Only the active chapter index +
+//   tick marks are shown at rest. The full label list is revealed on
+//   hover / focus / mobile-tap, so the underlying page text is never
+//   permanently covered.
+//
+// Layout (desktop, lg+):
+//   · Collapsed (default): ~52px wide pill — serif §0X / N display +
+//     vertical column of tiny ticks (one per section). Active tick is
+//     a thicker peach segment.
+//   · Expanded (hover/focus-within): glides out to the right, revealing
+//     full uppercase tracked labels. Background opacity steps up.
+//
+// Layout (tablet, md–lg):
+//   · Bottom-pinned compact center pill with active label + scroll %.
+//   · Sits centered so it never collides with ShowreelPill (bottom-left)
+//     or AtmosphereMode (bottom-right).
+//
+// Layout (< md / phone):
+//   · Same bottom-pinned pill but spans the full width minus margin
+//     (since corner pills aren't shown on phone).
+//   · Tap anywhere expands into a 2-col jump sheet.
 //
 // Robust pinning:
 //   The rail is portaled to <body> so the RouteCurtain's `filter: blur`
@@ -22,8 +36,7 @@
 // Sync:
 //   IntersectionObserver tracks every [data-section-id] section on the
 //   page. The most-visible section (by ratio, midline-anchored) becomes
-//   active. A small scroll-fallback handles the edge case where the user
-//   sits between sections (e.g. the bottom of the page).
+//   active.
 
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
@@ -35,6 +48,7 @@ export function SectionRail({ items }: { items: Item[] }) {
   const [progress, setProgress] = useState(0); // 0..1 — total page scroll
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false); // mobile bottom-pill expanded
+  const [expanded, setExpanded] = useState(false); // desktop hover/focus
 
   // Defer the portal until after first paint — document.body needs to
   // exist and we want SSR markup to stay empty for clean hydration.
@@ -112,36 +126,64 @@ export function SectionRail({ items }: { items: Item[] }) {
     const el = document.querySelector<HTMLElement>(`[data-section-id="${id}"]`);
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
     setOpen(false);
+    setExpanded(false);
   };
 
   // ─────────────────────────────────────────────────────────────────
-  // Desktop rail — editorial vertical sidebar
+  // Desktop rail — compact collapsed pill, expands on hover/focus
   // ─────────────────────────────────────────────────────────────────
   const desktop = (
     <nav
       data-floating-overlay
       aria-label="Page sections"
-      className="floating-overlay pointer-events-auto fixed left-4 top-1/2 z-[45] hidden -translate-y-1/2 lg:block"
+      onMouseEnter={() => setExpanded(true)}
+      onMouseLeave={() => setExpanded(false)}
+      onFocusCapture={() => setExpanded(true)}
+      onBlurCapture={(e) => {
+        // Collapse only if focus leaves the rail entirely
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+          setExpanded(false);
+        }
+      }}
+      className="floating-overlay pointer-events-auto fixed left-3 top-1/2 z-[45] hidden -translate-y-1/2 lg:block"
     >
-      <div className="relative flex flex-col gap-5 rounded-[28px] border border-warmwhite/12 bg-ink-950/70 px-5 py-6 shadow-[0_18px_50px_-22px_rgba(0,0,0,0.7)] backdrop-blur-xl">
+      <div
+        className={`relative flex flex-col gap-3 rounded-2xl border border-warmwhite/10 backdrop-blur-md transition-[background-color,border-color,padding,box-shadow] duration-300 ease-out ${
+          expanded
+            ? "border-warmwhite/15 bg-ink-950/80 px-4 py-4 shadow-[0_18px_50px_-22px_rgba(0,0,0,0.7)]"
+            : "bg-ink-950/35 px-2.5 py-3.5 hover:bg-ink-950/55"
+        }`}
+      >
         {/* Header — section index + total */}
-        <header className="flex items-baseline gap-2 border-b border-warmwhite/12 pb-4">
-          <span className="display-num font-serif text-3xl leading-none tracking-tightest text-peach">
+        <header
+          className={`flex items-baseline gap-1.5 transition-[border-color,padding-bottom] duration-300 ${
+            expanded ? "border-b border-warmwhite/12 pb-3" : "border-b border-transparent pb-1"
+          }`}
+        >
+          <span
+            className={`display-num font-serif leading-none tracking-tightest text-peach transition-[font-size] duration-300 ${
+              expanded ? "text-2xl" : "text-lg"
+            }`}
+          >
             §{String(activeIdx + 1).padStart(2, "0")}
           </span>
-          <span className="display-num font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
-            / {String(items.length).padStart(2, "0")}
+          <span
+            className={`display-num font-sans uppercase tracking-widest text-warmwhite/50 transition-opacity duration-200 ${
+              expanded ? "text-[9px] opacity-100" : "text-[8px] opacity-70"
+            }`}
+          >
+            /{String(items.length).padStart(2, "0")}
           </span>
         </header>
 
         {/* Rail body — playhead + list */}
-        <div className="relative pl-4">
+        <div className="relative pl-3">
           {/* Vertical rule */}
           <span
             aria-hidden
-            className="absolute left-0 top-0 h-full w-px bg-warmwhite/15"
+            className="absolute left-0 top-0 h-full w-px bg-warmwhite/12"
           />
-          {/* Peach playhead — scales with active index for crisp progress */}
+          {/* Peach playhead — scales with active index */}
           <span
             aria-hidden
             className="absolute left-0 top-0 w-px origin-top bg-peach transition-transform duration-700 ease-out"
@@ -153,7 +195,7 @@ export function SectionRail({ items }: { items: Item[] }) {
             }}
           />
 
-          <ul className="flex flex-col gap-3">
+          <ul className={`flex flex-col ${expanded ? "gap-2.5" : "gap-1.5"} transition-[gap] duration-300`}>
             {items.map((it, i) => {
               const isActive = it.id === active;
               const isPast = i < activeIdx;
@@ -166,26 +208,31 @@ export function SectionRail({ items }: { items: Item[] }) {
                     aria-current={isActive ? "true" : undefined}
                     data-cursor="hover"
                     data-cursor-label="JUMP"
-                    className={`group flex w-full items-center gap-3 rounded-md py-1 text-left transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach ${
+                    className={`group flex w-full items-center gap-2.5 rounded-md py-0.5 text-left transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach ${
                       isActive
                         ? "text-warmwhite"
                         : isPast
-                          ? "text-warmwhite/40 hover:text-warmwhite/80"
+                          ? "text-warmwhite/35 hover:text-warmwhite/80"
                           : "text-warmwhite/55 hover:text-warmwhite/85"
                     }`}
                   >
-                    {/* Index */}
+                    {/* Tick (always visible) */}
                     <span
-                      className={`display-num shrink-0 font-sans text-[9px] uppercase tracking-widest transition-colors ${
-                        isActive ? "text-peach" : "text-warmwhite/35 group-hover:text-warmwhite/60"
+                      aria-hidden
+                      className={`block h-px shrink-0 transition-all duration-300 ${
+                        isActive
+                          ? "w-3 bg-peach"
+                          : isPast
+                            ? "w-2 bg-warmwhite/35"
+                            : "w-2 bg-warmwhite/20"
                       }`}
-                    >
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    {/* Label */}
+                    />
+                    {/* Label (only when expanded) */}
                     <span
-                      className={`font-sans text-[10px] uppercase leading-none tracking-[0.18em] transition-all duration-300 ${
-                        isActive ? "translate-x-0" : "group-hover:translate-x-0.5"
+                      className={`overflow-hidden whitespace-nowrap font-sans uppercase leading-none tracking-[0.18em] transition-[max-width,opacity,padding-left] duration-300 ${
+                        expanded
+                          ? "max-w-[10rem] pl-0.5 text-[10px] opacity-100"
+                          : "max-w-0 text-[10px] opacity-0"
                       }`}
                     >
                       {it.label}
@@ -197,8 +244,14 @@ export function SectionRail({ items }: { items: Item[] }) {
           </ul>
         </div>
 
-        {/* Footer — overall page progress */}
-        <footer className="flex items-center gap-2 border-t border-warmwhite/12 pt-3 font-sans text-[9px] uppercase tracking-widest text-warmwhite/45">
+        {/* Footer — overall page progress (only visible when expanded) */}
+        <footer
+          className={`flex items-center gap-2 border-t font-sans uppercase tracking-widest text-warmwhite/45 transition-[max-height,opacity,padding-top,border-color] duration-300 ${
+            expanded
+              ? "max-h-12 border-warmwhite/12 pt-3 text-[9px] opacity-100"
+              : "max-h-0 overflow-hidden border-transparent pt-0 text-[9px] opacity-0"
+          }`}
+        >
           <span aria-hidden className="block h-px flex-1 bg-warmwhite/15">
             <span
               className="block h-full bg-peach transition-[width] duration-300 ease-out"
@@ -217,7 +270,7 @@ export function SectionRail({ items }: { items: Item[] }) {
   const mobile = (
     <div
       data-floating-overlay
-      className="floating-overlay pointer-events-auto fixed inset-x-3 bottom-3 z-[45] lg:hidden"
+      className="floating-overlay pointer-events-auto fixed bottom-3 z-[45] inset-x-4 md:inset-x-auto md:left-1/2 md:w-auto md:max-w-md md:-translate-x-1/2 lg:hidden"
     >
       {/* Collapsed pill */}
       {!open && (
@@ -226,25 +279,25 @@ export function SectionRail({ items }: { items: Item[] }) {
           onClick={() => setOpen(true)}
           aria-label="Open section navigation"
           aria-expanded={open}
-          className="group flex w-full items-center gap-3 rounded-full border border-warmwhite/15 bg-ink-950/85 px-4 py-2.5 text-left shadow-[0_18px_44px_-22px_rgba(0,0,0,0.7)] backdrop-blur-xl"
+          className="group flex w-full items-center gap-2.5 rounded-full border border-warmwhite/12 bg-ink-950/65 px-3.5 py-2 text-left shadow-[0_14px_36px_-20px_rgba(0,0,0,0.6)] backdrop-blur-md transition-colors hover:border-warmwhite/20 hover:bg-ink-950/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
         >
-          <span className="display-num font-sans text-[10px] uppercase tracking-widest text-peach">
+          <span className="display-num font-sans text-[9px] uppercase tracking-widest text-peach">
             §{String(activeIdx + 1).padStart(2, "0")}
           </span>
-          <span className="font-sans text-[11px] uppercase tracking-widest text-warmwhite">
+          <span className="truncate font-sans text-[10px] uppercase tracking-widest text-warmwhite">
             {items[activeIdx]?.label}
           </span>
           <span className="ml-auto flex items-center gap-2">
-            <span aria-hidden className="block h-1 w-12 overflow-hidden rounded-full bg-warmwhite/15">
+            <span aria-hidden className="block h-1 w-10 overflow-hidden rounded-full bg-warmwhite/15">
               <span
                 className="block h-full bg-peach transition-[width] duration-300 ease-out"
                 style={{ width: `${(progress * 100).toFixed(1)}%` }}
               />
             </span>
-            <span className="display-num font-sans text-[10px] text-warmwhite/55">
+            <span className="display-num font-sans text-[9px] text-warmwhite/55">
               {Math.round(progress * 100)}%
             </span>
-            <span aria-hidden className="font-sans text-[14px] leading-none text-warmwhite/55">
+            <span aria-hidden className="font-sans text-[11px] leading-none text-warmwhite/55">
               ▴
             </span>
           </span>
@@ -257,9 +310,9 @@ export function SectionRail({ items }: { items: Item[] }) {
           role="dialog"
           aria-modal="false"
           aria-label="Section navigation"
-          className="rounded-2xl border border-warmwhite/15 bg-ink-950/95 p-4 shadow-[0_24px_60px_-28px_rgba(0,0,0,0.7)] backdrop-blur-xl"
+          className="rounded-2xl border border-warmwhite/15 bg-ink-950/95 p-3 shadow-[0_24px_60px_-28px_rgba(0,0,0,0.7)] backdrop-blur-xl"
         >
-          <div className="mb-3 flex items-center justify-between">
+          <div className="mb-2 flex items-center justify-between">
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
               ◊ Jump to section
             </p>
@@ -267,7 +320,7 @@ export function SectionRail({ items }: { items: Item[] }) {
               type="button"
               onClick={() => setOpen(false)}
               aria-label="Close section navigation"
-              className="rounded-full border border-warmwhite/15 px-2 py-0.5 font-sans text-[10px] uppercase tracking-widest text-warmwhite/70 transition-colors hover:border-peach hover:text-peach"
+              className="rounded-full border border-warmwhite/15 px-2 py-0.5 font-sans text-[10px] uppercase tracking-widest text-warmwhite/70 transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
             >
               Close
             </button>
@@ -281,7 +334,7 @@ export function SectionRail({ items }: { items: Item[] }) {
                     type="button"
                     onClick={() => jump(it.id)}
                     aria-current={isActive ? "true" : undefined}
-                    className={`flex w-full items-baseline gap-2 rounded-md px-3 py-2 text-left transition-colors ${
+                    className={`flex w-full items-baseline gap-2 rounded-md px-3 py-2 text-left transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach ${
                       isActive
                         ? "bg-peach/15 text-warmwhite"
                         : "text-warmwhite/75 hover:bg-warmwhite/5"
@@ -294,7 +347,7 @@ export function SectionRail({ items }: { items: Item[] }) {
                     >
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="font-sans text-[11px] uppercase tracking-widest">
+                    <span className="font-sans text-[10px] uppercase tracking-widest">
                       {it.label}
                     </span>
                   </button>
