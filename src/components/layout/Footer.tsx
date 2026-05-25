@@ -78,7 +78,7 @@ export function Footer({ commitSha, buildTime }: FooterProps = {}) {
                 href="/contact"
                 data-cursor="hover"
                 data-cursor-label="WRITE"
-                className="inline-flex max-w-full items-center gap-3 break-all rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-warmwhite transition-colors hover:border-warmwhite hover:bg-warmwhite hover:text-ink-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
+                className="inline-flex max-w-full items-center gap-3 break-words rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-warmwhite transition-colors hover:border-warmwhite hover:bg-warmwhite hover:text-ink-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
               >
                 {site.email}
                 <span aria-hidden>↗</span>

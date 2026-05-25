@@ -85,7 +85,7 @@ export function StatusStrip() {
             <span className="display-num">{time}</span>
           </span>
           <span aria-hidden className="text-warmwhite/30">·</span>
-          <span className="display-num">21°C</span>
+          <span className="display-num text-warmwhite/65">Joypurhat · BD</span>
           <span aria-hidden className="text-warmwhite/30">·</span>
           <span className="display-num text-peach">
             {stars !== null ? String(stars).padStart(3, "0") : "···"} GH

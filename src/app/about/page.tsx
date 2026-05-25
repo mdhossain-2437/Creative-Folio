@@ -68,10 +68,9 @@ export default function AboutPage() {
         italic="Hossain."
         description="Bridging brutalist editorial design and fluid, high-performance creative development. I build digital experiences that feel physical."
         meta={[
-          { label: "Base", value: site.base },
+          { label: "Base", value: site.location },
           { label: "Studio", value: site.studio },
-          { label: "Education", value: "B.Sc. CS · UoPeople (in progress)" },
-          { label: "Background", value: "B.A. Political Science" },
+          { label: "Reading", value: "B.Sc. CS · UoPeople" },
           { label: "Practice", value: "Aspiring Software Engineer" },
         ]}
       >
