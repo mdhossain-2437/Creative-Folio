@@ -93,6 +93,18 @@ export function StatusStrip() {
           <span aria-hidden className="text-warmwhite/30">·</span>
           <span className="display-num text-warmwhite/65">{site.editionShort}</span>
           <span aria-hidden className="text-warmwhite/30">·</span>
+          <a
+            href="https://www.uopeople.edu/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="University of the People — B.Sc. Computer Science (in progress)"
+            data-cursor="hover"
+            data-cursor-label="UoPeople"
+            className="display-num text-warmwhite/65 underline-offset-4 transition-colors hover:text-peach hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
+          >
+            B.Sc. CS · UoPeople
+          </a>
+          <span aria-hidden className="text-warmwhite/30">·</span>
           <span
             className="display-num text-warmwhite/85"
             title="Time until MMXXVII (2027-01-01, Asia/Dhaka)"
