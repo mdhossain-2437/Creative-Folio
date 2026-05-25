@@ -4,6 +4,16 @@ import { Reveal } from "@/components/ui/Reveal";
 import { journey, expertise, awards, arsenal } from "@/lib/data";
 import { site } from "@/lib/site";
 import { PageSchema } from "@/components/seo/PageSchema";
+import { ResumeToc } from "@/components/resume/ResumeToc";
+
+const TOC_ITEMS = [
+  { id: "profile", label: "Profile" },
+  { id: "experience", label: "Experience" },
+  { id: "awards", label: "Awards" },
+  { id: "tools", label: "Tools" },
+  { id: "education", label: "Education" },
+  { id: "disciplines", label: "Disciplines" },
+];
 
 export const metadata: Metadata = {
   title: "Resume",
@@ -61,14 +71,7 @@ export default function ResumePage() {
       <section className="bg-ink-900 py-24 md:py-32">
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-12 px-6 md:grid-cols-12 md:px-10">
           <aside className="md:col-span-3">
-            <div className="sticky top-24 space-y-10">
-              <Section label="Profile" />
-              <Section label="Experience" />
-              <Section label="Awards" />
-              <Section label="Tools" />
-              <Section label="Education" />
-              <Section label="Languages" />
-            </div>
+            <ResumeToc items={TOC_ITEMS} />
           </aside>
 
           <div className="md:col-span-9">
@@ -164,17 +167,6 @@ export default function ResumePage() {
         </div>
       </section>
     </>
-  );
-}
-
-function Section({ label }: { label: string }) {
-  return (
-    <a
-      href={`#${label.toLowerCase()}`}
-      className="block rounded-sm border-l border-warmwhite/15 pl-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65 transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
-    >
-      ◌ {label}
-    </a>
   );
 }
 
