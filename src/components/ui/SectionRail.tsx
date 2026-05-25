@@ -13,11 +13,13 @@
 //   permanently covered.
 //
 // Layout (desktop, lg+):
-//   · Collapsed (default): ~52px wide pill — serif §0X / N display +
-//     vertical column of tiny ticks (one per section). Active tick is
-//     a thicker peach segment.
+//   · Collapsed (default): ~36px wide pill — nothing but the vertical
+//     column of tiny ticks (one per section). Active tick is a thicker
+//     peach segment. No numbers, no labels — keeps the column slim and
+//     out of the way of the underlying typography.
 //   · Expanded (hover/focus-within): glides out to the right, revealing
-//     full uppercase tracked labels. Background opacity steps up.
+//     the section index + full uppercase tracked labels. Background
+//     opacity steps up.
 //
 // Hero gate:
 //   The rail stays **fully hidden while the hero is in view** — the
@@ -172,33 +174,28 @@ export function SectionRail({ items }: { items: Item[] }) {
         className={`relative flex flex-col gap-3 rounded-2xl border border-warmwhite/10 backdrop-blur-md transition-[background-color,border-color,padding,box-shadow] duration-300 ease-out ${
           expanded
             ? "border-warmwhite/15 bg-ink-950/80 px-4 py-4 shadow-[0_18px_50px_-22px_rgba(0,0,0,0.7)]"
-            : "bg-ink-950/35 px-2.5 py-3.5 hover:bg-ink-950/55"
+            : "bg-ink-950/30 px-1.5 py-3 hover:bg-ink-950/55"
         }`}
       >
-        {/* Header — section index + total */}
+        {/* Header — only visible when expanded so the collapsed pill stays
+            slim. Contains the active section index + the total. */}
         <header
-          className={`flex items-baseline gap-1.5 transition-[border-color,padding-bottom] duration-300 ${
-            expanded ? "border-b border-warmwhite/12 pb-3" : "border-b border-transparent pb-1"
+          className={`flex items-baseline gap-1.5 overflow-hidden transition-[max-height,opacity,border-color,padding-bottom] duration-300 ${
+            expanded
+              ? "max-h-10 border-b border-warmwhite/12 pb-3 opacity-100"
+              : "max-h-0 border-b border-transparent pb-0 opacity-0"
           }`}
         >
-          <span
-            className={`display-num font-serif leading-none tracking-tightest text-peach transition-[font-size] duration-300 ${
-              expanded ? "text-2xl" : "text-lg"
-            }`}
-          >
+          <span className="display-num font-serif text-2xl leading-none tracking-tightest text-peach">
             §{String(activeIdx + 1).padStart(2, "0")}
           </span>
-          <span
-            className={`display-num font-sans uppercase tracking-widest text-warmwhite/50 transition-opacity duration-200 ${
-              expanded ? "text-[9px] opacity-100" : "text-[8px] opacity-70"
-            }`}
-          >
+          <span className="display-num font-sans text-[9px] uppercase tracking-widest text-warmwhite/50">
             /{String(items.length).padStart(2, "0")}
           </span>
         </header>
 
         {/* Rail body — playhead + list */}
-        <div className="relative pl-3">
+        <div className={`relative transition-[padding-left] duration-300 ${expanded ? "pl-3" : "pl-2"}`}>
           {/* Vertical rule */}
           <span
             aria-hidden
