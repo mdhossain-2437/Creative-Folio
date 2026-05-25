@@ -42,8 +42,8 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-10">
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+    <form onSubmit={onSubmit} className="space-y-8">
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
         <Field label="Your name" name="name" placeholder="Delowar Hossain" required />
         <Field label="Email address" name="email" type="email" placeholder="hello@studio.com" required />
         <Field label="Company / Studio" name="company" placeholder="The Compiled Thought" />
@@ -63,10 +63,10 @@ export function ContactForm() {
                   type="button"
                   onClick={() => toggle(s)}
                   aria-pressed={isOn}
-                  className={`rounded-full border px-4 py-2 font-sans text-[11px] uppercase tracking-widest transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach ${
+                  className={`rounded-full border px-3.5 py-1.5 font-sans text-[10px] uppercase tracking-widest transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach ${
                     isOn
                       ? "border-warmwhite bg-warmwhite text-ink-900"
-                      : "border-warmwhite/25 text-warmwhite/80 hover:border-warmwhite"
+                      : "border-warmwhite/20 text-warmwhite/80 hover:border-warmwhite"
                   }`}
                 >
                   {s}
@@ -91,7 +91,7 @@ export function ContactForm() {
                   onClick={() => setBudget(b)}
                   role="radio"
                   aria-checked={isOn}
-                  className={`w-full rounded-md border px-4 py-3 font-sans text-[11px] uppercase tracking-widest transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach ${
+                  className={`w-full rounded-md border px-4 py-2.5 font-sans text-[10px] uppercase tracking-widest transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach ${
                     isOn
                       ? "border-warmwhite bg-warmwhite/15 text-warmwhite"
                       : "border-warmwhite/15 text-warmwhite/65 hover:border-warmwhite"
@@ -115,12 +115,12 @@ export function ContactForm() {
           rows={5}
           required
           placeholder="Tell me what you’re building, the audience, the vibe, the rough timeline…"
-          className="mt-3 w-full resize-none rounded-md border border-warmwhite/15 bg-transparent px-4 py-4 font-sans text-base text-warmwhite placeholder:text-warmwhite/30 transition-colors focus:border-warmwhite focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
+          className="mt-3 w-full resize-none rounded-md border border-warmwhite/15 bg-transparent px-4 py-3 font-sans text-base leading-relaxed text-warmwhite placeholder:text-warmwhite/30 transition-colors focus:border-warmwhite focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
         />
       </div>
 
-      <div className="flex items-center justify-between border-t border-warmwhite/15 pt-6">
-        <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
+      <div className="flex flex-col items-start gap-4 border-t border-warmwhite/15 pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <p className="max-w-xs font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
           By sending you agree to our minimal{" "}
           <a href="/legal/privacy" className="text-warmwhite underline-offset-4 hover:underline">
             privacy policy
@@ -134,7 +134,7 @@ export function ContactForm() {
             aria-disabled={state === "submitting"}
             data-cursor="view"
             data-cursor-label="SEND"
-            className="rounded-full bg-warmwhite px-7 py-4 font-sans text-[11px] uppercase tracking-widest text-ink-900 transition-colors hover:bg-peach disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
+            className="rounded-full bg-warmwhite px-6 py-3.5 font-sans text-[11px] uppercase tracking-widest text-ink-900 transition-colors hover:bg-peach disabled:opacity-60 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
           >
             {state === "submitting" ? "Sending…" : "Send Inquiry"}
           </button>
@@ -173,7 +173,7 @@ function Field({
         placeholder={placeholder}
         required={required}
         aria-required={required}
-        className="mt-2 w-full border-b border-warmwhite/15 bg-transparent py-3 font-serif text-xl text-warmwhite placeholder:text-warmwhite/30 transition-colors focus:border-warmwhite focus:outline-none focus-visible:border-peach"
+        className="mt-2 w-full border-b border-warmwhite/15 bg-transparent py-2.5 font-serif text-lg leading-snug text-warmwhite placeholder:text-warmwhite/30 transition-colors focus:border-warmwhite focus:outline-none focus-visible:border-peach"
       />
     </label>
   );
