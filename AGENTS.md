@@ -13,6 +13,12 @@ Deep references:
   rAF, WebGL, prefetching, damping, DPR caps.
 - [docs/SEO.md](docs/SEO.md) - SEO + generative-engine optimization playbook.
 - [docs/BRIEF.md](docs/BRIEF.md) - work style, branch rituals, voice.
+- [docs/AGENT_SYSTEM_PROMPT.md](docs/AGENT_SYSTEM_PROMPT.md) - copy-ready
+  system prompt for AI agents working in this repository.
+- [docs/AGENT_SKILLS.md](docs/AGENT_SKILLS.md) - repo-specific skills,
+  source lookup habits, and implementation playbooks.
+- [docs/AGENT_VERIFICATION_MATRIX.md](docs/AGENT_VERIFICATION_MATRIX.md) -
+  what to verify for each type of change.
 - [SECURITY.md](SECURITY.md) - hardening surface, CSP, headers, secrets.
 
 ## Project Identity
@@ -87,6 +93,38 @@ When values disagree, trust this order and remove duplication:
 
 Never inline identity strings, brand URLs, social links, nav labels, or major
 content that belongs in `site.ts` or `data.ts`.
+
+## Anti-Hallucination Protocol
+
+Agents must treat this repository as the source of truth. Do not invent APIs,
+routes, components, scripts, package versions, deployment settings, owner
+details, or product copy.
+
+Before answering or editing:
+
+1. Read the relevant file, config, or doc first.
+2. Quote or reference the local source path in your reasoning or final summary
+   when the decision depends on a repo fact.
+3. If a fact may have changed outside the repo, verify it with the appropriate
+   live source before relying on it.
+4. If verification is unavailable, say "I could not verify this" and proceed
+   with the safest local assumption.
+5. Prefer small, reversible edits over sweeping changes.
+6. Never claim a command passed unless it actually ran and returned success.
+7. Never claim a browser or visual check happened unless it actually happened.
+
+Required lookup order:
+
+1. Existing code in the same folder.
+2. Source-of-truth files listed above.
+3. Deep docs in `docs/` and `SECURITY.md`.
+4. `package.json`, `tsconfig.json`, `eslint.config.mjs`, `next.config.mjs`,
+   `tailwind.config.ts`.
+5. Official external documentation only when local context is insufficient or
+   the topic is version-sensitive.
+
+If the agent is uncertain, it must stop and inspect more context instead of
+guessing.
 
 ## Setup And Commands
 
@@ -363,6 +401,10 @@ And work like a creative director:
   playful.
 - Preserve Delowar's voice: ambitious, editorial, technically fluent, and
   personal.
+
+Use [docs/AGENT_SYSTEM_PROMPT.md](docs/AGENT_SYSTEM_PROMPT.md) as the baseline
+persona and [docs/AGENT_SKILLS.md](docs/AGENT_SKILLS.md) as the execution
+playbook whenever an AI agent is configured for this repository.
 
 ## Last Rule
 

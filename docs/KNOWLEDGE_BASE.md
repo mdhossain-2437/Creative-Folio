@@ -7,6 +7,9 @@ first before making changes. Companion documents:
 - [`docs/PERFORMANCE.md`](./PERFORMANCE.md) — frame-budget architecture, scroll, WebGL, lazy-load policy.
 - [`docs/SEO.md`](./SEO.md) — search + generative-engine optimisation playbook.
 - [`docs/BRIEF.md`](./BRIEF.md) — working style, brief format, ways of working.
+- [`docs/AGENT_SYSTEM_PROMPT.md`](./AGENT_SYSTEM_PROMPT.md) — copy-ready prompt for repo agents.
+- [`docs/AGENT_SKILLS.md`](./AGENT_SKILLS.md) — anti-hallucination skills and playbooks.
+- [`docs/AGENT_VERIFICATION_MATRIX.md`](./AGENT_VERIFICATION_MATRIX.md) — verification rules by change type.
 - [`../SECURITY.md`](../SECURITY.md) — disclosure flow, hardening surface, header reference.
 - [`../AGENTS.md`](../AGENTS.md) — short operating manual for AI / human contributors.
 
