@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 600" width="1050" height="600" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="bcf-title bcf-desc">
+  <title id="bcf-title">Delowar Hossain. &#8212; Business Card (Front)</title>
+  <desc id="bcf-desc">Minimal business card front on deep ink #070708 with a 6px peach top border, a soft peach corner radial glow and a fainter lower-left glow, an inset hairline frame, a centered DH monogram flanking a rotated peach diamond inside a hairline orbit ring, the italic Newsreader wordmark Delowar Hossain. with a trailing peach period, an uppercase role line Creative Developer / UI/UX Designer, and a footer meta row in JetBrains Mono listing delowarhossain.dev, the coordinates 25.10 degrees north and 89.02 degrees east, and the studio The Compiled Thought. Edition MMXXVII.</desc>
+
+  <defs>
+    <!-- Soft peach radial glow bleeding from the top-right corner over deep ink. -->
+    <radialGradient id="bcf-glow" cx="84%" cy="14%" r="68%">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.20" />
+      <stop offset="52%" stop-color="#070708" stop-opacity="0" />
+    </radialGradient>
+    <!-- A second, fainter glow from the lower-left to balance the field. -->
+    <radialGradient id="bcf-glow2" cx="10%" cy="96%" r="58%">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.07" />
+      <stop offset="60%" stop-color="#070708" stop-opacity="0" />
+    </radialGradient>
+    <!-- Hairline rule that fades at both ends. -->
+    <linearGradient id="bcf-rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#efece9" stop-opacity="0" />
+      <stop offset="46%" stop-color="#efece9" stop-opacity="0.34" />
+      <stop offset="100%" stop-color="#efece9" stop-opacity="0" />
+    </linearGradient>
+    <!-- Peach top border gradient for a touch of dimensionality. -->
+    <linearGradient id="bcf-topbar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.85" />
+      <stop offset="50%" stop-color="#e3bfb4" stop-opacity="1" />
+      <stop offset="100%" stop-color="#e3bfb4" stop-opacity="0.85" />
+    </linearGradient>
+  </defs>
+
+  <!-- Deep ink base + layered peach glows. -->
+  <rect width="1050" height="600" fill="#070708" />
+  <rect width="1050" height="600" fill="url(#bcf-glow)" />
+  <rect width="1050" height="600" fill="url(#bcf-glow2)" />
+
+  <!-- 6px peach top border. -->
+  <rect x="0" y="0" width="1050" height="6" fill="url(#bcf-topbar)" />
+
+  <!-- Inset hairline editorial frame (matches the system; safe print margin). -->
+  <rect x="40" y="40" width="970" height="520" fill="none" stroke="#efece9" stroke-opacity="0.12" stroke-width="1" />
+
+  <!-- Top eyebrow row: section strap left, edition mark right. -->
+  <g font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace" fill="#efece9">
+    <text x="72" y="98" font-size="13" letter-spacing="3.4" fill="#e3bfb4">&#167; 03.27</text>
+    <text x="978" y="98" font-size="13" letter-spacing="3.4" text-anchor="end" fill-opacity="0.55">MMXXVII</text>
+  </g>
+
+  <!-- Monogram + peach diamond, anchored as the cover mark. -->
+  <g transform="translate(525 198)">
+    <!-- Hairline orbit ring framing the mark. -->
+    <circle cx="0" cy="0" r="54" fill="none" stroke="#efece9" stroke-opacity="0.12" stroke-width="1" />
+    <!-- 45deg peach diamond core graphic. -->
+    <g transform="rotate(45)">
+      <rect x="-22" y="-22" width="44" height="44" fill="none" stroke="#e3bfb4" stroke-opacity="0.55" stroke-width="1" />
+      <rect x="-9" y="-9" width="18" height="18" fill="#e3bfb4" />
+    </g>
+    <!-- DH monogram, flanking the diamond. -->
+    <g font-family="'Newsreader', 'Georgia', 'Times New Roman', serif" font-style="italic" fill="#efece9">
+      <text x="-86" y="20" font-size="58" text-anchor="middle" fill-opacity="0.92">D</text>
+      <text x="86" y="20" font-size="58" text-anchor="middle" fill-opacity="0.92">H</text>
+    </g>
+  </g>
+
+  <!-- Wordmark — italic Newsreader display face, centered, trailing peach period. -->
+  <g font-family="'Newsreader', 'Georgia', 'Times New Roman', serif" fill="#efece9">
+    <text x="525" y="356" font-size="118" font-style="italic" font-weight="400" letter-spacing="-4" text-anchor="middle">Delowar Hossain<tspan fill="#e3bfb4">.</tspan></text>
+  </g>
+
+  <!-- Hairline rule under the wordmark. -->
+  <line x1="345" y1="406" x2="705" y2="406" stroke="url(#bcf-rule)" stroke-width="1" />
+
+  <!-- Uppercase role line, centered beneath the rule. -->
+  <g font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif" fill="#efece9">
+    <text x="525" y="446" font-size="15" letter-spacing="6.5" text-anchor="middle" fill-opacity="0.74">CREATIVE DEVELOPER &#183; UI / UX DESIGNER</text>
+  </g>
+
+  <!-- Footer hairline + meta row. -->
+  <line x1="72" y1="500" x2="978" y2="500" stroke="#efece9" stroke-opacity="0.12" stroke-width="1" />
+  <g font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace" fill="#efece9">
+    <text x="72" y="528" font-size="13" letter-spacing="2.6" fill="#e3bfb4">delowarhossain.dev</text>
+    <text x="525" y="528" font-size="13" letter-spacing="2.6" text-anchor="middle" fill-opacity="0.5">25.10&#176; N &#183; 89.02&#176; E</text>
+    <text x="978" y="528" font-size="13" letter-spacing="2.6" text-anchor="end" fill-opacity="0.7">THE COMPILED THOUGHT</text>
+  </g>
+</svg>

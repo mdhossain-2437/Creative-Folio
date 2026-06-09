@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1584 396" width="1584" height="396" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="bl-title bl-desc">
+  <title id="bl-title">Delowar Hossain. — Creative Developer &amp; UI/UX Designer · MMXXVII</title>
+  <desc id="bl-desc">LinkedIn cover banner, 1584 by 396. Deep ink #070708 background with a soft peach radial glow from the upper right, an inset hairline editorial frame, a 6px peach top rule and a rotated peach diamond mark at upper right. The italic Newsreader wordmark "Delowar Hossain." sits centre-right with the role line, domain and Joypurhat coordinates, kept clear of the lower-left profile photo safe area.</desc>
+
+  <defs>
+    <!-- Warm peach radial glow bleeding from the upper-right corner over deep ink. -->
+    <radialGradient id="bl-glow" cx="87%" cy="16%" r="68%">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.22" />
+      <stop offset="52%" stop-color="#070708" stop-opacity="0" />
+    </radialGradient>
+    <!-- Faint counter-glow anchoring the lower-left, seating the avatar zone. -->
+    <radialGradient id="bl-seat" cx="14%" cy="94%" r="52%">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.06" />
+      <stop offset="70%" stop-color="#070708" stop-opacity="0" />
+    </radialGradient>
+    <!-- Hairline rule that fades toward both ends. -->
+    <linearGradient id="bl-rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#efece9" stop-opacity="0.34" />
+      <stop offset="72%" stop-color="#efece9" stop-opacity="0.16" />
+      <stop offset="100%" stop-color="#efece9" stop-opacity="0" />
+    </linearGradient>
+    <!-- Eyebrow underline, fading the opposite way for editorial balance. -->
+    <linearGradient id="bl-rule2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#efece9" stop-opacity="0" />
+      <stop offset="30%" stop-color="#efece9" stop-opacity="0.28" />
+      <stop offset="100%" stop-color="#efece9" stop-opacity="0.06" />
+    </linearGradient>
+    <!-- Peach top rule with a subtle tonal shift. -->
+    <linearGradient id="bl-toprule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.78" />
+      <stop offset="50%" stop-color="#e3bfb4" stop-opacity="1" />
+      <stop offset="100%" stop-color="#e3bfb4" stop-opacity="0.82" />
+    </linearGradient>
+  </defs>
+
+  <!-- Deep ink base + layered peach glows. Opaque base guards against dark-mode inversion. -->
+  <rect width="1584" height="396" fill="#070708" />
+  <rect width="1584" height="396" fill="url(#bl-seat)" />
+  <rect width="1584" height="396" fill="url(#bl-glow)" />
+
+  <!-- 6px peach top rule — the signature edge of the kit. -->
+  <rect x="0" y="0" width="1584" height="6" fill="url(#bl-toprule)" />
+
+  <!-- Inset editorial hairline frame + whisper-thin inner frame for depth. -->
+  <rect x="40" y="40" width="1504" height="316" fill="none" stroke="#efece9" stroke-opacity="0.12" stroke-width="1" />
+  <rect x="48" y="48" width="1488" height="300" fill="none" stroke="#efece9" stroke-opacity="0.05" stroke-width="1" />
+
+  <!-- Vertical hairline marking the lockup zone, clear of the lower-left avatar (x<320). -->
+  <line x1="356" y1="72" x2="356" y2="324" stroke="#efece9" stroke-opacity="0.08" stroke-width="1" />
+
+  <!-- ===== QUIET CORNER MARKER (upper-left, above the avatar band) ===== -->
+  <g font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace" fill="#efece9" font-size="13" letter-spacing="3">
+    <text x="72" y="82" fill-opacity="0.42">&#9671;&#160;&#160;THE COMPILED THOUGHT</text>
+  </g>
+
+  <!-- ===== EYEBROW ROW (centre-right) ===== -->
+  <g font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif" fill="#efece9">
+    <text x="408" y="116" font-size="13" letter-spacing="5.6" fill="#e3bfb4" fill-opacity="0.92">&#167; 03.27&#160;&#160;&#183;&#160;&#160;PORTFOLIO</text>
+    <text x="1448" y="116" font-size="13" letter-spacing="5.6" text-anchor="end" fill-opacity="0.55">MMXXVII&#160;&#160;&#183;&#160;&#160;EDITION</text>
+  </g>
+
+  <!-- Eyebrow hairline under the row. -->
+  <line x1="408" y1="136" x2="1448" y2="136" stroke="url(#bl-rule2)" stroke-width="1" />
+
+  <!-- ===== WORDMARK — italic Newsreader display face, centre-right, clear of the right diamond. ===== -->
+  <text x="406" y="244" font-family="'Newsreader', Georgia, 'Times New Roman', serif" font-style="italic" font-weight="400" font-size="104" letter-spacing="-3.4" fill="#efece9">Delowar Hossain<tspan fill="#e3bfb4">.</tspan></text>
+
+  <!-- Hairline rule under the wordmark. -->
+  <line x1="408" y1="288" x2="1448" y2="288" stroke="url(#bl-rule)" stroke-width="1" />
+
+  <!-- ===== STRAP / FOOTER ROW ===== -->
+  <g font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif" fill="#efece9">
+    <text x="408" y="326" font-size="16" letter-spacing="4.4" fill-opacity="0.78">CREATIVE DEVELOPER&#8201;&#160;&#183;&#160;&#8201;UI/UX DESIGNER</text>
+    <text x="1448" y="326" font-size="16" letter-spacing="4.4" text-anchor="end" fill="#e3bfb4">DELOWARHOSSAIN.DEV</text>
+  </g>
+
+  <!-- Coordinates / meta in mono, upper-right, tucked under the eyebrow row. -->
+  <g font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace" fill="#efece9">
+    <text x="1448" y="178" font-size="12.5" letter-spacing="1.2" text-anchor="end" fill-opacity="0.42">25.10&#176;N&#8201;/&#8201;89.02&#176;E</text>
+  </g>
+
+  <!-- ===== PEACH DIAMOND — the core graphic mark, upper-right corner. ===== -->
+  <g transform="translate(1490 96)">
+    <circle cx="0" cy="0" r="34" fill="#e3bfb4" fill-opacity="0.05" />
+    <rect x="-21" y="-21" width="42" height="42" transform="rotate(45 0 0)" fill="none" stroke="#e3bfb4" stroke-opacity="0.34" stroke-width="1" />
+    <rect x="-11" y="-11" width="22" height="22" transform="rotate(45 0 0)" fill="#e3bfb4" />
+  </g>
+
+  <!-- Tiny "open" live dot — the one permitted use of electric — kept inside the frame, right of the avatar. -->
+  <g font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace">
+    <circle cx="412" cy="343" r="3.2" fill="#cdfa00" />
+    <text x="428" y="347.5" font-size="12" letter-spacing="2.4" fill="#efece9" fill-opacity="0.5">OPEN FROM Q1 &#8217;27&#160;&#160;&#183;&#160;&#160;JOYPURHAT, BANGLADESH</text>
+  </g>
+</svg>
