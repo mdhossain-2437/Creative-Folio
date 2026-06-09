@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 220" width="1180" height="220" role="img" aria-labelledby="wm-title wm-desc">
+  <title id="wm-title">Delowar Hossain. — wordmark</title>
+  <desc id="wm-desc">The canonical wordmark "Delowar Hossain." set in an italic Newsreader serif in warm white #efece9, with the trailing period in the peach brand accent #e3bfb4, left-aligned on a transparent background.</desc>
+  <text x="44" y="152"
+        font-family="'Newsreader', 'Georgia', 'Times New Roman', serif"
+        font-style="italic"
+        font-weight="500"
+        font-size="150"
+        letter-spacing="-0.03em"
+        textLength="1092"
+        lengthAdjust="spacingAndGlyphs"
+        fill="#efece9">Delowar Hossain<tspan fill="#e3bfb4">.</tspan></text>
+</svg>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
+<meta name="color-scheme" content="dark light">
+<meta name="supported-color-schemes" content="dark light">
+<title>Welcome to the Studio Dispatch</title>
+<!--
+  MERGE TAGS — provider-agnostic Handlebars used below:
+    {{first_name}}       Resend/React-Email: {firstName}        · Mailchimp: *|FNAME|*            · Buttondown: {{ subscriber.first_name|default:"there" }}
+    {{email}}            Resend/React-Email: {email}            · Mailchimp: *|EMAIL|*            · Buttondown: {{ subscriber.email }}
+    {{unsubscribe_url}}  Resend/React-Email: {unsubscribeUrl}   · Mailchimp: *|UNSUB|*            · Buttondown: {{ unsubscribe_url }}
+    {{preferences_url}}  Resend/React-Email: {preferencesUrl}   · Mailchimp: *|UPDATE_PROFILE|*   · Buttondown: {{ subscription_url }}
+-->
+<!--[if mso]>
+<noscript>
+<xml>
+<o:OfficeDocumentSettings>
+<o:PixelsPerInch>96</o:PixelsPerInch>
+<o:AllowPNG/>
+</o:OfficeDocumentSettings>
+</xml>
+</noscript>
+<![endif]-->
+<!--[if mso]>
+<style type="text/css">
+  body, table, td, p, a, span { font-family: Georgia, 'Times New Roman', serif !important; }
+  .mso-sans { font-family: Arial, sans-serif !important; }
+  .mso-mono { font-family: 'Courier New', Courier, monospace !important; }
+</style>
+<![endif]-->
+<style type="text/css">
+  /* CLIENT RESETS */
+  html, body { margin: 0 !important; padding: 0 !important; height: 100% !important; width: 100% !important; }
+  * { -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
+  table, td { mso-table-lspace: 0pt !important; mso-table-rspace: 0pt !important; border-collapse: collapse !important; }
+  img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+  a { text-decoration: none; }
+  .ExternalClass { width: 100%; }
+  .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div { line-height: 100%; }
+  a[x-apple-data-detectors] { color: inherit !important; text-decoration: none !important; font-size: inherit !important; font-family: inherit !important; font-weight: inherit !important; line-height: inherit !important; }
+  u + #body a { color: inherit; text-decoration: none; }
+  #MessageViewBody a { color: inherit; text-decoration: none; }
+
+  /* RESPONSIVE */
+  @media only screen and (max-width: 620px) {
+    .wfull { width: 100% !important; }
+    .px { padding-left: 24px !important; padding-right: 24px !important; }
+    .hero-h { font-size: 44px !important; line-height: 0.94 !important; letter-spacing: -0.03em !important; }
+    .wordmark { font-size: 24px !important; }
+    .eyebrow-wrap { letter-spacing: 0.24em !important; }
+    .stack-col { display: block !important; width: 100% !important; }
+    .stack-col-r { display: block !important; width: 100% !important; padding-top: 14px !important; }
+    .footer-r { text-align: left !important; padding-top: 16px !important; }
+    .btn-a { display: block !important; width: 100% !important; text-align: center !important; }
+    .num { font-size: 11px !important; }
+    .hl-num { font-size: 28px !important; }
+    .hl-w { width: 46px !important; }
+  }
+
+  /* DARK MODE — design is already dark; pin colors so light-forcing clients don't invert it badly */
+  @media (prefers-color-scheme: dark) {
+    .bg-ink { background-color: #070708 !important; }
+    .panel { background-color: #0c0c0c !important; }
+    .text-warm { color: #efece9 !important; }
+    .text-bone { color: #e5e2e0 !important; }
+    .text-mute { color: #c6c6c7 !important; }
+    .text-peach { color: #e3bfb4 !important; }
+  }
+  [data-ogsc] .bg-ink { background-color: #070708 !important; }
+  [data-ogsc] .panel { background-color: #0c0c0c !important; }
+  [data-ogsc] .text-warm { color: #efece9 !important; }
+  [data-ogsc] .text-bone { color: #e5e2e0 !important; }
+  [data-ogsc] .text-mute { color: #c6c6c7 !important; }
+  [data-ogsc] .text-peach { color: #e3bfb4 !important; }
+  [data-ogsc] .ghost-a { color: #e3bfb4 !important; }
+</style>
+</head>
+<body id="body" class="bg-ink" style="margin:0; padding:0; width:100%; background-color:#070708; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;">
+
+<!-- PREHEADER (hidden inbox preview) -->
+<div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; line-height:1px; color:#070708; opacity:0;">
+  You are on the list. Notes on creative development, WebGL, type, and new work — roughly once a month, never noise.
+  &#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;
+</div>
+
+<!-- FULL-BLEED INK BACKGROUND -->
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="bg-ink" style="background-color:#070708;">
+<tr>
+<td align="center" style="padding:0;">
+
+  <!--[if mso]>
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" align="center"><tr><td width="600">
+  <![endif]-->
+
+  <!-- 600px CONTENT -->
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" class="wfull" style="width:600px; max-width:600px; margin:0 auto;">
+
+    <!-- PEACH 6PX TOP RULE -->
+    <tr>
+      <td style="height:6px; line-height:6px; font-size:6px; mso-line-height-rule:exactly; background-color:#e3bfb4;">&nbsp;</td>
+    </tr>
+
+    <!-- OUTER PANEL -->
+    <tr>
+    <td class="bg-ink" style="background-color:#070708;">
+
+      <!-- HEADER -->
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+          <td class="px" style="padding:26px 40px 22px 40px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+              <tr>
+                <td align="left" valign="middle" style="vertical-align:middle;">
+                  <span class="wordmark text-warm" style="font-family:'Newsreader',Georgia,'Times New Roman',serif; font-style:italic; font-size:27px; line-height:1; color:#efece9; letter-spacing:-0.02em;">Delowar Hossain<span style="color:#e3bfb4;">.</span></span>
+                </td>
+                <td align="right" valign="middle" style="vertical-align:middle;">
+                  <span class="num text-mute mso-mono" style="font-family:'JetBrains Mono',ui-monospace,'SFMono-Regular',Menlo,monospace; font-size:11px; line-height:1; color:#717179; letter-spacing:0.18em; text-transform:uppercase; white-space:nowrap;">&sect;&nbsp;03.27&nbsp;&middot;&nbsp;MMXXVII</span>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <!-- hairline -->
+        <tr><td class="px" style="padding:0 40px;"><div style="height:1px; line-height:1px; font-size:1px; mso-line-height-rule:exactly; background-color:rgba(239,236,233,0.14);">&nbsp;</div></td></tr>
+      </table>
+
+      <!-- HERO -->
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+          <td class="px" style="padding:38px 40px 6px 40px;">
+            <!-- eyebrow -->
+            <p class="eyebrow-wrap mso-sans" style="margin:0 0 22px 0; font-family:'Inter','Helvetica Neue',Arial,system-ui,sans-serif; font-size:11px; line-height:1.4; color:#e3bfb4; letter-spacing:0.30em; text-transform:uppercase;">
+              <span style="color:#e3bfb4;" aria-hidden="true">&#9670;</span>&nbsp;&nbsp;The Studio Dispatch &nbsp;&middot;&nbsp; New Reader
+            </p>
+            <!-- headline -->
+            <h1 class="hero-h text-warm" style="margin:0; font-family:'Newsreader',Georgia,'Times New Roman',serif; font-style:italic; font-weight:400; font-size:62px; line-height:0.92; letter-spacing:-0.04em; color:#efece9;">
+              Welcome,<br>{{first_name}}.
+            </h1>
+          </td>
+        </tr>
+        <tr>
+          <td class="px" style="padding:26px 40px 0 40px;">
+            <p class="text-mute" style="margin:0; font-family:'Newsreader',Georgia,'Times New Roman',serif; font-weight:400; font-size:18px; line-height:1.65; color:#c6c6c7;">
+              You have joined a small, quiet list from <span class="text-warm" style="color:#efece9;">The Compiled Thought</span> &mdash; the studio of Delowar Hossain, creative developer and designer working from Joypurhat, Bangladesh. Thank you for the trust; it is not taken lightly.
+            </p>
+          </td>
+        </tr>
+      </table>
+
+      <!-- HAIRLINE -->
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr><td class="px" style="padding:34px 40px 0 40px;"><div style="height:1px; line-height:1px; font-size:1px; mso-line-height-rule:exactly; background-color:rgba(239,236,233,0.14);">&nbsp;</div></td></tr>
+      </table>
+
+      <!-- WHAT YOU JOINED -->
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+          <td class="px" style="padding:30px 40px 0 40px;">
+            <p class="mso-sans" style="margin:0 0 16px 0; font-family:'Inter','Helvetica Neue',Arial,system-ui,sans-serif; font-size:10px; line-height:1.4; color:#717179; letter-spacing:0.30em; text-transform:uppercase;">
+              &sect; 01 &nbsp;&mdash;&nbsp; What this is
+            </p>
+            <p class="text-bone" style="margin:0 0 16px 0; font-family:'Newsreader',Georgia,'Times New Roman',serif; font-size:20px; line-height:1.55; color:#e5e2e0;">
+              A dispatch on the craft of building for the browser. Notes on creative development, WebGL and GLSL, editorial typography, motion, and the new work leaving the studio.
+            </p>
+            <p class="text-mute" style="margin:0; font-family:'Newsreader',Georgia,'Times New Roman',serif; font-size:16px; line-height:1.7; color:#c6c6c7;">
+              No funnels, no growth-hacking, no sixteen-email onboarding. When there is something genuinely worth your attention &mdash; a shipped project, an essay from the journal, a live experiment in the Lab &mdash; it arrives. Otherwise, silence.
+            </p>
+          </td>
+        </tr>
+      </table>
+
+      <!-- CADENCE STRIP -->
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+          <td class="px" style="padding:28px 40px 0 40px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" class="panel" style="background-color:#0c0c0c; border:1px solid rgba(239,236,233,0.14);">
+              <tr>
+                <td style="padding:20px 22px;">
+                  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <tr>
+                      <td class="stack-col" valign="top" width="50%" style="vertical-align:top;">
+                        <p class="mso-sans" style="margin:0 0 7px 0; font-family:'Inter','Helvetica Neue',Arial,system-ui,sans-serif; font-size:10px; line-height:1.3; color:#717179; letter-spacing:0.26em; text-transform:uppercase;">Cadence</p>
+                        <p class="text-warm mso-mono" style="margin:0; font-family:'JetBrains Mono',ui-monospace,'SFMono-Regular',Menlo,monospace; font-size:14px; line-height:1.4; color:#efece9;">~ once a month</p>
+                      </td>
+                      <td class="stack-col-r" valign="top" width="50%" style="vertical-align:top;">
+                        <p class="mso-sans" style="margin:0 0 7px 0; font-family:'Inter','Helvetica Neue',Arial,system-ui,sans-serif; font-size:10px; line-height:1.3; color:#717179; letter-spacing:0.26em; text-transform:uppercase;">Sent to</p>
+                        <p class="text-mute mso-mono" style="margin:0; font-family:'JetBrains Mono',ui-monospace,'SFMono-Regular',Menlo,monospace; font-size:14px; line-height:1.4; color:#c6c6c7; word-break:break-all;">{{email}}</p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+
+      <!-- PRIMARY + GHOST CTAs (stacked, bulletproof) -->
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+          <td class="px" style="padding:34px 40px 0 40px;">
+
+            <!-- PRIMARY: peach fill -->
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0 0 14px 0;">
+              <tr>
+                <td align="left">
+                  <!--[if mso]>
+                  <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://delowarhossain.dev/journal" style="height:48px;v-text-anchor:middle;width:260px;" arcsize="0%" stroke="f" fillcolor="#e3bfb4">
+                  <w:anchorlock/>
+                  <center style="color:#070708;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;letter-spacing:1px;">READ THE JOURNAL &#8599;</center>
+                  </v:roundrect>
+                  <![endif]-->
+                  <!--[if !mso]><!-- -->
+                  <a class="btn-a mso-sans" href="https://delowarhossain.dev/journal" target="_blank" style="background-color:#e3bfb4; color:#070708; display:inline-block; font-family:'Inter','Helvetica Neue',Arial,system-ui,sans-serif; font-size:12px; font-weight:700; line-height:48px; letter-spacing:0.16em; text-align:center; text-decoration:none; text-transform:uppercase; min-width:260px; padding:0 18px;">Read the journal &nbsp;&#8599;</a>
+                  <!--<![endif]-->
+                </td>
+              </tr>
+            </table>
+
+            <!-- GHOST: 1px peach border -->
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:0;">
+              <tr>
+                <td align="left">
+                  <!--[if mso]>
+                  <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://delowarhossain.dev/works" style="height:48px;v-text-anchor:middle;width:260px;" arcsize="0%" strokecolor="#e3bfb4" strokeweight="1px" fillcolor="#070708">
+                  <w:anchorlock/>
+                  <center style="color:#e3bfb4;font-family:Arial,sans-serif;font-size:13px;font-weight:bold;letter-spacing:1px;">SEE SELECTED WORK &#8599;</center>
+                  </v:roundrect>
+                  <![endif]-->
+                  <!--[if !mso]><!-- -->
+                  <a class="btn-a ghost-a mso-sans" href="https://delowarhossain.dev/works" target="_blank" style="background-color:#070708; border:1px solid #e3bfb4; color:#e3bfb4; display:inline-block; font-family:'Inter','Helvetica Neue',Arial,system-ui,sans-serif; font-size:12px; font-weight:700; line-height:46px; letter-spacing:0.16em; text-align:center; text-decoration:none; text-transform:uppercase; min-width:258px; padding:0 18px;">See selected work &nbsp;&#8599;</a>
+                  <!--<![endif]-->
+                </td>
+              </tr>
+            </table>
+
+          </td>
+        </tr>
+      </table>
+
+      <!-- HAIRLINE -->
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr><td class="px" style="padding:36px 40px 0 40px;"><div style="height:1px; line-height:1px; font-size:1px; mso-line-height-rule:exactly; background-color:rgba(239,236,233,0.14);">&nbsp;</div></td></tr>
+      </table>
+
+      <!-- WHILE YOU ARE HERE -->
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+          <td class="px" style="padding:30px 40px 0 40px;">
+            <p class="mso-sans" style="margin:0 0 4px 0; font-family:'Inter','Helvetica Neue',Arial,system-ui,sans-serif; font-size:10px; line-height:1.4; color:#717179; letter-spacing:0.30em; text-transform:uppercase;">
+              &sect; 02 &nbsp;&mdash;&nbsp; While you are here
+            </p>
+          </td>
+        </tr>
+
+        <!-- ITEM 01 -->
+        <tr>
+          <td class="px" style="padding:24px 40px 0 40px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+              <tr>
+                <td class="hl-w" valign="top" width="56" style="vertical-align:top; padding-top:4px;">
+                  <span class="hl-num text-peach" style="font-family:'Newsreader',Georgia,'Times New Roman',serif; font-style:italic; font-size:32px; line-height:1; color:#e3bfb4;">01</span>
+                </td>
+                <td valign="top" style="vertical-align:top;">
+                  <a href="https://delowarhossain.dev/works/aura-void" target="_blank" style="text-decoration:none; color:#efece9;">
+                    <span class="text-warm" style="display:block; margin:0 0 5px 0; font-family:'Newsreader',Georgia,'Times New Roman',serif; font-size:21px; line-height:1.2; color:#efece9;">Aura Void <span style="color:#717179; font-size:14px;">&mdash; WebGL</span></span>
+                  </a>
+                  <p class="text-mute" style="margin:0; font-family:'Newsreader',Georgia,'Times New Roman',serif; font-size:15px; line-height:1.6; color:#c6c6c7;">An ambient world built from a single GLSL noise field. v2 adds a physics-aware cursor that pulls the field into local minima &mdash; <span style="color:#e3bfb4;">v2 launches Q3&nbsp;&rsquo;27</span>.</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr><td class="px" style="padding:22px 40px 0 40px;"><div style="height:1px; line-height:1px; font-size:1px; mso-line-height-rule:exactly; background-color:rgba(239,236,233,0.12);">&nbsp;</div></td></tr>
+
+        <!-- ITEM 02 -->
+        <tr>
+          <td class="px" style="padding:22px 40px 0 40px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+              <tr>
+                <td class="hl-w" valign="top" width="56" style="vertical-align:top; padding-top:4px;">
+                  <span class="hl-num text-peach" style="font-family:'Newsreader',Georgia,'Times New Roman',serif; font-style:italic; font-size:32px; line-height:1; color:#e3bfb4;">02</span>
+                </td>
+                <td valign="top" style="vertical-align:top;">
+                  <a href="https://delowarhossain.dev/lab" target="_blank" style="text-decoration:none; color:#efece9;">
+                    <span class="text-warm" style="display:block; margin:0 0 5px 0; font-family:'Newsreader',Georgia,'Times New Roman',serif; font-size:21px; line-height:1.2; color:#efece9;">The Lab <span style="color:#717179; font-size:14px;">&mdash; 30 live experiments</span></span>
+                  </a>
+                  <p class="text-mute" style="margin:0; font-family:'Newsreader',Georgia,'Times New Roman',serif; font-size:15px; line-height:1.6; color:#c6c6c7;">Thirty interactive shader and motion studies, running live in the browser &mdash; fluid dynamics, reaction-diffusion, kinetic type, and more. All open, all moving.</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr><td class="px" style="padding:22px 40px 0 40px;"><div style="height:1px; line-height:1px; font-size:1px; mso-line-height-rule:exactly; background-color:rgba(239,236,233,0.12);">&nbsp;</div></td></tr>
+
+        <!-- ITEM 03 -->
+        <tr>
+          <td class="px" style="padding:22px 40px 0 40px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+              <tr>
+                <td class="hl-w" valign="top" width="56" style="vertical-align:top; padding-top:4px;">
+                  <span class="hl-num text-peach" style="font-family:'Newsreader',Georgia,'Times New Roman',serif; font-style:italic; font-size:32px; line-height:1; color:#e3bfb4;">03</span>
+                </td>
+                <td valign="top" style="vertical-align:top;">
+                  <a href="https://delowarhossain.dev" target="_blank" style="text-decoration:none; color:#efece9;">
+                    <span class="text-warm" style="display:block; margin:0 0 5px 0; font-family:'Newsreader',Georgia,'Times New Roman',serif; font-size:21px; line-height:1.2; color:#efece9;">The Showreel <span style="color:#717179; font-size:14px;">&mdash; Reel &middot; 02:17</span></span>
+                  </a>
+                  <p class="text-mute" style="margin:0; font-family:'Newsreader',Georgia,'Times New Roman',serif; font-size:15px; line-height:1.6; color:#c6c6c7;">Two minutes and seventeen seconds of selected motion, WebGL, and editorial work from the MMXXVII edition &mdash; the studio in a single take.</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+
+      <!-- HAIRLINE -->
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr><td class="px" style="padding:34px 40px 0 40px;"><div style="height:1px; line-height:1px; font-size:1px; mso-line-height-rule:exactly; background-color:rgba(239,236,233,0.14);">&nbsp;</div></td></tr>
+      </table>
+
+      <!-- SIGN-OFF -->
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+          <td class="px" style="padding:30px 40px 38px 40px;">
+            <p class="text-mute" style="margin:0 0 18px 0; font-family:'Newsreader',Georgia,'Times New Roman',serif; font-size:17px; line-height:1.65; color:#c6c6c7;">
+              That is everything. Settle in &mdash; the next dispatch will find you when the work earns it. The studio is <span style="color:#e3bfb4;">open from Q1&nbsp;&rsquo;27</span>, should you ever want to build something together.
+            </p>
+            <p style="margin:0 0 2px 0; font-family:'Sacramento','Snell Roundhand',cursive; font-size:36px; line-height:1.1; color:#efece9;">Delowar</p>
+            <p class="text-mute mso-mono" style="margin:0; font-family:'JetBrains Mono',ui-monospace,'SFMono-Regular',Menlo,monospace; font-size:11px; line-height:1.5; color:#717179; letter-spacing:0.10em;">Creative Developer &amp; UI/UX Designer &nbsp;&middot;&nbsp; 25.10&deg;N, 89.02&deg;E</p>
+          </td>
+        </tr>
+      </table>
+
+    </td>
+    </tr>
+
+    <!-- FOOTER -->
+    <tr>
+    <td class="panel" style="background-color:#0c0c0c; border-top:1px solid rgba(239,236,233,0.14);">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+          <td class="px" style="padding:28px 40px 26px 40px;">
+
+            <!-- wordmark + diamond -->
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+              <tr>
+                <td align="left" valign="middle" style="vertical-align:middle;">
+                  <span class="text-warm" style="font-family:'Newsreader',Georgia,'Times New Roman',serif; font-style:italic; font-size:18px; color:#efece9;">Delowar Hossain<span style="color:#e3bfb4;">.</span></span>
+                </td>
+                <td align="right" valign="middle" style="vertical-align:middle;">
+                  <span style="color:#e3bfb4; font-size:12px; line-height:1;" aria-hidden="true">&#9670;</span>
+                </td>
+              </tr>
+            </table>
+
+            <!-- divider -->
+            <div style="height:1px; line-height:1px; font-size:1px; mso-line-height-rule:exactly; background-color:rgba(239,236,233,0.12); margin:18px 0 18px 0;">&nbsp;</div>
+
+            <!-- address + socials -->
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+              <tr>
+                <td class="stack-col" align="left" valign="top" width="50%" style="vertical-align:top;">
+                  <p class="text-mute mso-mono" style="margin:0; font-family:'JetBrains Mono',ui-monospace,'SFMono-Regular',Menlo,monospace; font-size:11px; line-height:1.7; color:#717179; letter-spacing:0.06em; text-transform:uppercase;">
+                    The Compiled Thought<br>
+                    Joypurhat<br>
+                    Bangladesh
+                  </p>
+                </td>
+                <td class="stack-col-r footer-r" align="right" valign="top" width="50%" style="vertical-align:top;">
+                  <p class="mso-sans" style="margin:0; font-family:'Inter','Helvetica Neue',Arial,system-ui,sans-serif; font-size:11px; line-height:1.6; letter-spacing:0.12em; text-transform:uppercase;">
+                    <a href="https://github.com/mdhossain-2437" target="_blank" style="color:#c6c6c7; text-decoration:none;">GitHub</a>
+                    <span style="color:#525259;">&nbsp;&middot;&nbsp;</span>
+                    <a href="https://twitter.com/mdhossain2437" target="_blank" style="color:#c6c6c7; text-decoration:none;">X</a>
+                    <span style="color:#525259;">&nbsp;&middot;&nbsp;</span>
+                    <a href="https://www.linkedin.com/in/mdhossain2437" target="_blank" style="color:#c6c6c7; text-decoration:none;">LinkedIn</a>
+                    <span style="color:#525259;">&nbsp;&middot;&nbsp;</span>
+                    <a href="https://read.cv/delowar" target="_blank" style="color:#c6c6c7; text-decoration:none;">read.cv</a>
+                  </p>
+                  <p class="mso-mono" style="margin:14px 0 0 0; font-family:'JetBrains Mono',ui-monospace,'SFMono-Regular',Menlo,monospace; font-size:11px; line-height:1; letter-spacing:0.06em;">
+                    <a href="https://delowarhossain.dev" target="_blank" style="color:#e3bfb4; text-decoration:none;">delowarhossain.dev</a>
+                  </p>
+                </td>
+              </tr>
+            </table>
+
+            <!-- divider -->
+            <div style="height:1px; line-height:1px; font-size:1px; mso-line-height-rule:exactly; background-color:rgba(239,236,233,0.12); margin:20px 0 16px 0;">&nbsp;</div>
+
+            <!-- legal / unsubscribe -->
+            <p class="mso-sans" style="margin:0 0 6px 0; font-family:'Inter','Helvetica Neue',Arial,system-ui,sans-serif; font-size:11px; line-height:1.7; color:#717179;">
+              You are receiving this because you subscribed to the studio dispatch at delowarhossain.dev. No part of this list is ever sold or shared.
+            </p>
+            <p class="mso-sans" style="margin:0; font-family:'Inter','Helvetica Neue',Arial,system-ui,sans-serif; font-size:11px; line-height:1.7; color:#717179;">
+              <a href="{{preferences_url}}" target="_blank" style="color:#c6c6c7; text-decoration:underline;">Update preferences</a>
+              <span style="color:#525259;">&nbsp;&middot;&nbsp;</span>
+              <a href="{{unsubscribe_url}}" target="_blank" style="color:#c6c6c7; text-decoration:underline;">Unsubscribe</a>
+              <span style="color:#525259;">&nbsp;&middot;&nbsp;</span>
+              <span style="color:#525259;">MMXXVII &mdash; &sect;&nbsp;03.27</span>
+            </p>
+
+          </td>
+        </tr>
+      </table>
+    </td>
+    </tr>
+
+  </table>
+
+  <!--[if mso]>
+  </td></tr></table>
+  <![endif]-->
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>

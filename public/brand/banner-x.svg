@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 500" width="1500" height="500" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="bx-title bx-desc">
+  <title id="bx-title">Delowar Hossain. — X / Twitter header</title>
+  <desc id="bx-desc">Deep ink-950 header, 1500 by 500, with a soft peach corner radial glow, a 6px peach top rule, and an inset editorial hairline frame. An italic Newsreader "Delowar Hossain." wordmark with a peach trailing period sits in the upper-left band above an uppercase role line and a monospaced stack signature. A bottom row carries the domain, the MMXXVII edition mark, and a 45-degree peach diamond accent. Key text is held in the upper-left and center band, clear of the lower-left avatar zone and the right-edge UI.</desc>
+
+  <defs>
+    <!-- Soft peach radial glow bleeding from the upper-right over deep ink. -->
+    <radialGradient id="bx-glow" cx="84%" cy="22%" r="60%">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.20" />
+      <stop offset="56%" stop-color="#070708" stop-opacity="0" />
+    </radialGradient>
+    <!-- Faint counter-glow seating the lower band. -->
+    <radialGradient id="bx-seat" cx="8%" cy="90%" r="46%">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.06" />
+      <stop offset="64%" stop-color="#070708" stop-opacity="0" />
+    </radialGradient>
+    <!-- Hairline rule fade for the strap. -->
+    <linearGradient id="bx-rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#efece9" stop-opacity="0" />
+      <stop offset="20%" stop-color="#efece9" stop-opacity="0.30" />
+      <stop offset="80%" stop-color="#efece9" stop-opacity="0.30" />
+      <stop offset="100%" stop-color="#efece9" stop-opacity="0" />
+    </linearGradient>
+    <!-- Hairline rule under the wordmark. -->
+    <linearGradient id="bx-wrule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#efece9" stop-opacity="0.34" />
+      <stop offset="76%" stop-color="#efece9" stop-opacity="0.16" />
+      <stop offset="100%" stop-color="#efece9" stop-opacity="0" />
+    </linearGradient>
+    <!-- Peach top rule with a subtle tonal shift. -->
+    <linearGradient id="bx-toprule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.80" />
+      <stop offset="50%" stop-color="#e3bfb4" stop-opacity="1" />
+      <stop offset="100%" stop-color="#e3bfb4" stop-opacity="0.82" />
+    </linearGradient>
+  </defs>
+
+  <!-- Deep ink base + warm glows. Opaque base guards against dark-mode inversion. -->
+  <rect width="1500" height="500" fill="#070708" />
+  <rect width="1500" height="500" fill="url(#bx-seat)" />
+  <rect width="1500" height="500" fill="url(#bx-glow)" />
+
+  <!-- Signature 6px peach top rule. -->
+  <rect x="0" y="0" width="1500" height="6" fill="url(#bx-toprule)" />
+
+  <!-- Inset editorial hairline frame + whisper inner frame. -->
+  <rect x="40" y="40" width="1420" height="420" fill="none" stroke="#efece9" stroke-opacity="0.12" stroke-width="1" />
+  <rect x="48" y="48" width="1404" height="404" fill="none" stroke="#efece9" stroke-opacity="0.05" stroke-width="1" />
+
+  <!-- Eyebrow row (upper band, clear of right-edge UI). -->
+  <text x="74" y="100" font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif" font-size="15" letter-spacing="4.2" fill="#e3bfb4" fill-opacity="0.82">&#9671;&#160;&#160;FOLIO&#160;&#160;&#183;&#160;&#160;MMXXVII</text>
+  <text x="1130" y="100" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace" font-size="14" letter-spacing="2.4" text-anchor="end" fill="#efece9" fill-opacity="0.50">25.10&#176;N &#183; 89.02&#176;E</text>
+
+  <!-- Wordmark — italic Newsreader, upper-left, with peach trailing period. -->
+  <g font-family="'Newsreader', Georgia, 'Times New Roman', serif" fill="#efece9" font-style="italic" font-weight="400" letter-spacing="-5">
+    <text x="70" y="252" font-size="150">Delowar</text>
+    <text x="70" y="372" font-size="150" fill-opacity="0.92">Hossain<tspan fill="#e3bfb4">.</tspan></text>
+  </g>
+
+  <!-- Role + stack line, set in the center band: clear of the avatar (x&lt;260, y&gt;360) and the right-edge UI. -->
+  <g font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif" fill="#efece9">
+    <text x="704" y="206" font-size="17" letter-spacing="3.6" fill-opacity="0.82">CREATIVE DEVELOPER</text>
+    <text x="704" y="238" font-size="17" letter-spacing="3.6" fill-opacity="0.82">UI / UX DESIGNER</text>
+  </g>
+  <line x1="704" y1="266" x2="1130" y2="266" stroke="url(#bx-wrule)" stroke-width="1" />
+  <text x="704" y="304" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace" font-size="15" letter-spacing="1.4" fill="#efece9" fill-opacity="0.58">WebGL &#183; Three.js &#183; GSAP &#183; Next.js &#183; GLSL &#183; AI</text>
+  <text x="704" y="330" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace" font-size="13" letter-spacing="2" fill="#efece9" fill-opacity="0.40">THE COMPILED THOUGHT</text>
+
+  <!-- Strap hairline (center band, clear of the avatar at left and UI at right). -->
+  <line x1="300" y1="416" x2="1130" y2="416" stroke="url(#bx-rule)" stroke-width="1" />
+
+  <!-- Bottom row: domain (left, right of avatar zone) + edition + peach diamond (right, left of UI). -->
+  <text x="300" y="452" font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif" font-size="16" letter-spacing="3.6" fill="#e3bfb4">DELOWARHOSSAIN.DEV</text>
+  <text x="1090" y="452" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace" font-size="14" letter-spacing="3" text-anchor="end" fill="#efece9" fill-opacity="0.62">&#167; 03.27 &#183; MMXXVII</text>
+
+  <!-- Peach diamond accent — bottom row, seated on the strap, left of the right-edge UI. -->
+  <g transform="translate(1124 446)">
+    <rect x="-9" y="-9" width="18" height="18" transform="rotate(45 0 0)" fill="#e3bfb4" />
+    <rect x="-17" y="-17" width="34" height="34" transform="rotate(45 0 0)" fill="none" stroke="#e3bfb4" stroke-opacity="0.30" stroke-width="1" />
+  </g>
+</svg>

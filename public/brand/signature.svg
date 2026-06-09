@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 220" width="1300" height="220" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="sig-title sig-desc">
+  <title id="sig-title">Delowar Hossain — signature</title>
+  <desc id="sig-desc">The name "Delowar Hossain" rendered as a flowing peach #e3bfb4 script in Sacramento, underscored by a thin hand-drawn flourish that fades at both ends, on a transparent background.</desc>
+
+  <defs>
+    <!-- Flourish hairline: peach holding 0.55 across the measure, fading to a whisper at both tips (editorial hairline DNA). -->
+    <linearGradient id="sig-flourish" x1="16" y1="196" x2="1286" y2="178" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#e3bfb4" stop-opacity="0.12" />
+      <stop offset="0.16" stop-color="#e3bfb4" stop-opacity="0.55" />
+      <stop offset="0.84" stop-color="#e3bfb4" stop-opacity="0.55" />
+      <stop offset="1" stop-color="#e3bfb4" stop-opacity="0.12" />
+    </linearGradient>
+  </defs>
+
+  <!-- Wordmark signature — Sacramento script, solid peach. Baseline lifted to clear the flourish; textLength fit with editorial side margins. -->
+  <text x="650" y="132"
+        text-anchor="middle"
+        textLength="1180" lengthAdjust="spacingAndGlyphs"
+        font-family="'Sacramento', 'Snell Roundhand', cursive"
+        font-size="180"
+        fill="#e3bfb4">Delowar Hossain</text>
+
+  <!-- Thin flourish underline — fades at both tips, 1.4px, peach 0.55 across the body. -->
+  <path d="M16 196 C 320 208, 720 208, 1000 196 C 1100 192, 1200 186, 1286 178"
+        fill="none"
+        stroke="url(#sig-flourish)"
+        stroke-width="1.4"
+        stroke-linecap="round" />
+</svg>

@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 760" width="800" height="760" role="img" aria-labelledby="lockupTitle lockupDesc">
+  <title id="lockupTitle">Delowar Hossain. — Stacked Lockup</title>
+  <desc id="lockupDesc">Centered editorial lockup on deep ink #070708: a 45-degree peach diamond carrying the DH monogram above the italic "Delowar Hossain." wordmark in warm white with a peach trailing period, followed by an uppercase role line and the strap "§ MMXXVII · The Compiled Thought." An inset hairline frame and a soft peach corner glow complete the magazine-cover composition.</desc>
+
+  <defs>
+    <!-- Soft peach radial glow bleeding from the top-right corner over deep ink. -->
+    <radialGradient id="cornerGlow" cx="82%" cy="14%" r="68%">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.20" />
+      <stop offset="48%" stop-color="#070708" stop-opacity="0" />
+    </radialGradient>
+    <!-- A second, fainter glow lifting the lower-left so the field feels lit. -->
+    <radialGradient id="lowGlow" cx="16%" cy="92%" r="60%">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.07" />
+      <stop offset="60%" stop-color="#070708" stop-opacity="0" />
+    </radialGradient>
+    <!-- Hairline rule fades at both ends, editorial-magazine style. -->
+    <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#efece9" stop-opacity="0" />
+      <stop offset="50%" stop-color="#efece9" stop-opacity="0.34" />
+      <stop offset="100%" stop-color="#efece9" stop-opacity="0" />
+    </linearGradient>
+    <!-- Subtle vertical sheen on the diamond face for a crafted mark. -->
+    <linearGradient id="diamondFace" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ecccc2" />
+      <stop offset="100%" stop-color="#e3bfb4" />
+    </linearGradient>
+  </defs>
+
+  <!-- Deep ink base + layered peach glow. -->
+  <rect width="800" height="760" fill="#070708" />
+  <rect width="800" height="760" fill="url(#lowGlow)" />
+  <rect width="800" height="760" fill="url(#cornerGlow)" />
+
+  <!-- Inset hairline frame, 1px warmwhite at 12%. -->
+  <rect x="40" y="40" width="720" height="680" fill="none" stroke="#efece9" stroke-opacity="0.12" stroke-width="1" />
+  <!-- Whisper-thin inner frame for editorial depth. -->
+  <rect x="48" y="48" width="704" height="664" fill="none" stroke="#efece9" stroke-opacity="0.05" stroke-width="1" />
+
+  <!-- Top register: section glyph left, edition strap right. -->
+  <g font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif" fill="#efece9" font-size="13">
+    <text x="72" y="92" letter-spacing="4.4" fill-opacity="0.55">&#9676; FOLIO</text>
+    <text x="728" y="92" letter-spacing="4.4" text-anchor="end" fill-opacity="0.55">&#167; 03.27</text>
+  </g>
+
+  <!-- ============ THE MARK ============ -->
+  <!-- Peach diamond (square rotated 45deg) centered on the canvas axis at x=400. -->
+  <g transform="translate(400 196)">
+    <!-- Faint peach halo behind the mark. -->
+    <circle cx="0" cy="0" r="78" fill="#e3bfb4" fill-opacity="0.06" />
+    <!-- The diamond — sharp 45deg square. -->
+    <rect x="-46" y="-46" width="92" height="92" transform="rotate(45)" fill="url(#diamondFace)" />
+    <!-- Inset hairline diamond, ink on peach, echoing the frame. -->
+    <rect x="-30" y="-30" width="60" height="60" transform="rotate(45)" fill="none" stroke="#070708" stroke-opacity="0.22" stroke-width="1" />
+    <!-- DH monogram on the diamond, ink on peach. Centered via explicit baseline offset for cross-renderer reliability. -->
+    <text x="0" y="0" dy="0.34em" font-family="'Newsreader', 'Georgia', 'Times New Roman', serif" font-style="italic" font-weight="500" font-size="46" letter-spacing="-2" text-anchor="middle" fill="#070708">DH</text>
+  </g>
+
+  <!-- Eyebrow above the wordmark. -->
+  <text x="400" y="316" font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif" font-size="13" letter-spacing="6" text-anchor="middle" fill="#e3bfb4">CREATIVE DEVELOPER &#38; UI/UX DESIGNER</text>
+
+  <!-- ============ THE WORDMARK ============ -->
+  <!-- "Delowar Hossain." centered, italic Newsreader display face, peach trailing period. -->
+  <g font-family="'Newsreader', 'Georgia', 'Times New Roman', serif" font-style="italic" font-weight="400" text-anchor="middle" fill="#efece9">
+    <text x="400" y="438" font-size="120" letter-spacing="-3.5">Delowar</text>
+    <text x="400" y="554" font-size="120" letter-spacing="-3.5">Hossain<tspan fill="#e3bfb4">.</tspan></text>
+  </g>
+
+  <!-- Hairline strap above the meta line. -->
+  <line x1="232" y1="602" x2="568" y2="602" stroke="url(#rule)" stroke-width="1" />
+
+  <!-- Strap: edition + studio, with a diamond separator. -->
+  <text x="400" y="640" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace" font-size="13" letter-spacing="3.4" text-anchor="middle" fill="#efece9" fill-opacity="0.62">&#167; MMXXVII <tspan fill="#e3bfb4">&#9671;</tspan> THE COMPILED THOUGHT</text>
+
+  <!-- Bottom register: domain left, coordinates right. -->
+  <g font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace" fill="#efece9" font-size="12">
+    <text x="72" y="696" letter-spacing="2.2" fill-opacity="0.5">delowarhossain.dev</text>
+    <text x="728" y="696" letter-spacing="2.2" text-anchor="end" fill-opacity="0.5">25.10&#176;N &#183; 89.02&#176;E</text>
+  </g>
+</svg>

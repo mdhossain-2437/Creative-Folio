@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="av-title av-desc">
+  <title id="av-title">Delowar Hossain. — DH monogram avatar</title>
+  <desc id="av-desc">A 1:1 social avatar on deep ink-950 with a soft peach radial glow, a peach-ring-framed italic serif DH monogram at center, top and bottom peach diamond accents, subtle peach corner ticks, the section strap, and the MMXXVII edition year. Built to read as a crisp personal mark at 48px.</desc>
+
+  <defs>
+    <!-- Soft peach radial glow bleeding from the upper area over deep ink. -->
+    <radialGradient id="av-glow" cx="50%" cy="30%" r="68%">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.22" />
+      <stop offset="56%" stop-color="#070708" stop-opacity="0" />
+    </radialGradient>
+    <!-- Quiet counter-glow from the lower-right for depth balance. -->
+    <radialGradient id="av-glow2" cx="84%" cy="90%" r="56%">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.08" />
+      <stop offset="62%" stop-color="#070708" stop-opacity="0" />
+    </radialGradient>
+    <!-- Hairline gradient for the underscore rule (warmwhite, fading at both ends). -->
+    <linearGradient id="av-rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#efece9" stop-opacity="0" />
+      <stop offset="50%" stop-color="#efece9" stop-opacity="0.30" />
+      <stop offset="100%" stop-color="#efece9" stop-opacity="0" />
+    </linearGradient>
+    <!-- Peach ring stroke as a soft top-down gradient. -->
+    <linearGradient id="av-ring" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="1" />
+      <stop offset="100%" stop-color="#e3bfb4" stop-opacity="0.62" />
+    </linearGradient>
+  </defs>
+
+  <!-- Deep ink base. -->
+  <rect width="400" height="400" fill="#070708" />
+  <rect width="400" height="400" fill="url(#av-glow)" />
+  <rect width="400" height="400" fill="url(#av-glow2)" />
+
+  <!-- Inset editorial hairline frame, hairline at 12% warmwhite. -->
+  <rect x="16" y="16" width="368" height="368" fill="none" stroke="#efece9" stroke-opacity="0.12" stroke-width="1" />
+
+  <!-- Peach corner ticks — all four, reinforcing the frame as deliberate. -->
+  <g stroke="#e3bfb4" stroke-opacity="0.5" stroke-width="1.2" fill="none">
+    <path d="M16 38 H38 V16" />
+    <path d="M384 38 H362 V16" />
+    <path d="M16 362 H38 V384" />
+    <path d="M384 362 H362 V384" />
+  </g>
+
+  <!-- Top section strap. -->
+  <text x="200" y="62"
+        font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif"
+        font-size="13" letter-spacing="4.5" text-anchor="middle"
+        fill="#e3bfb4" fill-opacity="0.9">&#167; 03.27</text>
+
+  <!-- Centered monogram framing ring — peach outer, hairline inner echo. -->
+  <circle cx="200" cy="200" r="118" fill="none" stroke="url(#av-ring)" stroke-width="2.4" />
+  <circle cx="200" cy="200" r="108" fill="none" stroke="#efece9" stroke-opacity="0.12" stroke-width="1" />
+
+  <!-- Peach diamond accents seated on the ring at top and bottom — the core graphic mark. -->
+  <g fill="#e3bfb4">
+    <rect x="194" y="76" width="12" height="12" transform="rotate(45 200 82)" />
+    <rect x="194" y="312" width="12" height="12" transform="rotate(45 200 318)" />
+  </g>
+
+  <!-- DH monogram — refined italic editorial serif, warm white, optically centered.
+       Trailing brand period in peach rides the baseline via tspan so it tracks font metrics. -->
+  <text x="196" y="250"
+        text-anchor="middle"
+        font-family="'Newsreader', 'Georgia', 'Times New Roman', serif"
+        font-style="italic" font-weight="500"
+        font-size="150" letter-spacing="-6"
+        fill="#efece9">DH<tspan dx="-4" font-style="normal" fill="#e3bfb4">.</tspan></text>
+
+  <!-- Hairline underscore rule and edition year beneath the mark. -->
+  <line x1="150" y1="342" x2="250" y2="342" stroke="url(#av-rule)" stroke-width="1" />
+  <text x="200" y="362"
+        font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace"
+        font-size="12" letter-spacing="5" text-anchor="middle"
+        fill="#efece9" fill-opacity="0.7">MMXXVII</text>
+</svg>

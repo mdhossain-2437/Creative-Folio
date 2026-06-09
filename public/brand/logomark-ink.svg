@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="lmi-title lmi-desc">
+  <title id="lmi-title">Delowar Hossain. — DH monogram logomark (ink on paper)</title>
+  <desc id="lmi-desc">Inverted editorial DH monogram set in a refined italic serif in deep ink on a warm paper field, fused with a 45-degree peach diamond accent, inside a thin hairline frame with a soft corner peach glow. The light-surface brand mark for Delowar Hossain, MMXXVII edition.</desc>
+
+  <defs>
+    <!-- Soft peach radial glow bleeding from the upper-right corner over the paper field. -->
+    <radialGradient id="lmi-glow" cx="82%" cy="18%" r="80%">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.40" />
+      <stop offset="50%" stop-color="#f3efe9" stop-opacity="0" />
+    </radialGradient>
+    <!-- Quiet counter-glow from the lower-left for depth balance. -->
+    <radialGradient id="lmi-glow2" cx="14%" cy="90%" r="64%">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.14" />
+      <stop offset="60%" stop-color="#f3efe9" stop-opacity="0" />
+    </radialGradient>
+    <!-- Hairline gradient for the underscore rule (ink, fading at both ends). -->
+    <linearGradient id="lmi-rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#070708" stop-opacity="0" />
+      <stop offset="50%" stop-color="#070708" stop-opacity="0.28" />
+      <stop offset="100%" stop-color="#070708" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Warm paper base. -->
+  <rect width="512" height="512" fill="#f3efe9" />
+  <rect width="512" height="512" fill="url(#lmi-glow)" />
+  <rect width="512" height="512" fill="url(#lmi-glow2)" />
+
+  <!-- Thin inset editorial frame, hairline at 12% ink. -->
+  <rect x="28" y="28" width="456" height="456" rx="2" fill="none" stroke="#070708" stroke-opacity="0.12" stroke-width="1" />
+
+  <!-- Top eyebrow: section strap left, edition right. Small chrome; the monogram below carries the mark at favicon scale. -->
+  <g font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif" font-size="13" letter-spacing="3.2">
+    <text x="52" y="66" fill="#070708" fill-opacity="0.78">&#167; 03.27</text>
+    <text x="460" y="66" text-anchor="end" fill="#070708" fill-opacity="0.55">MMXXVII</text>
+  </g>
+
+  <!-- The peach diamond — core graphic mark, seated between and behind the letterforms. Exact peach, flat, crisp. -->
+  <g transform="rotate(45 256 256)">
+    <rect x="208" y="208" width="96" height="96" rx="3" fill="#e3bfb4" />
+    <!-- Inner paper aperture so the diamond reads as a window, echoing the OG glow. -->
+    <rect x="230" y="230" width="52" height="52" rx="2" fill="#f3efe9" />
+  </g>
+
+  <!-- DH monogram — refined italic editorial serif, deep ink, centered over the diamond. -->
+  <text x="256" y="356"
+        text-anchor="middle"
+        font-family="'Newsreader', 'Georgia', 'Times New Roman', serif"
+        font-style="italic"
+        font-weight="500"
+        font-size="300"
+        letter-spacing="-8"
+        fill="#070708">DH<tspan dx="-6" font-style="normal" fill="#e3bfb4">.</tspan></text>
+
+  <!-- Hairline underscore rule beneath the mark. -->
+  <line x1="124" y1="408" x2="388" y2="408" stroke="url(#lmi-rule)" stroke-width="1" />
+
+  <!-- Footer wordmark, uppercase tracked — the system signature. -->
+  <text x="256" y="448" text-anchor="middle"
+        font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif"
+        font-size="13" letter-spacing="6"
+        fill="#070708" fill-opacity="0.70">DELOWAR HOSSAIN</text>
+
+  <!-- Balanced peach corner ticks — all four, reinforcing the frame as deliberate. -->
+  <g stroke="#e3bfb4" stroke-opacity="0.7" stroke-width="1" fill="none">
+    <path d="M28 44 V28 H44" />
+    <path d="M468 28 H484 V44" />
+    <path d="M28 468 V484 H44" />
+    <path d="M468 484 H484 V468" />
+  </g>
+</svg>

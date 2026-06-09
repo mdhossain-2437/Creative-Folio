@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
+<meta name="color-scheme" content="dark light">
+<meta name="supported-color-schemes" content="dark light">
+<title>The Compiled Thought &mdash; Dispatch No. {{issue_number}}</title>
+<!--
+  ============================================================================
+  THE COMPILED THOUGHT - STUDIO JOURNAL DISPATCH - MMXXVII
+  Wordmark: "Delowar Hossain." - Creative Developer & UI/UX Designer
+  ----------------------------------------------------------------------------
+  MERGE TAG MAP (provider-agnostic Handlebars used below):
+    {{first_name}}      -> Resend/React-Email: {firstName}   | Mailchimp: *|FNAME|*           | Buttondown: {{ subscriber.metadata.first_name }}
+    {{email}}           -> Resend/React-Email: {email}       | Mailchimp: *|EMAIL|*           | Buttondown: {{ email }}
+    {{issue_number}}    -> Resend/React-Email: {issueNumber} | Mailchimp: *|ISSUE|*           | Buttondown: {{ newsletter.issue }}
+    {{unsubscribe_url}} -> Resend/React-Email: {unsubscribeUrl} | Mailchimp: *|UNSUB|*        | Buttondown: {{ unsubscribe_url }}
+    {{preferences_url}} -> Resend/React-Email: {preferencesUrl} | Mailchimp: *|UPDATE_PROFILE|* | Buttondown: {{ subscriber.metadata.preferences_url }}
+  ============================================================================
+-->
+<!--[if mso]>
+<noscript>
+  <xml>
+    <o:OfficeDocumentSettings>
+      <o:PixelsPerInch>96</o:PixelsPerInch>
+      <o:AllowPNG/>
+    </o:OfficeDocumentSettings>
+  </xml>
+</noscript>
+<![endif]-->
+<style type="text/css">
+  /* ---- Resets ---- */
+  html, body { margin: 0 !important; padding: 0 !important; height: 100% !important; width: 100% !important; }
+  * { -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; }
+  table, td { mso-table-lspace: 0pt !important; mso-table-rspace: 0pt !important; border-collapse: collapse !important; }
+  img { -ms-interpolation-mode: bicubic; border: 0; height: auto; line-height: 100%; outline: none; text-decoration: none; }
+  a { text-decoration: none; }
+  body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+  .ExternalClass { width: 100%; }
+  .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div { line-height: 100%; }
+  u + #body a { color: inherit; text-decoration: none; }
+  a[x-apple-data-detectors] { color: inherit !important; text-decoration: none !important; font-size: inherit !important; font-family: inherit !important; font-weight: inherit !important; line-height: inherit !important; }
+
+  /* ---- Responsive ---- */
+  @media only screen and (max-width: 600px) {
+    .full { width: 100% !important; max-width: 100% !important; }
+    .px { padding-left: 26px !important; padding-right: 26px !important; }
+    .hero-h { font-size: 38px !important; line-height: 0.98 !important; letter-spacing: -1.2px !important; }
+    .wordmark { font-size: 24px !important; }
+    .stack { display: block !important; width: 100% !important; }
+    .stack-r { text-align: left !important; padding-top: 10px !important; }
+    .hide-sm { display: none !important; max-height: 0 !important; overflow: hidden !important; mso-hide: all !important; }
+    .center-sm { text-align: center !important; }
+    .btn-fluid { width: 100% !important; max-width: 320px !important; }
+  }
+
+  /* ---- Dark-mode friendliness (design is already dark; lock it) ---- */
+  @media (prefers-color-scheme: dark) {
+    body, .bg-ink { background-color: #070708 !important; }
+    .panel { background-color: #0c0c0c !important; }
+    .t-warm { color: #efece9 !important; }
+    .t-bone { color: #e5e2e0 !important; }
+    .t-peach { color: #e3bfb4 !important; }
+  }
+  [data-ogsc] body, [data-ogsc] .bg-ink { background-color: #070708 !important; }
+  [data-ogsc] .panel { background-color: #0c0c0c !important; }
+  [data-ogsc] .t-warm { color: #efece9 !important; }
+  [data-ogsc] .t-bone { color: #e5e2e0 !important; }
+  [data-ogsc] .t-peach { color: #e3bfb4 !important; }
+  [data-ogsc] .t-mute { color: #c6c6c7 !important; }
+</style>
+</head>
+<body id="body" class="bg-ink" style="margin:0; padding:0; width:100%; background-color:#070708; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;">
+
+<!-- Preheader (inbox preview line) -->
+<div style="display:none; visibility:hidden; mso-hide:all; font-size:1px; line-height:1px; max-height:0; max-width:0; opacity:0; overflow:hidden; color:#070708;">
+  Dispatch No. {{issue_number}} &mdash; Flexible page transitions, borrowed from Patrick Heng. Plus a new Fluid Dynamics shader from the lab.
+  &#8203;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;&#847;
+</div>
+
+<!-- Full-bleed ink background -->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-ink" style="background-color:#070708;">
+  <tr>
+    <td align="center" style="padding:0;">
+
+      <!--[if mso]>
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" align="center"><tr><td>
+      <![endif]-->
+
+      <!-- ===================== CONTENT WRAPPER 600px ===================== -->
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" class="full" style="width:600px; max-width:600px; margin:0 auto;">
+
+        <!-- Peach 6px top rule -->
+        <tr>
+          <td style="height:6px; line-height:6px; font-size:6px; background-color:#e3bfb4;">&nbsp;</td>
+        </tr>
+
+        <!-- Top edge breathing room -->
+        <tr>
+          <td class="bg-ink" style="background-color:#070708; height:8px; line-height:8px; font-size:8px;">&nbsp;</td>
+        </tr>
+
+        <!-- ===================== MASTHEAD ===================== -->
+        <tr>
+          <td class="bg-ink px" style="background-color:#070708; padding:24px 40px 0 40px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <!-- Wordmark -->
+                <td class="stack" valign="middle" align="left" style="font-family:'Newsreader',Georgia,'Times New Roman',serif;">
+                  <span class="wordmark t-warm" style="font-family:'Newsreader',Georgia,'Times New Roman',serif; font-style:italic; font-weight:400; font-size:28px; line-height:1; letter-spacing:-1px; color:#efece9;">Delowar&nbsp;Hossain<span style="color:#e3bfb4;">.</span></span>
+                </td>
+                <!-- Diamond + edition -->
+                <td class="stack stack-r hide-sm" valign="middle" align="right" style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace;">
+                  <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="right">
+                    <tr>
+                      <td valign="middle" style="padding-right:10px;">
+                        <!-- 45deg peach diamond (decorative) -->
+                        <table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr><td style="font-size:0; line-height:0;">
+                          <div style="width:9px; height:9px; background-color:#e3bfb4; -webkit-transform:rotate(45deg); transform:rotate(45deg); mso-hide:all;">&nbsp;</div>
+                        </td></tr></table>
+                      </td>
+                      <td valign="middle" style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace; font-size:11px; letter-spacing:2px; color:#717179; text-transform:uppercase;">MMXXVII&nbsp;&middot;&nbsp;&sect;&nbsp;03.27</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Masthead hairline + dispatch line -->
+        <tr>
+          <td class="bg-ink px" style="background-color:#070708; padding:18px 40px 0 40px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr><td height="1" style="border-top:1px solid rgba(239,236,233,0.14); font-size:0; line-height:0;">&nbsp;</td></tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="bg-ink px" style="background-color:#070708; padding:14px 40px 0 40px; font-family:'Inter','Helvetica Neue',Arial,sans-serif;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td class="stack" align="left" style="font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:#c6c6c7;">
+                  <span style="color:#e3bfb4;">&#9826;</span>&nbsp; The Compiled Thought &middot; Dispatch
+                </td>
+                <td class="stack stack-r" align="right" style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:#717179;">
+                  No.&nbsp;{{issue_number}} &middot; MMXXVII
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- ===================== HERO / LEAD ESSAY ===================== -->
+        <tr>
+          <td class="bg-ink px" style="background-color:#070708; padding:38px 40px 0 40px;">
+            <!-- Eyebrow -->
+            <p style="margin:0 0 18px 0; font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-size:11px; line-height:1.4; letter-spacing:3px; text-transform:uppercase; color:#e3bfb4;">&sect;&nbsp;01 &nbsp;&middot;&nbsp; The Lead Essay</p>
+
+            <!-- Headline -->
+            <h1 class="hero-h t-warm" style="margin:0; font-family:'Newsreader',Georgia,'Times New Roman',serif; font-style:italic; font-weight:400; font-size:46px; line-height:0.96; letter-spacing:-1.6px; color:#efece9;">
+              Flexible page transitions, borrowed&nbsp;from Patrick&nbsp;Heng.
+            </h1>
+
+            <!-- Kicker / meta -->
+            <p style="margin:22px 0 0 0; font-family:'JetBrains Mono',ui-monospace,Menlo,monospace; font-size:11px; line-height:1.6; letter-spacing:1px; color:#717179; text-transform:uppercase;">
+              Journal &middot; 09 June 2027 &middot; Read (11&nbsp;min)
+            </p>
+
+            <!-- Excerpt -->
+            <p class="t-bone" style="margin:22px 0 0 0; font-family:'Newsreader',Georgia,'Times New Roman',serif; font-size:17px; line-height:1.62; color:#e5e2e0;">
+              Most page transitions fight the browser. They freeze scroll, lock the DOM, and hope nobody resizes mid-animation. Patrick Heng&rsquo;s approach inverts the contract&mdash;the outgoing view is photographed, the incoming view is built underneath it, and a single curtain mediates between them. I rebuilt the pattern in Next.js with the View Transitions API as a progressive layer, and kept a GSAP fallback for the browsers still catching up.
+            </p>
+            <p class="t-mute" style="margin:16px 0 0 0; font-family:'Newsreader',Georgia,'Times New Roman',serif; font-size:16px; line-height:1.62; color:#c6c6c7;">
+              The surprise wasn&rsquo;t the motion. It was the bookkeeping&mdash;scroll restoration, focus return, and the half-second where two pages legally coexist. This dispatch is the field notes.
+            </p>
+          </td>
+        </tr>
+
+        <!-- Bulletproof primary button: PEACH fill -->
+        <tr>
+          <td class="bg-ink px" style="background-color:#070708; padding:30px 40px 0 40px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td>
+                  <!--[if mso]>
+                  <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://delowarhossain.dev/journal/flexible-page-transitions?utm_source=dispatch&amp;utm_campaign=no-{{issue_number}}" style="height:48px;v-text-anchor:middle;width:240px;" arcsize="0%" stroke="f" fillcolor="#e3bfb4">
+                    <w:anchorlock/>
+                    <center style="color:#070708;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:12px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;">Read the essay &#8599;</center>
+                  </v:roundrect>
+                  <![endif]-->
+                  <!--[if !mso]><!-- -->
+                  <a class="btn-fluid" href="https://delowarhossain.dev/journal/flexible-page-transitions?utm_source=dispatch&amp;utm_campaign=no-{{issue_number}}" style="background-color:#e3bfb4; color:#070708; display:inline-block; font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; line-height:48px; text-align:center; text-decoration:none; width:240px; -webkit-text-size-adjust:none;">Read the essay &nbsp;&#8599;</a>
+                  <!--<![endif]-->
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Spacer -->
+        <tr><td class="bg-ink" style="background-color:#070708; height:42px; line-height:42px; font-size:0;">&nbsp;</td></tr>
+
+        <!-- Hairline divider -->
+        <tr>
+          <td class="bg-ink px" style="background-color:#070708; padding:0 40px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr><td height="1" style="border-top:1px solid rgba(239,236,233,0.14); font-size:0; line-height:0;">&nbsp;</td></tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- ===================== ALSO IN THIS ISSUE ===================== -->
+        <tr>
+          <td class="bg-ink px" style="background-color:#070708; padding:34px 40px 0 40px;">
+            <p style="margin:0 0 4px 0; font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-size:11px; line-height:1.4; letter-spacing:3px; text-transform:uppercase; color:#e3bfb4;">&sect;&nbsp;02 &nbsp;&middot;&nbsp; Also in this issue</p>
+          </td>
+        </tr>
+
+        <!-- Item 1 -->
+        <tr>
+          <td class="bg-ink px" style="background-color:#070708; padding:24px 40px 0 40px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td width="34" valign="top" style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace; font-size:13px; color:#525259; padding-top:4px;">01</td>
+                <td valign="top">
+                  <a href="https://delowarhossain.dev/journal/grid-as-grammar?utm_source=dispatch" style="text-decoration:none;">
+                    <span class="t-warm" style="font-family:'Newsreader',Georgia,'Times New Roman',serif; font-size:21px; line-height:1.25; letter-spacing:-0.4px; color:#efece9;">The grid is a grammar, not a cage</span>
+                  </a>
+                  <p class="t-mute" style="margin:8px 0 0 0; font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-size:14px; line-height:1.55; color:#c6c6c7;">On building editorial layouts that bend at every breakpoint without losing their argument.</p>
+                  <p style="margin:9px 0 0 0; font-family:'JetBrains Mono',ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:#717179;">28 May 2027 &middot; 7&nbsp;min</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <!-- thin sub-rule -->
+        <tr><td class="bg-ink px" style="background-color:#070708; padding:22px 40px 0 40px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td height="1" style="border-top:1px solid rgba(239,236,233,0.08); font-size:0; line-height:0;">&nbsp;</td></tr></table></td></tr>
+
+        <!-- Item 2 -->
+        <tr>
+          <td class="bg-ink px" style="background-color:#070708; padding:22px 40px 0 40px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td width="34" valign="top" style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace; font-size:13px; color:#525259; padding-top:4px;">02</td>
+                <td valign="top">
+                  <a href="https://delowarhossain.dev/journal/shipping-aura-void-v2?utm_source=dispatch" style="text-decoration:none;">
+                    <span class="t-warm" style="font-family:'Newsreader',Georgia,'Times New Roman',serif; font-size:21px; line-height:1.25; letter-spacing:-0.4px; color:#efece9;">Shipping Aura Void v2 in 1.4&nbsp;kB of GLSL</span>
+                  </a>
+                  <p class="t-mute" style="margin:8px 0 0 0; font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-size:14px; line-height:1.55; color:#c6c6c7;">How one fragment shader, a soft-body cursor, and zero image assets held a 9.2&nbsp;ms frame budget.</p>
+                  <p style="margin:9px 0 0 0; font-family:'JetBrains Mono',ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:#717179;">14 May 2027 &middot; 9&nbsp;min</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr><td class="bg-ink px" style="background-color:#070708; padding:22px 40px 0 40px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td height="1" style="border-top:1px solid rgba(239,236,233,0.08); font-size:0; line-height:0;">&nbsp;</td></tr></table></td></tr>
+
+        <!-- Item 3 -->
+        <tr>
+          <td class="bg-ink px" style="background-color:#070708; padding:22px 40px 0 40px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td width="34" valign="top" style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace; font-size:13px; color:#525259; padding-top:4px;">03</td>
+                <td valign="top">
+                  <a href="https://delowarhossain.dev/journal/tabular-numerals?utm_source=dispatch" style="text-decoration:none;">
+                    <span class="t-warm" style="font-family:'Newsreader',Georgia,'Times New Roman',serif; font-size:21px; line-height:1.25; letter-spacing:-0.4px; color:#efece9;">In praise of tabular numerals</span>
+                  </a>
+                  <p class="t-mute" style="margin:8px 0 0 0; font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-size:14px; line-height:1.55; color:#c6c6c7;">A small typographic discipline that makes dashboards, prices, and changelogs quietly trustworthy.</p>
+                  <p style="margin:9px 0 0 0; font-family:'JetBrains Mono',ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:#717179;">02 May 2027 &middot; 5&nbsp;min</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Spacer -->
+        <tr><td class="bg-ink" style="background-color:#070708; height:40px; line-height:40px; font-size:0;">&nbsp;</td></tr>
+
+        <!-- ===================== FROM THE LAB ===================== -->
+        <tr>
+          <td class="bg-ink" style="background-color:#070708; padding:0 40px;">
+            <!-- Panel with corner glow feel -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="panel" style="background-color:#0c0c0c; border:1px solid rgba(239,236,233,0.14);">
+              <tr>
+                <td style="padding:30px 30px 0 30px;">
+                  <p style="margin:0 0 18px 0; font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-size:11px; line-height:1.4; letter-spacing:3px; text-transform:uppercase; color:#e3bfb4;">&sect;&nbsp;03 &nbsp;&middot;&nbsp; From the Lab</p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:0 30px 0 30px;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr>
+                      <td width="92" valign="top" class="hide-sm" style="font-family:'Newsreader',Georgia,'Times New Roman',serif; font-style:italic; font-size:58px; line-height:0.8; color:#1f201f; padding-right:8px;">01</td>
+                      <td valign="top">
+                        <p style="margin:0 0 6px 0; font-family:'JetBrains Mono',ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:#717179;">WebGL &middot; GLSL &middot; 2027</p>
+                        <a href="https://delowarhossain.dev/lab/fluid-dynamics?utm_source=dispatch" style="text-decoration:none;">
+                          <span class="t-warm" style="font-family:'Newsreader',Georgia,'Times New Roman',serif; font-style:italic; font-size:30px; line-height:1.05; letter-spacing:-0.8px; color:#efece9;">Fluid Dynamics Shader</span>
+                        </a>
+                        <p class="t-bone" style="margin:14px 0 0 0; font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-size:15px; line-height:1.6; color:#e5e2e0;">
+                          A lightweight Navier&ndash;Stokes simulation running entirely in a fragment shader&mdash;velocity advection, pressure solve, and dye, all on the GPU. Drag the cursor and the field remembers your gesture for a beat, then dissolves it back into noise.
+                        </p>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <!-- Lab spec row -->
+              <tr>
+                <td style="padding:22px 30px 0 30px;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid rgba(239,236,233,0.08);">
+                    <tr>
+                      <td align="left" valign="middle" style="padding-top:14px; font-family:'JetBrains Mono',ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:#717179;">
+                        Grid 256&sup2; &nbsp;&middot;&nbsp; 60&nbsp;fps &nbsp;&middot;&nbsp; 0 image assets
+                      </td>
+                      <td align="right" valign="middle" class="hide-sm" style="padding-top:14px;">
+                        <a href="https://delowarhossain.dev/lab/fluid-dynamics?utm_source=dispatch" style="font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:#e3bfb4; text-decoration:none;">Open the experiment&nbsp;&#8599;</a>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr><td style="height:30px; line-height:30px; font-size:0;">&nbsp;</td></tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Spacer -->
+        <tr><td class="bg-ink" style="background-color:#070708; height:40px; line-height:40px; font-size:0;">&nbsp;</td></tr>
+
+        <!-- ===================== NOW STRIP ===================== -->
+        <tr>
+          <td class="bg-ink px" style="background-color:#070708; padding:0 40px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr><td height="1" style="border-top:1px solid rgba(239,236,233,0.14); font-size:0; line-height:0;">&nbsp;</td></tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="bg-ink px" style="background-color:#070708; padding:26px 40px 26px 40px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td width="60" valign="top" style="font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:#e3bfb4; padding-top:3px;">Now</td>
+                <td valign="top">
+                  <p class="t-bone" style="margin:0; font-family:'Newsreader',Georgia,'Times New Roman',serif; font-style:italic; font-size:18px; line-height:1.5; color:#e5e2e0;">
+                    Closing out an editorial system for a generative-AI lab, sketching Aura&nbsp;Void&nbsp;v3, and reading about typographic hierarchy. <span style="color:#e3bfb4; font-style:normal; font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-size:11px; letter-spacing:1px; text-transform:uppercase;">&nbsp;Open from Q1&nbsp;&rsquo;27.</span>
+                  </p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- ===================== GHOST CTA ===================== -->
+        <tr>
+          <td class="bg-ink px" style="background-color:#070708; padding:6px 40px 0 40px;" align="left">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td>
+                  <!--[if mso]>
+                  <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://delowarhossain.dev/contact?utm_source=dispatch" style="height:46px;v-text-anchor:middle;width:230px;" arcsize="0%" strokecolor="#e3bfb4" strokeweight="1px" fillcolor="#070708">
+                    <w:anchorlock/>
+                    <center style="color:#e3bfb4;font-family:'Inter',Helvetica,Arial,sans-serif;font-size:11px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;">Start a conversation &#8599;</center>
+                  </v:roundrect>
+                  <![endif]-->
+                  <!--[if !mso]><!-- -->
+                  <a class="btn-fluid" href="https://delowarhossain.dev/contact?utm_source=dispatch" style="border:1px solid #e3bfb4; color:#e3bfb4; display:inline-block; font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; line-height:44px; text-align:center; text-decoration:none; width:228px; -webkit-text-size-adjust:none;">Start a conversation &nbsp;&#8599;</a>
+                  <!--<![endif]-->
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Spacer -->
+        <tr><td class="bg-ink" style="background-color:#070708; height:46px; line-height:46px; font-size:0;">&nbsp;</td></tr>
+
+        <!-- ===================== FOOTER ===================== -->
+        <tr>
+          <td class="bg-ink px" style="background-color:#070708; padding:0 40px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr><td height="1" style="border-top:1px solid rgba(239,236,233,0.14); font-size:0; line-height:0;">&nbsp;</td></tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Footer wordmark + tagline -->
+        <tr>
+          <td class="bg-ink px" style="background-color:#070708; padding:28px 40px 0 40px;">
+            <span class="t-warm" style="font-family:'Newsreader',Georgia,'Times New Roman',serif; font-style:italic; font-size:22px; line-height:1; letter-spacing:-0.6px; color:#efece9;">Delowar&nbsp;Hossain<span style="color:#e3bfb4;">.</span></span>
+            <p class="t-mute" style="margin:12px 0 0 0; font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-size:12px; line-height:1.6; color:#c6c6c7; max-width:420px;">
+              Creative Developer &amp; UI/UX Designer. The Compiled Thought.<br>
+              <span style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace; font-size:10px; letter-spacing:1px; color:#717179;">WebGL &middot; Three.js &middot; GSAP &middot; Next.js &middot; GLSL &middot; AI</span>
+            </p>
+          </td>
+        </tr>
+
+        <!-- Socials row -->
+        <tr>
+          <td class="bg-ink px" style="background-color:#070708; padding:20px 40px 0 40px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td style="font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; padding-right:18px;"><a href="https://github.com/mdhossain-2437" style="color:#e3bfb4; text-decoration:none;">GitHub</a></td>
+                <td style="font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; padding-right:18px;"><a href="https://twitter.com/mdhossain2437" style="color:#e3bfb4; text-decoration:none;">X</a></td>
+                <td style="font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; padding-right:18px;"><a href="https://www.linkedin.com/in/mdhossain2437" style="color:#e3bfb4; text-decoration:none;">LinkedIn</a></td>
+                <td style="font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase;"><a href="https://read.cv/delowar" style="color:#e3bfb4; text-decoration:none;">Read.cv</a></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Address + meta -->
+        <tr>
+          <td class="bg-ink px" style="background-color:#070708; padding:24px 40px 0 40px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr>
+                <td class="stack" align="left" style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace; font-size:10px; line-height:1.7; letter-spacing:0.5px; text-transform:uppercase; color:#525259;">
+                  Joypurhat, Bangladesh<br>25.10&deg;&nbsp;N &middot; 89.02&deg;&nbsp;E
+                </td>
+                <td class="stack stack-r" align="right" style="font-family:'JetBrains Mono',ui-monospace,Menlo,monospace; font-size:10px; line-height:1.7; letter-spacing:0.5px; text-transform:uppercase; color:#525259;">
+                  <a href="https://delowarhossain.dev" style="color:#c6c6c7; text-decoration:none;">delowarhossain.dev</a><br>
+                  <a href="mailto:hello@delowarhossain.dev" style="color:#c6c6c7; text-decoration:none;">hello@delowarhossain.dev</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Unsubscribe / preferences -->
+        <tr>
+          <td class="bg-ink px" style="background-color:#070708; padding:26px 40px 0 40px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr><td height="1" style="border-top:1px solid rgba(239,236,233,0.08); font-size:0; line-height:0;">&nbsp;</td></tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td class="bg-ink px" style="background-color:#070708; padding:16px 40px 0 40px;">
+            <p class="t-mute" style="margin:0; font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-size:11px; line-height:1.7; color:#717179;">
+              You are receiving the Dispatch as {{email}} because you subscribed at delowarhossain.dev.
+            </p>
+            <p style="margin:10px 0 0 0; font-family:'Inter','Helvetica Neue',Arial,sans-serif; font-size:11px; line-height:1.7; letter-spacing:1px; text-transform:uppercase; color:#c6c6c7;">
+              <a href="{{preferences_url}}" style="color:#e3bfb4; text-decoration:underline;">Manage preferences</a>
+              &nbsp;&middot;&nbsp;
+              <a href="{{unsubscribe_url}}" style="color:#c6c6c7; text-decoration:underline;">Unsubscribe</a>
+            </p>
+          </td>
+        </tr>
+
+        <!-- Colophon -->
+        <tr>
+          <td class="bg-ink px" style="background-color:#070708; padding:22px 40px 0 40px;">
+            <p style="margin:0; font-family:'JetBrains Mono',ui-monospace,Menlo,monospace; font-size:9px; line-height:1.6; letter-spacing:1px; text-transform:uppercase; color:#525259;">
+              &copy; MMXXVII Delowar Hossain &middot; Set in Newsreader, Inter &amp; JetBrains&nbsp;Mono &middot; &sect;&nbsp;03.27
+            </p>
+          </td>
+        </tr>
+
+        <!-- Bottom diamond mark -->
+        <tr>
+          <td class="bg-ink" align="center" style="background-color:#070708; padding:28px 40px 36px 40px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center"><tr><td align="center" style="font-size:0; line-height:0;">
+              <div style="width:8px; height:8px; background-color:#e3bfb4; -webkit-transform:rotate(45deg); transform:rotate(45deg); margin:0 auto; mso-hide:all;">&nbsp;</div>
+            </td></tr></table>
+          </td>
+        </tr>
+
+      </table>
+      <!-- ===================== /CONTENT WRAPPER ===================== -->
+
+      <!--[if mso]>
+      </td></tr></table>
+      <![endif]-->
+
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>
