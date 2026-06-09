@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="mono-title mono-desc">
+  <title id="mono-title">Delowar Hossain. — monogram</title>
+  <desc id="mono-desc">A compact square ink-950 brand tile with a centered peach 45-degree diamond carrying a knockout italic serif D monogram, a peach top edge, and an inset hairline frame. Built for legibility at app-icon scale.</desc>
+
+  <defs>
+    <!-- Soft peach radial glow bleeding from the top-right corner over deep ink. -->
+    <radialGradient id="mono-glow" cx="76%" cy="22%" r="72%">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.20" />
+      <stop offset="58%" stop-color="#070708" stop-opacity="0" />
+    </radialGradient>
+    <!-- Subtle diagonal sheen so the diamond reads as a printed mark, not flat. -->
+    <linearGradient id="mono-diamond" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ecd0c7" />
+      <stop offset="52%" stop-color="#e3bfb4" />
+      <stop offset="100%" stop-color="#d6ab9e" />
+    </linearGradient>
+  </defs>
+
+  <!-- Deep ink base. Sharp corners, full bleed. -->
+  <rect width="256" height="256" fill="#070708" />
+  <rect width="256" height="256" fill="url(#mono-glow)" />
+
+  <!-- Peach top edge, echoing the OG card's 6px border scaled for the tile. -->
+  <rect x="0" y="0" width="256" height="3" fill="#e3bfb4" />
+
+  <!-- Inset editorial hairline frame. -->
+  <rect x="14" y="14" width="228" height="228" fill="none" stroke="#efece9" stroke-opacity="0.12" stroke-width="1" />
+
+  <!-- Core graphic mark: a 45deg-rotated peach diamond, centered on the tile.
+       Side 132 -> half-diagonal ~93px, so the inscribed upright square is ~132px wide:
+       ample room for a single centered letter without spill. -->
+  <rect x="62" y="62" width="132" height="132" fill="url(#mono-diamond)" transform="rotate(45 128 128)" />
+
+  <!-- Knockout monogram: a single confident italic Newsreader D, ink-950 reading
+       through the peach. Sized and centered to sit cleanly inside the diamond. -->
+  <text x="126" y="170"
+        font-family="'Newsreader', Georgia, 'Times New Roman', serif"
+        font-size="150" font-style="italic" font-weight="600"
+        letter-spacing="-0.03em" text-anchor="middle" fill="#070708">D</text>
+</svg>

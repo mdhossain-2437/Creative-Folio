@@ -1,0 +1,111 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1190 1684" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="posterTitle posterDesc" lang="en">
+  <title id="posterTitle">Delowar Hossain. — MMXXVII Brand Poster</title>
+  <desc id="posterDesc">Editorial A-series brand poster for Delowar Hossain, Creative Developer and UI/UX Designer. A giant italic Newsreader wordmark reading Delowar Hossain set across two lines over deep ink, with a peach radial glow, a fine hairline column grid, the 45-degree peach diamond accent, section markers, the studio name The Compiled Thought, the tagline, the stack signature, and a footer with the domain and coordinates.</desc>
+
+  <defs>
+    <!-- Warm peach glow bleeding from the upper-right corner over deep ink. -->
+    <radialGradient id="glow" cx="84%" cy="20%" r="70%">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.20" />
+      <stop offset="42%" stop-color="#e3bfb4" stop-opacity="0.06" />
+      <stop offset="68%" stop-color="#070708" stop-opacity="0" />
+    </radialGradient>
+    <!-- Secondary low glow anchoring the footer. -->
+    <radialGradient id="glowFoot" cx="14%" cy="92%" r="56%">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.08" />
+      <stop offset="60%" stop-color="#070708" stop-opacity="0" />
+    </radialGradient>
+    <!-- Center-weighted hairline for editorial rules. -->
+    <linearGradient id="rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#efece9" stop-opacity="0" />
+      <stop offset="14%" stop-color="#efece9" stop-opacity="0.32" />
+      <stop offset="86%" stop-color="#efece9" stop-opacity="0.32" />
+      <stop offset="100%" stop-color="#efece9" stop-opacity="0" />
+    </linearGradient>
+    <!-- Vertical fade for the column grid guides. -->
+    <linearGradient id="ruleV" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#efece9" stop-opacity="0" />
+      <stop offset="18%" stop-color="#efece9" stop-opacity="0.07" />
+      <stop offset="82%" stop-color="#efece9" stop-opacity="0.07" />
+      <stop offset="100%" stop-color="#efece9" stop-opacity="0" />
+    </linearGradient>
+    <!-- Soft peach face for the diamond, within palette. -->
+    <linearGradient id="diamond" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e5e2e0" />
+      <stop offset="52%" stop-color="#e3bfb4" />
+      <stop offset="100%" stop-color="#e3bfb4" />
+    </linearGradient>
+  </defs>
+
+  <!-- BASE -->
+  <rect width="1190" height="1684" fill="#070708" />
+  <rect width="1190" height="1684" fill="url(#glow)" />
+  <rect width="1190" height="1684" fill="url(#glowFoot)" />
+
+  <!-- FINE HAIRLINE COLUMN GRID — editorial structure, 4 inner column guides. -->
+  <g stroke="url(#ruleV)" stroke-width="1">
+    <line x1="296" y1="96" x2="296" y2="1588" />
+    <line x1="513" y1="96" x2="513" y2="1588" />
+    <line x1="730" y1="96" x2="730" y2="1588" />
+    <line x1="947" y1="96" x2="947" y2="1588" />
+  </g>
+
+  <!-- INSET EDITORIAL FRAME -->
+  <rect x="72" y="72" width="1046" height="1540" fill="none" stroke="#efece9" stroke-opacity="0.12" />
+  <!-- Corner ticks -->
+  <g stroke="#e3bfb4" stroke-opacity="0.55" stroke-width="1.5" fill="none">
+    <path d="M72 100 L72 72 L100 72" />
+    <path d="M1090 72 L1118 72 L1118 100" />
+    <path d="M72 1584 L72 1612 L100 1612" />
+    <path d="M1090 1612 L1118 1612 L1118 1584" />
+  </g>
+
+  <!-- EYEBROW ROW -->
+  <g font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif" fill="#efece9">
+    <text x="112" y="146" font-size="20" letter-spacing="6.5" fill-opacity="0.62">&#9676; FOLIO &#183; MMXXVII</text>
+    <text x="1078" y="146" font-size="20" letter-spacing="6.5" text-anchor="end" fill-opacity="0.62">&#167; 03.27</text>
+  </g>
+  <line x1="112" y1="176" x2="1078" y2="176" stroke="url(#rule)" stroke-width="1" />
+
+  <!-- SECTION MARKER + EDITION -->
+  <g font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace" fill="#efece9">
+    <text x="112" y="232" font-size="18" letter-spacing="2" fill="#e3bfb4">&#167; 01</text>
+    <text x="1078" y="232" font-size="18" letter-spacing="2" text-anchor="end" fill-opacity="0.55">MMXXVII</text>
+  </g>
+
+  <!-- GIANT WORDMARK — italic Newsreader, "Delowar" over "Hossain." on two clean lines. -->
+  <g font-family="'Newsreader', 'Georgia', 'Times New Roman', serif" font-style="italic" font-weight="400" fill="#efece9" letter-spacing="-13">
+    <text x="100" y="640" font-size="340">Delowar</text>
+    <text x="100" y="980" font-size="340">Hossain<tspan fill="#e3bfb4">.</tspan></text>
+  </g>
+
+  <!-- FOCAL PEACH DIAMOND — set in clear negative space upper-right, clear of the wordmark. -->
+  <g transform="translate(992 370)">
+    <polygon points="0,-128 128,0 0,128 -128,0" fill="none" stroke="#e3bfb4" stroke-opacity="0.30" stroke-width="1" />
+    <polygon points="0,-62 62,0 0,62 -62,0" fill="url(#diamond)" />
+  </g>
+
+  <!-- STUDIO + ROLE -->
+  <line x1="112" y1="1252" x2="1078" y2="1252" stroke="url(#rule)" stroke-width="1" />
+  <g font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif" fill="#efece9">
+    <text x="112" y="1306" font-size="24" letter-spacing="7" fill-opacity="0.80">CREATIVE DEVELOPER &#183; UI / UX DESIGNER</text>
+    <text x="1078" y="1306" font-size="20" letter-spacing="6" text-anchor="end" fill="#e3bfb4">THE COMPILED THOUGHT</text>
+  </g>
+
+  <!-- TAGLINE — set small, editorial, three measured italic lines. -->
+  <g font-family="'Newsreader', 'Georgia', 'Times New Roman', serif" font-style="italic" fill="#efece9">
+    <text x="112" y="1380" font-size="33" letter-spacing="-0.4" fill-opacity="0.72">Bridging editorial design and high-performance creative development.</text>
+    <text x="112" y="1426" font-size="33" letter-spacing="-0.4" fill-opacity="0.55">I build immersive digital products where typography, motion,</text>
+    <text x="112" y="1472" font-size="33" letter-spacing="-0.4" fill-opacity="0.55">and engineering converge.</text>
+  </g>
+
+  <!-- STACK SIGNATURE -->
+  <text x="112" y="1528" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace" font-size="16" letter-spacing="1.5" fill="#efece9" fill-opacity="0.50">WebGL &#183; Three.js &#183; GSAP &#183; Next.js &#183; GLSL &#183; AI</text>
+
+  <!-- FOOTER -->
+  <line x1="112" y1="1556" x2="1078" y2="1556" stroke="url(#rule)" stroke-width="1" />
+  <g font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif" fill="#efece9">
+    <text x="112" y="1592" font-size="20" letter-spacing="6" fill="#e3bfb4">DELOWARHOSSAIN.DEV</text>
+    <text x="1078" y="1592" font-size="20" letter-spacing="6" text-anchor="end" fill-opacity="0.70">JOYPURHAT &#183; BANGLADESH</text>
+  </g>
+  <text x="112" y="1620" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace" font-size="14" letter-spacing="1.5" fill="#efece9" fill-opacity="0.42">25.10&#176; N &#183; 89.02&#176; E</text>
+</svg>

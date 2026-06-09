@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img">
+  <title>Delowar Hossain — favicon</title>
+  <desc>A deep ink square with a centered peach 45-degree diamond and a knockout serif letter D. The brand mark of Delowar Hossain, MMXXVII edition.</desc>
+  <defs>
+    <!-- Knockout mask: white reveals the peach diamond; black hides it.
+         The serif "D" is painted black so the ink base shows through it. -->
+    <mask id="dKnockout" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32">
+      <rect width="32" height="32" fill="#000000"/>
+      <!-- Visible (peach) region: a crisp 45deg diamond, points inset from the edges.
+           side 21 -> diagonal ~29.7 on a 32 canvas, leaving a clean margin. -->
+      <rect x="5.5" y="5.5" width="21" height="21" transform="rotate(45 16 16)" fill="#ffffff"/>
+      <!-- Cut-out (ink) region: the D glyph, centered on an explicit baseline. -->
+      <text x="16" y="21.6" text-anchor="middle"
+            font-family="Newsreader, Georgia, 'Times New Roman', serif"
+            font-size="16" font-weight="700" fill="#000000">D</text>
+    </mask>
+  </defs>
+
+  <!-- Ink-950 base square, hard corners, filling the viewBox. -->
+  <rect width="32" height="32" fill="#070708"/>
+
+  <!-- Peach diamond with the serif D knocked out to ink. -->
+  <rect width="32" height="32" fill="#e3bfb4" mask="url(#dKnockout)"/>
+</svg>

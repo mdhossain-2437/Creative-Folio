@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 360" width="1440" height="360" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="lh-title lh-desc">
+  <title id="lh-title">Delowar Hossain. — Horizontal Lockup</title>
+  <desc id="lh-desc">Horizontal brand lockup on deep ink #070708: a DH monogram set in a 45-degree peach diamond at left, a vertical hairline divider, then the italic serif "Delowar Hossain." wordmark in warm white with a peach trailing period, beneath it an uppercase tracked role line "CREATIVE DEVELOPER · UI/UX DESIGNER" in muted peach. A 6px peach top rule, a soft peach corner glow, an inset editorial hairline frame, and quiet section markers (§ 03.27, MMXXVII) complete the magazine-grade composition.</desc>
+
+  <defs>
+    <!-- Soft peach radial glow bleeding from the upper-right corner over deep ink. -->
+    <radialGradient id="lh-glow" cx="86%" cy="20%" r="66%">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.18" />
+      <stop offset="58%" stop-color="#070708" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Faint counter-glow from the lower-left to seat the monogram. -->
+    <radialGradient id="lh-seat" cx="11%" cy="86%" r="48%">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.07" />
+      <stop offset="70%" stop-color="#070708" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Hairline rule fade for the vertical divider. -->
+    <linearGradient id="lh-vrule" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#efece9" stop-opacity="0" />
+      <stop offset="22%" stop-color="#efece9" stop-opacity="0.30" />
+      <stop offset="78%" stop-color="#efece9" stop-opacity="0.30" />
+      <stop offset="100%" stop-color="#efece9" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Hairline rule fade for the wordmark underline. -->
+    <linearGradient id="lh-hrule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#efece9" stop-opacity="0.34" />
+      <stop offset="78%" stop-color="#efece9" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#efece9" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Peach top rule with a subtle tonal shift. -->
+    <linearGradient id="lh-toprule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.78" />
+      <stop offset="50%" stop-color="#e3bfb4" stop-opacity="1" />
+      <stop offset="100%" stop-color="#e3bfb4" stop-opacity="0.82" />
+    </linearGradient>
+  </defs>
+
+  <!-- Deep ink base + warm glows. Opaque base guards against dark-mode inversion. -->
+  <rect width="1440" height="360" fill="#070708" />
+  <rect width="1440" height="360" fill="url(#lh-seat)" />
+  <rect width="1440" height="360" fill="url(#lh-glow)" />
+
+  <!-- Peach top rule, 6px. -->
+  <rect x="0" y="0" width="1440" height="6" fill="url(#lh-toprule)" />
+
+  <!-- Inset editorial hairline frame. -->
+  <rect x="40" y="40" width="1360" height="280" fill="none" stroke="#efece9" stroke-opacity="0.12" stroke-width="1" />
+  <!-- Whisper-thin inner frame for editorial depth. -->
+  <rect x="48" y="48" width="1344" height="264" fill="none" stroke="#efece9" stroke-opacity="0.05" stroke-width="1" />
+
+  <!-- Corner section markers — tabular, quiet. -->
+  <g font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace" fill="#efece9" font-size="13" letter-spacing="3">
+    <text x="72" y="78" fill-opacity="0.42">&#167; 03.27</text>
+    <text x="1368" y="78" text-anchor="end" fill-opacity="0.42">MMXXVII</text>
+    <text x="72" y="298" fill-opacity="0.42">THE COMPILED THOUGHT</text>
+    <text x="1368" y="298" text-anchor="end" fill-opacity="0.42">DELOWARHOSSAIN.DEV</text>
+  </g>
+
+  <!-- ===== DH MONOGRAM IN PEACH DIAMOND =====
+       Centered at (180, 180). Outer diamond side 174 -> half-diagonal ~123px,
+       so the top vertex sits at y=57 and the bottom at y=303: clear of the
+       inset frame (40-320) and the 6px top rule. -->
+  <g transform="translate(180 180)">
+    <!-- Faint peach halo behind the mark. -->
+    <circle cx="0" cy="0" r="92" fill="#e3bfb4" fill-opacity="0.05" />
+    <!-- Outer diamond (square rotated 45deg) — hairline peach. -->
+    <rect x="-87" y="-87" width="174" height="174" transform="rotate(45 0 0)" fill="none" stroke="#e3bfb4" stroke-opacity="0.34" stroke-width="1" />
+    <!-- Inner diamond — hairline warmwhite, echoing the frame. -->
+    <rect x="-64" y="-64" width="128" height="128" transform="rotate(45 0 0)" fill="none" stroke="#efece9" stroke-opacity="0.14" stroke-width="1" />
+    <!-- DH monogram, serif italic, warmwhite. Explicit baseline offset for cross-renderer reliability. -->
+    <text x="0" y="0" dy="0.34em" font-family="'Newsreader', Georgia, 'Times New Roman', serif" font-style="italic" font-weight="500" font-size="76" letter-spacing="-3" text-anchor="middle" fill="#efece9" fill-opacity="0.96">DH</text>
+    <!-- Tiny peach diamond accent at the lower vertex of the inner diamond. -->
+    <rect x="-6" y="84" width="12" height="12" transform="rotate(45 0 90)" fill="#e3bfb4" />
+  </g>
+
+  <!-- ===== VERTICAL HAIRLINE DIVIDER ===== -->
+  <line x1="356" y1="64" x2="356" y2="296" stroke="url(#lh-vrule)" stroke-width="1" />
+
+  <!-- ===== WORDMARK + ROLE LINE ===== -->
+  <!-- Eyebrow above the wordmark — studio strap, Inter tracked to brand spec (~0.30em). -->
+  <text x="410" y="122" font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif" font-size="13" letter-spacing="3.9" fill="#e3bfb4" fill-opacity="0.85">&#9671;&#160;&#160;THE COMPILED THOUGHT&#160;&#160;&#183;&#160;&#160;MMXXVII</text>
+
+  <!-- Wordmark — italic Newsreader, with peach trailing period. -->
+  <text x="408" y="216" font-family="'Newsreader', Georgia, 'Times New Roman', serif" font-style="italic" font-weight="400" font-size="112" letter-spacing="-4" fill="#efece9">Delowar Hossain<tspan fill="#e3bfb4">.</tspan></text>
+
+  <!-- Hairline rule under the wordmark, spanning roughly its measure. -->
+  <line x1="410" y1="250" x2="1230" y2="250" stroke="url(#lh-hrule)" stroke-width="1" />
+
+  <!-- Role line — the brief's required line, Inter tracked, peach-muted. -->
+  <text x="410" y="290" font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif" font-size="15" letter-spacing="4.4" fill="#e3bfb4" fill-opacity="0.72">CREATIVE DEVELOPER &#183; UI/UX DESIGNER</text>
+</svg>

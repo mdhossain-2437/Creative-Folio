@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1050 600" width="1050" height="600" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="bcb-title bcb-desc">
+  <title id="bcb-title">Delowar Hossain. — Business Card (Back)</title>
+  <desc id="bcb-desc">Business card back on deep ink #070708 with a 6px peach top border, a corner peach radial glow, an inset hairline frame, a rotated peach diamond mark, an italic Newsreader display line, and an editorial contact block listing email hello@delowarhossain.dev, domain delowarhossain.dev, studio The Compiled Thought, location Joypurhat Bangladesh and social handle @mdhossain2437, set in JetBrains Mono and Inter with peach accents. Edition MMXXVII.</desc>
+
+  <defs>
+    <!-- Corner peach glow, mirroring the OG card DNA -->
+    <radialGradient id="bcb-glow" cx="82%" cy="22%" r="70%">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.20" />
+      <stop offset="52%" stop-color="#070708" stop-opacity="0" />
+    </radialGradient>
+    <!-- A second, low whisper of glow bleeding from the lower-left for depth -->
+    <radialGradient id="bcb-glow2" cx="6%" cy="96%" r="55%">
+      <stop offset="0%" stop-color="#e3bfb4" stop-opacity="0.07" />
+      <stop offset="60%" stop-color="#070708" stop-opacity="0" />
+    </radialGradient>
+    <!-- Hairline rule gradient -->
+    <linearGradient id="bcb-rule" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#efece9" stop-opacity="0" />
+      <stop offset="42%" stop-color="#efece9" stop-opacity="0.34" />
+      <stop offset="100%" stop-color="#efece9" stop-opacity="0" />
+    </linearGradient>
+  </defs>
+
+  <!-- Deep ink base -->
+  <rect width="1050" height="600" fill="#070708" />
+  <rect width="1050" height="600" fill="url(#bcb-glow)" />
+  <rect width="1050" height="600" fill="url(#bcb-glow2)" />
+
+  <!-- 6px peach top border -->
+  <rect x="0" y="0" width="1050" height="6" fill="#e3bfb4" />
+
+  <!-- Inset hairline editorial frame -->
+  <rect x="40" y="40" width="970" height="520" fill="none" stroke="#efece9" stroke-opacity="0.12" stroke-width="1" />
+
+  <!-- Eyebrow row -->
+  <g font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif" fill="#efece9">
+    <text x="72" y="98" font-size="13" letter-spacing="4.6" fill="#e3bfb4">&#9674; CONTACT &#183; MMXXVII</text>
+    <text x="978" y="98" font-size="13" letter-spacing="4.6" text-anchor="end" fill-opacity="0.55">&#167; 03.27</text>
+  </g>
+
+  <!-- Display moment — italic Newsreader, the wordmark voice -->
+  <g font-family="'Newsreader', 'Georgia', 'Times New Roman', serif" fill="#efece9">
+    <text x="70" y="208" font-size="86" font-style="italic" font-weight="400" letter-spacing="-3">Let&#8217;s build</text>
+    <text x="70" y="290" font-size="86" font-style="italic" font-weight="400" letter-spacing="-3" fill-opacity="0.62">something.</text>
+  </g>
+
+  <!-- Tagline strip under the headline -->
+  <text x="72" y="338" font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif" font-size="12.5" letter-spacing="3.4" fill="#efece9" fill-opacity="0.55">CREATIVE DEVELOPER &#183; UI / UX DESIGNER</text>
+
+  <!-- Divider hairline above the contact block -->
+  <line x1="72" y1="376" x2="978" y2="376" stroke="url(#bcb-rule)" stroke-width="1" />
+
+  <!-- Contact block — labels in Inter, values in JetBrains Mono, peach diamond bullets -->
+  <g fill="#efece9">
+    <!-- Row 1 — Email -->
+    <g>
+      <rect x="68" y="411" width="13" height="13" transform="rotate(45 74.5 417.5)" fill="#e3bfb4" />
+      <text x="100" y="416" font-size="10.5" letter-spacing="2.4" fill-opacity="0.55" font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif">EMAIL</text>
+      <text x="100" y="438" font-size="20" letter-spacing="-0.3" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace">hello@delowarhossain.dev</text>
+    </g>
+    <!-- Row 2 — Web -->
+    <g>
+      <rect x="68" y="479" width="13" height="13" transform="rotate(45 74.5 485.5)" fill="#e3bfb4" />
+      <text x="100" y="484" font-size="10.5" letter-spacing="2.4" fill-opacity="0.55" font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif">WEB</text>
+      <text x="100" y="506" font-size="20" letter-spacing="-0.3" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace">delowarhossain.dev</text>
+    </g>
+
+    <!-- Right column -->
+    <!-- Row 3 — Social -->
+    <g>
+      <rect x="560" y="411" width="13" height="13" transform="rotate(45 566.5 417.5)" fill="#e3bfb4" />
+      <text x="592" y="416" font-size="10.5" letter-spacing="2.4" fill-opacity="0.55" font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif">SOCIAL</text>
+      <text x="592" y="438" font-size="20" letter-spacing="-0.3" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace">@mdhossain2437</text>
+    </g>
+    <!-- Row 4 — Studio / Location -->
+    <g>
+      <rect x="560" y="479" width="13" height="13" transform="rotate(45 566.5 485.5)" fill="#e3bfb4" />
+      <text x="592" y="484" font-size="10.5" letter-spacing="2.4" fill-opacity="0.55" font-family="'Inter', 'Helvetica Neue', Arial, system-ui, sans-serif">STUDIO &#183; LOCATION</text>
+      <text x="592" y="506" font-size="20" letter-spacing="-0.3" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace">The Compiled Thought &#8212; Joypurhat, BD</text>
+    </g>
+  </g>
+
+  <!-- Wordmark signature — lower right, italic serif with trailing peach period -->
+  <g font-family="'Newsreader', 'Georgia', 'Times New Roman', serif">
+    <text x="978" y="540" font-size="26" font-style="italic" letter-spacing="-0.6" text-anchor="end" fill="#efece9" fill-opacity="0.9">Delowar Hossain<tspan fill="#e3bfb4">.</tspan></text>
+  </g>
+
+  <!-- Coordinates whisper — lower left in mono -->
+  <text x="72" y="540" font-family="'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace" font-size="11" letter-spacing="1.2" fill="#efece9" fill-opacity="0.55">25.10&#176; N &#183; 89.02&#176; E</text>
+
+  <!-- Standalone peach diamond mark, mid-right margin, echoing the OG accent -->
+  <g transform="translate(940 240) rotate(45)">
+    <rect x="-15" y="-15" width="30" height="30" fill="#e3bfb4" />
+  </g>
+</svg>
