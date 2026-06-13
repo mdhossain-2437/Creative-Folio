@@ -132,6 +132,20 @@ body {
   background: var(--bg);
   color: var(--fg);
   font-feature-settings: "ss01", "ss02", "cv11";
+  /* Defensive horizontal-overflow guard. On phones the viewport has no
+     separate scrollbar gutter, so a single child using `100vw`, a wide
+     fixed/absolute element, or negative letter-spacing bleeding past the
+     edge would let the whole page scroll sideways — which read as "the
+     site is shoved off to one side, not full-screen". Clipping overflow-x
+     at the root makes the page always exactly viewport-wide regardless of
+     what any descendant does. `width: 100%` (never 100vw) keeps it honest
+     when a desktop scrollbar IS present. */
+  max-width: 100%;
+  overflow-x: hidden;
+}
+body {
+  position: relative;
+  width: 100%;
 }
 
 html.lenis,

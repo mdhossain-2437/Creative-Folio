@@ -60,10 +60,10 @@ function emitShockwave(mode: Mode, originX: number, originY: number) {
   wave.setAttribute("aria-hidden", "true");
   wave.style.cssText = [
     "position:fixed",
-    "left:0",
-    "top:0",
-    "width:100vw",
-    "height:100vh",
+    // Inset pattern instead of 100vw/100vh — `100vw` includes the
+    // scrollbar gutter and would push the page sideways on touch; `inset:0`
+    // (left/right/top/bottom 0) fills the viewport exactly without it.
+    "inset:0",
     "pointer-events:none",
     "z-index:120",
     `background:radial-gradient(circle at ${originX}px ${originY}px, ${ACCENT[mode]} 0%, transparent 55%)`,
