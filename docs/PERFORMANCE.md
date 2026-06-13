@@ -71,12 +71,24 @@ the ref.
 | `duration` | `0.95` | Tightened from `1.2` — less floaty, more responsive. |
 | `easing` | `1.001 - 2^(-10t)` | Standard ease-out-expo, matches GSAP `power3.out`. |
 | `wheelMultiplier` | `1` | One scroll = ~one viewport step on most setups. |
-| `touchMultiplier` | `1.6` | Tuned for thumb scrolling on mobile. |
-| `syncTouch` | `true` | Increases lerp on big inputs — feels native. |
+| `touchMultiplier` | `1.6` | Tuned for thumb scrolling on the desktop touch path. |
+| `syncTouch` | `true` (desktop only) | Increases lerp on big inputs — feels native. **Never runs on touch devices** (see below). |
 | `smoothWheel` | `true` | Trackpad + mouse-wheel both go through Lenis. |
 
-Reduced-motion: Lenis is bypassed entirely. We fall back to native scroll
-with a passive listener that updates `--scroll-progress` only.
+**Touch + reduced-motion: native scroll.** Lenis is bypassed entirely on any
+coarse-pointer / `(hover: none)` device *and* on `prefers-reduced-motion`. This
+is the single biggest mobile fix: Lenis `syncTouch` re-drives the page from JS
+every frame, so one dropped frame on a weak phone becomes a visible scroll
+stall — a string of them reads as "the page is buffering / frozen mid-flick".
+Native scrolling is composited off the main thread and never stalls, which is
+exactly why large immersive studios ship native momentum on touch and keep
+JS smooth-scroll only on `pointer: fine`.
+
+No scroll-coupled feature is lost: the native path still updates the same
+`--scroll-vy` / `--scroll-progress` CSS vars and the same `refs` singleton,
+sourced from real scroll events (with a damped, clamped velocity in identical
+units to the Lenis path, decayed back to 0 when momentum ends). See
+§ 16 for the full device-tier model.
 
 ### CSS-var write throttle
 
@@ -371,6 +383,12 @@ A central place for the four caps:
 | `DPR_AMBIENT` | `1.25` | NoiseField (passive) |
 | `DPR_COMPACT` | `1.0`  | LabDemo cards in `/lab` grid (10+ on screen) |
 
+**Tier-scaled.** As of the device-tier pass, `cappedDpr(cap)` multiplies the
+cap by the device's `dprScale` (`1` high / `0.85` mid / `0.7` low, floored at
+`1.0`) before clamping to `devicePixelRatio`. So a `DPR_HERO` surface renders at
+1.5× on a capable desktop and ~1.0× on a weak phone — half the fragments — with
+no per-component code change. See § 16.
+
 Always read `cappedDpr(cap)` once per `resize`, not per frame. The
 browser can change `devicePixelRatio` when the user zooms.
 
@@ -505,3 +523,95 @@ cell — empirically ~150 distance checks per frame instead of ~1225.
 - **Service worker offline shell** for `/now`, `/journal`, `/ai`.
 - **Per-shader chunks for `LabDemo.tsx`.** Currently all 1.2k lines ship
   as one chunk; split via `next/dynamic` per slug.
+
+---
+
+## 16. Device-Tier Adaptation (`deviceTier.ts` + `frameGate.ts`)
+
+The goal of this pass: run the **same** heavy WebGL on a low-end phone and an
+old laptop as on a desktop, with no perceptible scroll jank — and **without
+removing or visibly reducing a single effect**. The lever is *internal* cost
+(render resolution, frame-rate, octave count, context count), never the feature
+set. This is the technique [immersive-g.com](https://immersive-g.com) and peers
+use: identical perception, a fraction of the GPU work.
+
+### The tier model — `src/lib/deviceTier.ts`
+
+`deviceProfile()` resolves once (memoised, re-evaluated on resize/orientation)
+into:
+
+| Field | Meaning |
+| --- | --- |
+| `tier` | `"low" \| "mid" \| "high"` from a score over `deviceMemory`, `hardwareConcurrency`, touch, `devicePixelRatio`, and shortest viewport edge |
+| `isTouch` | `(hover: none), (pointer: coarse)` |
+| `reducedMotion` | `prefers-reduced-motion: reduce` |
+| `dprScale` | `1` / `0.85` / `0.7` — the multiplier `cappedDpr` applies (§ 11) |
+
+Scoring is **best-effort and forgiving**: missing signals (Safari hides
+`deviceMemory`) are treated as "capable" so we never over-penalise a device we
+can't measure. Reduced-motion never lets a device sit above `mid`.
+
+**SSR-safe:** on the server it returns `high` so markup is never gated
+server-side; the real tier resolves on the client after mount (every consumer
+already runs detection inside `useEffect`).
+
+Resolvers built on the profile:
+
+- `targetFps(cost)` — `"ambient" | "hero" | "interactive"` → target FPS.
+  Returns `0` (uncapped) on **high tier always**, so desktop is unchanged.
+  Mid/low get real caps (ambient 45/30, hero 50/40, interactive uncapped/40).
+- `fbmOctaves(full)` — drops one fbm octave **only on low tier** (the smallest,
+  sub-pixel octave a phone display cannot resolve). mid/high keep the full count.
+
+> Rule: never gate behaviour on raw `innerWidth`. Route every capability
+> decision through `deviceTier` so the whole app shares one classification.
+
+### The frame gate — `src/lib/frameGate.ts`
+
+`makeFrameGate(fps)` returns a tiny closure `(now) => boolean`. A render loop
+**advances its simulation every animation frame** (so time-based motion and
+damping stay perfectly smooth) but only **issues GL draws when the gate opens**:
+
+```ts
+const gate = makeFrameGate(targetFps("ambient"));
+const tick = (now) => {
+  lastActive = damp(lastActive, active, K.K_SLOW, dt);  // every frame
+  if (gate(now)) {
+    gl.uniform1f(uTime, t);
+    gl.drawArrays(/* ... */);                            // coalesced
+  }
+  raf = requestAnimationFrame(tick);
+};
+```
+
+`fps <= 0` → gate is always open (one branch, zero state) — the high-tier path.
+
+### Applied to
+
+| Surface | Cost class | Low-tier behaviour |
+| --- | --- | --- |
+| `HeroShader` | `hero` | 40fps draw, DPR ~1.0, 3 fbm octaves |
+| `HeroFluidDisplacement` | `hero` | 40fps draw, DPR ~1.0, 3 fbm octaves |
+| `WorkCoverDisplacement` | `interactive` | 40fps; **no GL context at all on touch** |
+| `NoiseField` | `ambient` | 30fps draw, DPR ~1.0 |
+
+### Work covers: the context-budget fix
+
+`WorkCoverDisplacement` only ever lives inside the **cursor-following hover
+peek**, which is `opacity: 0` until `mouseenter` — an event that never fires on
+touch. On phones it was therefore spinning up 5 (home) to 16 (`/works`) WebGL
+contexts that **no touch user can ever see**, blowing past the per-page context
+budget mobile browsers enforce and triggering context-loss stalls. The fix: on
+touch the component renders nothing (the identical `next/image` cover already
+sits behind it). On `pointer: fine` it behaves exactly as before. Reduced-motion
+still renders the static `<img>` fallback (desktop has a cursor to reveal it).
+
+### Root overflow guard (mobile "shoved to one side")
+
+A separate but related mobile bug: with no `overflow-x: hidden` at the root, any
+descendant using `100vw`, a wide fixed element, or negative letter-spacing
+bleeding past the edge let the whole page scroll sideways — read as "the site is
+off-center, not full-screen". `globals.css` now clips `overflow-x` and sets
+`max-width: 100%` on `html, body` (and `width: 100%` on `body`). The
+`AtmosphereMode` shockwave was also switched from `100vw/100vh` to `inset: 0`
+(`100vw` includes the scrollbar gutter).
