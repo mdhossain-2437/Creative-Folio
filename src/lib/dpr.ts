@@ -18,6 +18,17 @@
 //
 // Always read once per resize, not per frame — `devicePixelRatio` can
 // change when the browser zooms.
+//
+// Device-tier scaling: `cappedDpr` multiplies the cap by the current
+// device's `dprScale` (1 on high, ~0.85 mid, ~0.7 low — see
+// `deviceTier.ts`). This is the single lever that downscales EVERY WebGL
+// surface on weak phones / laptops without touching any component: the
+// shaders render fewer fragments, the visual is perceptually identical
+// (the canvases are CSS-stretched back to full size with linear filtering),
+// and the GPU does roughly half the work on low tier. No feature is
+// removed — only the off-screen render resolution shrinks.
+
+import { tierDprScale } from "@/lib/deviceTier";
 
 export const DPR_HERO = 1.5;
 export const DPR_CANVAS = 1.5;
@@ -26,5 +37,9 @@ export const DPR_COMPACT = 1.0;
 
 export function cappedDpr(cap: number): number {
   if (typeof window === "undefined") return 1;
-  return Math.min(window.devicePixelRatio || 1, cap);
+  const scaled = cap * tierDprScale();
+  // Never drop below 1.0 — sub-native resolution starts to read as blur
+  // even on a phone, and the whole point is "no visible loss".
+  const floor = Math.max(1, scaled);
+  return Math.min(window.devicePixelRatio || 1, floor);
 }

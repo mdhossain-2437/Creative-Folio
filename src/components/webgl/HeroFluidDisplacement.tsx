@@ -13,6 +13,8 @@
 import { useEffect, useRef } from "react";
 import { damp, clampDt, K } from "@/lib/damp";
 import { cappedDpr, DPR_HERO } from "@/lib/dpr";
+import { fbmOctaves, targetFps } from "@/lib/deviceTier";
+import { makeFrameGate } from "@/lib/frameGate";
 
 const VERT = `#version 300 es
 in vec2 a_pos;
@@ -23,7 +25,11 @@ void main() {
 }
 `;
 
-const FRAG = `#version 300 es
+// FRAG is a template: OCTAVES is injected at init with the device fbm
+// octave count. high/mid keep 4; low tier runs 3 (drops only the finest,
+// sub-pixel octave), keeping the fluid ripple visually identical at lower
+// per-pixel cost.
+const FRAG = (octaves: number) => `#version 300 es
 precision highp float;
 in vec2 v_uv;
 out vec4 outColor;
@@ -52,7 +58,7 @@ float noise(vec2 p) {
 float fbm(vec2 p) {
   float v = 0.0;
   float a = 0.5;
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < ${octaves}; i++) {
     v += a * noise(p);
     p *= 2.07;
     a *= 0.5;
@@ -134,7 +140,7 @@ export function HeroFluidDisplacement() {
     };
 
     const vs = compile(gl.VERTEX_SHADER, VERT);
-    const fs = compile(gl.FRAGMENT_SHADER, FRAG);
+    const fs = compile(gl.FRAGMENT_SHADER, FRAG(fbmOctaves(4)));
     if (!vs || !fs) return;
 
     const prog = gl.createProgram();
@@ -197,6 +203,10 @@ export function HeroFluidDisplacement() {
     let lastActive = 0;
     const start = performance.now();
     let last = start;
+    // Mid/low tiers coalesce the repaint to a sustainable rate; the blend
+    // below still advances every frame so the idle↔active transition stays
+    // smooth. High tier is uncapped (unchanged).
+    const gate = makeFrameGate(targetFps("hero"));
     const tick = () => {
       const now = performance.now();
       const t = (now - start) / 1000;
@@ -206,11 +216,13 @@ export function HeroFluidDisplacement() {
       // linear lerp so the idle↔active fluid blend stays the same speed
       // on 60/120/240Hz panels.
       lastActive = damp(lastActive, active, K.K_SLOW, dt);
-      gl.uniform2f(uRes, canvas.width, canvas.height);
-      gl.uniform2f(uMouse, mx, my);
-      gl.uniform1f(uTime, t);
-      gl.uniform1f(uActive, lastActive);
-      gl.drawArrays(gl.TRIANGLES, 0, 6);
+      if (gate(now)) {
+        gl.uniform2f(uRes, canvas.width, canvas.height);
+        gl.uniform2f(uMouse, mx, my);
+        gl.uniform1f(uTime, t);
+        gl.uniform1f(uActive, lastActive);
+        gl.drawArrays(gl.TRIANGLES, 0, 6);
+      }
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);

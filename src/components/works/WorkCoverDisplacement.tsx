@@ -9,6 +9,8 @@
 import { useEffect, useRef, useState } from "react";
 import { damp, clampDt, K } from "@/lib/damp";
 import { cappedDpr, DPR_CANVAS } from "@/lib/dpr";
+import { deviceProfile, targetFps } from "@/lib/deviceTier";
+import { makeFrameGate } from "@/lib/frameGate";
 
 const VERT = `
 attribute vec2 a_pos;
@@ -71,6 +73,11 @@ export function WorkCoverDisplacement({
 }: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [supported, setSupported] = useState<boolean | null>(null);
+  // Touch devices skip this layer entirely (see effect). Tracked separately
+  // from `supported` so the reduced-motion desktop fallback still paints a
+  // static cover, while touch renders nothing — the identical <Image> cover
+  // already sits behind it and the peek is never revealed without a cursor.
+  const [skip, setSkip] = useState(false);
   const stateRef = useRef({
     intensity: 0,
     mouseX: 0.5,
@@ -84,10 +91,20 @@ export function WorkCoverDisplacement({
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const reduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    if (reduced) {
+    const { isTouch, reducedMotion } = deviceProfile();
+    // On reduced-motion → static cover. On touch → also static: this canvas
+    // only ever lives inside the cursor-following hover preview, which has
+    // no cursor to reveal it on a phone. Skipping the WebGL context here is
+    // the single biggest mobile win — the homepage was otherwise spinning
+    // up 5 (and /works up to 16) GL contexts that no touch user can ever
+    // see, blowing past the per-page context budget mobile browsers enforce
+    // and triggering context-loss stalls. Nothing visible is lost: the
+    // identical <Image> cover sits directly behind this layer.
+    if (isTouch) {
+      setSkip(true);
+      return;
+    }
+    if (reducedMotion) {
       setSupported(false);
       return;
     }
@@ -208,6 +225,11 @@ export function WorkCoverDisplacement({
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
 
+    // Low-tier desktops (old laptops / integrated GPUs) cap this hover
+    // surface; the damping still advances every frame so the ripple stays
+    // smooth while in view. mid/high stay uncapped — touch never reaches
+    // here at all (it returns early above).
+    const gate = makeFrameGate(targetFps("interactive"));
     const tick = () => {
       const now = performance.now();
       const t = (now - start) / 1000;
@@ -219,10 +241,10 @@ export function WorkCoverDisplacement({
       smoothInt = damp(smoothInt, stateRef.current.intensity, K.K_MID, dt);
       smoothX = damp(smoothX, stateRef.current.mouseX, K.K_FAST, dt);
       smoothY = damp(smoothY, stateRef.current.mouseY, K.K_FAST, dt);
-      gl.uniform1f(uTime, t);
-      gl.uniform1f(uInt, smoothInt);
-      gl.uniform2f(uMouse, smoothX, 1 - smoothY);
-      if (texReady) {
+      if (gate(now) && texReady) {
+        gl.uniform1f(uTime, t);
+        gl.uniform1f(uInt, smoothInt);
+        gl.uniform2f(uMouse, smoothX, 1 - smoothY);
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       }
       raf = requestAnimationFrame(tick);
@@ -256,6 +278,14 @@ export function WorkCoverDisplacement({
       gl.deleteShader(fs);
     };
   }, [src]);
+
+  if (skip) {
+    // Touch: this displacement layer lives inside a cursor-following peek
+    // that never opens without a pointer, so it would only ever burn a
+    // WebGL context and a duplicate image fetch off-screen. The identical
+    // <Image> cover already renders behind it — render nothing here.
+    return null;
+  }
 
   if (supported === false) {
     // SSR-safe fallback. Same `fill` semantic via absolute positioning so

@@ -3,6 +3,8 @@
 import { useEffect, useRef } from "react";
 import { cappedDpr, DPR_AMBIENT } from "@/lib/dpr";
 import { bakeValueNoise } from "@/lib/bakeNoise";
+import { targetFps } from "@/lib/deviceTier";
+import { makeFrameGate } from "@/lib/frameGate";
 
 // Lightweight ambient noise canvas used as a section background.
 //
@@ -128,11 +130,19 @@ export function NoiseField({
     let raf = 0;
     let visible = true;
     const start = performance.now();
+    // Passive background — the cheapest class to coalesce. mid → ~45fps,
+    // low → ~30fps, high → uncapped. The field drifts so slowly that the
+    // capped rate is indistinguishable, but it frees real GPU headroom on
+    // phones where this sits behind heavier foreground content.
+    const gate = makeFrameGate(targetFps("ambient"));
     const tick = () => {
       if (!visible) return;
-      const t = (performance.now() - start) / 1000;
-      gl.uniform1f(uT, t);
-      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      const now = performance.now();
+      if (gate(now)) {
+        const t = (now - start) / 1000;
+        gl.uniform1f(uT, t);
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+      }
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);

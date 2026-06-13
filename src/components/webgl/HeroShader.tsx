@@ -3,6 +3,8 @@
 import { useEffect, useRef } from "react";
 import { damp, clampDt, K } from "@/lib/damp";
 import { cappedDpr, DPR_HERO } from "@/lib/dpr";
+import { fbmOctaves, targetFps } from "@/lib/deviceTier";
+import { makeFrameGate } from "@/lib/frameGate";
 
 const VERT = `
 attribute vec2 a_pos;
@@ -13,7 +15,12 @@ void main() {
 }
 `;
 
-const FRAG = `
+// FRAG is a template: OCTAVES is substituted at init time with the
+// device-appropriate fbm octave count. high/mid keep the original 4; low
+// tier runs 3, which removes only the smallest noise octave — sub-pixel
+// detail a phone display cannot resolve — so the aurora field looks
+// identical while the fragment shader does ~25% less work per pixel.
+const FRAG = (octaves: number) => `
 precision highp float;
 varying vec2 v_uv;
 uniform vec2 u_res;
@@ -49,7 +56,7 @@ float noise3(vec3 p) {
 float fbm(vec3 p) {
   float v = 0.0;
   float a = 0.5;
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < ${octaves}; i++) {
     v += a * noise3(p);
     p *= 2.04;
     a *= 0.5;
@@ -116,7 +123,7 @@ export function HeroShader({ className = "" }: { className?: string }) {
     gl.shaderSource(vs, VERT);
     gl.compileShader(vs);
     const fs = gl.createShader(gl.FRAGMENT_SHADER)!;
-    gl.shaderSource(fs, FRAG);
+    gl.shaderSource(fs, FRAG(fbmOctaves(4)));
     gl.compileShader(fs);
     if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS)) {
       console.warn("Hero shader compile error", gl.getShaderInfoLog(fs));
@@ -173,6 +180,11 @@ export function HeroShader({ className = "" }: { className?: string }) {
     let visible = true;
     const start = performance.now();
     let last = start;
+    // On mid/low tiers cap the hero repaint to a sustainable rate. The
+    // damping below still advances every animation frame, so cursor
+    // tracking stays smooth — only the GPU draw is coalesced. High tier
+    // is uncapped (gate always open), identical to before.
+    const gate = makeFrameGate(targetFps("hero"));
     const tick = () => {
       if (!visible) return;
       const now = performance.now();
@@ -183,10 +195,12 @@ export function HeroShader({ className = "" }: { className?: string }) {
       // linear lerp; identical motion on 60/120/144/240Hz panels.
       mouse.x = damp(mouse.x, target.x, K.K_HERO, dt);
       mouse.y = damp(mouse.y, target.y, K.K_HERO, dt);
-      const t = (now - start) / 1000;
-      gl.uniform2f(uMouse, mouse.x, mouse.y);
-      gl.uniform1f(uTime, t);
-      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      if (gate(now)) {
+        const t = (now - start) / 1000;
+        gl.uniform2f(uMouse, mouse.x, mouse.y);
+        gl.uniform1f(uTime, t);
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+      }
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);

@@ -51,19 +51,70 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isTouch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
 
-    if (reduce) {
-      // Reduced motion → native scroll, but still update CSS vars so
-      // velocity-coupled animations keep working at a sane intensity.
+    if (reduce || isTouch) {
+      // Native scroll path. Used for BOTH reduced-motion and every touch
+      // device.
+      //
+      // Why touch uses native scroll (this is the core mobile fix):
+      //   Lenis with `syncTouch` hijacks the OS momentum scroller and
+      //   re-drives the page from JS every frame. On a capable desktop
+      //   that's buttery; on a phone or low-end laptop a single dropped
+      //   frame becomes a visible scroll stall, and a string of them reads
+      //   as the page "buffering" or freezing mid-flick. Native scrolling
+      //   is handled off the main thread by the compositor and never
+      //   stalls — which is exactly why large immersive studios ship
+      //   native momentum on touch while keeping JS smooth-scroll on
+      //   pointer:fine. No scroll-coupled feature is lost: we keep the
+      //   same `--scroll-vy` / `--scroll-progress` CSS vars and the same
+      //   `refs` singleton updated, just sourced from the real scroll
+      //   position instead of Lenis.
+      let lastY = window.scrollY;
+      let lastT = performance.now();
+      let lastWrite = 0;
       const onScroll = () => {
-        const max = (document.documentElement.scrollHeight - window.innerHeight) || 1;
-        refs.scroll = window.scrollY;
-        refs.progress = window.scrollY / max;
-        document.documentElement.style.setProperty("--scroll-progress", refs.progress.toFixed(4));
+        const max =
+          document.documentElement.scrollHeight - window.innerHeight || 1;
+        const y = window.scrollY;
+        const now = performance.now();
+        const dt = now - lastT;
+        // Derive a damped, clamped velocity in the same units as the Lenis
+        // path so every velocity-coupled visual reads identically.
+        if (dt > 0) {
+          const raw = ((y - lastY) / dt) * 16.67; // px per ~frame
+          const v = Math.max(-6, Math.min(6, raw / 28));
+          refs.velocity = refs.velocity * 0.7 + v * 0.3;
+        }
+        refs.scroll = y;
+        refs.progress = y / max;
+        lastY = y;
+        lastT = now;
+        // Throttle CSS-var writes to ≤ 1 per frame (matches Lenis path).
+        if (now - lastWrite > 14) {
+          const root = document.documentElement.style;
+          root.setProperty("--scroll-vy", refs.velocity.toFixed(3));
+          root.setProperty("--scroll-progress", refs.progress.toFixed(4));
+          lastWrite = now;
+        }
       };
       onScroll();
       window.addEventListener("scroll", onScroll, { passive: true });
-      return () => window.removeEventListener("scroll", onScroll);
+      // Velocity must decay back to 0 when the finger lifts and momentum
+      // ends — otherwise the last non-zero value sticks on the CSS var.
+      const decay = subscribeRafPriority(() => {
+        if (Math.abs(refs.velocity) < 0.001) return;
+        refs.velocity *= 0.9;
+        if (Math.abs(refs.velocity) < 0.001) refs.velocity = 0;
+        document.documentElement.style.setProperty(
+          "--scroll-vy",
+          refs.velocity.toFixed(3),
+        );
+      }, -10);
+      return () => {
+        window.removeEventListener("scroll", onScroll);
+        decay();
+      };
     }
 
     // Tuned for "feels native, never floaty". Reference: immersive-g.com
