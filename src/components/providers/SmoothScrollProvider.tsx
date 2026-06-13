@@ -35,6 +35,15 @@ export function getScrollState(): Readonly<Refs> {
   return refs;
 }
 
+// The live Lenis instance (desktop / pointer-fine only — null on touch and
+// reduced-motion, which use native scroll). Exposed so scroll-driven libraries
+// like GSAP ScrollTrigger can sync to Lenis's smoothed scroll position instead
+// of lagging a frame behind it (see ProcessSection's pinned horizontal scrub).
+let lenisInstance: Lenis | null = null;
+export function getLenis(): Lenis | null {
+  return lenisInstance;
+}
+
 /**
  * Stable ref-based access to scroll metrics. Use this from rAF loops or
  * imperative code that needs the latest value without triggering React
@@ -130,6 +139,8 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
       // more responsive while keeping micro-scrolls buttery.
       syncTouch: true,
     });
+    // Publish for ScrollTrigger sync (see getLenis()).
+    lenisInstance = lenis;
 
     let lastVelocityWrite = 0;
     lenis.on(
@@ -178,6 +189,7 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
     return () => {
       off();
       lenis.destroy();
+      lenisInstance = null;
     };
   }, []);
 

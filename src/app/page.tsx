@@ -49,20 +49,20 @@ export default function HomePage() {
       <div data-section-id="manifesto"><Manifesto /></div>
       <div data-section-id="marquee"><MarqueeBand /></div>
       <div data-section-id="works"><SelectedWorks /></div>
-      <div data-section-id="showreel" className="cv-auto"><ShowreelTeaser /></div>
-      <div data-section-id="milestones" className="cv-auto"><MilestonesScroll /></div>
-      <div data-section-id="now" className="cv-auto"><NowTeaser /></div>
-      <div data-section-id="stats" className="cv-auto"><Stats /></div>
-      <div data-section-id="testimonials" className="cv-auto"><Testimonials /></div>
-      <div data-section-id="awards" className="cv-auto"><AwardsSection /></div>
-      <div data-section-id="capabilities" className="cv-auto"><Capabilities /></div>
+      <div data-section-id="showreel"><ShowreelTeaser /></div>
+      <div data-section-id="milestones"><MilestonesScroll /></div>
+      <div data-section-id="now"><NowTeaser /></div>
+      <div data-section-id="stats"><Stats /></div>
+      <div data-section-id="testimonials"><Testimonials /></div>
+      <div data-section-id="awards"><AwardsSection /></div>
+      <div data-section-id="capabilities"><Capabilities /></div>
       {/* No cv-auto here: this section uses a GSAP ScrollTrigger pin + a
           horizontal track whose width must be measured at init. content-visibility
           virtualises the off-screen size and freezes the scrub on phase one. */}
       <div data-section-id="process"><ProcessSection /></div>
-      <div data-section-id="portfolios" className="cv-auto"><PortfoliosTeaser /></div>
-      <div data-section-id="journal" className="cv-auto"><JournalPreview /></div>
-      <div data-section-id="sitemap" className="cv-auto"><SiteMap /></div>
+      <div data-section-id="portfolios"><PortfoliosTeaser /></div>
+      <div data-section-id="journal"><JournalPreview /></div>
+      <div data-section-id="sitemap"><SiteMap /></div>
     </>
   );
 }

@@ -26,6 +26,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { process as processPhases } from "@/lib/data";
 import { Reveal } from "@/components/ui/Reveal";
 import { ScrambleText } from "@/components/ui/ScrambleText";
+import { getLenis } from "@/components/providers/SmoothScrollProvider";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -90,11 +91,24 @@ export function ProcessSection() {
       });
     }, wrap);
 
+    // Sync ScrollTrigger to Lenis' smoothed scroll position so the pinned
+    // scrub advances in lock-step with the page instead of a frame behind it
+    // (null on touch/reduced-motion, where Lenis isn't running and this
+    // pinned layout isn't used anyway).
+    const lenis = getLenis();
+    const onLenisScroll = () => ScrollTrigger.update();
+    lenis?.on("scroll", onLenisScroll);
+
     // Recompute once layout + fonts settle so track.scrollWidth (and the
-    // resulting scroll distance) is measured correctly.
+    // resulting scroll distance) is measured correctly. A second pass on the
+    // window `load` event covers late-loading fonts/images shifting layout.
     const raf = requestAnimationFrame(() => ScrollTrigger.refresh());
+    const onLoad = () => ScrollTrigger.refresh();
+    window.addEventListener("load", onLoad);
     return () => {
       cancelAnimationFrame(raf);
+      window.removeEventListener("load", onLoad);
+      lenis?.off("scroll", onLenisScroll);
       ctx.revert();
     };
   }, [pinned]);
