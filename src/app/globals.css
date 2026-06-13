@@ -136,12 +136,17 @@ body {
      separate scrollbar gutter, so a single child using `100vw`, a wide
      fixed/absolute element, or negative letter-spacing bleeding past the
      edge would let the whole page scroll sideways — which read as "the
-     site is shoved off to one side, not full-screen". Clipping overflow-x
-     at the root makes the page always exactly viewport-wide regardless of
-     what any descendant does. `width: 100%` (never 100vw) keeps it honest
-     when a desktop scrollbar IS present. */
+     site is shoved off to one side, not full-screen".
+
+     MUST be `clip`, not `hidden`. `overflow-x: hidden` forces the other
+     axis to compute to `auto` (CSS overflow spec), turning html/body into a
+     scroll container — which silently breaks every `position: sticky`
+     descendant (the Milestones timeline rail, resume TOC, pinned headers).
+     `overflow-x: clip` clips the same overflow WITHOUT creating a scroll
+     container, so sticky keeps working. `width: 100%` (never 100vw) keeps it
+     honest when a desktop scrollbar IS present. */
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 body {
   position: relative;
