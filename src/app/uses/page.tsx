@@ -4,6 +4,7 @@ import { UsesVisitTracker } from "@/components/uses/UsesVisitTracker";
 import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/uses" },
   title: "Uses — Setup & Tooling",
   description:
     "What I actually use day-to-day to build the studio — editor, OS, hardware, fonts, and a short list of dev tools that pull their weight.",

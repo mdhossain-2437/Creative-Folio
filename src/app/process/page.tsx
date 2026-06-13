@@ -6,6 +6,7 @@ import { process as phases } from "@/lib/data";
 import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/process" },
   title: "Process — How I work",
   description:
     "The four-phase studio process: Discovery, Design, Prototype, Production. How I move from a blank Figma file to a shipped, award-grade web experience.",

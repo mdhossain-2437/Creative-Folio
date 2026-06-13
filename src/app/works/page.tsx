@@ -10,6 +10,7 @@ import { PageSchema } from "@/components/seo/PageSchema";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/works" },
   title: "Selected Works",
   description:
     "A curated collection of digital experiences, interactive installations and experimental web architecture by Delowar Hossain.",

@@ -6,6 +6,7 @@ import { site } from "@/lib/site";
 import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/changelog" },
   title: "Changelog — What shipped & when",
   description:
     "A running log of the studio site itself — feature drops, lab experiments, micro-interactions and engineering polish, in reverse-chronological order.",

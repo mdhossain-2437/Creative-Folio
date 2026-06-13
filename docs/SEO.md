@@ -313,6 +313,22 @@ ready.
 These mistakes have been made and fixed in earlier PRs. Don't repeat
 them.
 
+- **`canonical` set on the root layout.** THE big one. Next.js merges
+  metadata parent→child, so `alternates.canonical` on `app/layout.tsx`
+  propagates to **every page that doesn't set its own**. The result: `/now`,
+  `/journal`, `/lab`, `/services`, … all emitted
+  `<link rel="canonical" href="https://delowarhossain.dev">` — telling Google
+  they are duplicates of the homepage, so Google dropped them from the index.
+  Symptom in GSC: "Alternate page with proper canonical tag" / "Duplicate
+  without user-selected canonical" on dozens of valid pages. **Fix:** never set
+  `canonical` on the root layout. Each page sets its own self-referencing
+  canonical (relative path, resolved against `metadataBase`); the homepage's
+  lives in `app/page.tsx`. Verify after any metadata change with:
+  `grep -o '<link rel="canonical"[^>]*>' .next/server/app/<route>.html`.
+- **`ImageObject` width/height not matching the file.** The portrait schema
+  hard-coded `1326×1147`; the real `/public/profile.png` is `1317×1194`. Google
+  cross-checks and a mismatch weakens the image↔entity link behind the
+  Knowledge-Panel thumbnail. Keep the numbers exact.
 - **`alumniOf` as a single object.** Schema.org allows arrays —
   switching to array unblocks listing both UoPeople and Political
   Science. Always use array form unless there's exactly one entity.

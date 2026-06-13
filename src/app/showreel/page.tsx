@@ -7,6 +7,7 @@ import { ReelChapterCarouselClient } from "@/components/showreel/ReelChapterCaro
 import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/showreel" },
   title: "Showreel — 02:17 of selected motion",
   description:
     "A vertical reel of selected work, 2026–2027. Six chapters, autoplay muted, click any chapter to scrub.",

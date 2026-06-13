@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/legal/privacy" },
   title: "Privacy Policy",
   description: "How this site handles your data — short, plain, honest.",
 };

@@ -12,8 +12,14 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#070708",
     lang: "en",
     categories: ["design", "developer-tools", "portfolio"],
+    // Square, edge-to-edge brand mark (the ink square + peach diamond + "D").
+    // og.svg was a 1200×630 social card — wrong aspect for an app icon and a
+    // PWA-installability failure. icon.svg is square and scalable, and the
+    // full-bleed ink background + centered diamond make it a valid maskable
+    // icon (safe-zone respected). apple-icon.tsx covers the iOS touch icon.
     icons: [
-      { src: "/og.svg", sizes: "any", type: "image/svg+xml", purpose: "any" },
+      { src: "/icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any" },
+      { src: "/icon.svg", sizes: "any", type: "image/svg+xml", purpose: "maskable" },
     ],
     shortcuts: [
       { name: "Lab", short_name: "Lab", url: "/lab" },

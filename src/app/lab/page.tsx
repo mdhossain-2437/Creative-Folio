@@ -7,6 +7,7 @@ import { Marquee } from "@/components/ui/Marquee";
 import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/lab" },
   title: "The Lab — Experiments",
   description:
     "Technical explorations: WebGL, GLSL shaders, motion systems and creative coding patterns. Where code meets art.",

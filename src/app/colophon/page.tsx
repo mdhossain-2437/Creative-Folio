@@ -4,6 +4,7 @@ import { site } from "@/lib/site";
 import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/colophon" },
   title: "Colophon — The Making Of",
   description: "How this site was built — stack, type, motion and a few notes on craft.",
 };

@@ -6,6 +6,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/archive" },
   title: "Archive — All Works",
   description: "An exhaustive index of every project, every year — from solo experiments to client engagements.",
 };

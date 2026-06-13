@@ -12,6 +12,7 @@ import { PageSchema } from "@/components/seo/PageSchema";
 export const revalidate = 1800;
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/now" },
   title: "Now — What I'm doing this season",
   description:
     "A small Derek-Sivers /now page. The current season — what I'm building, reading, listening to, and obsessing over. Updated monthly.",

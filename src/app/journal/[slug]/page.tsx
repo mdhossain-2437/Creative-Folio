@@ -17,7 +17,11 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const { slug } = await params;
   const post = journal.find((j) => j.slug === slug);
   if (!post) return {};
-  return { title: post.title, description: post.excerpt };
+  return {
+    title: post.title,
+    description: post.excerpt,
+    alternates: { canonical: `/journal/${post.slug}` },
+  };
 }
 
 const sampleBody: string[] = [

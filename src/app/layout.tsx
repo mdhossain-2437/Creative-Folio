@@ -118,7 +118,13 @@ export const metadata: Metadata = {
     // twitter:image auto-populated by `app/twitter-image.tsx`.
   },
   alternates: {
-    canonical: site.url,
+    // NOTE: do NOT set `canonical` here. Next.js merges metadata parent→child,
+    // so a canonical on the root layout propagates to EVERY page that doesn't
+    // set its own — making /now, /journal, /lab, … all declare the homepage as
+    // their canonical, which tells Google they're duplicates of `/` and drops
+    // them from the index. Each page sets its own self-referencing canonical
+    // (relative paths resolve against `metadataBase` above). The homepage's
+    // canonical lives in `app/page.tsx`.
     types: {
       "application/atom+xml": [{ url: "/journal/feed.xml", title: "Studio Journal — Atom Feed" }],
       "application/feed+json": [{ url: "/api/feed.json", title: "Studio Combined Feed — JSON Feed v1.1" }],

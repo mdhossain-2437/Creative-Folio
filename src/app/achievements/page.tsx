@@ -4,6 +4,7 @@ import { AchievementsBoard } from "@/components/ui/AchievementsBoard";
 import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/achievements" },
   title: "Achievements — A Studio Game",
   description:
     "Hidden interactions across the studio site. Unlock them by playing with the place.",

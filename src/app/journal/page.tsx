@@ -6,6 +6,7 @@ import { journal } from "@/lib/data";
 import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/journal" },
   title: "Journal",
   description:
     "Thoughts, experiments and technical deep-dives on creative development, motion design, AI and the discipline of craft.",

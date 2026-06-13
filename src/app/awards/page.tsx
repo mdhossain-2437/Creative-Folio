@@ -5,6 +5,7 @@ import { awards } from "@/lib/data";
 import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/awards" },
   title: "Awards — Trophy Room",
   description:
     "International design and engineering recognition for the work of Delowar Hossain.",

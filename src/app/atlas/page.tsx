@@ -7,6 +7,7 @@ import { AtlasConstellation, type ConstellationStar } from "@/components/atlas/A
 import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/atlas" },
   title: "Atlas — Site map as a constellation",
   description:
     "Every route on the site, laid out as a star map. Hover any star to preview, click any star to fly there.",
@@ -100,7 +101,7 @@ export default function AtlasPage() {
                   className="flex items-center justify-between font-sans text-sm text-warmwhite/80 hover:text-peach"
                 >
                   <span>{s.label}</span>
-                  <span className="font-mono text-[10px] uppercase tracking-widest text-warmwhite/35">
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-warmwhite/55">
                     {s.href}
                   </span>
                 </Link>

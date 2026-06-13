@@ -159,7 +159,7 @@ export default function PortfoliosPage() {
                     <span aria-hidden>↗</span> {new URL(p.href).host}
                   </a>
                 ) : (
-                  <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+                  <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
                     {p.status === "Current"
                       ? "✦ You are here"
                       : "Archived · screenshots on request"}

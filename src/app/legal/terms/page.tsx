@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/legal/terms" },
   title: "Terms & Conditions",
   description: "The plain-English terms for engaging with this studio.",
 };

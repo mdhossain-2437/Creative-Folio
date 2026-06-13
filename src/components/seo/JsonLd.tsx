@@ -47,8 +47,11 @@ const personSchema = {
     "@type": "ImageObject",
     url: `${site.url}${site.portrait}`,
     contentUrl: `${site.url}${site.portrait}`,
-    width: 1326,
-    height: 1147,
+    // Must match the real /public/profile.png pixel dimensions — Google
+    // cross-checks ImageObject width/height against the fetched file, and a
+    // mismatch weakens the image↔entity link used for the Knowledge Panel.
+    width: 1317,
+    height: 1194,
     caption: `${site.name} — Creative Developer & UI/UX Designer in Joypurhat, Bangladesh`,
     representativeOfPage: true,
     license: site.url,

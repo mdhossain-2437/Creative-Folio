@@ -5,6 +5,7 @@ import { site } from "@/lib/site";
 import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/contact" },
   title: "Contact — Start a Project",
   description: "Inquiries, collaborations, retainers, and the occasional ‘just hi’. Open Q1 — Q4 / 2027.",
 };

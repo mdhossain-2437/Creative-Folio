@@ -14,6 +14,7 @@ function parsePriceUSD(s: string): number | undefined {
 }
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/services" },
   title: "Services & Process",
   description:
     "Engagement scope, capabilities and the four-phase process — from discovery to production. Booking 2027.",

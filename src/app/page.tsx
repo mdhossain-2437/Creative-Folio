@@ -14,6 +14,15 @@ import { ShowreelTeaser } from "@/components/sections/ShowreelTeaser";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { PortfoliosTeaser } from "@/components/sections/PortfoliosTeaser";
 import { SectionRail } from "@/components/ui/SectionRail";
+import type { Metadata } from "next";
+
+// Homepage self-referencing canonical. The root layout intentionally no longer
+// sets a blanket canonical (it would propagate to every page); the homepage
+// declares its own here. Title/description fall through to the layout defaults,
+// which are already tuned for the branded "Delowar Hossain" query.
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 const railItems = [
   { id: "hero", label: "Hero" },

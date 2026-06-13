@@ -5,6 +5,7 @@ import { ColorsVisitTracker } from "@/components/colors/ColorsVisitTracker";
 import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/colors" },
   title: "Colors — Studio Palette",
   description:
     "The exact hex values, Tailwind tokens, and on-ink contrast ratios for the studio's brand palette. Click any swatch to copy its hex.",
