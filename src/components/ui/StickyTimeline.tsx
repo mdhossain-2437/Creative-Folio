@@ -148,7 +148,7 @@ export function StickyTimeline({ items, label = "§ Timeline" }: { items: Item[]
                     />
                     <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                       <span className="display-num">§{String(i + 1).padStart(2, "0")}</span>
-                      <span className="mx-2 text-warmwhite/30">·</span>
+                      <span className="mx-2 text-warmwhite/55">·</span>
                       <span className="display-num text-warmwhite/85">{it.year}</span>
                     </p>
                   </div>

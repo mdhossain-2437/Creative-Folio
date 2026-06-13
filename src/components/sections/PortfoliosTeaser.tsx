@@ -101,7 +101,7 @@ export function PortfoliosTeaser() {
                     href="/portfolios"
                     data-cursor="view"
                     data-cursor-label="ARCHIVE"
-                    className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/45 transition-colors hover:text-peach"
+                    className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55 transition-colors hover:text-peach"
                   >
                     {p.status === "Current" ? "✦ You are here" : "↗ View archive"}
                   </Link>

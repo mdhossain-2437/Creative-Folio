@@ -230,7 +230,7 @@ export function SectionRail({ items }: { items: Item[] }) {
                       isActive
                         ? "text-warmwhite"
                         : isPast
-                          ? "text-warmwhite/35 hover:text-warmwhite/80"
+                          ? "text-warmwhite/55 hover:text-warmwhite/80"
                           : "text-warmwhite/55 hover:text-warmwhite/85"
                     }`}
                   >
@@ -264,7 +264,7 @@ export function SectionRail({ items }: { items: Item[] }) {
 
         {/* Footer — overall page progress (only visible when expanded) */}
         <footer
-          className={`flex items-center gap-2 border-t font-sans uppercase tracking-widest text-warmwhite/45 transition-[max-height,opacity,padding-top,border-color] duration-300 ${
+          className={`flex items-center gap-2 border-t font-sans uppercase tracking-widest text-warmwhite/55 transition-[max-height,opacity,padding-top,border-color] duration-300 ${
             expanded
               ? "max-h-12 border-warmwhite/12 pt-3 text-[9px] opacity-100"
               : "max-h-0 overflow-hidden border-transparent pt-0 text-[9px] opacity-0"
@@ -365,7 +365,7 @@ export function SectionRail({ items }: { items: Item[] }) {
                   >
                     <span
                       className={`display-num shrink-0 font-sans text-[9px] uppercase tracking-widest ${
-                        isActive ? "text-peach" : "text-warmwhite/40"
+                        isActive ? "text-peach" : "text-warmwhite/55"
                       }`}
                     >
                       {String(i + 1).padStart(2, "0")}

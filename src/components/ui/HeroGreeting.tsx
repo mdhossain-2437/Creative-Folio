@@ -52,7 +52,7 @@ export function HeroGreeting() {
   return (
     <span className="block">
       <span className="text-warmwhite/85">{word}</span>
-      <span className="ml-2 hidden text-warmwhite/35 md:inline">— {line}</span>
+      <span className="ml-2 hidden text-warmwhite/55 md:inline">— {line}</span>
     </span>
   );
 }

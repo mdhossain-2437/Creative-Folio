@@ -165,7 +165,7 @@ export function Navbar() {
                       active ? "text-peach" : "text-warmwhite hover:text-peach"
                     }`}
                   >
-                    <span className="display-num font-sans text-[10px] uppercase tracking-widest text-warmwhite/45">
+                    <span className="display-num font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <span>{item.label}</span>

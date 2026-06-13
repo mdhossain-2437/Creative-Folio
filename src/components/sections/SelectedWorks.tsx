@@ -130,7 +130,7 @@ function WorkRow({ work, idx }: { work: ReturnType<typeof getWorkType>; idx: num
           </span>
           <span className="hidden text-right font-sans text-[10px] uppercase tracking-widest text-warmwhite/55 md:block">
             <span className="block">{work.category}</span>
-            <span className="mt-1 block text-warmwhite/30">
+            <span className="mt-1 block text-warmwhite/55">
               {work.stack.slice(0, 3).join(" · ")}
             </span>
           </span>

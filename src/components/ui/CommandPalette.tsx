@@ -228,7 +228,7 @@ export function CommandPalette() {
               setActive(0);
             }}
             placeholder="Jump anywhere, search posts &amp; experiments, copy email…"
-            className="flex-1 bg-transparent font-serif text-xl text-warmwhite outline-none placeholder:text-warmwhite/30"
+            className="flex-1 bg-transparent font-serif text-xl text-warmwhite outline-none placeholder:text-warmwhite/55"
           />
         </div>
         <ul className="max-h-[55vh] overflow-y-auto py-2">
