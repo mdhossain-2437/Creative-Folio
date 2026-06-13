@@ -38,6 +38,9 @@ export function ProcessSection() {
   const [pinned, setPinned] = useState(false);
   const [active, setActive] = useState(0);
 
+  // Decide whether to pin: desktop ≥1024px + motion on. Runs once. Flipping
+  // `pinned` swaps the editorial grid fallback for the horizontal-scroll layout
+  // (whose section/track carry wrapRef/trackRef).
   useEffect(() => {
     if (typeof window === "undefined") return;
     const reduced = window.matchMedia(
@@ -45,15 +48,27 @@ export function ProcessSection() {
     ).matches;
     const wide = window.matchMedia("(min-width: 1024px)").matches;
     if (reduced || !wide) return;
-
     setPinned(true);
+  }, []);
+
+  // Wire the ScrollTrigger horizontal scrub AFTER the pinned layout has
+  // actually mounted — wrapRef/trackRef only exist once `pinned` is true, so
+  // this effect MUST depend on `pinned`.
+  //
+  // The earlier single-effect version called setPinned(true) and then read the
+  // refs in the SAME tick, before the pinned layout had rendered, so the refs
+  // were null, the effect early-returned, and ScrollTrigger never initialised —
+  // the phase track stayed frozen on "Discovery" with no way to scrub to the
+  // other four phases. Splitting it fixes exactly that.
+  useEffect(() => {
+    if (!pinned) return;
     const wrap = wrapRef.current;
     const track = trackRef.current;
     if (!wrap || !track) return;
 
     const distance = () => track.scrollWidth - window.innerWidth;
     const ctx = gsap.context(() => {
-      const tween = gsap.to(track, {
+      gsap.to(track, {
         x: () => -distance(),
         ease: "none",
         scrollTrigger: {
@@ -73,15 +88,16 @@ export function ProcessSection() {
           },
         },
       });
-      return () => {
-        tween.kill();
-      };
     }, wrap);
 
+    // Recompute once layout + fonts settle so track.scrollWidth (and the
+    // resulting scroll distance) is measured correctly.
+    const raf = requestAnimationFrame(() => ScrollTrigger.refresh());
     return () => {
+      cancelAnimationFrame(raf);
       ctx.revert();
     };
-  }, []);
+  }, [pinned]);
 
   // Jump the page scroll position so a given phase becomes active.
   // Used by the "jump-to-phase" pills + keyboard arrow nav. Falls back

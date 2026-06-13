@@ -56,7 +56,10 @@ export default function HomePage() {
       <div data-section-id="testimonials" className="cv-auto"><Testimonials /></div>
       <div data-section-id="awards" className="cv-auto"><AwardsSection /></div>
       <div data-section-id="capabilities" className="cv-auto"><Capabilities /></div>
-      <div data-section-id="process" className="cv-auto"><ProcessSection /></div>
+      {/* No cv-auto here: this section uses a GSAP ScrollTrigger pin + a
+          horizontal track whose width must be measured at init. content-visibility
+          virtualises the off-screen size and freezes the scrub on phase one. */}
+      <div data-section-id="process"><ProcessSection /></div>
       <div data-section-id="portfolios" className="cv-auto"><PortfoliosTeaser /></div>
       <div data-section-id="journal" className="cv-auto"><JournalPreview /></div>
       <div data-section-id="sitemap" className="cv-auto"><SiteMap /></div>
