@@ -38,7 +38,7 @@ export function getScrollState(): Readonly<Refs> {
 // The live Lenis instance (desktop / pointer-fine only — null on touch and
 // reduced-motion, which use native scroll). Exposed so scroll-driven libraries
 // like GSAP ScrollTrigger can sync to Lenis's smoothed scroll position instead
-// of lagging a frame behind it (see ProcessSection's pinned horizontal scrub).
+// of lagging a frame behind it.
 let lenisInstance: Lenis | null = null;
 export function getLenis(): Lenis | null {
   return lenisInstance;
