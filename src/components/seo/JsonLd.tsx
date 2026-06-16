@@ -31,7 +31,7 @@ const personSchema = {
     "Compiled Thought",
   ],
   url: site.url,
-  mainEntityOfPage: site.url,
+  mainEntityOfPage: { "@id": `${site.url}/#profilepage` },
   identifier: site.url,
   jobTitle: [
     "Creative Developer",
@@ -41,6 +41,8 @@ const personSchema = {
     "Website Developer",
   ].join(" · "),
   description: site.tagline,
+  disambiguatingDescription:
+    "Bangladesh-based creative developer Delowar Hossain, founder of The Compiled Thought and operator of the canonical portfolio 2027.delowarhossain.dev.",
   email: `mailto:${site.email}`,
   // Image is the most important field for Google Image Search to associate
   // the portrait with the name. We declare it in two forms — `image` (the
@@ -295,6 +297,9 @@ const websiteSchema = {
   copyrightHolder: { "@id": `${site.url}/#person` },
   author: { "@id": `${site.url}/#person` },
   publisher: { "@id": `${site.url}/#organization` },
+  about: { "@id": `${site.url}/#person` },
+  mainEntity: { "@id": `${site.url}/#person` },
+  isAccessibleForFree: true,
   potentialAction: {
     "@type": "SearchAction",
     target: { "@type": "EntryPoint", urlTemplate: `${site.url}/?q={search_term_string}` },
@@ -307,6 +312,7 @@ const organizationSchema = {
   "@type": "Organization",
   "@id": `${site.url}/#organization`,
   name: site.studio,
+  legalName: "The Compiled Thought",
   alternateName: [
     site.name,
     "Compiled Thought",
@@ -314,10 +320,17 @@ const organizationSchema = {
     "Delowar Hossain Studio",
   ],
   url: site.url,
+  description:
+    "The Compiled Thought is Delowar Hossain's creative technology studio for WebGL websites, design systems, and AI-augmented product experiences.",
   logo: `${site.url}/og.svg`,
   image: `${site.url}${site.portrait}`,
   founder: { "@id": `${site.url}/#person` },
   foundingDate: `${site.yearStarted}-01-01`,
+  foundingLocation: {
+    "@type": "Place",
+    name: "Joypurhat, Bangladesh",
+  },
+  areaServed: "Worldwide",
   email: site.email,
   address: {
     "@type": "PostalAddress",
@@ -370,6 +383,7 @@ const profilePageSchema = {
   description: site.tagline,
   mainEntity: { "@id": `${site.url}/#person` },
   about: { "@id": `${site.url}/#person` },
+  isPartOf: { "@id": `${site.url}/#website` },
   primaryImageOfPage: {
     "@type": "ImageObject",
     url: `${site.url}${site.portrait}`,

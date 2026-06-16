@@ -5,12 +5,21 @@
 // only if they haven't dismissed it before. Auto-dismisses after 8 s if
 // ignored. Stored under `delowar:nudge:v1`.
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const KEY = "delowar:nudge:v1";
 
 export function FirstVisitNudge() {
   const [show, setShow] = useState(false);
+
+  const dismiss = useCallback(() => {
+    setShow(false);
+    try {
+      window.localStorage.setItem(KEY, "1");
+    } catch {
+      /* silent */
+    }
+  }, []);
 
   useEffect(() => {
     let seen = false;
@@ -28,17 +37,7 @@ export function FirstVisitNudge() {
     if (!show) return;
     const t = window.setTimeout(() => dismiss(), 8000);
     return () => window.clearTimeout(t);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [show]);
-
-  const dismiss = () => {
-    setShow(false);
-    try {
-      window.localStorage.setItem(KEY, "1");
-    } catch {
-      /* silent */
-    }
-  };
+  }, [dismiss, show]);
 
   if (!show) return null;
   return (

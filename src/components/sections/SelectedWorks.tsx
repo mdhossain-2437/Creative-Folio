@@ -8,6 +8,8 @@ import { Reveal } from "@/components/ui/Reveal";
 import { ScrambleText } from "@/components/ui/ScrambleText";
 import { WorkCoverDisplacement } from "@/components/works/WorkCoverDisplacement";
 
+type Work = (typeof works)[number];
+
 export function SelectedWorks() {
   return (
     <section id="works" className="relative bg-ink-900 py-28 md:py-40">
@@ -53,7 +55,7 @@ export function SelectedWorks() {
   );
 }
 
-function WorkRow({ work, idx }: { work: ReturnType<typeof getWorkType>; idx: number }) {
+function WorkRow({ work, idx }: { work: Work; idx: number }) {
   const rowRef = useRef<HTMLAnchorElement>(null);
   const peekRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -174,8 +176,4 @@ function WorkRow({ work, idx }: { work: ReturnType<typeof getWorkType>; idx: num
       </Reveal>
     </li>
   );
-}
-
-function getWorkType() {
-  return works[0];
 }

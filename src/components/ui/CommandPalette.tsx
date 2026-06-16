@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { site } from "@/lib/site";
 import { applyMotion } from "@/components/ui/MotionToggle";
@@ -65,6 +65,12 @@ export function CommandPalette() {
     return [...routes, ...extras, ...actions, ...posts, ...labs];
   }, []);
 
+  const openPalette = useCallback(() => {
+    setActive(0);
+    setQuery("");
+    setOpen(true);
+  }, []);
+
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return items.filter((it) => it.kind === "route" || it.kind === "action");
@@ -76,6 +82,73 @@ export function CommandPalette() {
     );
   }, [items, query]);
 
+  const run = useCallback(
+    (item: Item) => {
+      setOpen(false);
+      if ((item.kind === "route" || item.kind === "journal" || item.kind === "lab") && item.hint) {
+        router.push(item.hint);
+        return;
+      }
+      const id = item.id.replace(/^action:/, "");
+      if (id === "copy-email") {
+        navigator.clipboard
+          ?.writeText(site.email)
+          .then(() => {
+            pushToast({
+              id: "copy-email",
+              title: "Email copied",
+              description: site.email,
+              variant: "success",
+            });
+            unlock("scribe");
+          })
+          .catch(() =>
+            pushToast({
+              id: "copy-email-fail",
+              title: "Couldn't copy",
+              description: "Browser blocked clipboard. Try selecting manually.",
+              variant: "info",
+            })
+          );
+      } else if (id === "toggle-grid") {
+        window.dispatchEvent(new KeyboardEvent("keydown", { key: "G", shiftKey: true, metaKey: true }));
+      } else if (id === "toggle-motion") {
+        const next = document.body.classList.contains("calm-motion") ? "on" : "off";
+        applyMotion(next);
+        try {
+          window.localStorage.setItem("delowar:motion", next);
+        } catch {
+          /* silent */
+        }
+        pushToast({
+          id: "motion-toggle",
+          title: next === "off" ? "Calmer build" : "Full motion",
+          description: next === "off" ? "Animations dialled down" : "Animations restored",
+          variant: "info",
+        });
+      } else if (id === "open-showreel") {
+        window.dispatchEvent(new CustomEvent("delowar:open-showreel"));
+      } else if (id === "download-resume") {
+        const a = document.createElement("a");
+        a.href = "/resume.pdf";
+        a.download = "Md-Delowar-Hossain-Resume.pdf";
+        a.rel = "noopener";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        pushToast({
+          id: "resume-download",
+          title: "Resume queued",
+          description: "Md-Delowar-Hossain-Resume.pdf",
+          variant: "success",
+        });
+      } else if (id === "konami") {
+        window.dispatchEvent(new CustomEvent("delowar:shader-storm"));
+      }
+    },
+    [router],
+  );
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const isK = e.key === "k" || e.key === "K";
@@ -85,7 +158,8 @@ export function CommandPalette() {
         Boolean((document.activeElement as HTMLElement | null)?.isContentEditable);
       if (isK && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setOpen((o) => !o);
+        if (open) setOpen(false);
+        else openPalette();
       } else if (
         !open &&
         !editable &&
@@ -95,7 +169,7 @@ export function CommandPalette() {
         e.key === "/"
       ) {
         e.preventDefault();
-        setOpen(true);
+        openPalette();
       } else if (e.key === "Escape" && open) {
         setOpen(false);
       } else if (open) {
@@ -114,13 +188,10 @@ export function CommandPalette() {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, filtered, active]);
+  }, [open, filtered, active, openPalette, run]);
 
   useEffect(() => {
     if (open) {
-      setActive(0);
-      setQuery("");
       requestAnimationFrame(() => inputRef.current?.focus());
     }
   }, [open]);
@@ -143,70 +214,6 @@ export function CommandPalette() {
       else document.documentElement.dataset.modalOpen = left.join(" ");
     };
   }, [open]);
-
-  const run = (item: Item) => {
-    setOpen(false);
-    if ((item.kind === "route" || item.kind === "journal" || item.kind === "lab") && item.hint) {
-      router.push(item.hint);
-      return;
-    }
-    const id = item.id.replace(/^action:/, "");
-    if (id === "copy-email") {
-      navigator.clipboard
-        ?.writeText(site.email)
-        .then(() => {
-          pushToast({
-            id: "copy-email",
-            title: "Email copied",
-            description: site.email,
-            variant: "success",
-          });
-          unlock("scribe");
-        })
-        .catch(() =>
-          pushToast({
-            id: "copy-email-fail",
-            title: "Couldn't copy",
-            description: "Browser blocked clipboard. Try selecting manually.",
-            variant: "info",
-          })
-        );
-    } else if (id === "toggle-grid") {
-      window.dispatchEvent(new KeyboardEvent("keydown", { key: "G", shiftKey: true, metaKey: true }));
-    } else if (id === "toggle-motion") {
-      const next = document.body.classList.contains("calm-motion") ? "on" : "off";
-      applyMotion(next);
-      try {
-        window.localStorage.setItem("delowar:motion", next);
-      } catch {
-        /* silent */
-      }
-      pushToast({
-        id: "motion-toggle",
-        title: next === "off" ? "Calmer build" : "Full motion",
-        description: next === "off" ? "Animations dialled down" : "Animations restored",
-        variant: "info",
-      });
-    } else if (id === "open-showreel") {
-      window.dispatchEvent(new CustomEvent("delowar:open-showreel"));
-    } else if (id === "download-resume") {
-      const a = document.createElement("a");
-      a.href = "/resume.pdf";
-      a.download = "Md-Delowar-Hossain-Resume.pdf";
-      a.rel = "noopener";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      pushToast({
-        id: "resume-download",
-        title: "Resume queued",
-        description: "Md-Delowar-Hossain-Resume.pdf",
-        variant: "success",
-      });
-    } else if (id === "konami") {
-      window.dispatchEvent(new CustomEvent("delowar:shader-storm"));
-    }
-  };
 
   if (!open) return null;
 

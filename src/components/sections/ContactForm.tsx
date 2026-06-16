@@ -14,7 +14,11 @@ export function ContactForm() {
   const toggle = (s: string) => {
     setPicked((p) => {
       const n = new Set(p);
-      n.has(s) ? n.delete(s) : n.add(s);
+      if (n.has(s)) {
+        n.delete(s);
+      } else {
+        n.add(s);
+      }
       return n;
     });
   };
