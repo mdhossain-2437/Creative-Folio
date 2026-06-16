@@ -4,12 +4,12 @@
 // search ecosystem in one round-trip.
 //
 // Usage from a deploy hook or cron:
-//   curl -X POST https://delowarhossain.dev/api/indexnow \
+//   curl -X POST https://2027.delowarhossain.dev/api/indexnow \
 //     -H 'content-type: application/json' \
-//     -d '{"urls": ["https://delowarhossain.dev/journal/new-post"]}'
+//     -d '{"urls": ["https://2027.delowarhossain.dev/journal/new-post"]}'
 //
 // Or with no body to ping the homepage + sitemap:
-//   curl -X POST https://delowarhossain.dev/api/indexnow
+//   curl -X POST https://2027.delowarhossain.dev/api/indexnow
 //
 // We deliberately allow anonymous POSTs because IndexNow itself is
 // authenticated by the keyLocation file. The worst-case spam is "an

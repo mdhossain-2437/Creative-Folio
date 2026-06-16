@@ -24,6 +24,13 @@ type SitemapEntry = MetadataRoute.Sitemap[number];
 
 const PORTRAIT = `${site.url}${site.portrait}`;
 const OG_FALLBACK = `${site.url}/og.svg`;
+const NOW = new Date("2027-01-01T00:00:00.000Z");
+
+function absoluteUrl(pathOrUrl: string): string {
+  return pathOrUrl.startsWith("http")
+    ? pathOrUrl
+    : `${site.url}${pathOrUrl.startsWith("/") ? pathOrUrl : `/${pathOrUrl}`}`;
+}
 
 function entry(
   path: string,
@@ -35,16 +42,16 @@ function entry(
   } = {},
 ): SitemapEntry {
   return {
-    url: `${site.url}${path}`,
-    lastModified: opts.lastModified ?? new Date(),
+    url: absoluteUrl(path || "/"),
+    lastModified: opts.lastModified ?? NOW,
     changeFrequency: opts.changeFrequency ?? "weekly",
     priority: opts.priority ?? 0.5,
-    images: opts.images,
+    images: opts.images?.map(absoluteUrl),
   };
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
+  const now = NOW;
 
   // High-priority "Delowar Hossain" entity pages — all carry the portrait
   // so Google's image index ties the photo to the name on multiple pages.
@@ -52,7 +59,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entry("", {
       priority: 1.0,
       changeFrequency: "daily",
-      images: [PORTRAIT, `${site.url}/opengraph-image`, OG_FALLBACK],
+      images: [PORTRAIT, "/opengraph-image", OG_FALLBACK],
       lastModified: now,
     }),
     entry("/about", {
@@ -91,10 +98,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entry("/awards", { priority: 0.6, changeFrequency: "monthly", images: [OG_FALLBACK] }),
     entry("/now", { priority: 0.5, changeFrequency: "weekly", images: [OG_FALLBACK] }),
     entry("/uses", { priority: 0.5, changeFrequency: "monthly", images: [OG_FALLBACK] }),
-    entry("/portfolios", { priority: 0.7, changeFrequency: "monthly", images: [OG_FALLBACK, `${site.url}/portfolios/opengraph-image`] }),
+    entry("/portfolios", { priority: 0.7, changeFrequency: "monthly", images: [OG_FALLBACK, "/portfolios/opengraph-image"] }),
     entry("/colophon", { priority: 0.5, changeFrequency: "monthly" }),
     entry("/atlas", { priority: 0.5, changeFrequency: "monthly" }),
-    entry("/brand", { priority: 0.5, changeFrequency: "monthly", images: [`${site.url}/brand/opengraph-image`, OG_FALLBACK] }),
+    entry("/brand", { priority: 0.5, changeFrequency: "monthly", images: ["/brand/opengraph-image", OG_FALLBACK] }),
     entry("/colors", { priority: 0.4, changeFrequency: "monthly" }),
     entry("/changelog", { priority: 0.4, changeFrequency: "weekly" }),
     entry("/achievements", { priority: 0.3, changeFrequency: "weekly" }),
@@ -109,7 +116,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entry(`/works/${w.slug}`, {
       priority: 0.8,
       changeFrequency: "monthly",
-      images: [w.cover, `${site.url}/works/${w.slug}/opengraph-image`],
+      images: [w.cover, `/works/${w.slug}/opengraph-image`],
     }),
   );
 
@@ -118,7 +125,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entry(`/journal/${j.slug}`, {
       priority: 0.6,
       changeFrequency: "monthly",
-      images: [`${site.url}/journal/${j.slug}/opengraph-image`],
+      images: [`/journal/${j.slug}/opengraph-image`],
     }),
   );
 
@@ -127,7 +134,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entry(`/lab/${e.slug}`, {
       priority: 0.5,
       changeFrequency: "monthly",
-      images: [`${site.url}/lab/${e.slug}/opengraph-image`],
+      images: [`/lab/${e.slug}/opengraph-image`],
     }),
   );
 

@@ -5,11 +5,14 @@ export const site = {
   location: "Joypurhat, Bangladesh",
   base: "Panchbibi, Joypurhat, Bangladesh",
   email: "hello@delowarhossain.dev",
-  // Canonical production domain. The MMXXVII edition is published directly
-  // at the apex domain.
-  url: "https://delowarhossain.dev",
-  domain: "delowarhossain.dev",
+  // Canonical production domain for the MMXXVII edition.
+  url: "https://2027.delowarhossain.dev",
+  domain: "2027.delowarhossain.dev",
+  apexUrl: "https://delowarhossain.dev",
+  apexDomain: "delowarhossain.dev",
   studio: "The Compiled Thought",
+  studioUrl: "https://2027.delowarhossain.dev/#organization",
+  publicIp: "20.219.204.239",
   repo: "https://github.com/mdhossain-2437/Creative-Folio",
   yearStarted: 2023,
   edition: "MMXXVII / 03.27",

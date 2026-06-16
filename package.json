@@ -4,9 +4,9 @@
   "private": true,
   "description": "Delowar Hossain — Creative Developer Portfolio. Awwward Winning immersive site built with Next.js, GSAP, Three.js,WebGL,Custom Shader, Lenis, and Framer Motion.",
   "scripts": {
-    "dev": "next dev -p 3000",
+    "dev": "next dev -H 0.0.0.0 -p 3000",
     "build": "next build",
-    "start": "next start -p 3000",
+    "start": "next start -H 0.0.0.0 -p 3000",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },

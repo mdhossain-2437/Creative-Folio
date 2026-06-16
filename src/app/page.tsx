@@ -14,6 +14,8 @@ import { ShowreelTeaser } from "@/components/sections/ShowreelTeaser";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { PortfoliosTeaser } from "@/components/sections/PortfoliosTeaser";
 import { SectionRail } from "@/components/ui/SectionRail";
+import { PageSchema } from "@/components/seo/PageSchema";
+import { site } from "@/lib/site";
 import type { Metadata } from "next";
 
 // Homepage self-referencing canonical. The root layout intentionally no longer
@@ -44,6 +46,13 @@ const railItems = [
 export default function HomePage() {
   return (
     <>
+      <PageSchema
+        path="/"
+        name={`${site.name} — Creative Developer & UI/UX Designer`}
+        description={`${site.name} runs ${site.studio}, building WebGL, Next.js, UI/UX and AI-augmented digital experiences from ${site.location}.`}
+        crumbs={[{ name: "Home", href: "/" }]}
+        primaryImage={site.portrait}
+      />
       <SectionRail items={railItems} />
       <div data-section-id="hero"><Hero /></div>
       <div data-section-id="manifesto"><Manifesto /></div>

@@ -26,6 +26,9 @@ const personSchema = {
     "Delowar Hossain",
     "delowarhossain",
     "delowarhossain.dev",
+    "2027.delowarhossain.dev",
+    "The Compiled Thought",
+    "Compiled Thought",
   ],
   url: site.url,
   mainEntityOfPage: site.url,
@@ -109,7 +112,7 @@ const personSchema = {
     areaServed: "Worldwide",
     availableLanguage: ["English", "Bengali"],
   },
-  sameAs: site.socials.map((s) => s.href),
+  sameAs: [...site.socials.map((s) => s.href), site.apexUrl],
   subjectOf: {
     "@type": "DigitalDocument",
     name: `${site.name} — Resume (${site.editionShort})`,
@@ -184,7 +187,7 @@ const personSchema = {
     },
   ],
   // Brand back-reference — completes the Person ↔ Brand graph so AI
-  // engines (Perplexity, ChatGPT) can map "delowarhossain.dev" or
+  // engines (Perplexity, ChatGPT) can map "2027.delowarhossain.dev" or
   // "The Compiled Thought" back to the operator.
   brand: { "@id": `${site.url}/#organization` },
   // What the studio is actively looking for. Improves intent matching
@@ -199,6 +202,7 @@ const personSchema = {
   // to the canonical identity.
   relatedLink: [
     "https://github.com/mdhossain-2437",
+    site.apexUrl,
     `${site.url}/portfolios`,
     `${site.url}/about`,
     `${site.url}/resume`,
@@ -249,7 +253,7 @@ const faqSchema = {
       acceptedAnswer: {
         "@type": "Answer",
         text:
-          "Send a brief to hello@delowarhossain.dev or use the contact form at delowarhossain.dev/contact. The studio takes a small number of engagements each quarter — typically WebGL-led marketing sites, design systems for product teams, and AI-augmented prototypes.",
+          "Send a brief to hello@delowarhossain.dev or use the contact form at 2027.delowarhossain.dev/contact. The studio takes a small number of engagements each quarter — typically WebGL-led marketing sites, design systems for product teams, and AI-augmented prototypes.",
       },
     },
     {
@@ -267,7 +271,7 @@ const faqSchema = {
       acceptedAnswer: {
         "@type": "Answer",
         text:
-          "Each annual portfolio is treated as a separate studio system — a new codename, a new visual register, a new architectural opinion about what a portfolio should be. The current edition (MMXXVII) is the eighth in the series; older editions are documented at delowarhossain.dev/portfolios.",
+          "Each annual portfolio is treated as a separate studio system — a new codename, a new visual register, a new architectural opinion about what a portfolio should be. The current edition (MMXXVII) is the eighth in the series; older editions are documented at 2027.delowarhossain.dev/portfolios.",
       },
     },
   ],
@@ -278,6 +282,12 @@ const websiteSchema = {
   "@type": "WebSite",
   "@id": `${site.url}/#website`,
   name: `${site.name} — Creative Developer Portfolio (${site.editionShort})`,
+  alternateName: [
+    site.domain,
+    site.apexDomain,
+    "The Compiled Thought",
+    "Delowar Hossain portfolio",
+  ],
   url: site.url,
   description: site.tagline,
   inLanguage: "en",
@@ -297,7 +307,12 @@ const organizationSchema = {
   "@type": "Organization",
   "@id": `${site.url}/#organization`,
   name: site.studio,
-  alternateName: site.name,
+  alternateName: [
+    site.name,
+    "Compiled Thought",
+    "The Compiled Thought Studio",
+    "Delowar Hossain Studio",
+  ],
   url: site.url,
   logo: `${site.url}/og.svg`,
   image: `${site.url}${site.portrait}`,
@@ -310,7 +325,37 @@ const organizationSchema = {
     addressRegion: "Rajshahi",
     addressCountry: "BD",
   },
-  sameAs: site.socials.map((s) => s.href),
+  sameAs: [...site.socials.map((s) => s.href), site.apexUrl],
+  brand: {
+    "@type": "Brand",
+    name: site.studio,
+    url: site.url,
+    slogan: site.tagline,
+  },
+};
+
+const serviceCatalogSchema = {
+  "@context": "https://schema.org",
+  "@type": "OfferCatalog",
+  "@id": `${site.url}/#services`,
+  name: `${site.studio} services`,
+  url: `${site.url}/services`,
+  itemListElement: [
+    "Creative frontend engineering",
+    "WebGL and Three.js portfolio websites",
+    "UI/UX design systems",
+    "AI-augmented product prototypes",
+    "Technical SEO and performance optimization",
+  ].map((name) => ({
+    "@type": "Offer",
+    itemOffered: {
+      "@type": "Service",
+      name,
+      provider: { "@id": `${site.url}/#organization` },
+      areaServed: "Worldwide",
+      serviceType: name,
+    },
+  })),
 };
 
 // ProfilePage schema is the strongest hint to Google + Bing that this site
@@ -354,6 +399,10 @@ export function JsonLd() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceCatalogSchema) }}
       />
     </>
   );

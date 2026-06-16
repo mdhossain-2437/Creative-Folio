@@ -11,8 +11,9 @@ The site competes on two front lines:
    wins by being *citable*: clean prose, hard facts, structured `<dl>`,
    FAQ schema, llms.txt convention, broad AI-crawler allow-list.
 
-The North-Star goal is: someone searches **"Delowar Hossain"** on Google
-and the first result is `delowarhossain.dev`, with a Knowledge Panel
+The North-Star goal is: someone searches **"Delowar Hossain"** or
+**"The Compiled Thought"** on Google and the first result is
+`2027.delowarhossain.dev`, with a Knowledge Panel
 showing the portrait + tagline + studio, the alumniOf line listing
 University of the People, and a sitelinks tree.
 
@@ -36,6 +37,9 @@ In `src/components/seo/JsonLd.tsx` we ship a `Person` node with:
 - `email`, `url`, `mainEntityOfPage`, `subjectOf` (resume PDF).
 - `sameAs` array — GitHub, LinkedIn, Twitter, read.cv. **Every** sameAs
   must resolve. Broken links cost trust.
+- `The Compiled Thought`, `Compiled Thought`, and
+  `2027.delowarhossain.dev` are declared as alternate entity names so the
+  studio-name query can rank without keyword stuffing.
 - `alumniOf` — array of two `EducationalOrganization` entries:
   University of the People (with `url`) + B.A. Political Science.
 - `award` array (Awwwards, CSS Design Awards, FWA, Product Hunt).
@@ -67,7 +71,7 @@ search benefits from this — the name appears in every SERP entry.
 ### Self-confirming sameAs
 
 The classical entity-validation flow: GitHub profile bio links to
-`delowarhossain.dev`, the site's `Person.sameAs` lists the GitHub URL.
+`2027.delowarhossain.dev`, the site's `Person.sameAs` lists the GitHub URL.
 Maintain this two-way handshake on every external profile (LinkedIn,
 read.cv, X/Twitter).
 
@@ -77,7 +81,8 @@ read.cv, X/Twitter).
 
 ### `/sitemap.xml`
 
-Generated from `src/app/sitemap.ts`. Includes:
+Generated from `src/app/sitemap.ts`. Canonical host:
+`https://2027.delowarhossain.dev`. Includes:
 
 - Every static route with `lastmod` + `priority` + `changeFrequency`.
 - Every dynamic route generated from `data.ts` (works, journal, lab).
@@ -139,7 +144,7 @@ post-deploy hook in Vercel.
 
 ### After deploy
 
-1. Visit `https://delowarhossain.dev/indexnow.txt` — should return the
+1. Visit `https://2027.delowarhossain.dev/indexnow.txt` — should return the
    key as a plain-text string.
 2. POST a test URL list to `/api/indexnow`.
 3. Verify in Bing Webmaster Tools → IndexNow tab that pings are
@@ -214,10 +219,31 @@ A clean factual snapshot tuned for AI citation:
 - 8-question FAQ wrapped in `FAQPage` JSON-LD.
 - `BreadcrumbList` JSON-LD.
 - "Ask the folio" prompt copier — three click-to-copy prompts pre-formed
-  for ChatGPT / Perplexity / Claude that cite `delowarhossain.dev`.
+  for ChatGPT / Perplexity / Claude that cite `2027.delowarhossain.dev`.
 
 When updating identity facts, **update `/ai` too** — it's the AI-engine
 mirror of `/about` and is the most likely page to be cited.
+
+---
+
+## 6. Off-Page SEO, Without Spam
+
+Backlinks should confirm the entity, not look manufactured. Good targets:
+
+- GitHub, LinkedIn, X/Twitter, Instagram, Facebook, read.cv: set the website
+  field to `https://2027.delowarhossain.dev`.
+- Awwwards, CSS Design Awards, FWA, Product Hunt, Behance, Dribbble: add the
+  same website URL where the profile/project page allows it.
+- Guest/project mentions: use natural anchor text such as
+  `Delowar Hossain`, `The Compiled Thought`, or
+  `creative developer portfolio`.
+- Avoid paid link farms, repeated exact-match comments, hidden links, and
+  AI-generated directory spam. Those can delay ranking or trigger manual
+  quality reviews.
+
+For the branded query **"The Compiled Thought"**, the strongest signals are
+the organization JSON-LD, social profile website fields, and a few real public
+mentions using the studio name naturally.
 
 ### Plain-prose blocks
 
@@ -230,7 +256,7 @@ beautiful for humans and invisible to LLM token streams.
 
 ---
 
-## 6. Submission + Monitoring
+## 7. Submission + Monitoring
 
 ### After every meaningful deploy
 
@@ -241,8 +267,8 @@ beautiful for humans and invisible to LLM token streams.
    accepts the IndexNow ping.)
 3. Submit to **Brave Search webmaster** at
    https://search.brave.com/help/webmaster-help.
-4. Wait 24–72 hours, then check rankings for "Delowar Hossain" and
-   variations.
+4. Wait 24–72 hours, then check rankings for "Delowar Hossain",
+   "The Compiled Thought", and variations.
 
 ### Monitor
 
@@ -258,12 +284,12 @@ beautiful for humans and invisible to LLM token streams.
 
 ---
 
-## 7. Branded-Search Tactics for "Delowar Hossain"
+## 8. Branded-Search Tactics for "Delowar Hossain"
 
 These are the levers when ranking for the name itself:
 
 1. **Identity surfaces.** Every social handle, profile, byline that says
-   "Delowar Hossain" + links to `delowarhossain.dev` is a vote. Maintain
+   "Delowar Hossain" + links to `2027.delowarhossain.dev` is a vote. Maintain
    GitHub bio, LinkedIn headline, Twitter bio, read.cv, Awwwards profile,
    Behance profile, Dribbble profile.
 2. **Self-references.** Site uses the full name in `<h1>` on `/`,
@@ -292,7 +318,7 @@ These are the levers when ranking for the name itself:
 
 ---
 
-## 8. International / Local
+## 9. International / Local
 
 The Bangla-speaking audience matters too. Currently:
 
@@ -308,7 +334,7 @@ ready.
 
 ---
 
-## 9. Anti-Patterns Encountered
+## 10. Anti-Patterns Encountered
 
 These mistakes have been made and fixed in earlier PRs. Don't repeat
 them.
@@ -317,7 +343,7 @@ them.
   metadata parent→child, so `alternates.canonical` on `app/layout.tsx`
   propagates to **every page that doesn't set its own**. The result: `/now`,
   `/journal`, `/lab`, `/services`, … all emitted
-  `<link rel="canonical" href="https://delowarhossain.dev">` — telling Google
+  `<link rel="canonical" href="https://2027.delowarhossain.dev">` — telling Google
   they are duplicates of the homepage, so Google dropped them from the index.
   Symptom in GSC: "Alternate page with proper canonical tag" / "Duplicate
   without user-selected canonical" on dozens of valid pages. **Fix:** never set

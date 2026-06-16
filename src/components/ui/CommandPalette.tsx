@@ -256,7 +256,7 @@ export function CommandPalette() {
         </ul>
         <div className="flex items-center justify-between border-t border-warmwhite/15 px-5 py-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
           <span>↑/↓ navigate · ↵ select · esc close</span>
-          <span>delowarhossain.dev · MMXXVII</span>
+          <span>2027.delowarhossain.dev · MMXXVII</span>
         </div>
       </div>
     </div>

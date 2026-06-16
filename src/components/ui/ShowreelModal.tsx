@@ -325,5 +325,5 @@ export function ShowreelModal() {
 }
 
 function site_label() {
-  return "delowarhossain.dev · MMXXVII";
+  return "2027.delowarhossain.dev · MMXXVII";
 }
