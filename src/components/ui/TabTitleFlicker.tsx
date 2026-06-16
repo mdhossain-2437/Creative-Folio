@@ -16,7 +16,7 @@ const AFK_PHRASES = [
   "◊ Folio MMXXVII · ⌘K to fly",
   "◊ AFK · the grid awaits",
   "◊ The cursor is lonely",
-  "◊ delowarhossain.dev / 2027",
+  "◊ 2027.delowarhossain.dev",
   "◊ pssst — unread chapters in the reel",
 ];
 

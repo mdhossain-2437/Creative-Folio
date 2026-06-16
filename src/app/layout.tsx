@@ -65,7 +65,11 @@ export const metadata: Metadata = {
     "Md Delowar Hossain",
     "delowarhossain",
     "delowarhossain.dev",
+    "2027.delowarhossain.dev",
     "Delowar",
+    "The Compiled Thought",
+    "The Compiled Thought studio",
+    "Compiled Thought",
     // Role + location
     "creative developer",
     "creative developer Bangladesh",
@@ -163,7 +167,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${newsreader.variable} ${inter.variable} ${mono.variable} ${sacramento.variable}`}>
-      <head>
+  <head>
         <JsonLd />
         {/* rel="me" verification chain. The fediverse, IndieAuth, and a number
             of identity engines walk these links to confirm that the same
@@ -177,6 +181,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         ))}
         <link rel="me" href={`mailto:${site.email}`} />
         <link rel="author" href="/humans.txt" type="text/plain" />
+        <link rel="alternate" hrefLang="en" href={site.url} />
+        <link rel="alternate" hrefLang="x-default" href={site.url} />
+        <meta name="geo.region" content="BD-E" />
+        <meta name="geo.placename" content={site.location} />
+        <meta name="ICBM" content="25.0953, 89.0227" />
       </head>
       <body className="bg-ink-900 text-warmwhite font-sans antialiased selection:bg-peach selection:text-ink-900">
         <SkipToContent />

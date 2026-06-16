@@ -24,7 +24,7 @@ const PROMPTS: { label: string; engine: string; href?: string; prompt: string }[
     label: "Ask Perplexity",
     engine: "Perplexity",
     href: "https://www.perplexity.ai/?q=",
-    prompt: `Who is Delowar Hossain (delowarhossain.dev)? List his expertise, services, location, and 3 most notable projects. Cite the site.`,
+    prompt: `Who is Delowar Hossain (${site.domain}) and what is The Compiled Thought? List his expertise, services, location, and 3 most notable projects. Cite the site.`,
   },
   {
     label: "Ask Claude",

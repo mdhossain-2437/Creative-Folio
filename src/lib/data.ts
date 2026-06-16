@@ -1608,7 +1608,7 @@ export const portfolios: PortfolioEdition[] = [
     edition: "MMXXVII",
     codename: "The Compiled Thought",
     status: "Current",
-    href: "https://delowarhossain.delowarhossain.dev",
+    href: "https://2027.delowarhossain.dev",
     description:
       "Editorial newsroom architecture. WebGL hero, Lenis-smoothed scroll, scroll-driven process timeline, 30 live lab experiments. Built for sub-100ms interaction, AA contrast, and dual JSON-LD + AI-engine surfaces.",
     accent: "#e3bfb4",
