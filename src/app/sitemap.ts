@@ -27,9 +27,11 @@ const OG_FALLBACK = `${site.url}/og.svg`;
 const NOW = new Date("2027-01-01T00:00:00.000Z");
 
 function absoluteUrl(pathOrUrl: string): string {
-  return pathOrUrl.startsWith("http")
+  const url = pathOrUrl.startsWith("http")
     ? pathOrUrl
     : `${site.url}${pathOrUrl.startsWith("/") ? pathOrUrl : `/${pathOrUrl}`}`;
+  // Escape ampersands for XML compatibility
+  return url.replace(/&/g, "&amp;");
 }
 
 function entry(
@@ -89,19 +91,63 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Portfolio surfaces.
   const portfolioPages: SitemapEntry[] = [
-    entry("/works", { priority: 0.85, changeFrequency: "weekly", images: [OG_FALLBACK] }),
-    entry("/lab", { priority: 0.7, changeFrequency: "weekly", images: [OG_FALLBACK] }),
-    entry("/journal", { priority: 0.7, changeFrequency: "weekly", images: [OG_FALLBACK] }),
-    entry("/services", { priority: 0.7, changeFrequency: "monthly", images: [OG_FALLBACK] }),
-    entry("/process", { priority: 0.6, changeFrequency: "monthly", images: [OG_FALLBACK] }),
-    entry("/showreel", { priority: 0.6, changeFrequency: "monthly", images: [OG_FALLBACK] }),
-    entry("/awards", { priority: 0.6, changeFrequency: "monthly", images: [OG_FALLBACK] }),
-    entry("/now", { priority: 0.5, changeFrequency: "weekly", images: [OG_FALLBACK] }),
-    entry("/uses", { priority: 0.5, changeFrequency: "monthly", images: [OG_FALLBACK] }),
-    entry("/portfolios", { priority: 0.7, changeFrequency: "monthly", images: [OG_FALLBACK, "/portfolios/opengraph-image"] }),
+    entry("/works", {
+      priority: 0.85,
+      changeFrequency: "weekly",
+      images: [OG_FALLBACK],
+    }),
+    entry("/lab", {
+      priority: 0.7,
+      changeFrequency: "weekly",
+      images: [OG_FALLBACK],
+    }),
+    entry("/journal", {
+      priority: 0.7,
+      changeFrequency: "weekly",
+      images: [OG_FALLBACK],
+    }),
+    entry("/services", {
+      priority: 0.7,
+      changeFrequency: "monthly",
+      images: [OG_FALLBACK],
+    }),
+    entry("/process", {
+      priority: 0.6,
+      changeFrequency: "monthly",
+      images: [OG_FALLBACK],
+    }),
+    entry("/showreel", {
+      priority: 0.6,
+      changeFrequency: "monthly",
+      images: [OG_FALLBACK],
+    }),
+    entry("/awards", {
+      priority: 0.6,
+      changeFrequency: "monthly",
+      images: [OG_FALLBACK],
+    }),
+    entry("/now", {
+      priority: 0.5,
+      changeFrequency: "weekly",
+      images: [OG_FALLBACK],
+    }),
+    entry("/uses", {
+      priority: 0.5,
+      changeFrequency: "monthly",
+      images: [OG_FALLBACK],
+    }),
+    entry("/portfolios", {
+      priority: 0.7,
+      changeFrequency: "monthly",
+      images: [OG_FALLBACK, "/portfolios/opengraph-image"],
+    }),
     entry("/colophon", { priority: 0.5, changeFrequency: "monthly" }),
     entry("/atlas", { priority: 0.5, changeFrequency: "monthly" }),
-    entry("/brand", { priority: 0.5, changeFrequency: "monthly", images: ["/brand/opengraph-image", OG_FALLBACK] }),
+    entry("/brand", {
+      priority: 0.5,
+      changeFrequency: "monthly",
+      images: ["/brand/opengraph-image", OG_FALLBACK],
+    }),
     entry("/colors", { priority: 0.4, changeFrequency: "monthly" }),
     entry("/changelog", { priority: 0.4, changeFrequency: "weekly" }),
     entry("/achievements", { priority: 0.3, changeFrequency: "weekly" }),
