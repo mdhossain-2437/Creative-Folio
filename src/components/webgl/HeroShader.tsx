@@ -5,6 +5,7 @@ import { damp, clampDt, K } from "@/lib/damp";
 import { cappedDpr, DPR_HERO } from "@/lib/dpr";
 import { fbmOctaves, targetFps } from "@/lib/deviceTier";
 import { makeFrameGate } from "@/lib/frameGate";
+import { glContextRegistry } from "@/lib/glContextRegistry";
 
 const VERT = `
 attribute vec2 a_pos;
@@ -106,6 +107,9 @@ void main() {
 
 export function HeroShader({ className = "" }: { className?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const contextId = useRef(
+    `hero-shader-${Math.random().toString(36).slice(2)}`,
+  );
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -116,6 +120,9 @@ export function HeroShader({ className = "" }: { className?: string }) {
       powerPreference: "high-performance",
     });
     if (!gl) return;
+
+    // Register with context registry
+    glContextRegistry.register(contextId.current, canvas, gl);
 
     const prog = gl.createProgram();
     if (!prog) return;
@@ -208,6 +215,7 @@ export function HeroShader({ className = "" }: { className?: string }) {
     const io = new IntersectionObserver(
       ([entry]) => {
         visible = entry.isIntersecting;
+        glContextRegistry.markVisible(contextId.current, visible);
         if (visible) {
           cancelAnimationFrame(raf);
           raf = requestAnimationFrame(tick);
@@ -226,6 +234,7 @@ export function HeroShader({ className = "" }: { className?: string }) {
       gl.deleteShader(vs);
       gl.deleteShader(fs);
       gl.deleteBuffer(buf);
+      glContextRegistry.unregister(contextId.current);
     };
   }, []);
 

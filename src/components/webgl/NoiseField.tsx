@@ -5,6 +5,7 @@ import { cappedDpr, DPR_AMBIENT } from "@/lib/dpr";
 import { bakeValueNoise } from "@/lib/bakeNoise";
 import { targetFps } from "@/lib/deviceTier";
 import { makeFrameGate } from "@/lib/frameGate";
+import { glContextRegistry } from "@/lib/glContextRegistry";
 
 // Lightweight ambient noise canvas used as a section background.
 //
@@ -60,6 +61,10 @@ export function NoiseField({
   seed?: number;
 }) {
   const ref = useRef<HTMLCanvasElement>(null);
+  const contextId = useRef(
+    `noise-field-${seed}-${Math.random().toString(36).slice(2)}`,
+  );
+
   useEffect(() => {
     const canvas = ref.current;
     if (!canvas) return;
@@ -70,6 +75,9 @@ export function NoiseField({
       powerPreference: "low-power" as WebGLPowerPreference,
     });
     if (!gl) return;
+
+    // Register with context registry
+    glContextRegistry.register(contextId.current, canvas, gl);
     const prog = gl.createProgram()!;
     const vs = gl.createShader(gl.VERTEX_SHADER)!;
     gl.shaderSource(vs, VERT);
@@ -154,6 +162,7 @@ export function NoiseField({
     const io = new IntersectionObserver(
       ([entry]) => {
         visible = entry.isIntersecting;
+        glContextRegistry.markVisible(contextId.current, visible);
         if (visible) {
           cancelAnimationFrame(raf);
           raf = requestAnimationFrame(tick);
@@ -172,6 +181,7 @@ export function NoiseField({
       gl.deleteShader(vs);
       gl.deleteShader(fs);
       gl.deleteBuffer(buf);
+      glContextRegistry.unregister(contextId.current);
     };
   }, [seed]);
   return (
