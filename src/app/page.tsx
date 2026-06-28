@@ -13,7 +13,6 @@ import { NowTeaser } from "@/components/sections/NowTeaser";
 import { ShowreelTeaser } from "@/components/sections/ShowreelTeaser";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { PortfoliosTeaser } from "@/components/sections/PortfoliosTeaser";
-import { SectionRail } from "@/components/ui/SectionRail";
 import { PageSchema } from "@/components/seo/PageSchema";
 import { site } from "@/lib/site";
 import type { Metadata } from "next";
@@ -26,23 +25,6 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-const railItems = [
-  { id: "hero", label: "Hero" },
-  { id: "manifesto", label: "Manifesto" },
-  { id: "works", label: "Works" },
-  { id: "showreel", label: "Reel" },
-  { id: "milestones", label: "Milestones" },
-  { id: "now", label: "Now" },
-  { id: "stats", label: "Stats" },
-  { id: "testimonials", label: "Words" },
-  { id: "awards", label: "Recognition" },
-  { id: "capabilities", label: "Studio" },
-  { id: "process", label: "Process" },
-  { id: "portfolios", label: "Editions" },
-  { id: "journal", label: "Journal" },
-  { id: "sitemap", label: "Map" },
-];
-
 export default function HomePage() {
   return (
     <>
@@ -53,7 +35,6 @@ export default function HomePage() {
         crumbs={[{ name: "Home", href: "/" }]}
         primaryImage={site.portrait}
       />
-      <SectionRail items={railItems} />
       <div data-section-id="hero"><Hero /></div>
       <div data-section-id="manifesto"><Manifesto /></div>
       <div data-section-id="marquee"><MarqueeBand /></div>
