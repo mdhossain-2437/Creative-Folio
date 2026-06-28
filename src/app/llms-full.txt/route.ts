@@ -62,10 +62,11 @@ export function GET(): Response {
     sections.push("");
   });
 
-  sections.push("## Awards & recognition");
+  sections.push("## Recognition targets");
   sections.push("");
-  awards.forEach((a: { org: string; year: string; title: string; summary: string }) => {
-    sections.push(`### ${a.org} · ${a.year} — ${a.title}`);
+  awards.forEach((a) => {
+    const status = a.status === "earned" ? "earned" : "target";
+    sections.push(`### ${a.org} · ${a.year} — ${a.title} (${status})`);
     sections.push("");
     sections.push(a.summary);
     sections.push("");

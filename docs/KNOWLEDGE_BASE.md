@@ -492,7 +492,7 @@ Located in `src/lib/site.ts`:
 
 | Flag               | Default | Purpose                                                    |
 | ------------------ | ------- | ---------------------------------------------------------- |
-| `showAwards`       | `false` | Hides awards sections and award metadata from case studies |
+| `showAwards`       | `false` | Hides earned-awards sections until awards have verification |
 | `showTestimonials` | `false` | Hides testimonials from case studies                       |
 | `showShowreel`     | `false` | Hides showreel functionality and navigation entry          |
 
@@ -516,6 +516,11 @@ When you earn real awards or have verified testimonials:
 
 2. Update `src/lib/data.ts`:
 
+   - Set earned award records to `status: "earned"` and add a public proof URL
+     before they appear as earned JSON-LD.
+   - Keep unearned goals as `status: "target"` so public UI labels them as
+     recognition targets.
+
    ```typescript
    export const SHOW_PLACEHOLDER_VIDEOS = true;
    ```
@@ -523,7 +528,7 @@ When you earn real awards or have verified testimonials:
 3. Uncomment navigation entries in `src/lib/site.ts`:
 
    ```typescript
-   { label: "Awards", href: "/awards" },
+   { label: "Recognition", href: "/awards" },
    { label: "Showreel", href: "/showreel" },
    ```
 
@@ -531,7 +536,7 @@ When you earn real awards or have verified testimonials:
 
 ### What Gets Hidden
 
-- **Awards**: Entire `AwardsSection` component, award metadata in case study hero
+- **Awards**: Earned-awards section and earned-award metadata in case study hero
 - **Testimonials**: Testimonial sections in case studies
 - **Placeholder videos**: All `test-videos.co.uk` URLs (Big Buck Bunny, Sintel)
 - **Navigation**: Awards and Showreel routes are commented out

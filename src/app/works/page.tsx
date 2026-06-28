@@ -5,7 +5,7 @@ import { PageHero } from "@/components/layout/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { SpotlightTile } from "@/components/ui/SpotlightTile";
 import { WorksConstellation } from "@/components/works/WorksConstellation";
-import { works, archive } from "@/lib/data";
+import { publicRecognitionLabel, works, archive } from "@/lib/data";
 import { PageSchema } from "@/components/seo/PageSchema";
 import { site } from "@/lib/site";
 
@@ -67,7 +67,7 @@ export default function WorksPage() {
         meta={[
           { label: "Years", value: "2023 — Now" },
           { label: "Total", value: "32" },
-          { label: "Awarded", value: "12" },
+          { label: "Recognition", value: "Targets labelled" },
           { label: "Available", value: "Q1 ’27" },
         ]}
       />
@@ -134,7 +134,8 @@ export default function WorksPage() {
                         ))}
                       </ul>
                       <p className="mt-auto pt-4 font-sans text-[10px] uppercase tracking-widest text-peach">
-                        {w.award ? `✦ ${w.award}` : "— Selected work"}
+                        {publicRecognitionLabel(w.recognition) ??
+                          "— Selected work"}
                       </p>
                     </div>
                   </Link>

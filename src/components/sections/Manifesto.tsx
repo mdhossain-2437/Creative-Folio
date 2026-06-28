@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Reveal } from "@/components/ui/Reveal";
 import { WeightShift } from "@/components/ui/WeightShift";
+import { ScrollScrubText } from "@/components/ui/ScrollScrubText";
 import { site } from "@/lib/site";
 
 export function Manifesto() {
@@ -12,14 +13,10 @@ export function Manifesto() {
         </p>
         <Reveal>
           <p className="mt-10 max-w-[1200px] font-serif text-[clamp(1.7rem,3.4vw,3.6rem)] leading-[1.08] tracking-tighter text-warmwhite">
-            I believe an interface should disappear, leaving only{" "}
-            <span className="italic text-peach">the canvas</span> and the content.
-            I build digital products at the intersection of brutalist editorial
-            design and fluid, high-performance creative development —{" "}
-            <span className="italic text-warmwhite/60">
-              where typography, motion, and engineering converge into a single
-              physical-feeling experience.
-            </span>
+            <ScrollScrubText
+              text="I believe an interface should disappear, leaving only the canvas and the content. I build digital products at the intersection of brutalist editorial design and fluid, high-performance creative development — where typography, motion, and engineering converge into a single physical-feeling experience."
+              className="inline"
+            />
           </p>
         </Reveal>
 
@@ -83,10 +80,20 @@ export function Manifesto() {
   );
 }
 
-function Pillar({ tag, title, body }: { tag: string; title: string; body: string }) {
+function Pillar({
+  tag,
+  title,
+  body,
+}: {
+  tag: string;
+  title: string;
+  body: string;
+}) {
   return (
     <Reveal className="border-t border-warmwhite/15 pt-6">
-      <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">{tag}</p>
+      <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
+        {tag}
+      </p>
       <h3 className="mt-4 font-serif text-3xl tracking-tightest">{title}</h3>
       <p className="mt-3 font-sans text-sm leading-relaxed text-warmwhite/65">
         <WeightShift>{body}</WeightShift>

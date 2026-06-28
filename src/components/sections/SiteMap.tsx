@@ -5,7 +5,7 @@ const groups = [
     label: "Identity",
     items: [
       { title: "About / Story", href: "/about", note: "Background, philosophy, journey." },
-      { title: "Resume", href: "/resume", note: "Experience, education, awards." },
+      { title: "Resume", href: "/resume", note: "Experience, education, recognition targets." },
       { title: "Colophon", href: "/colophon", note: "How this site was made." },
     ],
   },

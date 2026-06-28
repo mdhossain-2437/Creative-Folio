@@ -42,7 +42,9 @@ In `src/components/seo/JsonLd.tsx` we ship a `Person` node with:
   studio-name query can rank without keyword stuffing.
 - `alumniOf` — array of two `EducationalOrganization` entries:
   University of the People (with `url`) + B.A. Political Science.
-- `award` array (Awwwards, CSS Design Awards, FWA, Product Hunt).
+- `award` array is emitted only from `awards[].status === "earned"` records.
+  Unverified items stay as clearly labelled recognition targets in page copy,
+  not in earned-award JSON-LD.
 
 ### Cross-references
 
@@ -233,7 +235,8 @@ Backlinks should confirm the entity, not look manufactured. Good targets:
 - GitHub, LinkedIn, X/Twitter, Instagram, Facebook, read.cv: set the website
   field to `https://2027.delowarhossain.dev`.
 - Awwwards, CSS Design Awards, FWA, Product Hunt, Behance, Dribbble: add the
-  same website URL where the profile/project page allows it.
+  same website URL where a profile/project page allows it, but keep on-site
+  wording as "target" until the public result can be verified.
 - Guest/project mentions: use natural anchor text such as
   `Delowar Hossain`, `The Compiled Thought`, or
   `creative developer portfolio`.
@@ -301,9 +304,9 @@ These are the levers when ranking for the name itself:
 4. **AI-engine citations.** ChatGPT/Claude/Perplexity citations now show
    in some of Google's results. Being canonical on `/llms.txt` and `/ai`
    is a forward path.
-5. **Backlinks from authoritative profiles.** Awwwards SOTD, FWA, CSS
-   Design Awards, Product Hunt — all sources of high-authority backlinks.
-   Maintain those profiles.
+5. **Backlinks from authoritative profiles.** Awwwards, FWA, CSS Design
+   Awards, Product Hunt, Behance, and Dribbble are useful profile targets.
+   Claim specific wins only after a public result URL exists.
 6. **Structured data freshness.** Bump `dateModified` on `ProfilePage`
    when significant content changes (rebrand, new role, new project).
 

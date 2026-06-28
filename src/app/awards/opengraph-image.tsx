@@ -5,19 +5,19 @@ import { renderOgCard, OG_SIZE } from "@/lib/og-card";
 // shared across all primary routes via `renderOgCard` so the visual
 // identity stays consistent.
 
-export const alt = "Awards — Delowar Hossain";
+export const alt = "Recognition Targets — Delowar Hossain";
 export const size = OG_SIZE;
 export const contentType = "image/png";
 export const runtime = "edge";
 
 export default async function OG() {
   return renderOgCard({
-    section: "§ Awards",
-    eyebrow: "Trophy Room",
-    title: "Awards",
+    section: "§ Recognition",
+    eyebrow: "Transparent ledger",
+    title: "Recognition Targets",
     titlePeriod: true,
     subtitle:
-      "International design and engineering recognition. Awwwards, CSSDA, FWA, Product Hunt — 2024 to present.",
+      "Award bodies the work is being prepared for, labelled as targets until public verification exists.",
     path: "/awards",
   });
 }

@@ -1,4 +1,9 @@
-import { journal, works, experiments } from "@/lib/data";
+import {
+  journal,
+  works,
+  experiments,
+  publicRecognitionLabel,
+} from "@/lib/data";
 import { site } from "@/lib/site";
 
 export const dynamic = "force-static";
@@ -32,7 +37,12 @@ export async function GET(): Promise<Response> {
       tags: ["work", w.category.toLowerCase()],
       _kind: "work" as const,
       _stack: w.stack,
-      _award: w.award,
+      _recognition: w.recognition
+        ? {
+            status: w.recognition.status,
+            label: publicRecognitionLabel(w.recognition),
+          }
+        : undefined,
     })),
     ...experiments.map((e) => ({
       id: `${site.url}/lab/${e.slug}`,

@@ -13,10 +13,35 @@
 // - Shader migration: Not implemented (requires GLSL → WGSL conversion)
 // - Rendering pipeline: WebGL-only for now
 
-// Type declarations for WebGPU (not yet in standard TypeScript lib)
+type WebGpuAlphaMode = "opaque" | "premultiplied";
+
+type WebGpuDevice = {
+  limits: {
+    maxTextureDimension2D?: number;
+  };
+};
+
+type WebGpuAdapter = {
+  requestDevice(): Promise<WebGpuDevice>;
+};
+
+type WebGpuCanvasContext = {
+  configure(options: {
+    device: WebGpuDevice;
+    format: string;
+    alphaMode: WebGpuAlphaMode;
+  }): void;
+};
+
+type WebGpuNavigator = {
+  requestAdapter(): Promise<WebGpuAdapter | null>;
+  getPreferredCanvasFormat(): string;
+};
+
+// Type declarations for WebGPU (not yet in this project's TypeScript lib).
 declare global {
   interface Navigator {
-    gpu?: any;
+    gpu?: WebGpuNavigator;
   }
 }
 
@@ -24,8 +49,8 @@ export type GraphicsBackend = "webgpu" | "webgl" | "none";
 
 export interface GraphicsContext {
   backend: GraphicsBackend;
-  device?: any;
-  context?: any;
+  device?: WebGpuDevice;
+  context?: WebGpuCanvasContext;
   gl?: WebGLRenderingContext | WebGL2RenderingContext;
   canvas: HTMLCanvasElement;
 }
@@ -64,7 +89,9 @@ export async function initGraphicsContext(
       }
 
       const device = await adapter.requestDevice();
-      const context = canvas.getContext("webgpu") as any;
+      const context = canvas.getContext(
+        "webgpu",
+      ) as unknown as WebGpuCanvasContext | null;
 
       if (!context) {
         console.warn("WebGPU context creation failed, falling back to WebGL");

@@ -14,7 +14,7 @@ const labelFor = (pathname: string) => {
   if (pathname.startsWith("/works/")) return "Case Study";
   if (pathname.startsWith("/journal/")) return "Journal";
   if (pathname.startsWith("/lab/")) return "Lab Playground";
-  if (pathname === "/awards") return "Awards";
+  if (pathname === "/awards") return "Recognition";
   if (pathname === "/archive") return "Archive";
   if (pathname === "/colophon") return "Colophon";
   if (pathname === "/legal/privacy") return "Privacy";

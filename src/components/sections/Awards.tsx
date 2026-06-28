@@ -13,17 +13,16 @@ export function AwardsSection() {
         <div className="grid grid-cols-1 items-end gap-10 md:grid-cols-12">
           <div className="md:col-span-7">
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
-              <ScrambleText>§07 — Industry Recognition</ScrambleText>
+              <ScrambleText>§07 — Recognition Ledger</ScrambleText>
             </p>
             <h2 className="mt-4 font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[0.94] tracking-tightest">
-              Awards <span className="italic text-warmwhite/60">&amp;</span>{" "}
-              Mentions
+              Recognition{" "}
+              <span className="italic text-warmwhite/60">Ledger</span>
             </h2>
           </div>
           <p className="md:col-span-5 max-w-md font-sans text-base leading-relaxed text-warmwhite/65 md:text-lg">
-            A short list of work that has been recognised by international
-            design and engineering juries — beyond the dopamine, validation that
-            the craft is travelling.
+            Earned items are shown only with public verification. Everything
+            still in motion is labelled as a target.
           </p>
         </div>
 
@@ -50,6 +49,9 @@ export function AwardsSection() {
                 <h3 className="relative font-serif text-[clamp(2rem,4vw,3.4rem)] leading-[1] tracking-tightest">
                   {a.title}
                 </h3>
+                <p className="relative font-sans text-[10px] uppercase tracking-widest text-peach">
+                  {a.status === "earned" ? "Verified recognition" : "Recognition target"}
+                </p>
                 <p className="relative max-w-prose font-sans text-sm leading-relaxed text-warmwhite/65">
                   {a.summary}
                 </p>

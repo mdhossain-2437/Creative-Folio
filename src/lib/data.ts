@@ -19,6 +19,19 @@ export type WorkTestimonial = {
   role: string;
 };
 
+export type RecognitionStatus = "target" | "earned" | "draft";
+
+export type RecognitionClaim = {
+  label: string;
+  org: string;
+  title: string;
+  year: string;
+  status: RecognitionStatus;
+  summary: string;
+  legacyClaim?: string;
+  proofUrl?: string;
+};
+
 export type WorkCaseStudy = {
   sections: WorkSection[];
   metrics: WorkMetric[];
@@ -40,7 +53,7 @@ export type Work = {
   /** Optional muted-loop preview shown on hover. Falls back to `cover`. */
   previewSrc?: string;
   accent: string;
-  award?: string;
+  recognition?: RecognitionClaim;
   client?: string;
   duration?: string;
   team?: string;
@@ -57,6 +70,16 @@ function maybePreviewSrc(src?: string): string | undefined {
   if (!SHOW_PLACEHOLDER_VIDEOS && src.includes("test-videos.co.uk"))
     return undefined;
   return src;
+}
+
+export function publicRecognitionLabel(
+  recognition?: RecognitionClaim,
+): string | undefined {
+  if (!recognition) return undefined;
+  if (recognition.status === "earned") return recognition.label;
+  if (recognition.status === "target")
+    return `Target: ${recognition.org} · ${recognition.title}`;
+  return undefined;
 }
 
 export const works: Work[] = [
@@ -76,7 +99,16 @@ export const works: Work[] = [
       "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4",
     ),
     accent: "#e3bfb4",
-    award: "Awwwards · Site of the Day",
+    recognition: {
+      label: "Awwwards · Site of the Day",
+      org: "Awwwards",
+      title: "Site of the Day",
+      year: "2027",
+      status: "target",
+      summary:
+        "Submission target for Aura Void once live project footage, case-study metrics, and verification links are ready.",
+      legacyClaim: "Awwwards · Site of the Day",
+    },
     client: "Aura Studio (in-house)",
     duration: "14 weeks",
     team: "Solo + 1 sound designer",
@@ -101,7 +133,7 @@ export const works: Work[] = [
         {
           kind: "outcome",
           heading: "Outcome",
-          body: "Average dwell time on the landing scene rose from 11 s (v1) to 1 m 34 s (v2). The site won Awwwards SOTD in week one, then FWA the following month. Conversion to the contact route doubled.",
+          body: "The launch package is being shaped for award submission: documented dwell-time goals, a measurable contact-route target, and a case-study trail that can be verified before any recognition is claimed.",
         },
       ],
       metrics: [
@@ -170,7 +202,16 @@ export const works: Work[] = [
       "https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_1MB.mp4",
     ),
     accent: "#c4c1bd",
-    award: "FWA · Site of the Day",
+    recognition: {
+      label: "FWA · Site of the Day",
+      org: "The FWA",
+      title: "FWA of the Day",
+      year: "2027",
+      status: "target",
+      summary:
+        "Submission target for the editorial system after public launch metrics and source links are available.",
+      legacyClaim: "FWA · Site of the Day",
+    },
     client: "Terminal State Labs",
     duration: "9 weeks",
     team: "2 designers + 1 engineer",
@@ -195,7 +236,7 @@ export const works: Work[] = [
         {
           kind: "outcome",
           heading: "Outcome",
-          body: "Time-to-publish dropped from 3 hours to 22 minutes. The site won FWA SOTD and was cited by Typewolf for the headline-velocity treatment. The lab's newsletter doubled in subscribers within the launch quarter.",
+          body: "The system is written as an award-submission candidate, with time-to-publish, editorial throughput, and newsletter metrics treated as targets until production analytics can verify the result.",
         },
       ],
       metrics: [
@@ -263,7 +304,16 @@ export const works: Work[] = [
       "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4",
     ),
     accent: "#bfd2cf",
-    award: "CSS Design Awards · UI of the Day",
+    recognition: {
+      label: "CSS Design Awards · UI of the Day",
+      org: "CSS Design Awards",
+      title: "UI of the Day",
+      year: "2027",
+      status: "target",
+      summary:
+        "Recognition target for the interface-system story once public evidence and client-approved results exist.",
+      legacyClaim: "CSS Design Awards · UI of the Day",
+    },
     client: "Monolith Data",
     duration: "24 weeks (initial), ongoing",
     team: "Lead + 2 engineers + 2 designers",
@@ -288,7 +338,7 @@ export const works: Work[] = [
         {
           kind: "outcome",
           heading: "Outcome",
-          body: "Time-to-feature dropped 38 % across the largest team. Accessibility regressions in the design-review queue dropped 92 %. Won CSS Design Awards UI of the Day in week two; cited by Brad Frost as a reference for token pipelines.",
+          body: "The engagement model tracks adoption, accessibility regressions, and time-to-feature as measurable outcomes before any award submission or public recognition claim is made.",
         },
       ],
       metrics: [
@@ -533,7 +583,16 @@ export const works: Work[] = [
     cover:
       "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=1600&q=80",
     accent: "#d6c2e3",
-    award: "Product Hunt · #3 of the Day",
+    recognition: {
+      label: "Product Hunt · #3 of the Day",
+      org: "Product Hunt",
+      title: "#3 Product of the Day",
+      year: "2027",
+      status: "target",
+      summary:
+        "Launch target for CrackIt after the product has a real public campaign and verifiable ranking link.",
+      legacyClaim: "Product Hunt · #3 of the Day",
+    },
     client: "CrackIt (Bangladesh)",
     duration: "8 months (v1) + ongoing",
     team: "4 engineers + 1 designer",
@@ -558,7 +617,7 @@ export const works: Work[] = [
         {
           kind: "outcome",
           heading: "Outcome",
-          body: "180 000 monthly active users, 22 % paid conversion, +14 percentage-point average score lift on mock exams. Featured by Product Hunt (#3 of the day) and the Bangladesh ICT ministry's annual review.",
+          body: "The launch plan targets a public Product Hunt campaign and verifiable learning-outcome metrics; public rankings stay draft-only until a real campaign URL can prove them.",
         },
       ],
       metrics: [
@@ -1398,40 +1457,55 @@ export const awards: {
   org: string;
   year: string;
   summary: string;
+  status: RecognitionStatus;
+  legacyClaim: string;
 }[] = [
   {
     index: "01",
     title: "Site of the Day",
     org: "Awwwards",
-    year: "2024",
+    year: "2027 target",
+    status: "target",
+    legacyClaim: "Awwwards · Site of the Day (2024)",
     summary:
-      "For Aura Void — a design language merging editorial restraint, technical depth, and interactive storytelling.",
+      "Target for Aura Void once the project has public launch evidence, a verified case-study URL, and real performance metrics.",
   },
   {
     index: "02",
     title: "FWA of the Day",
     org: "The FWA",
-    year: "2024",
+    year: "2027 target",
+    status: "target",
+    legacyClaim: "The FWA · FWA of the Day (2024)",
     summary:
-      "For Terminal State — combining editorial product structure with expressive frontend craft and performance discipline.",
+      "Target for the editorial product-system work after public launch, source links, and submission materials are complete.",
   },
   {
     index: "03",
     title: "Best UI Design",
     org: "CSS Design Awards",
-    year: "2024",
+    year: "2027 target",
+    status: "target",
+    legacyClaim: "CSS Design Awards · Best UI Design (2024)",
     summary:
-      "Selected for interface precision, calm complexity, and a production-friendly AI workflow experience.",
+      "Target for interface precision, calm complexity, and production-friendly AI workflow craft once evidence is verifiable.",
   },
   {
     index: "04",
     title: "#3 Product of the Day",
     org: "Product Hunt",
-    year: "2024",
+    year: "2027 target",
+    status: "target",
+    legacyClaim: "Product Hunt · #3 Product of the Day (2024)",
     summary:
-      "Ranked for turning a niche creative utility into a sharp, highly shareable product workflow.",
+      "Launch target for a real Product Hunt campaign; no ranking is public until a verified campaign link exists.",
   },
 ];
+
+export const earnedAwards = awards.filter((award) => award.status === "earned");
+export const recognitionTargets = awards.filter(
+  (award) => award.status === "target",
+);
 
 export const journal: {
   slug: string;

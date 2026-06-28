@@ -105,7 +105,7 @@ export default function ServicesPage() {
         eyebrow="§ Services & Process"
         title="Expertise"
         italic="& Engagements."
-        description="Specialising in high-end digital experiences. Merging technical precision with editorial art direction to create award-winning interactive platforms."
+        description="Specialising in high-end digital experiences. Merging technical precision with editorial art direction to create recognition-ready interactive platforms."
         meta={[
           { label: "Booking", value: "Q1 — Q4 / 2027" },
           { label: "Models", value: "Project · Retainer" },

@@ -9,7 +9,7 @@ import { ResumeToc } from "@/components/resume/ResumeToc";
 const TOC_ITEMS = [
   { id: "profile", label: "Profile" },
   { id: "experience", label: "Experience" },
-  { id: "awards", label: "Awards" },
+  { id: "recognition", label: "Recognition" },
   { id: "tools", label: "Tools" },
   { id: "education", label: "Education" },
   { id: "disciplines", label: "Disciplines" },
@@ -103,14 +103,25 @@ export default function ResumePage() {
               </ul>
             </Block>
 
-            <Block title="Awards">
+            <Block title="Recognition" id="recognition">
+              <p className="mb-8 max-w-3xl font-sans text-sm leading-relaxed text-warmwhite/70">
+                Targets are labelled until a public, verifiable result exists.
+                Earned recognitions will move into the same ledger with proof
+                links.
+              </p>
               <ul className="grid grid-cols-1 gap-px bg-warmwhite/15 md:grid-cols-2">
                 {awards.map((a) => (
-                  <li key={a.index} className="flex flex-col gap-3 bg-ink-900 p-6 md:p-8">
+                  <li
+                    key={a.index}
+                    className="flex flex-col gap-3 bg-ink-900 p-6 md:p-8"
+                  >
                     <p className="font-sans text-[10px] uppercase tracking-widest text-peach">
-                      {a.org} · {a.year}
+                      {a.status === "earned" ? "Verified" : "Target"} · {a.org} ·{" "}
+                      {a.year}
                     </p>
-                    <h4 className="font-serif text-2xl tracking-tighter">{a.title}</h4>
+                    <h4 className="font-serif text-2xl tracking-tighter">
+                      {a.title}
+                    </h4>
                     <p className="font-sans text-sm leading-relaxed text-warmwhite/65">
                       {a.summary}
                     </p>
@@ -194,10 +205,23 @@ export default function ResumePage() {
   );
 }
 
-function Block({ title, children }: { title: string; children: React.ReactNode }) {
+function Block({
+  title,
+  id,
+  children,
+}: {
+  title: string;
+  id?: string;
+  children: React.ReactNode;
+}) {
   return (
-    <section id={title.toLowerCase()} className="border-t border-warmwhite/15 py-12 first:border-t-0 first:pt-0">
-      <h2 className="font-serif text-[clamp(2rem,4vw,3.6rem)] leading-none tracking-tightest">{title}</h2>
+    <section
+      id={id ?? title.toLowerCase()}
+      className="border-t border-warmwhite/15 py-12 first:border-t-0 first:pt-0"
+    >
+      <h2 className="font-serif text-[clamp(2rem,4vw,3.6rem)] leading-none tracking-tightest">
+        {title}
+      </h2>
       <div className="mt-8">{children}</div>
     </section>
   );

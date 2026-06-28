@@ -115,7 +115,7 @@ export function Footer({ commitSha, buildTime }: FooterProps = {}) {
                 { label: "Changelog", href: "/changelog" },
                 { label: "Showreel", href: "/showreel" },
                 { label: "Atlas", href: "/atlas" },
-                { label: "Awards", href: "/awards" },
+                { label: "Recognition", href: "/awards" },
                 { label: "Achievements", href: "/achievements" },
                 { label: "Colophon", href: "/colophon" },
                 { label: "Privacy", href: "/legal/privacy" },

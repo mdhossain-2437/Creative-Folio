@@ -21,7 +21,7 @@ export function SelectedWorks() {
               Selected
               <span className="italic text-peach"> &amp; </span>
               <br className="hidden md:block" />
-              Awarded.
+              Targeted.
             </h2>
           </div>
           <Link

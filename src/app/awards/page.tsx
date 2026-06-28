@@ -1,34 +1,37 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
-import { awards } from "@/lib/data";
+import { awards, earnedAwards, recognitionTargets } from "@/lib/data";
 import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/awards" },
-  title: "Awards — Trophy Room",
+  title: "Recognition Targets",
   description:
-    "International design and engineering recognition for the work of Delowar Hossain.",
+    "Clearly labelled recognition targets and earned recognitions for the work of Delowar Hossain.",
 };
 
 export default function AwardsPage() {
+  const earnedCount = earnedAwards.length;
+  const targetCount = recognitionTargets.length;
+
   return (
     <>
       <PageSchema
         path="/awards"
-        name="Awards — Trophy Room"
-        description="International design and engineering recognition for the work of Delowar Hossain."
+        name="Recognition Targets — Delowar Hossain"
+        description="Clearly labelled recognition targets and earned recognitions for the work of Delowar Hossain."
         crumbs={[{ name: "Home", href: "/" }, { name: "Awards", href: "/awards" }]}
       />
       <PageHero
-        eyebrow="§ The Trophy Room"
-        title="Awards"
-        italic="& Mentions."
-        description="A record of work that has been recognised by international design and engineering juries — beyond the dopamine, validation that the craft is travelling."
+        eyebrow="§ Recognition Ledger"
+        title="Recognition"
+        italic="Targets."
+        description="A transparent ledger of award bodies the work is being prepared for. Items stay labelled as targets until a public, verifiable result exists."
         meta={[
           { label: "Total", value: awards.length.toString() },
-          { label: "Latest", value: "2024" },
-          { label: "Bodies", value: "Awwwards · FWA · CSSDA" },
+          { label: "Earned", value: earnedCount.toString() },
+          { label: "Targets", value: targetCount.toString() },
         ]}
       />
 
@@ -46,6 +49,9 @@ export default function AwardsPage() {
                       {a.org} · {a.year}
                     </span>
                   </header>
+                  <p className="font-sans text-[10px] uppercase tracking-widest text-peach">
+                    {a.status === "earned" ? "Verified recognition" : "Recognition target"}
+                  </p>
                   <h3 className="font-serif text-[clamp(2.5rem,5vw,4.5rem)] leading-none tracking-tightest">
                     {a.title}
                   </h3>

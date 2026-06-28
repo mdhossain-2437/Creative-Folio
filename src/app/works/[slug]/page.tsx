@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { works, type Work, type WorkSection } from "@/lib/data";
+import {
+  publicRecognitionLabel,
+  works,
+  type Work,
+  type WorkSection,
+} from "@/lib/data";
 import { site } from "@/lib/site";
 import { PageHero } from "@/components/layout/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
@@ -51,6 +56,7 @@ export default async function CaseStudy({
   const next = works[(idx + 1) % works.length];
   const prev = works[(idx - 1 + works.length) % works.length];
   const study = work.caseStudy;
+  const recognitionLabel = publicRecognitionLabel(work.recognition);
 
   return (
     <>
@@ -65,8 +71,16 @@ export default async function CaseStudy({
           { label: "Year", value: work.year },
           { label: "Role", value: work.role[0] ?? "Lead" },
           { label: "Stack", value: work.stack.slice(0, 2).join(" · ") },
-          ...(site.showAwards && work.award
-            ? [{ label: "Award", value: work.award }]
+          ...(recognitionLabel
+            ? [
+                {
+                  label:
+                    work.recognition?.status === "earned"
+                      ? "Award"
+                      : "Recognition target",
+                  value: recognitionLabel,
+                },
+              ]
             : []),
         ]}
         noise={false}

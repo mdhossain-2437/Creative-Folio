@@ -34,7 +34,12 @@ export function CommandPalette() {
       { id: "route:/now", label: "Now", hint: "/now", kind: "route" },
       { id: "route:/showreel", label: "Showreel", hint: "/showreel", kind: "route" },
       { id: "route:/atlas", label: "Site Atlas", hint: "/atlas", kind: "route" },
-      { id: "route:/awards", label: "Awards", hint: "/awards", kind: "route" },
+      {
+        id: "route:/awards",
+        label: "Recognition Targets",
+        hint: "/awards",
+        kind: "route",
+      },
       { id: "route:/archive", label: "Archive", hint: "/archive", kind: "route" },
       { id: "route:/colophon", label: "Colophon", hint: "/colophon", kind: "route" },
       { id: "route:/achievements", label: "Achievements", hint: "/achievements", kind: "route" },

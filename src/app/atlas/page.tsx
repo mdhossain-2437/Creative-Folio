@@ -20,7 +20,7 @@ const STARS: Star[] = [
   { label: "Now", href: "/now", group: "studio", size: "md" },
   { label: "Showreel", href: "/showreel", group: "studio", size: "md" },
   { label: "Atlas", href: "/atlas", group: "studio", size: "sm" },
-  { label: "Awards", href: "/awards", group: "studio", size: "md" },
+  { label: "Recognition", href: "/awards", group: "studio", size: "md" },
   { label: "Archive", href: "/archive", group: "studio", size: "md" },
   { label: "Colophon", href: "/colophon", group: "studio", size: "sm" },
   { label: "Privacy", href: "/legal/privacy", group: "legal", size: "sm" },

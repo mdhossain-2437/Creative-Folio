@@ -101,7 +101,7 @@ export const site = {
     { label: "Contact", href: "/contact" },
     { label: "AI Summary", href: "/ai" },
     // Hidden from navigation until earned:
-    // { label: "Awards", href: "/awards" },
+    // { label: "Recognition", href: "/awards" },
     // { label: "Showreel", href: "/showreel" },
   ],
   commandActions: [

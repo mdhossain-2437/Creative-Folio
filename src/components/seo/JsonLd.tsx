@@ -1,4 +1,5 @@
 import { site } from "@/lib/site";
+import { awards } from "@/lib/data";
 
 // JSON-LD schema for Google / Bing rich-results AND for Generative Engine
 // Optimization (GEO) — Perplexity, ChatGPT search, Claude, Gemini, You.com
@@ -8,6 +9,10 @@ import { site } from "@/lib/site";
 // The Person schema is intentionally rich: image, jobTitle, knowsAbout,
 // knowsLanguage, alumniOf, makesOffer, contactPoint, address, sameAs.
 // More signal → better entity resolution → fewer hallucinations.
+
+const earnedAwardNames = awards
+  .filter((award) => award.status === "earned")
+  .map((award) => `${award.org} — ${award.title} (${award.year})`);
 
 const personSchema = {
   "@context": "https://schema.org",
@@ -160,15 +165,7 @@ const personSchema = {
         "Bachelor of Arts — systems-level thinking applied to product, behaviour, and communication.",
     },
   ],
-  // Recognitions — fed from the awards page on the live site
-  // (Awwwards, CSS Design Awards, FWA, Product Hunt). Listed as plain
-  // strings since each award lives at its own canonical URL elsewhere.
-  award: [
-    "Awwwards Honorable Mention (2024)",
-    "CSS Design Awards — Best UI Design (2024)",
-    "FWA — Site of the Day (2024)",
-    "Product Hunt — #3 Product of the Day (2024)",
-  ],
+  ...(earnedAwardNames.length > 0 ? { award: earnedAwardNames } : {}),
   // Credentials the studio has earned through formal courses or
   // certifications. Listed as EducationalOccupationalCredential nodes so
   // search engines surface them in the Knowledge Panel's credentials row.
@@ -226,7 +223,7 @@ const faqSchema = {
       acceptedAnswer: {
         "@type": "Answer",
         text:
-          "Delowar Hossain is a creative developer and UI/UX designer based in Joypurhat, Bangladesh. He runs the studio The Compiled Thought, builds WebGL-driven editorial websites, design systems, and AI-augmented product experiences, and ships work that has been recognised by Awwwards, CSS Design Awards, FWA and Product Hunt.",
+          "Delowar Hossain is a creative developer and UI/UX designer based in Joypurhat, Bangladesh. He runs the studio The Compiled Thought, builds WebGL-driven editorial websites, design systems, and AI-augmented product experiences, with public recognition targets clearly labelled until they are earned and verifiable.",
       },
     },
     {

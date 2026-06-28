@@ -35,7 +35,7 @@ const railItems = [
   { id: "now", label: "Now" },
   { id: "stats", label: "Stats" },
   { id: "testimonials", label: "Words" },
-  { id: "awards", label: "Awards" },
+  { id: "awards", label: "Recognition" },
   { id: "capabilities", label: "Studio" },
   { id: "process", label: "Process" },
   { id: "portfolios", label: "Editions" },
