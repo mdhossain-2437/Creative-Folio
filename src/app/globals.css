@@ -58,7 +58,11 @@
   color: #b8ffd0;
 }
 :root[data-atmosphere="terminal"] .vignette {
-  background: radial-gradient(circle at center, transparent 30%, rgba(0, 30, 12, 0.9) 100%);
+  background: radial-gradient(
+    circle at center,
+    transparent 30%,
+    rgba(0, 30, 12, 0.9) 100%
+  );
 }
 :root[data-atmosphere="terminal"]::after {
   content: "";
@@ -80,8 +84,12 @@
     animation: terminal-scan 6s linear infinite;
   }
   @keyframes terminal-scan {
-    0% { background-position: 0 0; }
-    100% { background-position: 0 6px; }
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 0 6px;
+    }
   }
 }
 
@@ -93,7 +101,9 @@
   opacity: 0;
   pointer-events: none;
   transform: translateY(8px);
-  transition: opacity 220ms ease, transform 220ms ease;
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease;
 }
 
 /* IdleDrift — after ~60s of zero input the IdleDrift component sets
@@ -118,7 +128,9 @@
     transition: background-color 600ms ease;
   }
   body {
-    transition: background-color 600ms ease, color 600ms ease;
+    transition:
+      background-color 600ms ease,
+      color 600ms ease;
   }
 }
 
@@ -248,24 +260,40 @@ button {
 }
 
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
 @keyframes marqueeReverse {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 /* Glassy card */
 .glass {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.02),
+    rgba(255, 255, 255, 0)
+  );
   border: 1px solid rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(8px) saturate(1.2);
 }
 
 /* Grid lines bg */
 .grid-lines {
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-image: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.04) 1px,
+    transparent 1px
+  );
   background-size: 6.25vw 100%;
 }
 
@@ -275,7 +303,11 @@ button {
   position: absolute;
   inset: -1px;
   border-radius: inherit;
-  background: radial-gradient(120px circle at var(--mx, 50%) var(--my, 50%), rgba(227, 191, 180, 0.18), transparent 60%);
+  background: radial-gradient(
+    120px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(227, 191, 180, 0.18),
+    transparent 60%
+  );
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.4s ease;
@@ -321,7 +353,11 @@ button {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(120% 80% at 50% 0%, transparent 50%, rgba(0, 0, 0, 0.6) 100%);
+  background: radial-gradient(
+    120% 80% at 50% 0%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
 }
 
 /* Grain overlay (analog film feel) */
@@ -374,20 +410,42 @@ body.grain-on::after {
 }
 
 @keyframes grainShift {
-  0% { transform: translate(0, 0); }
-  20% { transform: translate(-3%, 2%); }
-  40% { transform: translate(2%, -3%); }
-  60% { transform: translate(-2%, -1%); }
-  80% { transform: translate(3%, 1%); }
-  100% { transform: translate(0, 0); }
+  0% {
+    transform: translate(0, 0);
+  }
+  20% {
+    transform: translate(-3%, 2%);
+  }
+  40% {
+    transform: translate(2%, -3%);
+  }
+  60% {
+    transform: translate(-2%, -1%);
+  }
+  80% {
+    transform: translate(3%, 1%);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
 }
 
 @keyframes grainDrift {
-  0% { transform: translate3d(0, 0, 0); }
-  25% { transform: translate3d(-4%, 3%, 0); }
-  50% { transform: translate3d(3%, -3%, 0); }
-  75% { transform: translate3d(-3%, -4%, 0); }
-  100% { transform: translate3d(0, 0, 0); }
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  25% {
+    transform: translate3d(-4%, 3%, 0);
+  }
+  50% {
+    transform: translate3d(3%, -3%, 0);
+  }
+  75% {
+    transform: translate3d(-3%, -4%, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 /* Calm-mode disables most heavy animations */
@@ -558,7 +616,9 @@ body.calm-motion::after {
   border-radius: 999px;
   background: #e3bfb4;
   border: 2px solid #0c0c0c;
-  box-shadow: 0 0 0 1px rgba(227, 191, 180, 0.55), 0 2px 8px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    0 0 0 1px rgba(227, 191, 180, 0.55),
+    0 2px 8px rgba(0, 0, 0, 0.5);
   cursor: grab;
   transition: transform 200ms ease;
 }
@@ -575,15 +635,21 @@ body.calm-motion::after {
   border-radius: 999px;
   background: #e3bfb4;
   border: 2px solid #0c0c0c;
-  box-shadow: 0 0 0 1px rgba(227, 191, 180, 0.55), 0 2px 8px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    0 0 0 1px rgba(227, 191, 180, 0.55),
+    0 2px 8px rgba(0, 0, 0, 0.5);
   cursor: grab;
   transition: transform 200ms ease;
 }
 .reel-scrub:focus-visible::-webkit-slider-thumb {
-  box-shadow: 0 0 0 4px rgba(227, 191, 180, 0.45), 0 2px 8px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    0 0 0 4px rgba(227, 191, 180, 0.45),
+    0 2px 8px rgba(0, 0, 0, 0.5);
 }
 .reel-scrub:focus-visible::-moz-range-thumb {
-  box-shadow: 0 0 0 4px rgba(227, 191, 180, 0.45), 0 2px 8px rgba(0, 0, 0, 0.5);
+  box-shadow:
+    0 0 0 4px rgba(227, 191, 180, 0.45),
+    0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 /* Generic range slider indicator — any <input type="range"> not already

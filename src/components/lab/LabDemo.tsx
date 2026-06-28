@@ -96,7 +96,16 @@ function CanvasDemo({
       m.px = m.x;
       m.py = m.y;
       if (init) {
-        init({ ctx, w: canvas.width, h: canvas.height, dpr, m, compact, store, reseed });
+        init({
+          ctx,
+          w: canvas.width,
+          h: canvas.height,
+          dpr,
+          m,
+          compact,
+          store,
+          reseed,
+        });
       }
     };
 
@@ -173,7 +182,16 @@ function CanvasDemo({
       if (reseedRequested) {
         reseedRequested = false;
         if (init) {
-          init({ ctx, w: canvas.width, h: canvas.height, dpr, m, compact, store, reseed });
+          init({
+            ctx,
+            w: canvas.width,
+            h: canvas.height,
+            dpr,
+            m,
+            compact,
+            store,
+            reseed,
+          });
         }
       }
       tick({
@@ -209,7 +227,7 @@ function CanvasDemo({
               if (entry?.isIntersecting) start();
               else stop();
             },
-            { rootMargin: "200px" }
+            { rootMargin: "200px" },
           )
         : null;
     if (io) io.observe(canvas);
@@ -321,7 +339,7 @@ const volumetricTick: TickFn = ({ ctx, w, h, t, m, dpr }) => {
   ctx.fillStyle = "rgba(255,236,210,0.45)";
   for (let i = 0; i < 60; i++) {
     const x = ((i * 137 + t * 24) % w) | 0;
-    const y = ((i * 89 + Math.sin(t + i) * 30 + h * 0.5) % h + h) % h;
+    const y = (((i * 89 + Math.sin(t + i) * 30 + h * 0.5) % h) + h) % h;
     ctx.fillRect(x, y, 1.2 * dpr, 1.2 * dpr);
   }
 };
@@ -341,8 +359,16 @@ const partSysInit: InitFn = ({ w, h, store, compact }) => {
 const partSysTick: TickFn = ({ ctx, w, h, t, m, store, dpr }) => {
   const parts = store.parts as Float32Array;
   const N = store.N as number;
-  const bursts = store.bursts as { x: number; y: number; r: number; life: number }[];
-  if (m.pressed && (store.lastBurst === undefined || t - (store.lastBurst as number) > 0.18)) {
+  const bursts = store.bursts as {
+    x: number;
+    y: number;
+    r: number;
+    life: number;
+  }[];
+  if (
+    m.pressed &&
+    (store.lastBurst === undefined || t - (store.lastBurst as number) > 0.18)
+  ) {
     bursts.push({ x: m.x, y: m.y, r: 30 * dpr, life: 1 });
     store.lastBurst = t;
   }
@@ -445,7 +471,9 @@ const fftTick: TickFn = ({ ctx, w, h, t, dt, m, store, dpr }) => {
     const ph = i * 0.42;
     const beat = Math.max(0, Math.sin(t * 2.4 + ph) * 0.5 + 0.5);
     const groove = Math.max(0, Math.sin(t * 0.6 + ph * 0.3) * 0.4);
-    const cursor = m.inside ? Math.max(0, 1 - Math.abs(i / N - m.x / w) * 5) * 0.6 : 0;
+    const cursor = m.inside
+      ? Math.max(0, 1 - Math.abs(i / N - m.x / w) * 5) * 0.6
+      : 0;
     targets[i] = Math.min(1, beat * 0.5 + groove + cursor);
     // Frame-rate-independent decay so spectrum bars rise at identical
     // speed on 60 / 120 / 144 / 240Hz panels.
@@ -474,9 +502,11 @@ const fftTick: TickFn = ({ ctx, w, h, t, dt, m, store, dpr }) => {
 // ── 07 — Shader Storm: stripes, RGB sweep, scanlines ────────────────────────
 // `seed` is read from the store so the tick function itself stays stable across
 // renders (a fresh `tick` reference would tear down the canvas runtime).
-const shaderStormInitFactory = (seed: number): InitFn => ({ store }) => {
-  store.seed = seed;
-};
+const shaderStormInitFactory =
+  (seed: number): InitFn =>
+  ({ store }) => {
+    store.seed = seed;
+  };
 const shaderStormTick: TickFn = ({ ctx, w, h, t, dpr, m, store }) => {
   const seed = (store.seed as number) ?? 0;
   return shaderStormBody(ctx, w, h, t, dpr, m, seed);
@@ -488,30 +518,30 @@ function shaderStormBody(
   t: number,
   dpr: number,
   m: Mouse,
-  seed: number
+  seed: number,
 ) {
-    ctx.fillStyle = "#0a0a0a";
-    ctx.fillRect(0, 0, w, h);
-    const stripeH = 6 * dpr;
-    const cursorGain = m.inside ? 1 + (m.x / w) * 1.2 : 1;
-    for (let y = 0; y < h; y += stripeH) {
-      const k = (y / h) * 6 + t + seed;
-      const r = 120 + Math.sin(k) * 100 * cursorGain;
-      const g = 200 + Math.cos(k * 1.3) * 50;
-      const b = 80 + Math.sin(k * 0.7) * 60;
-      const off = Math.sin(t * 2 + y * 0.01) * 14 * dpr * cursorGain;
-      ctx.fillStyle = `rgba(${r | 0}, ${g | 0}, ${b | 0}, 0.22)`;
-      ctx.fillRect(off, y, w, stripeH * 0.55);
-      ctx.fillStyle = `rgba(255, 255, 255, 0.04)`;
-      ctx.fillRect(0, y + stripeH * 0.55, w, stripeH * 0.45);
-    }
-    const sweep = (((t * 0.4) % 2) - 1) * h;
-    const grad = ctx.createLinearGradient(0, sweep - 80, 0, sweep + 80);
-    grad.addColorStop(0, "rgba(205,250,0,0)");
-    grad.addColorStop(0.5, "rgba(205,250,0,0.18)");
-    grad.addColorStop(1, "rgba(205,250,0,0)");
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = "#0a0a0a";
+  ctx.fillRect(0, 0, w, h);
+  const stripeH = 6 * dpr;
+  const cursorGain = m.inside ? 1 + (m.x / w) * 1.2 : 1;
+  for (let y = 0; y < h; y += stripeH) {
+    const k = (y / h) * 6 + t + seed;
+    const r = 120 + Math.sin(k) * 100 * cursorGain;
+    const g = 200 + Math.cos(k * 1.3) * 50;
+    const b = 80 + Math.sin(k * 0.7) * 60;
+    const off = Math.sin(t * 2 + y * 0.01) * 14 * dpr * cursorGain;
+    ctx.fillStyle = `rgba(${r | 0}, ${g | 0}, ${b | 0}, 0.22)`;
+    ctx.fillRect(off, y, w, stripeH * 0.55);
+    ctx.fillStyle = `rgba(255, 255, 255, 0.04)`;
+    ctx.fillRect(0, y + stripeH * 0.55, w, stripeH * 0.45);
+  }
+  const sweep = (((t * 0.4) % 2) - 1) * h;
+  const grad = ctx.createLinearGradient(0, sweep - 80, 0, sweep + 80);
+  grad.addColorStop(0, "rgba(205,250,0,0)");
+  grad.addColorStop(0.5, "rgba(205,250,0,0.18)");
+  grad.addColorStop(1, "rgba(205,250,0,0)");
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, w, h);
 }
 
 // ── 09 — Latency Canvas: frame-pacing dot heatmap ───────────────────────────
@@ -534,7 +564,7 @@ const latencyTick: TickFn = ({ ctx, w, h, store, m, dpr }) => {
   ctx.fillRect(0, 0, w, h);
   ctx.fillStyle = "rgba(239,236,233,0.07)";
   for (let i = 1; i < 5; i++) {
-    const y = h - (i * 16.6) / 60 * h * 0.9;
+    const y = h - ((i * 16.6) / 60) * h * 0.9;
     ctx.fillRect(0, y, w, 1);
   }
 
@@ -588,7 +618,13 @@ const rdInit: InitFn = ({ w, h, store, compact }) => {
       for (let dx = -r; dx <= r; dx++) {
         const x = cx + dx;
         const y = cy + dy;
-        if (x >= 0 && x < cols && y >= 0 && y < rows && dx * dx + dy * dy <= r * r) {
+        if (
+          x >= 0 &&
+          x < cols &&
+          y >= 0 &&
+          y < rows &&
+          dx * dx + dy * dy <= r * r
+        ) {
           b[y * cols + x] = 1;
         }
       }
@@ -763,9 +799,7 @@ const flowTick: TickFn = ({ ctx, w, h, t, m, dpr, compact }) => {
       const nx = x * 0.005 + t * 0.18;
       const ny = y * 0.005 - t * 0.12;
       let a =
-        Math.sin(nx) * 0.7 +
-        Math.cos(ny * 1.4) * 0.6 +
-        Math.sin(nx + ny) * 0.3;
+        Math.sin(nx) * 0.7 + Math.cos(ny * 1.4) * 0.6 + Math.sin(nx + ny) * 0.3;
       a *= Math.PI * 0.6;
       // cursor injects rotational bias
       if (m.inside) {
@@ -827,7 +861,8 @@ const lissaTick: TickFn = ({ ctx, w, h, t, dt, m, dpr, compact, store }) => {
       if (i === 0) ctx.moveTo(x, y);
       else ctx.lineTo(x, y);
     }
-    ctx.strokeStyle = l === 0 ? "rgba(205,250,0,0.65)" : `rgba(227,191,180,${0.5 - l * 0.1})`;
+    ctx.strokeStyle =
+      l === 0 ? "rgba(205,250,0,0.65)" : `rgba(227,191,180,${0.5 - l * 0.1})`;
     ctx.lineWidth = (l === 0 ? 1.4 : 0.9) * dpr;
     ctx.stroke();
   }
@@ -927,7 +962,8 @@ const boidsTick: TickFn = ({ ctx, w, h, m, store, dpr }) => {
 
     const angle = Math.atan2(vy, vx);
     const len = 5 * dpr;
-    ctx.strokeStyle = m.shift && m.inside ? "rgba(255,120,90,0.7)" : "rgba(227,191,180,0.7)";
+    ctx.strokeStyle =
+      m.shift && m.inside ? "rgba(255,120,90,0.7)" : "rgba(227,191,180,0.7)";
     ctx.lineWidth = 1.2 * dpr;
     ctx.beginPath();
     ctx.moveTo(nx, ny);
@@ -950,7 +986,12 @@ const waveTick: TickFn = ({ ctx, w, h, t, m, store, dpr, compact }) => {
   const sources = store.sources as WaveSource[];
   // Click drops a permanent emitter (de-bounced via clickT).
   if (m.pressed && m.clickT > 0 && t - m.clickT < 0.06) {
-    sources.push({ x: m.x, y: m.y, t0: t, hue: 200 + ((sources.length * 24) % 160) });
+    sources.push({
+      x: m.x,
+      y: m.y,
+      t0: t,
+      hue: 200 + ((sources.length * 24) % 160),
+    });
     if (sources.length > 6) sources.shift();
     m.clickT = -1;
   }
@@ -959,7 +1000,13 @@ const waveTick: TickFn = ({ ctx, w, h, t, m, store, dpr, compact }) => {
   const ringStep = (compact ? 32 : 22) * dpr;
   const k = 0.06 / dpr;
   const omega = 5;
-  const drawSource = (sx: number, sy: number, t0: number, hue: number, gain: number) => {
+  const drawSource = (
+    sx: number,
+    sy: number,
+    t0: number,
+    hue: number,
+    gain: number,
+  ) => {
     const age = Math.max(0, t - t0);
     const fade = Math.exp(-age * 0.04);
     if (fade < 0.04) return;
@@ -997,7 +1044,7 @@ const kaleidoTick: TickFn = ({ ctx, w, h, t, m, store, dpr, compact }) => {
   ctx.fillRect(0, 0, w, h);
   const tr = store.trail as KaleidoPoint[];
   // record cursor position (centred on canvas centre) only when moving
-  if (m.inside && (Math.abs(m.vx) + Math.abs(m.vy)) > 0.4) {
+  if (m.inside && Math.abs(m.vx) + Math.abs(m.vy) > 0.4) {
     tr.push({ x: m.x - w / 2, y: m.y - h / 2, t });
     if (tr.length > (compact ? 60 : 120)) tr.shift();
   }
@@ -1152,7 +1199,7 @@ function VariableFontDemo({ compact }: { compact?: boolean }) {
               if (entry?.isIntersecting) start();
               else stop();
             },
-            { rootMargin: "200px" }
+            { rootMargin: "200px" },
           )
         : null;
     if (io) io.observe(wrap);
@@ -1164,11 +1211,16 @@ function VariableFontDemo({ compact }: { compact?: boolean }) {
     };
   }, []);
   return (
-    <div ref={wrapRef} className="absolute inset-0 flex items-center justify-center bg-ink-950">
+    <div
+      ref={wrapRef}
+      className="absolute inset-0 flex items-center justify-center bg-ink-950"
+    >
       <div
         ref={textRef}
         className={`font-serif leading-none tracking-tightest text-warmwhite/85 will-change-transform ${
-          compact ? "text-[clamp(2.4rem,9vw,5rem)]" : "text-[clamp(6rem,18vw,18rem)]"
+          compact
+            ? "text-[clamp(2.4rem,9vw,5rem)]"
+            : "text-[clamp(6rem,18vw,18rem)]"
         }`}
         style={{ fontVariationSettings: "'wght' 600, 'slnt' 0" }}
       >
@@ -1216,7 +1268,9 @@ function SdfGlyphDemo({ compact }: { compact?: boolean }) {
         <span
           aria-hidden
           className={`absolute inset-0 font-serif leading-none tracking-tightest text-transparent ${
-            compact ? "text-[clamp(2.4rem,10vw,5.5rem)]" : "text-[clamp(6rem,18vw,18rem)]"
+            compact
+              ? "text-[clamp(2.4rem,10vw,5.5rem)]"
+              : "text-[clamp(6rem,18vw,18rem)]"
           }`}
           style={{ WebkitTextStroke: "1px rgba(227,191,180,0.45)" }}
         >
@@ -1225,7 +1279,9 @@ function SdfGlyphDemo({ compact }: { compact?: boolean }) {
         <span
           aria-hidden
           className={`absolute inset-0 font-serif leading-none tracking-tightest text-transparent translate-x-[6px] translate-y-[3px] ${
-            compact ? "text-[clamp(2.4rem,10vw,5.5rem)]" : "text-[clamp(6rem,18vw,18rem)]"
+            compact
+              ? "text-[clamp(2.4rem,10vw,5.5rem)]"
+              : "text-[clamp(6rem,18vw,18rem)]"
           }`}
           style={{ WebkitTextStroke: "1px rgba(205,250,0,0.35)" }}
         >
@@ -1233,7 +1289,9 @@ function SdfGlyphDemo({ compact }: { compact?: boolean }) {
         </span>
         <span
           className={`relative font-serif leading-none tracking-tightest text-warmwhite ${
-            compact ? "text-[clamp(2.4rem,10vw,5.5rem)]" : "text-[clamp(6rem,18vw,18rem)]"
+            compact
+              ? "text-[clamp(2.4rem,10vw,5.5rem)]"
+              : "text-[clamp(6rem,18vw,18rem)]"
           }`}
         >
           {word}
@@ -1332,7 +1390,7 @@ const terrainTick: TickFn = ({ ctx, w, h, t, m, store, dpr, compact }) => {
   const hover = m.inside ? Math.max(0, 1 - Math.abs(m.x - w / 2) / (w / 2)) : 0;
   const layers = 18;
   for (let l = 0; l < layers; l++) {
-    const yBase = (h * 0.35) + (l / layers) * (h * 0.55);
+    const yBase = h * 0.35 + (l / layers) * (h * 0.55);
     ctx.beginPath();
     for (let c = 0; c <= cols; c++) {
       const x = c * step;
@@ -1356,7 +1414,14 @@ const terrainTick: TickFn = ({ ctx, w, h, t, m, store, dpr, compact }) => {
     ctx.stroke();
   }
   // horizon glow
-  const sun = ctx.createRadialGradient(w / 2, h * 0.32, 0, w / 2, h * 0.32, w * 0.4);
+  const sun = ctx.createRadialGradient(
+    w / 2,
+    h * 0.32,
+    0,
+    w / 2,
+    h * 0.32,
+    w * 0.4,
+  );
   sun.addColorStop(0, "rgba(255,210,170,0.18)");
   sun.addColorStop(1, "rgba(0,0,0,0)");
   ctx.fillStyle = sun;
@@ -1389,10 +1454,26 @@ const dvdTick: TickFn = ({ ctx, w, h, dt, m, store, dpr }) => {
     b.x += b.vx * dt * 60;
     b.y += b.vy * dt * 60;
     let bounced = false;
-    if (b.x < 0) { b.x = 0; b.vx = Math.abs(b.vx); bounced = true; }
-    if (b.x + bw > w) { b.x = w - bw; b.vx = -Math.abs(b.vx); bounced = true; }
-    if (b.y < 0) { b.y = 0; b.vy = Math.abs(b.vy); bounced = true; }
-    if (b.y + bh > h) { b.y = h - bh; b.vy = -Math.abs(b.vy); bounced = true; }
+    if (b.x < 0) {
+      b.x = 0;
+      b.vx = Math.abs(b.vx);
+      bounced = true;
+    }
+    if (b.x + bw > w) {
+      b.x = w - bw;
+      b.vx = -Math.abs(b.vx);
+      bounced = true;
+    }
+    if (b.y < 0) {
+      b.y = 0;
+      b.vy = Math.abs(b.vy);
+      bounced = true;
+    }
+    if (b.y + bh > h) {
+      b.y = h - bh;
+      b.vy = -Math.abs(b.vy);
+      bounced = true;
+    }
     if (bounced) b.hue = (b.hue + 47) % 360;
     if (m.pressed && !m.shift) {
       // nudge toward cursor
@@ -1432,7 +1513,8 @@ const starTick: TickFn = ({ ctx, w, h, dt, m, store, dpr }) => {
   const cx = m.inside ? m.x : w * 0.5;
   const cy = m.inside ? m.y : h * 0.5;
   const targetWarp = m.pressed ? 3.6 : 1.3;
-  store.warp = (store.warp as number) + (targetWarp - (store.warp as number)) * dt * 3;
+  store.warp =
+    (store.warp as number) + (targetWarp - (store.warp as number)) * dt * 3;
   const warp = store.warp as number;
   ctx.lineCap = "round";
   for (let i = 0; i < N; i++) {
@@ -1628,7 +1710,8 @@ const sandTick: TickFn = ({ ctx, w, h, m, store }) => {
         const c = cx + dx;
         const r = cy + dy;
         if (c < 0 || c >= cols || r < 0 || r >= rows) continue;
-        if (Math.random() < 0.55) grid[r * cols + c] = m.pressed && m.shift ? 2 : 1;
+        if (Math.random() < 0.55)
+          grid[r * cols + c] = m.pressed && m.shift ? 2 : 1;
       }
     }
   }
@@ -1675,7 +1758,8 @@ const rotTick: TickFn = ({ ctx, w, h, dt, m, store, dpr }) => {
   ctx.fillStyle = "rgba(10,10,12,0.18)";
   ctx.fillRect(0, 0, w, h);
   const targetVel = m.inside ? Math.hypot(m.vx, m.vy) * 0.02 + 0.2 : 0.4;
-  store.vel = (store.vel as number) + (targetVel - (store.vel as number)) * dt * 4;
+  store.vel =
+    (store.vel as number) + (targetVel - (store.vel as number)) * dt * 4;
   store.angle = (store.angle as number) + (store.vel as number) * dt * 4;
   const cx = w * 0.5;
   const cy = h * 0.5;
@@ -1833,7 +1917,8 @@ const chromaInit: InitFn = ({ store }) => {
 };
 const chromaTick: TickFn = ({ ctx, w, h, dt, m, store, dpr }) => {
   const targetShake = m.inside ? Math.hypot(m.vx, m.vy) * 0.4 : 0.6;
-  store.shake = (store.shake as number) + (targetShake - (store.shake as number)) * dt * 6;
+  store.shake =
+    (store.shake as number) + (targetShake - (store.shake as number)) * dt * 6;
   const shake = Math.min(40, store.shake as number);
   ctx.fillStyle = "rgba(10,10,12,0.42)";
   ctx.fillRect(0, 0, w, h);
@@ -1903,7 +1988,13 @@ const foldTick: TickFn = ({ ctx, w, h, t, m, dpr, compact }) => {
 
 // Memoize the shader-storm init so the seed prop doesn't tear down the
 // canvas runtime on every parent render.
-function ShaderStormDemo({ seed, compact }: { seed: number; compact: boolean }) {
+function ShaderStormDemo({
+  seed,
+  compact,
+}: {
+  seed: number;
+  compact: boolean;
+}) {
   const init = useMemo(() => shaderStormInitFactory(seed), [seed]);
   return (
     <CanvasDemo
@@ -1927,65 +2018,248 @@ export function LabDemo({
 }) {
   switch (slug) {
     case "fluid-dynamics":
-      return <CanvasDemo init={fluidInit} tick={fluidTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+      return (
+        <CanvasDemo
+          init={fluidInit}
+          tick={fluidTick}
+          compact={compact}
+          fpsCap={compact ? 30 : 60}
+        />
+      );
     case "volumetric-lighting":
-      return <CanvasDemo tick={volumetricTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+      return (
+        <CanvasDemo
+          tick={volumetricTick}
+          compact={compact}
+          fpsCap={compact ? 30 : 60}
+        />
+      );
     case "particle-systems":
-      return <CanvasDemo init={partSysInit} tick={partSysTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+      return (
+        <CanvasDemo
+          init={partSysInit}
+          tick={partSysTick}
+          compact={compact}
+          fpsCap={compact ? 30 : 60}
+        />
+      );
     case "magnetic-cursor":
-      return <CanvasDemo tick={magneticTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+      return (
+        <CanvasDemo
+          tick={magneticTick}
+          compact={compact}
+          fpsCap={compact ? 30 : 60}
+        />
+      );
     case "fft-material":
-      return <CanvasDemo init={fftInit} tick={fftTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+      return (
+        <CanvasDemo
+          init={fftInit}
+          tick={fftTick}
+          compact={compact}
+          fpsCap={compact ? 30 : 60}
+        />
+      );
     case "shader-storm":
       return <ShaderStormDemo seed={seed} compact={compact} />;
     case "latency-canvas":
-      return <CanvasDemo init={latencyInit} tick={latencyTick} compact={compact} />;
+      return (
+        <CanvasDemo init={latencyInit} tick={latencyTick} compact={compact} />
+      );
     case "reaction-diffusion":
-      return <CanvasDemo init={rdInit} tick={rdTick} compact={compact} fpsCap={compact ? 24 : 50} reseedOnClick />;
+      return (
+        <CanvasDemo
+          init={rdInit}
+          tick={rdTick}
+          compact={compact}
+          fpsCap={compact ? 24 : 50}
+          reseedOnClick
+        />
+      );
     case "voronoi-cells":
-      return <CanvasDemo init={voronoiInit} tick={voronoiTick} compact={compact} fpsCap={compact ? 24 : 45} reseedOnClick />;
+      return (
+        <CanvasDemo
+          init={voronoiInit}
+          tick={voronoiTick}
+          compact={compact}
+          fpsCap={compact ? 24 : 45}
+          reseedOnClick
+        />
+      );
     case "flow-field":
-      return <CanvasDemo tick={flowTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+      return (
+        <CanvasDemo
+          tick={flowTick}
+          compact={compact}
+          fpsCap={compact ? 30 : 60}
+        />
+      );
     case "lissajous-orbits":
-      return <CanvasDemo init={lissaInit} tick={lissaTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+      return (
+        <CanvasDemo
+          init={lissaInit}
+          tick={lissaTick}
+          compact={compact}
+          fpsCap={compact ? 30 : 60}
+        />
+      );
     case "boids-flock":
-      return <CanvasDemo init={boidsInit} tick={boidsTick} compact={compact} fpsCap={compact ? 30 : 60} reseedOnClick />;
+      return (
+        <CanvasDemo
+          init={boidsInit}
+          tick={boidsTick}
+          compact={compact}
+          fpsCap={compact ? 30 : 60}
+          reseedOnClick
+        />
+      );
     case "wave-interference":
-      return <CanvasDemo init={waveInit} tick={waveTick} compact={compact} fpsCap={compact ? 24 : 48} />;
+      return (
+        <CanvasDemo
+          init={waveInit}
+          tick={waveTick}
+          compact={compact}
+          fpsCap={compact ? 24 : 48}
+        />
+      );
     case "kaleidoscope":
-      return <CanvasDemo init={kaleidoInit} tick={kaleidoTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+      return (
+        <CanvasDemo
+          init={kaleidoInit}
+          tick={kaleidoTick}
+          compact={compact}
+          fpsCap={compact ? 30 : 60}
+        />
+      );
     case "metaballs":
-      return <CanvasDemo init={metaInit} tick={metaTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+      return (
+        <CanvasDemo
+          init={metaInit}
+          tick={metaTick}
+          compact={compact}
+          fpsCap={compact ? 30 : 60}
+        />
+      );
     case "variable-font-scroll":
       return <VariableFontDemo compact={compact} />;
     case "signed-distance-letters":
       return <SdfGlyphDemo compact={compact} />;
     case "truchet-tiles":
-      return <CanvasDemo init={truchetInit} tick={truchetTick} compact={compact} fpsCap={compact ? 24 : 40} />;
+      return (
+        <CanvasDemo
+          init={truchetInit}
+          tick={truchetTick}
+          compact={compact}
+          fpsCap={compact ? 24 : 40}
+        />
+      );
     case "perlin-terrain":
-      return <CanvasDemo init={terrainInit} tick={terrainTick} compact={compact} fpsCap={compact ? 24 : 48} />;
+      return (
+        <CanvasDemo
+          init={terrainInit}
+          tick={terrainTick}
+          compact={compact}
+          fpsCap={compact ? 24 : 48}
+        />
+      );
     case "dvd-bouncer":
-      return <CanvasDemo init={dvdInit} tick={dvdTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+      return (
+        <CanvasDemo
+          init={dvdInit}
+          tick={dvdTick}
+          compact={compact}
+          fpsCap={compact ? 30 : 60}
+        />
+      );
     case "starfield-warp":
-      return <CanvasDemo init={starInit} tick={starTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+      return (
+        <CanvasDemo
+          init={starInit}
+          tick={starTick}
+          compact={compact}
+          fpsCap={compact ? 30 : 60}
+        />
+      );
     case "vortex-spiral":
-      return <CanvasDemo init={vortexInit} tick={vortexTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+      return (
+        <CanvasDemo
+          init={vortexInit}
+          tick={vortexTick}
+          compact={compact}
+          fpsCap={compact ? 30 : 60}
+        />
+      );
     case "rope-physics":
-      return <CanvasDemo init={ropeInit} tick={ropeTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+      return (
+        <CanvasDemo
+          init={ropeInit}
+          tick={ropeTick}
+          compact={compact}
+          fpsCap={compact ? 30 : 60}
+        />
+      );
     case "plasma-classic":
-      return <CanvasDemo tick={plasmaTick} compact={compact} fpsCap={compact ? 22 : 36} />;
+      return (
+        <CanvasDemo
+          tick={plasmaTick}
+          compact={compact}
+          fpsCap={compact ? 22 : 36}
+        />
+      );
     case "sand-piles":
-      return <CanvasDemo init={sandInit} tick={sandTick} compact={compact} fpsCap={compact ? 24 : 45} />;
+      return (
+        <CanvasDemo
+          init={sandInit}
+          tick={sandTick}
+          compact={compact}
+          fpsCap={compact ? 24 : 45}
+        />
+      );
     case "rotation-blur":
-      return <CanvasDemo init={rotInit} tick={rotTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+      return (
+        <CanvasDemo
+          init={rotInit}
+          tick={rotTick}
+          compact={compact}
+          fpsCap={compact ? 30 : 60}
+        />
+      );
     case "constellation-net":
-      return <CanvasDemo init={netInit} tick={netTick} compact={compact} fpsCap={compact ? 24 : 50} />;
+      return (
+        <CanvasDemo
+          init={netInit}
+          tick={netTick}
+          compact={compact}
+          fpsCap={compact ? 24 : 50}
+        />
+      );
     case "morphing-blob":
-      return <CanvasDemo init={blobInit} tick={blobTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+      return (
+        <CanvasDemo
+          init={blobInit}
+          tick={blobTick}
+          compact={compact}
+          fpsCap={compact ? 30 : 60}
+        />
+      );
     case "chromatic-aberration":
-      return <CanvasDemo init={chromaInit} tick={chromaTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+      return (
+        <CanvasDemo
+          init={chromaInit}
+          tick={chromaTick}
+          compact={compact}
+          fpsCap={compact ? 30 : 60}
+        />
+      );
     case "paper-folding":
-      return <CanvasDemo init={foldInit} tick={foldTick} compact={compact} fpsCap={compact ? 20 : 36} />;
+      return (
+        <CanvasDemo
+          init={foldInit}
+          tick={foldTick}
+          compact={compact}
+          fpsCap={compact ? 20 : 36}
+        />
+      );
     default:
       return <NoiseField seed={seed} />;
   }

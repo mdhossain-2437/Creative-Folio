@@ -139,7 +139,7 @@ export function HeroShader({ className = "" }: { className?: string }) {
     gl.bufferData(
       gl.ARRAY_BUFFER,
       new Float32Array([-1, -1, 3, -1, -1, 3]),
-      gl.STATIC_DRAW
+      gl.STATIC_DRAW,
     );
     const aPos = gl.getAttribLocation(prog, "a_pos");
     gl.enableVertexAttribArray(aPos);

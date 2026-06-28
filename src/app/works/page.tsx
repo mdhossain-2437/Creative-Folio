@@ -93,7 +93,7 @@ export default function WorksPage() {
                     className="group flex h-full flex-col rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-peach"
                   >
                     <SpotlightTile accent={w.accent}>
-                      <div className="spotlight-tile-img absolute inset-0 will-change-transform">
+                      <div className="spotlight-tile-img absolute inset-0 ">
                         <Image
                           src={w.cover}
                           alt={w.title}

@@ -173,9 +173,7 @@ export function tierDprScale(): number {
  * get a real cap only on mid/low tiers; high tier is always uncapped so
  * desktop behaviour is byte-for-byte unchanged.
  */
-export function targetFps(
-  cost: "ambient" | "hero" | "interactive",
-): number {
+export function targetFps(cost: "ambient" | "hero" | "interactive"): number {
   const { tier } = deviceProfile();
   if (tier === "high") return 0; // uncapped — original behaviour
   if (cost === "ambient") return tier === "low" ? 30 : 45;

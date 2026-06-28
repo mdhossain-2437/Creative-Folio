@@ -66,17 +66,17 @@ the ref.
 
 ### Lenis tuning
 
-| Option | Value | Why |
-| --- | --- | --- |
-| `duration` | `0.95` | Tightened from `1.2` — less floaty, more responsive. |
-| `easing` | `1.001 - 2^(-10t)` | Standard ease-out-expo, matches GSAP `power3.out`. |
-| `wheelMultiplier` | `1` | One scroll = ~one viewport step on most setups. |
-| `touchMultiplier` | `1.6` | Tuned for thumb scrolling on the desktop touch path. |
-| `syncTouch` | `true` (desktop only) | Increases lerp on big inputs — feels native. **Never runs on touch devices** (see below). |
-| `smoothWheel` | `true` | Trackpad + mouse-wheel both go through Lenis. |
+| Option            | Value                 | Why                                                                                       |
+| ----------------- | --------------------- | ----------------------------------------------------------------------------------------- |
+| `duration`        | `0.95`                | Tightened from `1.2` — less floaty, more responsive.                                      |
+| `easing`          | `1.001 - 2^(-10t)`    | Standard ease-out-expo, matches GSAP `power3.out`.                                        |
+| `wheelMultiplier` | `1`                   | One scroll = ~one viewport step on most setups.                                           |
+| `touchMultiplier` | `1.6`                 | Tuned for thumb scrolling on the desktop touch path.                                      |
+| `syncTouch`       | `true` (desktop only) | Increases lerp on big inputs — feels native. **Never runs on touch devices** (see below). |
+| `smoothWheel`     | `true`                | Trackpad + mouse-wheel both go through Lenis.                                             |
 
 **Touch + reduced-motion: native scroll.** Lenis is bypassed entirely on any
-coarse-pointer / `(hover: none)` device *and* on `prefers-reduced-motion`. This
+coarse-pointer / `(hover: none)` device _and_ on `prefers-reduced-motion`. This
 is the single biggest mobile fix: Lenis `syncTouch` re-drives the page from JS
 every frame, so one dropped frame on a weak phone becomes a visible scroll
 stall — a string of them reads as "the page is buffering / frozen mid-flick".
@@ -199,13 +199,13 @@ Default: **SSG** (Static Site Generation). All content lives in
 `src/lib/data.ts`, so nothing needs server runtime. Build time is ~30s on
 Vercel and the entire site ships from the CDN edge.
 
-| Route family | Mode | Why |
-| --- | --- | --- |
-| `/`, `/about`, `/services`, … | Static (○) | Pure content. |
-| `/works/[slug]`, `/journal/[slug]`, `/lab/[slug]` | SSG (●) | `generateStaticParams` over `data.ts`. `dynamicParams = false` for `/lab/[slug]`. |
-| `/now` | SSG with `revalidate = 1800` | Pulls live GitHub data, ISR-cached at edge for 30 min. |
-| `/api/indexnow`, `/api/github`, `/api/feed.json` | Edge runtime | Stateless, fast cold-start. |
-| `/opengraph-image.tsx`, `/twitter-image.tsx`, `/works/[slug]/opengraph-image.tsx` | Edge runtime (next/og) | ImageResponse can't run in Node. |
+| Route family                                                                      | Mode                         | Why                                                                               |
+| --------------------------------------------------------------------------------- | ---------------------------- | --------------------------------------------------------------------------------- |
+| `/`, `/about`, `/services`, …                                                     | Static (○)                   | Pure content.                                                                     |
+| `/works/[slug]`, `/journal/[slug]`, `/lab/[slug]`                                 | SSG (●)                      | `generateStaticParams` over `data.ts`. `dynamicParams = false` for `/lab/[slug]`. |
+| `/now`                                                                            | SSG with `revalidate = 1800` | Pulls live GitHub data, ISR-cached at edge for 30 min.                            |
+| `/api/indexnow`, `/api/github`, `/api/feed.json`                                  | Edge runtime                 | Stateless, fast cold-start.                                                       |
+| `/opengraph-image.tsx`, `/twitter-image.tsx`, `/works/[slug]/opengraph-image.tsx` | Edge runtime (next/og)       | ImageResponse can't run in Node.                                                  |
 
 When adding a route that depends on freshness, prefer ISR
 (`export const revalidate = N`) over `force-dynamic`. Dynamic routes
@@ -215,14 +215,14 @@ defeat the static-first model.
 
 ## 5. Image Hardening
 
-| Property | Default | Override |
-| --- | --- | --- |
-| `loading` | `"lazy"` | `"eager"` for above-fold imagery |
-| `priority` | `false` | `true` only on the LCP element |
-| `decoding` | `"async"` | never override |
-| `sizes` | required | always set per breakpoint, never default |
-| `placeholder` | `"empty"` | `"blur"` if blurDataURL available |
-| `quality` | `75` (Next default) | drop to `60` for non-hero |
+| Property      | Default             | Override                                 |
+| ------------- | ------------------- | ---------------------------------------- |
+| `loading`     | `"lazy"`            | `"eager"` for above-fold imagery         |
+| `priority`    | `false`             | `true` only on the LCP element           |
+| `decoding`    | `"async"`           | never override                           |
+| `sizes`       | required            | always set per breakpoint, never default |
+| `placeholder` | `"empty"`           | `"blur"` if blurDataURL available        |
+| `quality`     | `75` (Next default) | drop to `60` for non-hero                |
 
 Above-fold portrait on `/about` is `priority` + `sizes="(max-width: 768px) 100vw, 33vw"`.
 
@@ -327,14 +327,14 @@ const tick = () => {
 
 ### Pre-tuned `K` constants
 
-| Constant | Old factor at 60fps | Use case |
-| --- | --- | --- |
-| `K_SLOW`   | `* 0.05` | Idle-active blends (hero fluid) |
-| `K_HERO`   | `* 0.06` | Hero shader cursor |
-| `K_GENTLE` | `* 0.08` | Slant / soft attributes |
-| `K_MID`    | `* 0.12` | Hover intensity (work cover) |
-| `K_FAST`   | `* 0.18` | Cursor ring, spotlight, magnetic |
-| `K_SNAP`   | `* 0.25` | Quick snaps |
+| Constant   | Old factor at 60fps | Use case                         |
+| ---------- | ------------------- | -------------------------------- |
+| `K_SLOW`   | `* 0.05`            | Idle-active blends (hero fluid)  |
+| `K_HERO`   | `* 0.06`            | Hero shader cursor               |
+| `K_GENTLE` | `* 0.08`            | Slant / soft attributes          |
+| `K_MID`    | `* 0.12`            | Hover intensity (work cover)     |
+| `K_FAST`   | `* 0.18`            | Cursor ring, spotlight, magnetic |
+| `K_SNAP`   | `* 0.25`            | Quick snaps                      |
 
 ### `clampDt`
 
@@ -376,11 +376,11 @@ saving battery and avoiding thermal throttling.
 
 A central place for the four caps:
 
-| Constant | Value | Where |
-| --- | --- | --- |
-| `DPR_HERO`    | `1.5`  | HeroShader, HeroFluidDisplacement |
-| `DPR_CANVAS`  | `1.5`  | WorkCoverDisplacement, LabDemo (default) |
-| `DPR_AMBIENT` | `1.25` | NoiseField (passive) |
+| Constant      | Value  | Where                                        |
+| ------------- | ------ | -------------------------------------------- |
+| `DPR_HERO`    | `1.5`  | HeroShader, HeroFluidDisplacement            |
+| `DPR_CANVAS`  | `1.5`  | WorkCoverDisplacement, LabDemo (default)     |
+| `DPR_AMBIENT` | `1.25` | NoiseField (passive)                         |
 | `DPR_COMPACT` | `1.0`  | LabDemo cards in `/lab` grid (10+ on screen) |
 
 **Tier-scaled.** As of the device-tier pass, `cappedDpr(cap)` multiplies the
@@ -404,7 +404,7 @@ let initialised = false;
 const start = () => {
   if (raf) return;
   if (!initialised) {
-    fit();          // first paint of this canvas
+    fit(); // first paint of this canvas
     initialised = true;
   }
   raf = requestAnimationFrame(tickFrame);
@@ -415,10 +415,10 @@ const start = () => {
 
 ## 12. Shared rAF Bus (`rafBus.ts`)
 
-Paper § "Scroll Management": *"Lenis allows the developers to
+Paper § "Scroll Management": _"Lenis allows the developers to
 synchronize the scroll position with the WebGL rendering loop, ensuring
 that every pixel of motion on the screen corresponds exactly to the
-user's input."*
+user's input."_
 
 Without a shared loop every cursor / spotlight / Lenis tick allocates
 its own `requestAnimationFrame` callback. The browser still vsyncs them,
@@ -440,11 +440,11 @@ directly with `damp()`).
 
 ### Order of operations
 
-| Subscriber | Priority | Why |
-| --- | --- | --- |
-| `SmoothScrollProvider` (Lenis) | `-10` | Must update scroll FIRST so canvases that read `--scroll-vy` or `getScrollState()` see the new frame's value. |
-| `Cursor` (ring follow) | `0` | Reads mouse, writes transform. |
-| `Spotlight` (soft-light radial) | `0` | Reads mouse, writes transform. |
+| Subscriber                      | Priority | Why                                                                                                           |
+| ------------------------------- | -------- | ------------------------------------------------------------------------------------------------------------- |
+| `SmoothScrollProvider` (Lenis)  | `-10`    | Must update scroll FIRST so canvases that read `--scroll-vy` or `getScrollState()` see the new frame's value. |
+| `Cursor` (ring follow)          | `0`      | Reads mouse, writes transform.                                                                                |
+| `Spotlight` (soft-light radial) | `0`      | Reads mouse, writes transform.                                                                                |
 
 When adding a new global animation that needs to be synchronised with
 scroll, **subscribe to the bus** instead of starting your own
@@ -475,6 +475,7 @@ cached, tileable 256² pixel buffer. The first call computes the
 pattern; subsequent calls return the cached buffer.
 
 The shader uploads it once at mount with:
+
 - `gl.LINEAR` filtering — replaces the in-shader smoothstep blend.
 - `gl.REPEAT` wrap — lets the shader scroll the texture by adding a
   `time * direction` offset to the UV without ever sampling outside
@@ -530,7 +531,7 @@ cell — empirically ~150 distance checks per frame instead of ~1225.
 
 The goal of this pass: run the **same** heavy WebGL on a low-end phone and an
 old laptop as on a desktop, with no perceptible scroll jank — and **without
-removing or visibly reducing a single effect**. The lever is *internal* cost
+removing or visibly reducing a single effect**. The lever is _internal_ cost
 (render resolution, frame-rate, octave count, context count), never the feature
 set. This is the technique [immersive-g.com](https://immersive-g.com) and peers
 use: identical perception, a fraction of the GPU work.
@@ -540,12 +541,12 @@ use: identical perception, a fraction of the GPU work.
 `deviceProfile()` resolves once (memoised, re-evaluated on resize/orientation)
 into:
 
-| Field | Meaning |
-| --- | --- |
-| `tier` | `"low" \| "mid" \| "high"` from a score over `deviceMemory`, `hardwareConcurrency`, touch, `devicePixelRatio`, and shortest viewport edge |
-| `isTouch` | `(hover: none), (pointer: coarse)` |
-| `reducedMotion` | `prefers-reduced-motion: reduce` |
-| `dprScale` | `1` / `0.85` / `0.7` — the multiplier `cappedDpr` applies (§ 11) |
+| Field           | Meaning                                                                                                                                   |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `tier`          | `"low" \| "mid" \| "high"` from a score over `deviceMemory`, `hardwareConcurrency`, touch, `devicePixelRatio`, and shortest viewport edge |
+| `isTouch`       | `(hover: none), (pointer: coarse)`                                                                                                        |
+| `reducedMotion` | `prefers-reduced-motion: reduce`                                                                                                          |
+| `dprScale`      | `1` / `0.85` / `0.7` — the multiplier `cappedDpr` applies (§ 11)                                                                          |
 
 Scoring is **best-effort and forgiving**: missing signals (Safari hides
 `deviceMemory`) are treated as "capable" so we never over-penalise a device we
@@ -575,10 +576,10 @@ damping stay perfectly smooth) but only **issues GL draws when the gate opens**:
 ```ts
 const gate = makeFrameGate(targetFps("ambient"));
 const tick = (now) => {
-  lastActive = damp(lastActive, active, K.K_SLOW, dt);  // every frame
+  lastActive = damp(lastActive, active, K.K_SLOW, dt); // every frame
   if (gate(now)) {
     gl.uniform1f(uTime, t);
-    gl.drawArrays(/* ... */);                            // coalesced
+    gl.drawArrays(/* ... */); // coalesced
   }
   raf = requestAnimationFrame(tick);
 };
@@ -588,12 +589,12 @@ const tick = (now) => {
 
 ### Applied to
 
-| Surface | Cost class | Low-tier behaviour |
-| --- | --- | --- |
-| `HeroShader` | `hero` | 40fps draw, DPR ~1.0, 3 fbm octaves |
-| `HeroFluidDisplacement` | `hero` | 40fps draw, DPR ~1.0, 3 fbm octaves |
+| Surface                 | Cost class    | Low-tier behaviour                       |
+| ----------------------- | ------------- | ---------------------------------------- |
+| `HeroShader`            | `hero`        | 40fps draw, DPR ~1.0, 3 fbm octaves      |
+| `HeroFluidDisplacement` | `hero`        | 40fps draw, DPR ~1.0, 3 fbm octaves      |
 | `WorkCoverDisplacement` | `interactive` | 40fps; **no GL context at all on touch** |
-| `NoiseField` | `ambient` | 30fps draw, DPR ~1.0 |
+| `NoiseField`            | `ambient`     | 30fps draw, DPR ~1.0                     |
 
 ### Work covers: the context-budget fix
 

@@ -157,7 +157,7 @@ export function WorkCoverDisplacement({
     gl.bufferData(
       gl.ARRAY_BUFFER,
       new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]),
-      gl.STATIC_DRAW
+      gl.STATIC_DRAW,
     );
     const aPos = gl.getAttribLocation(prog, "a_pos");
     gl.enableVertexAttribArray(aPos);
@@ -186,7 +186,7 @@ export function WorkCoverDisplacement({
       0,
       gl.RGBA,
       gl.UNSIGNED_BYTE,
-      new Uint8Array([12, 12, 12, 255])
+      new Uint8Array([12, 12, 12, 255]),
     );
     gl.uniform1i(uTex, 0);
 
@@ -195,14 +195,7 @@ export function WorkCoverDisplacement({
     img.crossOrigin = "anonymous";
     img.onload = () => {
       gl.bindTexture(gl.TEXTURE_2D, tex);
-      gl.texImage2D(
-        gl.TEXTURE_2D,
-        0,
-        gl.RGBA,
-        gl.RGBA,
-        gl.UNSIGNED_BYTE,
-        img
-      );
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
       texReady = true;
     };
     img.src = src;

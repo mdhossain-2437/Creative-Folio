@@ -113,9 +113,13 @@ export function HeroFluidDisplacement() {
 
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reduce = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     if (reduce) return;
-    const isTouch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
+    const isTouch = window.matchMedia(
+      "(hover: none), (pointer: coarse)",
+    ).matches;
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -156,7 +160,7 @@ export function HeroFluidDisplacement() {
     gl.bufferData(
       gl.ARRAY_BUFFER,
       new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
-      gl.STATIC_DRAW
+      gl.STATIC_DRAW,
     );
     const aPos = gl.getAttribLocation(prog, "a_pos");
     gl.enableVertexAttribArray(aPos);
