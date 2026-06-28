@@ -19,17 +19,17 @@ coordinated in good faith — we'll patch and credit responsibly.
 
 The following protections are baked in (see `next.config.mjs`):
 
-| Header | Value |
-| --- | --- |
-| `Content-Security-Policy` | locked to `'self'` for default/script/style/font/img/connect/frame-ancestors with explicit allow-list for Vercel analytics + Cloudflare Stream + IndexNow API |
-| `Strict-Transport-Security` | `max-age=63072000; includeSubDomains; preload` (HSTS preload-eligible) |
-| `X-Frame-Options` | `DENY` (no clickjacking) |
-| `X-Content-Type-Options` | `nosniff` |
-| `Referrer-Policy` | `strict-origin-when-cross-origin` |
-| `Permissions-Policy` | camera/mic/geo/USB/sensors/payment all `()`-disabled |
-| `Cross-Origin-Opener-Policy` | `same-origin` |
-| `Cross-Origin-Resource-Policy` | `same-origin` |
-| `X-XSS-Protection` | `0` (legacy filter disabled — CSP supersedes) |
+| Header                         | Value                                                                                                                                                         |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Content-Security-Policy`      | locked to `'self'` for default/script/style/font/img/connect/frame-ancestors with explicit allow-list for Vercel analytics + Cloudflare Stream + IndexNow API |
+| `Strict-Transport-Security`    | `max-age=63072000; includeSubDomains; preload` (HSTS preload-eligible)                                                                                        |
+| `X-Frame-Options`              | `DENY` (no clickjacking)                                                                                                                                      |
+| `X-Content-Type-Options`       | `nosniff`                                                                                                                                                     |
+| `Referrer-Policy`              | `strict-origin-when-cross-origin`                                                                                                                             |
+| `Permissions-Policy`           | camera/mic/geo/USB/sensors/payment all `()`-disabled                                                                                                          |
+| `Cross-Origin-Opener-Policy`   | `same-origin`                                                                                                                                                 |
+| `Cross-Origin-Resource-Policy` | `same-origin`                                                                                                                                                 |
+| `X-XSS-Protection`             | `0` (legacy filter disabled — CSP supersedes)                                                                                                                 |
 
 Validate after deploy:
 
@@ -52,6 +52,23 @@ Validate after deploy:
 - Renovate / Dependabot PRs are merged only when CI and the changelog
   show no breaking changes.
 - New dependencies require a `pnpm audit --prod` clean run before merge.
+
+## Form Security
+
+The contact form implements multiple security layers:
+
+- **Rate limiting**: Maximum 3 submissions per hour per user via localStorage
+- **Input sanitization**: All text inputs are sanitized to prevent XSS attacks
+- **Honeypot field**: Hidden field to trap automated bots
+- **Validation**: Email format validation, URL validation, message length limits
+- **Error handling**: Graceful error states without exposing system details
+
+## Error Tracking & Monitoring
+
+- WebGL errors are tracked with structured logging including renderer info
+- Error logs are kept in memory (max 50 entries) for debugging
+- Context loss events are monitored for WebGL components
+- In production, errors would be sent to a monitoring service (e.g., Sentry)
 
 ## Out of Scope
 
