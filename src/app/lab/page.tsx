@@ -52,7 +52,7 @@ export default function LabPage() {
           items={[
             "GLSL · FRAGMENT SHADER",
             "RAYMARCHING · SDF",
-            "GPGPU · PARTICLES",
+            "PARTICLES · FIELD",
             "CURL NOISE · FBM",
             "WEB AUDIO · FFT",
             "VARIABLE FONTS",

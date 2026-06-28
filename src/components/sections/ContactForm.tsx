@@ -5,6 +5,7 @@ import { Magnetic } from "@/components/ui/Magnetic";
 
 const services = ["Web Design", "UI/UX", "Logo & Branding", "Webflow", "Framer", "WebGL", "AI Integration", "Other"];
 const budgets = ["< $5k", "$5k — $15k", "$15k — $30k", "$30k+"];
+const HONEYPOT_FIELD = "website";
 
 export function ContactForm() {
   const [state, setState] = useState<"idle" | "submitting" | "sent">("idle");
@@ -14,13 +15,21 @@ export function ContactForm() {
   const toggle = (s: string) => {
     setPicked((p) => {
       const n = new Set(p);
-      n.has(s) ? n.delete(s) : n.add(s);
+      if (n.has(s)) n.delete(s);
+      else n.add(s);
       return n;
     });
   };
 
-  const onSubmit = async (e: FormEvent) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget;
+    const trap = String(new FormData(form).get(HONEYPOT_FIELD) ?? "").trim();
+    if (trap) {
+      setState("sent");
+      return;
+    }
+
     setState("submitting");
     await new Promise((r) => setTimeout(r, 900));
     setState("sent");
@@ -43,6 +52,17 @@ export function ContactForm() {
 
   return (
     <form onSubmit={onSubmit} className="space-y-8">
+      <input
+        type="text"
+        name={HONEYPOT_FIELD}
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="hidden"
+      />
+      <input type="hidden" name="services" value={Array.from(picked).join(", ")} />
+      <input type="hidden" name="budget" value={budget} />
+
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
         <Field label="Your name" name="name" placeholder="Delowar Hossain" required />
         <Field label="Email address" name="email" type="email" placeholder="hello@studio.com" required />

@@ -50,6 +50,12 @@ export type DeviceProfile = {
 
 let cached: DeviceProfile | null = null;
 let listenerBound = false;
+let rendererAdjustment: number | null = null;
+let runtimeGpuAdjustment = 0;
+let timingProbeScheduled = false;
+
+export const DEVICE_PROFILE_CHANGE_EVENT =
+  "creative-folio:device-profile-change";
 
 const SERVER_PROFILE: DeviceProfile = {
   tier: "high",
@@ -66,7 +72,166 @@ function mq(query: string): boolean {
   }
 }
 
-function compute(): DeviceProfile {
+function emitProfileChange() {
+  if (typeof window === "undefined") return;
+  window.dispatchEvent(new Event(DEVICE_PROFILE_CHANGE_EVENT));
+}
+
+function rendererScoreAdjustment(): number {
+  if (typeof window === "undefined") return 0;
+  if (rendererAdjustment !== null) return rendererAdjustment;
+
+  rendererAdjustment = 0;
+  try {
+    const canvas = document.createElement("canvas");
+    const gl = canvas.getContext("webgl", {
+      antialias: false,
+      powerPreference: "low-power",
+    });
+    if (!gl) {
+      rendererAdjustment = -2;
+      return rendererAdjustment;
+    }
+
+    const debug = gl.getExtension("WEBGL_debug_renderer_info");
+    const renderer = debug
+      ? String(gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) ?? "")
+      : String(gl.getParameter(gl.RENDERER) ?? "");
+    const r = renderer.toLowerCase();
+
+    if (
+      /swiftshader|llvmpipe|software|microsoft basic render|mesa offscreen|warp/.test(
+        r,
+      )
+    ) {
+      rendererAdjustment = -3;
+    } else if (
+      /mali-[234]|mali-t|adreno \(tm\) [34]|powervr sgx|vivante|tegra/.test(
+        r,
+      )
+    ) {
+      rendererAdjustment = -1;
+    } else if (
+      /rtx|geforce|radeon rx|apple m\d|apple gpu|arc|iris xe|adreno \(tm\) [678]|mali-g7|mali-g8/.test(
+        r,
+      )
+    ) {
+      rendererAdjustment = 1;
+    }
+
+    gl.getExtension("WEBGL_lose_context")?.loseContext();
+  } catch {
+    rendererAdjustment = 0;
+  }
+
+  return rendererAdjustment;
+}
+
+function compileShader(
+  gl: WebGLRenderingContext,
+  type: number,
+  source: string,
+): WebGLShader | null {
+  const shader = gl.createShader(type);
+  if (!shader) return null;
+  gl.shaderSource(shader, source);
+  gl.compileShader(shader);
+  if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    gl.deleteShader(shader);
+    return null;
+  }
+  return shader;
+}
+
+function measureGpuTimingAdjustment(): number {
+  if (typeof window === "undefined") return 0;
+
+  const canvas = document.createElement("canvas");
+  canvas.width = 160;
+  canvas.height = 160;
+  const gl = canvas.getContext("webgl", {
+    antialias: false,
+    powerPreference: "low-power",
+  });
+  if (!gl) return -2;
+
+  const vertex = compileShader(
+    gl,
+    gl.VERTEX_SHADER,
+    "attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}",
+  );
+  const fragment = compileShader(
+    gl,
+    gl.FRAGMENT_SHADER,
+    "precision mediump float;void main(){vec2 uv=gl_FragCoord.xy/160.0;float v=0.0;for(int i=0;i<24;i++){v+=sin(uv.x*12.0+float(i))*cos(uv.y*10.0);}gl_FragColor=vec4(vec3(v*0.02+0.5),1.0);}",
+  );
+  const program = gl.createProgram();
+  const buffer = gl.createBuffer();
+
+  if (!vertex || !fragment || !program || !buffer) {
+    if (vertex) gl.deleteShader(vertex);
+    if (fragment) gl.deleteShader(fragment);
+    if (program) gl.deleteProgram(program);
+    if (buffer) gl.deleteBuffer(buffer);
+    gl.getExtension("WEBGL_lose_context")?.loseContext();
+    return 0;
+  }
+
+  gl.attachShader(program, vertex);
+  gl.attachShader(program, fragment);
+  gl.linkProgram(program);
+  if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+    gl.deleteShader(vertex);
+    gl.deleteShader(fragment);
+    gl.deleteProgram(program);
+    gl.deleteBuffer(buffer);
+    gl.getExtension("WEBGL_lose_context")?.loseContext();
+    return 0;
+  }
+
+  const position = gl.getAttribLocation(program, "p");
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    new Float32Array([-1, -1, 3, -1, -1, 3]),
+    gl.STATIC_DRAW,
+  );
+  gl.viewport(0, 0, canvas.width, canvas.height);
+  gl.useProgram(program);
+  gl.enableVertexAttribArray(position);
+  gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
+
+  const start = performance.now();
+  for (let i = 0; i < 3; i++) gl.drawArrays(gl.TRIANGLES, 0, 3);
+  gl.finish();
+  const elapsed = performance.now() - start;
+
+  gl.deleteBuffer(buffer);
+  gl.deleteProgram(program);
+  gl.deleteShader(vertex);
+  gl.deleteShader(fragment);
+  gl.getExtension("WEBGL_lose_context")?.loseContext();
+
+  if (elapsed > 24) return -2;
+  if (elapsed > 16) return -1;
+  return 0;
+}
+
+function scheduleGpuTimingProbe() {
+  if (typeof window === "undefined" || timingProbeScheduled) return;
+  timingProbeScheduled = true;
+  window.requestAnimationFrame(() => {
+    const adjustment = measureGpuTimingAdjustment();
+    if (adjustment >= runtimeGpuAdjustment) return;
+
+    const previousTier = cached?.tier;
+    runtimeGpuAdjustment = adjustment;
+    cached = compute(false);
+    if (cached.tier !== previousTier) emitProfileChange();
+  });
+}
+
+function compute(runTimingProbe = true): DeviceProfile {
   if (typeof window === "undefined") return SERVER_PROFILE;
 
   const isTouch = mq("(hover: none), (pointer: coarse)");
@@ -111,6 +276,7 @@ function compute(): DeviceProfile {
     // Desktops/laptops start with headroom unless other signals object.
     score += 1;
   }
+  score += rendererScoreAdjustment() + runtimeGpuAdjustment;
 
   let tier: DeviceTier;
   if (score <= -2) tier = "low";
@@ -122,6 +288,8 @@ function compute(): DeviceProfile {
   if (reducedMotion && tier === "high") tier = "mid";
 
   const dprScale = tier === "low" ? 0.7 : tier === "mid" ? 0.85 : 1;
+
+  if (runTimingProbe) scheduleGpuTimingProbe();
 
   return { tier, isTouch, reducedMotion, dprScale };
 }
@@ -140,6 +308,7 @@ export function deviceProfile(): DeviceProfile {
       listenerBound = true;
       const invalidate = () => {
         cached = null;
+        emitProfileChange();
       };
       window.addEventListener("resize", invalidate, { passive: true });
       window.addEventListener("orientationchange", invalidate, {
@@ -148,6 +317,14 @@ export function deviceProfile(): DeviceProfile {
     }
   }
   return cached;
+}
+
+export function onDeviceProfileChange(callback: () => void): () => void {
+  if (typeof window === "undefined") return () => {};
+  window.addEventListener(DEVICE_PROFILE_CHANGE_EVENT, callback);
+  return () => {
+    window.removeEventListener(DEVICE_PROFILE_CHANGE_EVENT, callback);
+  };
 }
 
 /** Shorthand: just the tier. */

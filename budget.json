@@ -1,0 +1,71 @@
+{
+  "budgets": [
+    {
+      "path": "/*",
+      "timings": [
+        {
+          "metric": "first-contentful-paint",
+          "budget": 2000
+        },
+        {
+          "metric": "interactive",
+          "budget": 5000
+        },
+        {
+          "metric": "first-meaningful-paint",
+          "budget": 3000
+        },
+        {
+          "metric": "largest-contentful-paint",
+          "budget": 2500
+        }
+      ],
+      "resourceSizes": [
+        {
+          "resourceType": "script",
+          "budget": 150
+        },
+        {
+          "resourceType": "stylesheet",
+          "budget": 50
+        },
+        {
+          "resourceType": "font",
+          "budget": 200
+        },
+        {
+          "resourceType": "total",
+          "budget": 500
+        }
+      ],
+      "resourceCounts": [
+        {
+          "resourceType": "script",
+          "budget": 15
+        },
+        {
+          "resourceType": "total",
+          "budget": 50
+        }
+      ]
+    },
+    {
+      "path": "/lab",
+      "resourceSizes": [
+        {
+          "resourceType": "total",
+          "budget": 800
+        }
+      ]
+    },
+    {
+      "path": "/works/*",
+      "resourceSizes": [
+        {
+          "resourceType": "total",
+          "budget": 600
+        }
+      ]
+    }
+  ]
+}

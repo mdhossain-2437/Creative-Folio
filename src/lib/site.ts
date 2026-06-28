@@ -54,12 +54,14 @@ export const site = {
       institution: "University of the People",
       degree: "B.Sc. Computer Science (in progress)",
       role: "Aspiring Software Engineer",
+      range: "In progress",
       url: "https://www.uopeople.edu/",
     },
     {
       institution: "B.A. Political Science",
       degree: "Bachelor of Arts",
       role: "Scholarly Modernity",
+      range: "2020 — 2024",
     },
   ],
   // GitHub identity (canonical handle, profile URL, public-repo highlights).

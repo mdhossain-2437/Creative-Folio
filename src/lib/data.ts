@@ -920,8 +920,8 @@ export const experiments: ExperimentExtended[] = [
     category: "Particles",
     title: "Particle Systems",
     summary:
-      "GPGPU particle system with curl-noise advection, instanced rendering and 1.6M particles at 60fps.",
-    meta: "GPGPU · 2027",
+      "Tier-aware particle system with curl-noise-style advection, click shockwaves and frame-budgeted rendering.",
+    meta: "Canvas2D · 2027",
   },
   {
     slug: "variable-font-scroll",

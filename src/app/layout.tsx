@@ -17,7 +17,7 @@ import { site } from "@/lib/site";
 const newsreader = Newsreader({
   subsets: ["latin"],
   variable: "--font-newsreader",
-  display: "swap",
+  display: "optional",
   weight: ["300", "400", "500"],
   style: ["normal", "italic"],
 });

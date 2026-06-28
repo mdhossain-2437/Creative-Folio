@@ -7,6 +7,7 @@ import { LabVisitTracker } from "@/components/lab/LabVisitTracker";
 import { LabPlaygroundShortcuts } from "@/components/lab/LabPlaygroundShortcuts";
 import { LabPlaygroundHints } from "@/components/lab/LabPlaygroundHints";
 import { LabSnapshotButton } from "@/components/lab/LabSnapshotButton";
+import { LabRuntimeMetric } from "@/components/lab/LabRuntimeMetric";
 import { experiments } from "@/lib/data";
 import { site } from "@/lib/site";
 
@@ -44,7 +45,17 @@ export async function generateMetadata({
   };
 }
 
-const NOTES: Record<string, { brief: string; controls: { label: string; value: string }[]; readme: string[] }> = {
+type LabNote = {
+  brief: string;
+  controls: {
+    label: string;
+    value: string;
+    runtime?: "particle-count";
+  }[];
+  readme: string[];
+};
+
+const NOTES: Record<string, LabNote> = {
   "fluid-dynamics": {
     brief:
       "An advection-only Navier–Stokes pass running on a single fragment shader. The cursor seeds vortices into the velocity field; the field samples the same texture again to displace itself.",
@@ -76,16 +87,16 @@ const NOTES: Record<string, { brief: string; controls: { label: string; value: s
   },
   "particle-systems": {
     brief:
-      "GPGPU particle field with curl-noise advection. Position + velocity stored in two float textures, ping-ponged each frame.",
+      "Tier-aware particle field with curl-noise-style advection. Position + velocity live in typed arrays, scaled by the resolved device profile before the first frame.",
     controls: [
-      { label: "particles", value: "1,572,864" },
+      { label: "particles", value: "runtime", runtime: "particle-count" },
       { label: "curl scale", value: "1.85" },
       { label: "trail decay", value: "0.92" },
       { label: "size", value: "1.6 px" },
     ],
     readme: [
-      "Click to release a burst of 32k particles at the cursor — they get added to the simulation, not duplicated.",
-      "The motion field is curl noise sampled at three octaves; the cursor adds a temporary vortex.",
+      "Click to release a shockwave at the cursor — it pushes through the existing simulation instead of duplicating a second particle layer.",
+      "The motion field is curl-noise-inspired and sampled every frame; the cursor adds a temporary attractor.",
     ],
   },
   "variable-font-scroll": {
@@ -406,7 +417,13 @@ export default async function LabSlug({
                     className="flex items-center justify-between font-mono text-[12px] uppercase tracking-widest text-warmwhite/65"
                   >
                     <span>{c.label}</span>
-                    <span className="text-peach">{c.value}</span>
+                    <span className="text-peach">
+                      {c.runtime === "particle-count" ? (
+                        <LabRuntimeMetric />
+                      ) : (
+                        c.value
+                      )}
+                    </span>
                   </li>
                 ))}
               </ul>

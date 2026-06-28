@@ -233,12 +233,14 @@ For raw `<img>` (used in OG routes only), set `decoding="async"` and
 
 ## 6. Font Strategy
 
-`next/font/google` loads Inter + Newsreader + JetBrains Mono. `display: "swap"`
-on all three. Only the latin subset is loaded.
+`next/font/google` self-hosts Inter + Newsreader + JetBrains Mono at build
+time. Only the latin subset is loaded.
 
-Future-2028: switch to self-hosted woff2 with `font-display: optional` —
-cuts FOIT-induced layout shift to zero on slow connections at the cost of
-showing the system fallback for one extra paint.
+Newsreader uses `display: "optional"` because it is the editorial display face:
+on slow connections, a stable system fallback for the first paint is less
+jarring than a visible serif hot-swap. Inter, JetBrains Mono, and Sacramento keep
+`display: "swap"` because they are interface/signature faces where immediate
+legibility matters more than avoiding a subtle style swap.
 
 ---
 
@@ -411,6 +413,25 @@ const start = () => {
 };
 ```
 
+### Active runtime budget in `/lab`
+
+`src/lib/canvasRuntimeBudget.ts` caps the number of actively ticking lab
+canvases. IntersectionObserver still marks every tile as visible/off-screen, but
+the registry decides which visible demos are allowed to run:
+
+| Tier | Touch | Active lab canvases |
+| ---- | ----- | ------------------- |
+| high | no    | 8                   |
+| high | yes   | 5                   |
+| mid  | no    | 5                   |
+| mid  | yes   | 4                   |
+| low  | no    | 3                   |
+| low  | yes   | 2                   |
+
+Newest visible canvases win the budget; older visible demos pause cleanly and
+resume when they re-enter the active set. This prevents a fast scroll through
+the grid from letting every near-viewport preview keep its own rAF loop alive.
+
 ---
 
 ## 12. Shared rAF Bus (`rafBus.ts`)
@@ -522,7 +543,7 @@ cell — empirically ~150 distance checks per frame instead of ~1225.
 - **Edge runtime for `/api/github`.** Currently Node; Edge would shave
   ~150ms off first paint of `/now`.
 - **Service worker offline shell** for `/now`, `/journal`, `/ai`.
-- **Per-shader chunks for `LabDemo.tsx`.** Currently all 1.2k lines ship
+- **Per-shader chunks for `LabDemo.tsx`.** Currently the lab demos ship
   as one chunk; split via `next/dynamic` per slug.
 
 ---
@@ -543,7 +564,7 @@ into:
 
 | Field           | Meaning                                                                                                                                   |
 | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| `tier`          | `"low" \| "mid" \| "high"` from a score over `deviceMemory`, `hardwareConcurrency`, touch, `devicePixelRatio`, and shortest viewport edge |
+| `tier`          | `"low" \| "mid" \| "high"` from a score over `deviceMemory`, `hardwareConcurrency`, touch, `devicePixelRatio`, shortest viewport edge, and GPU signals |
 | `isTouch`       | `(hover: none), (pointer: coarse)`                                                                                                        |
 | `reducedMotion` | `prefers-reduced-motion: reduce`                                                                                                          |
 | `dprScale`      | `1` / `0.85` / `0.7` — the multiplier `cappedDpr` applies (§ 11)                                                                          |
@@ -551,6 +572,16 @@ into:
 Scoring is **best-effort and forgiving**: missing signals (Safari hides
 `deviceMemory`) are treated as "capable" so we never over-penalise a device we
 can't measure. Reduced-motion never lets a device sit above `mid`.
+
+GPU secondary signals now feed the same score:
+
+- A one-time renderer-string check downgrades software renderers
+  (`SwiftShader`, `llvmpipe`, WARP, Microsoft Basic Render Driver) and weak
+  mobile GPU families when the browser exposes them.
+- A tiny first-frame WebGL timing probe runs after paint and can downgrade the
+  memoised profile if the GPU takes too long to finish a trivial shader pass.
+- Profile changes dispatch `creative-folio:device-profile-change`; lab canvases
+  re-fit their DPR and runtime particle density when that event fires.
 
 **SSR-safe:** on the server it returns `high` so markup is never gated
 server-side; the real tier resolves on the client after mount (every consumer

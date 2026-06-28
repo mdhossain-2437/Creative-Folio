@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   title: "Resume",
   description:
     "Delowar Hossain — Creative Developer & UI/UX Designer. Full resume: experience, education, expertise, and recognition. Download the 2027 PDF.",
-  alternates: { canonical: `${site.url}/resume` },
+  alternates: { canonical: "/resume" },
 };
 
 export default function ResumePage() {
@@ -28,7 +28,7 @@ export default function ResumePage() {
       <PageSchema
         path="/resume"
         name="Resume — Delowar Hossain"
-        description="Delowar Hossain — Creative Developer & UI/UX Designer. Full resume: experience, education, expertise, and recognition. Download the 2026 PDF."
+        description="Delowar Hossain — Creative Developer & UI/UX Designer. Full resume: experience, education, expertise, and recognition. Download the 2027 PDF."
         crumbs={[{ name: "Home", href: "/" }, { name: "Resume", href: "/resume" }]}
       />
       <PageHero
@@ -137,17 +137,41 @@ export default function ResumePage() {
             </Block>
 
             <Block title="Education">
-              <div className="grid grid-cols-12 items-baseline gap-4 py-2">
-                <span className="col-span-12 font-mono text-[11px] uppercase tracking-widest text-warmwhite/65 md:col-span-3">
-                  2020 — 2024
-                </span>
-                <h4 className="col-span-12 font-serif text-2xl leading-tight tracking-tighter md:col-span-5">
-                  B.A. in Political Science
-                </h4>
-                <p className="col-span-12 font-sans text-sm leading-relaxed text-warmwhite/65 md:col-span-4">
-                  Scholarly modernity. A systems-level way of thinking about
-                  people, behavior, communication, and product structure.
-                </p>
+              <p className="max-w-3xl font-sans text-sm leading-relaxed text-warmwhite/70">
+                Came to programming after Political Science, self-taught from{" "}
+                {site.yearStarted}, and now formalizing the craft through
+                Computer Science while keeping the systems-thinking background
+                visible.
+              </p>
+              <div className="mt-8 divide-y divide-warmwhite/15">
+                {site.education.map((edu) => (
+                  <div
+                    key={edu.institution}
+                    className="grid grid-cols-12 items-baseline gap-4 py-6 first:pt-0 last:pb-0"
+                  >
+                    <span className="col-span-12 font-mono text-[11px] uppercase tracking-widest text-warmwhite/65 md:col-span-3">
+                      {edu.range}
+                    </span>
+                    <h4 className="col-span-12 font-serif text-2xl leading-tight tracking-tighter md:col-span-5">
+                      {edu.url ? (
+                        <a
+                          href={edu.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          data-cursor="hover"
+                          className="rounded-sm transition-colors hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
+                        >
+                          {edu.institution}
+                        </a>
+                      ) : (
+                        edu.institution
+                      )}
+                    </h4>
+                    <p className="col-span-12 font-sans text-sm leading-relaxed text-warmwhite/65 md:col-span-4">
+                      {edu.degree} · {edu.role}
+                    </p>
+                  </div>
+                ))}
               </div>
             </Block>
 

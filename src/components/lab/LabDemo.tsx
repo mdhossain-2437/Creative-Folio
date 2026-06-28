@@ -4,6 +4,12 @@ import { useEffect, useMemo, useRef } from "react";
 import { NoiseField } from "@/components/webgl/NoiseField";
 import { damp, clampDt, K } from "@/lib/damp";
 import { cappedDpr, DPR_CANVAS, DPR_COMPACT } from "@/lib/dpr";
+import {
+  reconcileCanvasRuntimeBudget,
+  registerCanvasRuntime,
+} from "@/lib/canvasRuntimeBudget";
+import { deviceProfile, onDeviceProfileChange } from "@/lib/deviceTier";
+import { particleSystemCountForTier } from "@/lib/labRuntime";
 
 // Each lab experiment has its own dedicated demo — no two slugs share a
 // renderer. Every demo is cursor-reactive and pauses via IntersectionObserver
@@ -80,7 +86,7 @@ function CanvasDemo({
     const ctx = canvas.getContext("2d", { alpha: false });
     if (!ctx) return;
 
-    const dpr = compact ? cappedDpr(DPR_COMPACT) : cappedDpr(DPR_CANVAS);
+    let dpr = compact ? cappedDpr(DPR_COMPACT) : cappedDpr(DPR_CANVAS);
     const m = emptyMouse();
     const store: Store = {};
     let reseedRequested = false;
@@ -89,6 +95,7 @@ function CanvasDemo({
       const w = canvas.clientWidth;
       const h = canvas.clientHeight;
       if (w === 0 || h === 0) return;
+      dpr = compact ? cappedDpr(DPR_COMPACT) : cappedDpr(DPR_CANVAS);
       canvas.width = Math.floor(w * dpr);
       canvas.height = Math.floor(h * dpr);
       m.x = canvas.width / 2;
@@ -153,7 +160,6 @@ function CanvasDemo({
     canvas.addEventListener("pointercancel", onCancel);
     // Fallback in case pointer capture failed and the release happened off-canvas.
     window.addEventListener("pointerup", onUp);
-    window.addEventListener("resize", fit);
 
     // Lazy initial sizing: paper § "Performance Budget" — defer the
     // first `fit()` (which calls each demo's `init()` and allocates
@@ -207,7 +213,7 @@ function CanvasDemo({
         reseed,
       });
     };
-    const start = () => {
+    const startLoop = () => {
       if (raf) return;
       if (!initialised) {
         fit();
@@ -216,33 +222,42 @@ function CanvasDemo({
       last = performance.now();
       raf = requestAnimationFrame(tickFrame);
     };
-    const stop = () => {
+    const stopLoop = () => {
       if (raf) cancelAnimationFrame(raf);
       raf = 0;
     };
+    const runtime = registerCanvasRuntime({ startLoop, stopLoop });
+    const onResize = () => {
+      if (initialised) fit();
+      reconcileCanvasRuntimeBudget();
+    };
+    const unlistenProfileChange = onDeviceProfileChange(onResize);
+
+    window.addEventListener("resize", onResize);
+
     const io =
       "IntersectionObserver" in window
         ? new IntersectionObserver(
             ([entry]) => {
-              if (entry?.isIntersecting) start();
-              else stop();
+              runtime.setVisible(Boolean(entry?.isIntersecting));
             },
-            { rootMargin: "200px" },
+            { rootMargin: "160px", threshold: 0.01 },
           )
         : null;
     if (io) io.observe(canvas);
-    else start();
+    else runtime.setVisible(true);
 
     return () => {
-      stop();
+      runtime.dispose();
       io?.disconnect();
+      unlistenProfileChange();
       canvas.removeEventListener("pointermove", onMove);
       canvas.removeEventListener("pointerleave", onLeave);
       canvas.removeEventListener("pointerdown", onDown);
       canvas.removeEventListener("pointerup", onUp);
       canvas.removeEventListener("pointercancel", onCancel);
       window.removeEventListener("pointerup", onUp);
-      window.removeEventListener("resize", fit);
+      window.removeEventListener("resize", onResize);
     };
   }, [init, tick, compact, fpsCap, reseedOnClick]);
 
@@ -346,7 +361,7 @@ const volumetricTick: TickFn = ({ ctx, w, h, t, m, dpr }) => {
 
 // ── 03 — Particle Systems: attractor field + click bursts ───────────────────
 const partSysInit: InitFn = ({ w, h, store, compact }) => {
-  const N = compact ? 420 : 2200;
+  const N = particleSystemCountForTier(deviceProfile().tier, compact);
   const parts = new Float32Array(N * 4);
   for (let i = 0; i < N; i++) {
     parts[i * 4] = Math.random() * w;
