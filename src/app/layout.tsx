@@ -1,5 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Newsreader, JetBrains_Mono, Sacramento } from "next/font/google";
+import {
+  Inter,
+  Newsreader,
+  JetBrains_Mono,
+  Sacramento,
+} from "next/font/google";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { Navbar } from "@/components/layout/Navbar";
@@ -130,8 +135,15 @@ export const metadata: Metadata = {
     // (relative paths resolve against `metadataBase` above). The homepage's
     // canonical lives in `app/page.tsx`.
     types: {
-      "application/atom+xml": [{ url: "/journal/feed.xml", title: "Studio Journal — Atom Feed" }],
-      "application/feed+json": [{ url: "/api/feed.json", title: "Studio Combined Feed — JSON Feed v1.1" }],
+      "application/atom+xml": [
+        { url: "/journal/feed.xml", title: "Studio Journal — Atom Feed" },
+      ],
+      "application/feed+json": [
+        {
+          url: "/api/feed.json",
+          title: "Studio Combined Feed — JSON Feed v1.1",
+        },
+      ],
     },
   },
   category: "technology",
@@ -164,10 +176,17 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html lang="en" className={`${newsreader.variable} ${inter.variable} ${mono.variable} ${sacramento.variable}`}>
-  <head>
+    <html
+      lang="en"
+      className={`${newsreader.variable} ${inter.variable} ${mono.variable} ${sacramento.variable}`}
+    >
+      <head>
         <JsonLd />
         {/* rel="me" verification chain. The fediverse, IndieAuth, and a number
             of identity engines walk these links to confirm that the same
@@ -183,6 +202,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="author" href="/humans.txt" type="text/plain" />
         <link rel="alternate" hrefLang="en" href={site.url} />
         <link rel="alternate" hrefLang="x-default" href={site.url} />
+        <link rel="speculationrules" href="/speculation-rules" />
         <meta name="geo.region" content="BD-E" />
         <meta name="geo.placename" content={site.location} />
         <meta name="ICBM" content="25.0953, 89.0227" />
@@ -201,7 +221,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <MaskFooter>
             <Footer
               commitSha={process.env.VERCEL_GIT_COMMIT_SHA}
-              buildTime={process.env.VERCEL_DEPLOYMENT_ID ? new Date().toISOString().slice(0, 10) : undefined}
+              buildTime={
+                process.env.VERCEL_DEPLOYMENT_ID
+                  ? new Date().toISOString().slice(0, 10)
+                  : undefined
+              }
             />
           </MaskFooter>
         </SmoothScrollProvider>
