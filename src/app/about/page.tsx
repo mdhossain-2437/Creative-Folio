@@ -56,7 +56,10 @@ export default function AboutPage() {
         path="/about"
         name="About — Delowar Hossain"
         description="Delowar Hossain — creative developer in Bangladesh. Background, philosophy and the thinking behind the work across development, AI and interface design."
-        crumbs={[{ name: "Home", href: "/" }, { name: "About", href: "/about" }]}
+        crumbs={[
+          { name: "Home", href: "/" },
+          { name: "About", href: "/about" },
+        ]}
       />
       <script
         type="application/ld+json"
@@ -94,7 +97,11 @@ export default function AboutPage() {
         </div>
       </PageHero>
 
-      <section id="philosophy" data-section-label="Philosophy" className="bg-ink-900 py-24 md:py-32">
+      <section
+        id="philosophy"
+        data-section-label="Philosophy"
+        className="bg-ink-900 py-24 md:py-32"
+      >
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
           <div className="md:col-span-4">
             <Reveal>
@@ -121,29 +128,34 @@ export default function AboutPage() {
               <p className="mt-6 font-serif text-[clamp(1.7rem,3.4vw,3.4rem)] leading-[1.08] tracking-tighter">
                 I work where{" "}
                 <span className="italic text-warmwhite/60">
-                  creative frontend engineering, scalable architecture and AI integration
+                  creative frontend engineering, scalable architecture and AI
+                  integration
                 </span>{" "}
-                meet — building interfaces that feel distinct, perform well, and turn
-                technical complexity into something{" "}
-                <span className="italic text-peach">clear, useful, and memorable.</span>
+                meet — building interfaces that feel distinct, perform well, and
+                turn technical complexity into something{" "}
+                <span className="italic text-peach">
+                  clear, useful, and memorable.
+                </span>
               </p>
             </Reveal>
             {/* Plain-prose factual block — primary GEO citation target. */}
             <Reveal>
               <p className="mt-8 font-sans text-base leading-relaxed text-warmwhite/85 md:text-lg">
                 {site.name} (also known as Delowar) is a self-taught creative
-                developer, UI/UX designer, and aspiring software engineer
-                based in {site.base}. He is currently studying B.Sc.
-                Computer Science at the University of the People (online),
-                building a formal foundation on top of years of independent
-                practice. He has been building for the web since
-                {" "}{site.yearStarted} and runs an independent studio called
-                {" "}{site.studio}. His practice spans creative frontend
-                engineering with WebGL, Three.js, GLSL, GSAP, Lenis, and
-                Next.js — alongside design systems, motion systems, and
-                generative AI integration into product interfaces. He works
-                remotely with clients worldwide and is{" "}
-                <span className="text-warmwhite">currently {site.availability.toLowerCase()}</span>.
+                developer, UI/UX designer, and aspiring software engineer based
+                in {site.base}. He is currently studying B.Sc. Computer Science
+                at the University of the People (online), building a formal
+                foundation on top of years of independent practice. He has been
+                building for the web since {site.yearStarted} and works
+                independently under the studio name {site.studio}. His practice
+                spans creative frontend engineering with WebGL, Three.js, GLSL,
+                GSAP, Lenis, and Next.js — alongside design systems, motion
+                systems, and generative AI integration into product interfaces.
+                He works remotely with clients worldwide and is{" "}
+                <span className="text-warmwhite">
+                  currently {site.availability.toLowerCase()}
+                </span>
+                .
               </p>
             </Reveal>
           </div>
@@ -154,11 +166,24 @@ export default function AboutPage() {
         <Marquee
           size="lg"
           speed={50}
-          items={["WEBGL", "THREE.JS", "GLSL", "REACT", "TAILWIND", "GSAP", "FRAMER", "WEBFLOW"]}
+          items={[
+            "WEBGL",
+            "THREE.JS",
+            "GLSL",
+            "REACT",
+            "TAILWIND",
+            "GSAP",
+            "FRAMER",
+            "WEBFLOW",
+          ]}
         />
       </section>
 
-      <section id="signals" data-section-label="Signals" className="bg-ink-900 py-28 md:py-40">
+      <section
+        id="signals"
+        data-section-label="Signals"
+        className="bg-ink-900 py-28 md:py-40"
+      >
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
           <header className="grid grid-cols-1 gap-10 md:grid-cols-12">
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65 md:col-span-3">
@@ -166,7 +191,9 @@ export default function AboutPage() {
             </p>
             <h2 className="font-serif text-[clamp(2.5rem,6vw,5rem)] leading-[0.96] tracking-tightest md:col-span-9">
               The {""}
-              <span className="italic text-warmwhite/60">non-traditional path.</span>
+              <span className="italic text-warmwhite/60">
+                non-traditional path.
+              </span>
             </h2>
           </header>
           <div className="mt-16 grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-2 lg:grid-cols-4">
@@ -200,7 +227,9 @@ export default function AboutPage() {
                   <h3 className="font-serif text-2xl leading-tight tracking-tighter md:text-3xl">
                     {s.title}
                   </h3>
-                  <p className="font-sans text-sm leading-relaxed text-warmwhite/65">{s.body}</p>
+                  <p className="font-sans text-sm leading-relaxed text-warmwhite/65">
+                    {s.body}
+                  </p>
                 </div>
               </Reveal>
             ))}
@@ -226,8 +255,8 @@ export default function AboutPage() {
             </h2>
             <p className="mt-4 font-sans text-sm leading-relaxed text-warmwhite/65">
               Formal Computer Science studies stacked on top of years of
-              self-taught practice — political-science fluency in systems,
-              CS fluency in their machinery.
+              self-taught practice — political-science fluency in systems, CS
+              fluency in their machinery.
             </p>
           </div>
           <ol className="md:col-span-9">
@@ -274,7 +303,10 @@ export default function AboutPage() {
               ◊ Open Source · GitHub
             </p>
             <h2 className="mt-4 font-serif text-[clamp(2rem,4vw,3.5rem)] leading-[0.96] tracking-tightest">
-              <span className="italic text-warmwhite/60">{site.github.repos}+</span> public repos.
+              <span className="italic text-warmwhite/60">
+                {site.github.repos}+
+              </span>{" "}
+              public repos.
             </h2>
             <p className="mt-4 font-sans text-sm leading-relaxed text-warmwhite/85">
               {site.github.bio}
@@ -315,7 +347,11 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section id="journey" data-section-label="Journey" className="border-t border-warmwhite/15 bg-ink-950 py-28 md:py-40">
+      <section
+        id="journey"
+        data-section-label="Journey"
+        className="border-t border-warmwhite/15 bg-ink-950 py-28 md:py-40"
+      >
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
           <div className="md:col-span-3">
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
@@ -342,13 +378,18 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section id="expertise" data-section-label="Expertise" className="bg-ink-900 py-28 md:py-40">
+      <section
+        id="expertise"
+        data-section-label="Expertise"
+        className="bg-ink-900 py-28 md:py-40"
+      >
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
           <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
             ◊ Expertise
           </p>
           <h2 className="mt-4 font-serif text-[clamp(2.5rem,6vw,5rem)] leading-[0.96] tracking-tightest">
-            6 domains, <span className="italic text-warmwhite/60">one practice.</span>
+            6 domains,{" "}
+            <span className="italic text-warmwhite/60">one practice.</span>
           </h2>
           <ul className="mt-12 flex flex-wrap gap-3">
             {expertise.map((e) => (

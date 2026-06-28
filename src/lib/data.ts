@@ -48,6 +48,17 @@ export type Work = {
   caseStudy?: WorkCaseStudy;
 };
 
+// Feature flags — set to true when content is verified/earned
+export const SHOW_PLACEHOLDER_VIDEOS = false;
+
+// Helper to conditionally include placeholder videos
+function maybePreviewSrc(src?: string): string | undefined {
+  if (!src) return undefined;
+  if (!SHOW_PLACEHOLDER_VIDEOS && src.includes("test-videos.co.uk"))
+    return undefined;
+  return src;
+}
+
 export const works: Work[] = [
   {
     slug: "aura-void",
@@ -61,8 +72,9 @@ export const works: Work[] = [
     stack: ["Three.js", "GLSL", "GSAP", "Lenis"],
     cover:
       "https://images.unsplash.com/photo-1638272181967-7d3772a91265?auto=format&fit=crop&w=1600&q=80",
-    previewSrc:
+    previewSrc: maybePreviewSrc(
       "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4",
+    ),
     accent: "#e3bfb4",
     award: "Awwwards · Site of the Day",
     client: "Aura Studio (in-house)",
@@ -110,7 +122,8 @@ export const works: Work[] = [
         {
           src: "https://images.unsplash.com/photo-1638272181967-7d3772a91265?auto=format&fit=crop&w=1800&q=80",
           alt: "Macro frame of the noise field with peach lighting",
-          caption: "01 — Hero loop frame at t = 6s. The field rests; cursor influence decays.",
+          caption:
+            "01 — Hero loop frame at t = 6s. The field rests; cursor influence decays.",
           aspect: "wide",
         },
         {
@@ -128,12 +141,14 @@ export const works: Work[] = [
         {
           src: "https://images.unsplash.com/photo-1614851099511-773084f6911d?auto=format&fit=crop&w=1800&q=80",
           alt: "Mobile portrait composition of the same scene",
-          caption: "04 — On mobile the noise field is volume-mapped to a slower octave so the device stays cool.",
+          caption:
+            "04 — On mobile the noise field is volume-mapped to a slower octave so the device stays cool.",
           aspect: "wide",
         },
       ],
       testimonial: {
-        quote: "The site doesn't sell our brand — it is our brand. Watching people stop and play with it for two minutes before reading a word is exactly what we hoped for.",
+        quote:
+          "The site doesn't sell our brand — it is our brand. Watching people stop and play with it for two minutes before reading a word is exactly what we hoped for.",
         attribution: "Asha Mehrotra",
         role: "Creative Director, Aura Studio",
       },
@@ -151,8 +166,9 @@ export const works: Work[] = [
     stack: ["Next.js", "GSAP", "Framer Motion"],
     cover:
       "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1600&q=80",
-    previewSrc:
+    previewSrc: maybePreviewSrc(
       "https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_1MB.mp4",
+    ),
     accent: "#c4c1bd",
     award: "FWA · Site of the Day",
     client: "Terminal State Labs",
@@ -212,7 +228,8 @@ export const works: Work[] = [
         {
           src: "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=1200&q=80",
           alt: "Mobile portrait of the same article",
-          caption: "03 — Mobile collapses to 4-col but keeps the pull-quote rhythm.",
+          caption:
+            "03 — Mobile collapses to 4-col but keeps the pull-quote rhythm.",
           aspect: "tall",
         },
         {
@@ -223,7 +240,8 @@ export const works: Work[] = [
         },
       ],
       testimonial: {
-        quote: "We stopped arguing about layout and started arguing about ideas. That is the whole point.",
+        quote:
+          "We stopped arguing about layout and started arguing about ideas. That is the whole point.",
         attribution: "Iván Páez",
         role: "Editor, Terminal State",
       },
@@ -241,8 +259,9 @@ export const works: Work[] = [
     stack: ["React", "Radix", "TypeScript", "Storybook"],
     cover:
       "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1600&q=80",
-    previewSrc:
+    previewSrc: maybePreviewSrc(
       "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4",
+    ),
     accent: "#bfd2cf",
     award: "CSS Design Awards · UI of the Day",
     client: "Monolith Data",
@@ -296,13 +315,15 @@ export const works: Work[] = [
         {
           src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
           alt: "Dashboard screen at compact density",
-          caption: "02 — Compact density built for analysts running 12-hour days.",
+          caption:
+            "02 — Compact density built for analysts running 12-hour days.",
           aspect: "square",
         },
         {
           src: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1200&q=80",
           alt: "Token reference page",
-          caption: "03 — Token reference. Each colour shows its on-ink contrast.",
+          caption:
+            "03 — Token reference. Each colour shows its on-ink contrast.",
           aspect: "square",
         },
         {
@@ -313,7 +334,8 @@ export const works: Work[] = [
         },
       ],
       testimonial: {
-        quote: "It is the first design system I've used where the docs are the product. Everything else is downstream.",
+        quote:
+          "It is the first design system I've used where the docs are the product. Everything else is downstream.",
         attribution: "Priya Anand",
         role: "Director of Engineering, Monolith Data",
       },
@@ -331,8 +353,9 @@ export const works: Work[] = [
     stack: ["Variable Fonts", "GSAP", "WebGL"],
     cover:
       "https://images.unsplash.com/photo-1522199755839-a2bacb67c546?auto=format&fit=crop&w=1600&q=80",
-    previewSrc:
+    previewSrc: maybePreviewSrc(
       "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_2MB.mp4",
+    ),
     accent: "#e7d6b8",
     client: "Self-initiated",
     duration: "6 weeks",
@@ -384,13 +407,15 @@ export const works: Work[] = [
         {
           src: "https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?auto=format&fit=crop&w=1200&q=80",
           alt: "Slanted display passage at high cursor velocity",
-          caption: "02 — Slant axis tied to cursor velocity at the editorial break.",
+          caption:
+            "02 — Slant axis tied to cursor velocity at the editorial break.",
           aspect: "tall",
         },
         {
           src: "https://images.unsplash.com/photo-1499914485622-a88fac536970?auto=format&fit=crop&w=1200&q=80",
           alt: "Microphone-driven amplitude visualisation",
-          caption: "03 — Microphone overlay (opt-in) showing amplitude against width.",
+          caption:
+            "03 — Microphone overlay (opt-in) showing amplitude against width.",
           aspect: "tall",
         },
         {
@@ -414,8 +439,9 @@ export const works: Work[] = [
     stack: ["Three.js", "GLSL", "Web Audio API"],
     cover:
       "https://images.unsplash.com/photo-1604871000636-074fa5117945?auto=format&fit=crop&w=1600&q=80",
-    previewSrc:
+    previewSrc: maybePreviewSrc(
       "https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_2MB.mp4",
+    ),
     accent: "#9aa6c2",
     client: "Lokal Sound (gallery commission)",
     duration: "11 weeks (installation), 4 weeks (web port)",
@@ -462,7 +488,8 @@ export const works: Work[] = [
         {
           src: "https://images.unsplash.com/photo-1604871000636-074fa5117945?auto=format&fit=crop&w=1800&q=80",
           alt: "Volume render at peak amplitude",
-          caption: "01 — Volume render at peak amplitude, low-frequency dominant.",
+          caption:
+            "01 — Volume render at peak amplitude, low-frequency dominant.",
           aspect: "wide",
         },
         {
@@ -480,12 +507,14 @@ export const works: Work[] = [
         {
           src: "https://images.unsplash.com/photo-1517999144091-3d9dca6d1e43?auto=format&fit=crop&w=1800&q=80",
           alt: "Web port at low quality tier",
-          caption: "04 — Web port on integrated GPU — softer volumes, same piece.",
+          caption:
+            "04 — Web port on integrated GPU — softer volumes, same piece.",
           aspect: "wide",
         },
       ],
       testimonial: {
-        quote: "It listens. That is the only word. The room comes in and the room goes out and the piece is just patient.",
+        quote:
+          "It listens. That is the only word. The room comes in and the room goes out and the piece is just patient.",
         attribution: "Anika Becker",
         role: "Curator, Lokal Sound",
       },
@@ -550,7 +579,8 @@ export const works: Work[] = [
         {
           src: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?auto=format&fit=crop&w=1800&q=80",
           alt: "App reading view",
-          caption: "01 — Reading view. Single column, generous leading, paper background.",
+          caption:
+            "01 — Reading view. Single column, generous leading, paper background.",
           aspect: "wide",
         },
         {
@@ -562,7 +592,8 @@ export const works: Work[] = [
         {
           src: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=1200&q=80",
           alt: "Live-tutor handoff screen",
-          caption: "03 — Live-tutor handoff. Reviewer sees the last 30 minutes of context.",
+          caption:
+            "03 — Live-tutor handoff. Reviewer sees the last 30 minutes of context.",
           aspect: "tall",
         },
         {
@@ -573,7 +604,8 @@ export const works: Work[] = [
         },
       ],
       testimonial: {
-        quote: "My daughter prepares with this for two hours a day and never asks me to charge the phone. That's the highest review I have.",
+        quote:
+          "My daughter prepares with this for two hours a day and never asks me to charge the phone. That's the highest review I have.",
         attribution: "Tariq Hossain",
         role: "Parent, Joypurhat",
       },
@@ -649,7 +681,8 @@ export const works: Work[] = [
         {
           src: "https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?auto=format&fit=crop&w=1200&q=80",
           alt: "Drafts timeline panel",
-          caption: "03 — Drafts timeline. Arrow keys scrub through 60 s snapshots.",
+          caption:
+            "03 — Drafts timeline. Arrow keys scrub through 60 s snapshots.",
           aspect: "square",
         },
         {
@@ -660,7 +693,8 @@ export const works: Work[] = [
         },
       ],
       testimonial: {
-        quote: "It is the first AI writing tool that lets me forget I'm using AI. The outlines just appear when I want them.",
+        quote:
+          "It is the first AI writing tool that lets me forget I'm using AI. The outlines just appear when I want them.",
         attribution: "Sara Voss",
         role: "Editor, beta cohort",
       },
@@ -741,7 +775,8 @@ export const works: Work[] = [
         {
           src: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1800&q=80",
           alt: "Map view of the recording locations",
-          caption: "04 — All twelve recording locations within ~600 m of each other.",
+          caption:
+            "04 — All twelve recording locations within ~600 m of each other.",
           aspect: "wide",
         },
       ],
@@ -750,17 +785,72 @@ export const works: Work[] = [
 ];
 
 export const archive = [
-  { year: "2027", title: "Halcyon OS", category: "AI Workspace", role: "Product Design" },
-  { year: "2027", title: "Echo Atlas", category: "Spatial / WebXR", role: "Concept · WebGL" },
-  { year: "2027", title: "Aura Void v2", category: "WebGL", role: "Creative Direction" },
-  { year: "2027", title: "CrackIt 3.0", category: "Product / AI", role: "Product · Engineering" },
-  { year: "2026", title: "Studio Press", category: "Editorial", role: "Solo · End-to-end" },
-  { year: "2025", title: "Terminal State", category: "Editorial", role: "Art Direction" },
-  { year: "2025", title: "Monolith UI", category: "Design System", role: "Lead Engineer" },
-  { year: "2025", title: "Kinetica", category: "Type / Motion", role: "Concept · Motion" },
-  { year: "2024", title: "Void Engine", category: "WebGL · Audio", role: "WebGL Engineer" },
-  { year: "2024", title: "DriveRent", category: "Product", role: "Engineering" },
-  { year: "2023", title: "Quiet Office", category: "Personal", role: "Solo · First portfolio" },
+  {
+    year: "2027",
+    title: "Halcyon OS",
+    category: "AI Workspace",
+    role: "Product Design",
+  },
+  {
+    year: "2027",
+    title: "Echo Atlas",
+    category: "Spatial / WebXR",
+    role: "Concept · WebGL",
+  },
+  {
+    year: "2027",
+    title: "Aura Void v2",
+    category: "WebGL",
+    role: "Creative Direction",
+  },
+  {
+    year: "2027",
+    title: "CrackIt 3.0",
+    category: "Product / AI",
+    role: "Product · Engineering",
+  },
+  {
+    year: "2026",
+    title: "Studio Press",
+    category: "Editorial",
+    role: "Solo · End-to-end",
+  },
+  {
+    year: "2025",
+    title: "Terminal State",
+    category: "Editorial",
+    role: "Art Direction",
+  },
+  {
+    year: "2025",
+    title: "Monolith UI",
+    category: "Design System",
+    role: "Lead Engineer",
+  },
+  {
+    year: "2025",
+    title: "Kinetica",
+    category: "Type / Motion",
+    role: "Concept · Motion",
+  },
+  {
+    year: "2024",
+    title: "Void Engine",
+    category: "WebGL · Audio",
+    role: "WebGL Engineer",
+  },
+  {
+    year: "2024",
+    title: "DriveRent",
+    category: "Product",
+    role: "Engineering",
+  },
+  {
+    year: "2023",
+    title: "Quiet Office",
+    category: "Personal",
+    role: "Solo · First portfolio",
+  },
 ];
 
 export type Experiment = {
@@ -1093,7 +1183,12 @@ export const arsenal: { title: string; items: string[] }[] = [
   },
   {
     title: "Backend & AI",
-    items: ["Node.js / FastAPI", "LangChain · OpenAI", "PostgreSQL · Supabase", "Vercel · Cloudflare"],
+    items: [
+      "Node.js / FastAPI",
+      "LangChain · OpenAI",
+      "PostgreSQL · Supabase",
+      "Vercel · Cloudflare",
+    ],
   },
 ];
 
@@ -1260,7 +1355,12 @@ export const process: Phase[] = [
       "Motion design doc",
       "Shader & canvas studies",
     ],
-    tools: ["Next.js · React", "GSAP · ScrollTrigger", "Three.js · raw WebGL2", "Lenis"],
+    tools: [
+      "Next.js · React",
+      "GSAP · ScrollTrigger",
+      "Three.js · raw WebGL2",
+      "Lenis",
+    ],
     duration: "2–4 weeks",
   },
   {
@@ -1281,7 +1381,13 @@ export const process: Phase[] = [
       "Lighthouse + a11y report",
       "Launch + 30-day retainer",
     ],
-    tools: ["TypeScript", "Next.js 16", "GLSL", "Vercel / Cloudflare", "Playwright"],
+    tools: [
+      "TypeScript",
+      "Next.js 16",
+      "GLSL",
+      "Vercel / Cloudflare",
+      "Playwright",
+    ],
     duration: "3–6 weeks",
   },
 ];
@@ -1465,11 +1571,17 @@ export const milestones: { year: string; title: string; body: string }[] = [
 ];
 
 export const nowFeed: { tag: string; line: string }[] = [
-  { tag: "BUILDING", line: "Aura Void v2 — cursor-attractive fluid sim shader" },
+  {
+    tag: "BUILDING",
+    line: "Aura Void v2 — cursor-attractive fluid sim shader",
+  },
   { tag: "WRITING", line: "‘Flexible page transitions’ essay (April ’26)" },
   { tag: "READING", line: "‘Designing Sound’ — Andy Farnell" },
   { tag: "LISTENING", line: "Floating Points — Cascade" },
-  { tag: "OBSESSING OVER", line: "the way Patrick Heng times his curtain wipes" },
+  {
+    tag: "OBSESSING OVER",
+    line: "the way Patrick Heng times his curtain wipes",
+  },
   { tag: "BOOKING", line: "Q1 ’27 → Q4 ’27 — open for select briefs" },
 ];
 
@@ -1612,7 +1724,12 @@ export const portfolios: PortfolioEdition[] = [
     description:
       "Editorial newsroom architecture. WebGL hero, Lenis-smoothed scroll, scroll-driven process timeline, 30 live lab experiments. Built for sub-100ms interaction, AA contrast, and dual JSON-LD + AI-engine surfaces.",
     accent: "#e3bfb4",
-    highlights: ["Next.js 16 · React 19", "raw WebGL2 + GLSL", "30 lab demos", "365-day quote rotation"],
+    highlights: [
+      "Next.js 16 · React 19",
+      "raw WebGL2 + GLSL",
+      "30 lab demos",
+      "365-day quote rotation",
+    ],
   },
   {
     year: "2026",
@@ -1623,7 +1740,12 @@ export const portfolios: PortfolioEdition[] = [
     description:
       "Single-page editorial micro-folio. Variable-font scroll, three case studies, an inline showreel. Pruned to the bare essentials between two larger systems.",
     accent: "#a3b8c4",
-    highlights: ["Single-page", "Variable fonts", "Three case studies", "Inline showreel"],
+    highlights: [
+      "Single-page",
+      "Variable fonts",
+      "Three case studies",
+      "Inline showreel",
+    ],
   },
   {
     year: "2025",
@@ -1634,7 +1756,12 @@ export const portfolios: PortfolioEdition[] = [
     description:
       "Monolith design-system showcase. Dark UI, dense data, terminal aesthetics. Built around a colour-token system, a custom kinetic cursor and an audio-reactive prelude.",
     accent: "#9ca3af",
-    highlights: ["Design tokens", "Terminal UI", "Kinetic cursor", "Audio prelude"],
+    highlights: [
+      "Design tokens",
+      "Terminal UI",
+      "Kinetic cursor",
+      "Audio prelude",
+    ],
   },
   {
     year: "2024",
@@ -1645,7 +1772,12 @@ export const portfolios: PortfolioEdition[] = [
     description:
       "Experimental folio leaning hard on Three.js: GPU particles, post-processing chain, a custom shader-based page transition. Optimised for desktop showpiece browsing.",
     accent: "#6f6fff",
-    highlights: ["Three.js + GPGPU", "Custom transitions", "Audio-reactive", "WebGL showcase"],
+    highlights: [
+      "Three.js + GPGPU",
+      "Custom transitions",
+      "Audio-reactive",
+      "WebGL showcase",
+    ],
   },
   {
     year: "2023",
@@ -1656,17 +1788,52 @@ export const portfolios: PortfolioEdition[] = [
     description:
       "The first formal portfolio. Editorial scaffolding, hand-built scroll engine, three case studies, a long-form about page — written in the studio's voice from day one.",
     accent: "#f6cf76",
-    highlights: ["Editorial scaffolding", "Hand-rolled scroll", "Three case studies", "First edition"],
+    highlights: [
+      "Editorial scaffolding",
+      "Hand-rolled scroll",
+      "Three case studies",
+      "First edition",
+    ],
   },
 ];
 
 // Cold-start fallback for the /api/github edge function. Used when GitHub
 // is rate-limited, unreachable, or the GITHUB_PAT secret is missing. Once
 // the live route returns, these are replaced by real PushEvent data.
-export const githubFallback: { sha: string; repo: string; message: string; ago: string }[] = [
-  { sha: "a1f4c2", repo: "creative-folio", message: "feat(layout): flexible route curtain with destination text", ago: "2h" },
-  { sha: "3b9e02", repo: "creative-folio", message: "chore(content): refresh dates + projects for 2027", ago: "5h" },
-  { sha: "7c1ab3", repo: "halcyon-os", message: "feat(editor): outline ambient fade + scrub timeline", ago: "1d" },
-  { sha: "e520fd", repo: "echo-atlas", message: "experiment: binaural HRTF panning per city ward", ago: "2d" },
-  { sha: "9d44ee", repo: "creative-folio", message: "feat(404): particle field with cursor flocking", ago: "3d" },
+export const githubFallback: {
+  sha: string;
+  repo: string;
+  message: string;
+  ago: string;
+}[] = [
+  {
+    sha: "a1f4c2",
+    repo: "creative-folio",
+    message: "feat(layout): flexible route curtain with destination text",
+    ago: "2h",
+  },
+  {
+    sha: "3b9e02",
+    repo: "creative-folio",
+    message: "chore(content): refresh dates + projects for 2027",
+    ago: "5h",
+  },
+  {
+    sha: "7c1ab3",
+    repo: "halcyon-os",
+    message: "feat(editor): outline ambient fade + scrub timeline",
+    ago: "1d",
+  },
+  {
+    sha: "e520fd",
+    repo: "echo-atlas",
+    message: "experiment: binaural HRTF panning per city ward",
+    ago: "2d",
+  },
+  {
+    sha: "9d44ee",
+    repo: "creative-folio",
+    message: "feat(404): particle field with cursor flocking",
+    ago: "3d",
+  },
 ];

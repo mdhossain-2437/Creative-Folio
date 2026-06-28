@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { works, type Work, type WorkSection } from "@/lib/data";
+import { site } from "@/lib/site";
 import { PageHero } from "@/components/layout/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { CaseStudyGallery } from "@/components/works/CaseStudyGallery";
@@ -37,7 +38,11 @@ const KIND_LABEL: Record<WorkSection["kind"], string> = {
   outcome: "04 · Outcome",
 };
 
-export default async function CaseStudy({ params }: { params: Promise<Params> }) {
+export default async function CaseStudy({
+  params,
+}: {
+  params: Promise<Params>;
+}) {
   const { slug } = await params;
   const work = works.find((w) => w.slug === slug);
   if (!work) notFound();
@@ -60,7 +65,9 @@ export default async function CaseStudy({ params }: { params: Promise<Params> })
           { label: "Year", value: work.year },
           { label: "Role", value: work.role[0] ?? "Lead" },
           { label: "Stack", value: work.stack.slice(0, 2).join(" · ") },
-          ...(work.award ? [{ label: "Award", value: work.award }] : []),
+          ...(site.showAwards && work.award
+            ? [{ label: "Award", value: work.award }]
+            : []),
         ]}
         noise={false}
       />
@@ -74,7 +81,9 @@ export default async function CaseStudy({ params }: { params: Promise<Params> })
           {study.gallery.length > 0 && <GallerySection work={work} />}
           <MetricsSection work={work} />
           <DeliverablesSection work={work} />
-          {study.testimonial && <TestimonialSection work={work} />}
+          {site.showTestimonials && study.testimonial && (
+            <TestimonialSection work={work} />
+          )}
           <StackSection work={work} />
         </>
       ) : (
@@ -88,11 +97,21 @@ export default async function CaseStudy({ params }: { params: Promise<Params> })
 
 function CoverHero({ work }: { work: Work }) {
   return (
-    <section id="cover" data-section-label="Cover" className="bg-ink-900 py-16 md:py-24">
+    <section
+      id="cover"
+      data-section-label="Cover"
+      className="bg-ink-900 py-16 md:py-24"
+    >
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <Reveal>
           <div className="relative aspect-[16/9] w-full overflow-hidden rounded-md">
-            <Image src={work.cover} alt={work.title} fill priority className="object-cover" />
+            <Image
+              src={work.cover}
+              alt={work.title}
+              fill
+              priority
+              className="object-cover"
+            />
             <div
               className="absolute inset-0 mix-blend-multiply"
               style={{ background: work.accent + "33" }}
@@ -123,7 +142,11 @@ function BriefAndMeta({ work }: { work: Work }) {
   ];
 
   return (
-    <section id="brief" data-section-label="Brief" className="border-t border-warmwhite/15 bg-ink-900 py-24 md:py-32">
+    <section
+      id="brief"
+      data-section-label="Brief"
+      className="border-t border-warmwhite/15 bg-ink-900 py-24 md:py-32"
+    >
       <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-12 px-6 md:grid-cols-12 md:px-10">
         <aside className="md:col-span-4">
           <div className="md:sticky md:top-28 md:max-h-[calc(100vh-7rem)] md:overflow-y-auto md:pr-4">
@@ -190,7 +213,9 @@ function BriefAndMeta({ work }: { work: Work }) {
               </p>
               <h2 className="mt-6 break-words font-serif text-[clamp(2rem,4vw,4rem)] leading-[1.05] tracking-tightest">
                 <span className="italic text-warmwhite/65">{work.title}</span> —{" "}
-                <span className="text-warmwhite">{brief.heading.toLowerCase()}</span>
+                <span className="text-warmwhite">
+                  {brief.heading.toLowerCase()}
+                </span>
               </h2>
               <p className="mt-8 max-w-[60ch] font-sans text-base leading-relaxed text-warmwhite/75 md:text-lg">
                 {brief.body}
@@ -205,15 +230,24 @@ function BriefAndMeta({ work }: { work: Work }) {
 
 function SectionsBlock({ work }: { work: Work }) {
   const study = work.caseStudy!;
-  const rest = study.sections.filter((s) => s.kind !== "brief" && s.kind !== "outcome");
+  const rest = study.sections.filter(
+    (s) => s.kind !== "brief" && s.kind !== "outcome",
+  );
   if (rest.length === 0) return null;
 
   return (
-    <section id="approach" data-section-label="Approach" className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
+    <section
+      id="approach"
+      data-section-label="Approach"
+      className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32"
+    >
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <ul className="grid grid-cols-1 gap-16 md:gap-24">
           {rest.map((s, i) => (
-            <li key={s.kind} className="grid grid-cols-1 gap-10 md:grid-cols-12">
+            <li
+              key={s.kind}
+              className="grid grid-cols-1 gap-10 md:grid-cols-12"
+            >
               <div className="md:col-span-4">
                 <Reveal>
                   <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
@@ -247,7 +281,11 @@ function SectionsBlock({ work }: { work: Work }) {
 function GallerySection({ work }: { work: Work }) {
   const study = work.caseStudy!;
   return (
-    <section id="gallery" data-section-label="Gallery" className="border-t border-warmwhite/15 bg-ink-900 py-24 md:py-32">
+    <section
+      id="gallery"
+      data-section-label="Gallery"
+      className="border-t border-warmwhite/15 bg-ink-900 py-24 md:py-32"
+    >
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <div className="mb-10 flex flex-wrap items-end justify-between gap-6 md:mb-14">
           <div>
@@ -259,7 +297,8 @@ function GallerySection({ work }: { work: Work }) {
             </h3>
           </div>
           <p className="max-w-md font-sans text-sm leading-relaxed text-warmwhite/55">
-            Click any image to enter the lightbox. Use ←/→ to step through, Esc to close.
+            Click any image to enter the lightbox. Use ←/→ to step through, Esc
+            to close.
           </p>
         </div>
         <Reveal>
@@ -274,7 +313,11 @@ function MetricsSection({ work }: { work: Work }) {
   const study = work.caseStudy!;
   if (study.metrics.length === 0) return null;
   return (
-    <section id="numbers" data-section-label="Numbers" className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
+    <section
+      id="numbers"
+      data-section-label="Numbers"
+      className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32"
+    >
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
           ◊ Numbers
@@ -301,7 +344,11 @@ function DeliverablesSection({ work }: { work: Work }) {
   const outcome = study.sections.find((s) => s.kind === "outcome");
 
   return (
-    <section id="deliverables" data-section-label="Deliverables" className="border-t border-warmwhite/15 bg-ink-900 py-24 md:py-32">
+    <section
+      id="deliverables"
+      data-section-label="Deliverables"
+      className="border-t border-warmwhite/15 bg-ink-900 py-24 md:py-32"
+    >
       <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-16 px-6 md:grid-cols-12 md:px-10">
         <div className="md:col-span-5">
           <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
@@ -345,7 +392,11 @@ function DeliverablesSection({ work }: { work: Work }) {
 function TestimonialSection({ work }: { work: Work }) {
   const t = work.caseStudy!.testimonial!;
   return (
-    <section id="testimonial" data-section-label="Testimonial" className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
+    <section
+      id="testimonial"
+      data-section-label="Testimonial"
+      className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32"
+    >
       <div className="mx-auto max-w-[1200px] px-6 md:px-10">
         <Reveal>
           <p
@@ -399,7 +450,11 @@ function StackSection({ work }: { work: Work }) {
 
 function PrevNextSection({ prev, next }: { prev: Work; next: Work }) {
   return (
-    <section id="more-cases" data-section-label="More cases" className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
+    <section
+      id="more-cases"
+      data-section-label="More cases"
+      className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32"
+    >
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
           <Link
@@ -452,8 +507,9 @@ function LegacyFallback({ work }: { work: Work }) {
           </div>
           <div className="md:col-span-9">
             <h2 className="font-serif text-[clamp(2rem,4vw,4rem)] leading-[1.05] tracking-tightest">
-              <span className="italic text-warmwhite/65">{work.title}</span> is a study in
-              restraint — the kind of project where the loudest decision is what we chose{" "}
+              <span className="italic text-warmwhite/65">{work.title}</span> is
+              a study in restraint — the kind of project where the loudest
+              decision is what we chose{" "}
               <em className="italic text-peach">not</em> to add.
             </h2>
             <p className="mt-10 max-w-2xl font-sans text-base leading-relaxed text-warmwhite/70">
@@ -470,7 +526,9 @@ function LegacyFallback({ work }: { work: Work }) {
 function prettyHost(url: string): string {
   try {
     const u = new URL(url);
-    return u.host.replace(/^www\./, "") + (u.pathname === "/" ? "" : u.pathname);
+    return (
+      u.host.replace(/^www\./, "") + (u.pathname === "/" ? "" : u.pathname)
+    );
   } catch {
     return url;
   }

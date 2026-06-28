@@ -2,8 +2,11 @@ import { Reveal } from "@/components/ui/Reveal";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { ScrambleText } from "@/components/ui/ScrambleText";
 import { awards } from "@/lib/data";
+import { site } from "@/lib/site";
 
 export function AwardsSection() {
+  if (!site.showAwards) return null;
+
   return (
     <section className="relative border-t border-warmwhite/15 bg-ink-950 py-28 md:py-40">
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
@@ -13,13 +16,14 @@ export function AwardsSection() {
               <ScrambleText>§07 — Industry Recognition</ScrambleText>
             </p>
             <h2 className="mt-4 font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[0.94] tracking-tightest">
-              Awards <span className="italic text-warmwhite/60">&amp;</span> Mentions
+              Awards <span className="italic text-warmwhite/60">&amp;</span>{" "}
+              Mentions
             </h2>
           </div>
           <p className="md:col-span-5 max-w-md font-sans text-base leading-relaxed text-warmwhite/65 md:text-lg">
-            A short list of work that has been recognised by international design
-            and engineering juries — beyond the dopamine, validation that the
-            craft is travelling.
+            A short list of work that has been recognised by international
+            design and engineering juries — beyond the dopamine, validation that
+            the craft is travelling.
           </p>
         </div>
 
