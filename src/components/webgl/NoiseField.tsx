@@ -6,6 +6,7 @@ import { bakeValueNoise } from "@/lib/bakeNoise";
 import { targetFps } from "@/lib/deviceTier";
 import { makeFrameGate } from "@/lib/frameGate";
 import { glContextRegistry } from "@/lib/glContextRegistry";
+import { logWebGLError } from "@/lib/webglErrorTracker";
 
 // Lightweight ambient noise canvas used as a section background.
 //
@@ -74,20 +75,59 @@ export function NoiseField({
       // GPU on hybrid systems (paper § "Performance Budget").
       powerPreference: "low-power" as WebGLPowerPreference,
     });
-    if (!gl) return;
+    if (!gl) {
+      logWebGLError(
+        "context_creation_failed",
+        "NoiseField",
+        "Failed to create WebGL context",
+      );
+      return;
+    }
 
     // Register with context registry
     glContextRegistry.register(contextId.current, canvas, gl);
     const prog = gl.createProgram()!;
+    if (!prog) {
+      logWebGLError(
+        "runtime_error",
+        "NoiseField",
+        "Failed to create WebGL program",
+      );
+      return;
+    }
     const vs = gl.createShader(gl.VERTEX_SHADER)!;
     gl.shaderSource(vs, VERT);
     gl.compileShader(vs);
+    if (!gl.getShaderParameter(vs, gl.COMPILE_STATUS)) {
+      logWebGLError(
+        "shader_compile_failed",
+        "NoiseField",
+        `Vertex shader compile error: ${gl.getShaderInfoLog(vs)}`,
+      );
+      return;
+    }
     const fs = gl.createShader(gl.FRAGMENT_SHADER)!;
     gl.shaderSource(fs, FRAG);
     gl.compileShader(fs);
+    if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS)) {
+      logWebGLError(
+        "shader_compile_failed",
+        "NoiseField",
+        `Fragment shader compile error: ${gl.getShaderInfoLog(fs)}`,
+      );
+      return;
+    }
     gl.attachShader(prog, vs);
     gl.attachShader(prog, fs);
     gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+      logWebGLError(
+        "program_link_failed",
+        "NoiseField",
+        `Program link error: ${gl.getProgramInfoLog(prog)}`,
+      );
+      return;
+    }
     gl.useProgram(prog);
     const buf = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, buf);
@@ -172,10 +212,17 @@ export function NoiseField({
     );
     io.observe(canvas);
 
+    // Track context loss
+    const handleContextLoss = () => {
+      logWebGLError("context_lost", "NoiseField", "WebGL context was lost");
+    };
+    canvas.addEventListener("webglcontextlost", handleContextLoss);
+
     return () => {
       cancelAnimationFrame(raf);
       io.disconnect();
       window.removeEventListener("resize", resize);
+      canvas.removeEventListener("webglcontextlost", handleContextLoss);
       gl.deleteTexture(tex);
       gl.deleteProgram(prog);
       gl.deleteShader(vs);

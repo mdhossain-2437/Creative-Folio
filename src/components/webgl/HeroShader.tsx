@@ -6,6 +6,7 @@ import { cappedDpr, DPR_HERO } from "@/lib/dpr";
 import { fbmOctaves, targetFps } from "@/lib/deviceTier";
 import { makeFrameGate } from "@/lib/frameGate";
 import { glContextRegistry } from "@/lib/glContextRegistry";
+import { logWebGLError } from "@/lib/webglErrorTracker";
 
 const VERT = `
 attribute vec2 a_pos;
@@ -119,26 +120,60 @@ export function HeroShader({ className = "" }: { className?: string }) {
       alpha: false,
       powerPreference: "high-performance",
     });
-    if (!gl) return;
+    if (!gl) {
+      logWebGLError(
+        "context_creation_failed",
+        "HeroShader",
+        "Failed to create WebGL context",
+      );
+      return;
+    }
 
     // Register with context registry
     glContextRegistry.register(contextId.current, canvas, gl);
 
     const prog = gl.createProgram();
-    if (!prog) return;
+    if (!prog) {
+      logWebGLError(
+        "runtime_error",
+        "HeroShader",
+        "Failed to create WebGL program",
+      );
+      return;
+    }
     const vs = gl.createShader(gl.VERTEX_SHADER)!;
     gl.shaderSource(vs, VERT);
     gl.compileShader(vs);
+    if (!gl.getShaderParameter(vs, gl.COMPILE_STATUS)) {
+      logWebGLError(
+        "shader_compile_failed",
+        "HeroShader",
+        `Vertex shader compile error: ${gl.getShaderInfoLog(vs)}`,
+      );
+      return;
+    }
     const fs = gl.createShader(gl.FRAGMENT_SHADER)!;
     gl.shaderSource(fs, FRAG(fbmOctaves(4)));
     gl.compileShader(fs);
     if (!gl.getShaderParameter(fs, gl.COMPILE_STATUS)) {
-      console.warn("Hero shader compile error", gl.getShaderInfoLog(fs));
+      logWebGLError(
+        "shader_compile_failed",
+        "HeroShader",
+        `Fragment shader compile error: ${gl.getShaderInfoLog(fs)}`,
+      );
       return;
     }
     gl.attachShader(prog, vs);
     gl.attachShader(prog, fs);
     gl.linkProgram(prog);
+    if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+      logWebGLError(
+        "program_link_failed",
+        "HeroShader",
+        `Program link error: ${gl.getProgramInfoLog(prog)}`,
+      );
+      return;
+    }
     gl.useProgram(prog);
 
     const buf = gl.createBuffer();
@@ -225,11 +260,18 @@ export function HeroShader({ className = "" }: { className?: string }) {
     );
     io.observe(canvas);
 
+    // Track context loss
+    const handleContextLoss = () => {
+      logWebGLError("context_lost", "HeroShader", "WebGL context was lost");
+    };
+    canvas.addEventListener("webglcontextlost", handleContextLoss);
+
     return () => {
       cancelAnimationFrame(raf);
       io.disconnect();
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMove);
+      canvas.removeEventListener("webglcontextlost", handleContextLoss);
       gl.deleteProgram(prog);
       gl.deleteShader(vs);
       gl.deleteShader(fs);
