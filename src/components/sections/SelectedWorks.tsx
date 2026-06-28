@@ -53,7 +53,13 @@ export function SelectedWorks() {
   );
 }
 
-function WorkRow({ work, idx }: { work: ReturnType<typeof getWorkType>; idx: number }) {
+function WorkRow({
+  work,
+  idx,
+}: {
+  work: ReturnType<typeof getWorkType>;
+  idx: number;
+}) {
   const rowRef = useRef<HTMLAnchorElement>(null);
   const peekRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -143,6 +149,7 @@ function WorkRow({ work, idx }: { work: ReturnType<typeof getWorkType>; idx: num
               src={work.cover}
               alt={work.title}
               fill
+              fetchPriority="high"
               sizes="320px"
               className="object-cover"
             />

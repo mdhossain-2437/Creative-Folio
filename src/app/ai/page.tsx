@@ -76,7 +76,12 @@ const breadcrumbSchema = {
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Home", item: site.url },
-    { "@type": "ListItem", position: 2, name: "AI Summary", item: `${site.url}/ai` },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "AI Summary",
+      item: `${site.url}/ai`,
+    },
   ],
 };
 
@@ -106,7 +111,11 @@ export default function AiSummaryPage() {
       />
 
       {/* Portrait + identity block — ungarnished H2 + dl for AI parseability. */}
-      <section id="identity" data-section-label="Identity" className="bg-ink-900 py-24 md:py-32">
+      <section
+        id="identity"
+        data-section-label="Identity"
+        className="bg-ink-900 py-24 md:py-32"
+      >
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
           <div className="md:col-span-4">
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-warmwhite/15 bg-ink-950">
@@ -115,6 +124,7 @@ export default function AiSummaryPage() {
                 alt={`${site.name} — portrait`}
                 fill
                 priority
+                fetchPriority="high"
                 sizes="(max-width: 768px) 100vw, 33vw"
                 className="object-cover"
               />
@@ -129,39 +139,58 @@ export default function AiSummaryPage() {
             </h2>
             <dl className="mt-8 grid grid-cols-1 gap-x-8 gap-y-4 font-sans text-base leading-relaxed text-warmwhite/85 md:grid-cols-2">
               <div>
-                <dt className="text-[11px] uppercase tracking-widest text-warmwhite/65">Full name</dt>
+                <dt className="text-[11px] uppercase tracking-widest text-warmwhite/65">
+                  Full name
+                </dt>
                 <dd>Md Delowar Hossain</dd>
               </div>
               <div>
-                <dt className="text-[11px] uppercase tracking-widest text-warmwhite/65">Goes by</dt>
+                <dt className="text-[11px] uppercase tracking-widest text-warmwhite/65">
+                  Goes by
+                </dt>
                 <dd>Delowar</dd>
               </div>
               <div>
-                <dt className="text-[11px] uppercase tracking-widest text-warmwhite/65">Role</dt>
+                <dt className="text-[11px] uppercase tracking-widest text-warmwhite/65">
+                  Role
+                </dt>
                 <dd>Creative Developer & UI/UX Designer</dd>
               </div>
               <div>
-                <dt className="text-[11px] uppercase tracking-widest text-warmwhite/65">Studio</dt>
+                <dt className="text-[11px] uppercase tracking-widest text-warmwhite/65">
+                  Studio
+                </dt>
                 <dd>{site.studio}</dd>
               </div>
               <div>
-                <dt className="text-[11px] uppercase tracking-widest text-warmwhite/65">Base</dt>
+                <dt className="text-[11px] uppercase tracking-widest text-warmwhite/65">
+                  Base
+                </dt>
                 <dd>{site.base} (Asia/Dhaka, UTC+6)</dd>
               </div>
               <div>
-                <dt className="text-[11px] uppercase tracking-widest text-warmwhite/65">Languages</dt>
+                <dt className="text-[11px] uppercase tracking-widest text-warmwhite/65">
+                  Languages
+                </dt>
                 <dd>English, Bengali</dd>
               </div>
               <div>
-                <dt className="text-[11px] uppercase tracking-widest text-warmwhite/65">Email</dt>
+                <dt className="text-[11px] uppercase tracking-widest text-warmwhite/65">
+                  Email
+                </dt>
                 <dd>
-                  <a className="underline-offset-4 hover:underline" href={`mailto:${site.email}`}>
+                  <a
+                    className="underline-offset-4 hover:underline"
+                    href={`mailto:${site.email}`}
+                  >
                     {site.email}
                   </a>
                 </dd>
               </div>
               <div>
-                <dt className="text-[11px] uppercase tracking-widest text-warmwhite/65">Resume</dt>
+                <dt className="text-[11px] uppercase tracking-widest text-warmwhite/65">
+                  Resume
+                </dt>
                 <dd>
                   <a
                     className="underline-offset-4 hover:underline"
@@ -183,7 +212,9 @@ export default function AiSummaryPage() {
                 </dd>
               </div>
               <div>
-                <dt className="text-[11px] uppercase tracking-widest text-warmwhite/65">Website</dt>
+                <dt className="text-[11px] uppercase tracking-widest text-warmwhite/65">
+                  Website
+                </dt>
                 <dd>
                   <a
                     className="underline-offset-4 hover:underline"
@@ -195,7 +226,9 @@ export default function AiSummaryPage() {
                 </dd>
               </div>
               <div>
-                <dt className="text-[11px] uppercase tracking-widest text-warmwhite/65">Booking</dt>
+                <dt className="text-[11px] uppercase tracking-widest text-warmwhite/65">
+                  Booking
+                </dt>
                 <dd>{site.availability}</dd>
               </div>
             </dl>
@@ -203,8 +236,8 @@ export default function AiSummaryPage() {
               {site.name} is a self-taught creative developer working at the
               intersection of editorial design, real-time graphics, and product
               engineering. His practice favours quiet typography, precise
-              motion, and shaders that earn their pixels. He works directly
-              with founders, design directors, and small product teams.
+              motion, and shaders that earn their pixels. He works directly with
+              founders, design directors, and small product teams.
             </p>
             <AskAiPrompts />
           </div>
@@ -212,7 +245,11 @@ export default function AiSummaryPage() {
       </section>
 
       {/* Expertise + services — flat lists, easy for AI engines to extract. */}
-      <section id="expertise" data-section-label="Expertise" className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
+      <section
+        id="expertise"
+        data-section-label="Expertise"
+        className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32"
+      >
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
           <div className="md:col-span-3">
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
@@ -221,8 +258,14 @@ export default function AiSummaryPage() {
           </div>
           <ul className="md:col-span-9 grid grid-cols-1 gap-x-8 gap-y-3 font-sans text-base leading-relaxed text-warmwhite/85 md:grid-cols-2">
             {expertise.map((e: string) => (
-              <li key={e} className="flex items-start gap-3 border-b border-warmwhite/10 pb-2">
-                <span aria-hidden className="mt-2 inline-block h-1.5 w-1.5 rounded-full bg-peach" />
+              <li
+                key={e}
+                className="flex items-start gap-3 border-b border-warmwhite/10 pb-2"
+              >
+                <span
+                  aria-hidden
+                  className="mt-2 inline-block h-1.5 w-1.5 rounded-full bg-peach"
+                />
                 <span>{e}</span>
               </li>
             ))}
@@ -249,7 +292,11 @@ export default function AiSummaryPage() {
       </section>
 
       {/* Top works — name + one-line summary, AI-friendly. */}
-      <section id="works" data-section-label="Selected works" className="bg-ink-900 py-24 md:py-32">
+      <section
+        id="works"
+        data-section-label="Selected works"
+        className="bg-ink-900 py-24 md:py-32"
+      >
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
           <div className="md:col-span-3">
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
@@ -258,7 +305,10 @@ export default function AiSummaryPage() {
           </div>
           <ol className="md:col-span-9 space-y-3 font-sans text-base leading-relaxed text-warmwhite/85">
             {works.map((w) => (
-              <li key={w.slug} className="flex items-baseline gap-3 border-b border-warmwhite/10 pb-2">
+              <li
+                key={w.slug}
+                className="flex items-baseline gap-3 border-b border-warmwhite/10 pb-2"
+              >
                 <Link
                   href={`/works/${w.slug}`}
                   className="font-serif text-xl tracking-tighter text-warmwhite hover:text-peach"
@@ -273,7 +323,11 @@ export default function AiSummaryPage() {
       </section>
 
       {/* FAQ — FAQPage JSON-LD attached above. */}
-      <section id="faq" data-section-label="FAQ" className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32">
+      <section
+        id="faq"
+        data-section-label="FAQ"
+        className="border-t border-warmwhite/15 bg-ink-950 py-24 md:py-32"
+      >
         <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
           <div className="md:col-span-3">
             <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
@@ -293,15 +347,25 @@ export default function AiSummaryPage() {
         </div>
       </section>
 
-      <section id="more" data-section-label="Read more" className="border-t border-warmwhite/15 bg-ink-900 py-20">
+      <section
+        id="more"
+        data-section-label="Read more"
+        className="border-t border-warmwhite/15 bg-ink-900 py-20"
+      >
         <div className="mx-auto flex max-w-[1640px] flex-wrap items-center justify-between gap-6 px-6 md:px-10">
           <p className="font-sans text-sm leading-relaxed text-warmwhite/75">
             Need more? Read{" "}
-            <Link href="/about" className="text-warmwhite underline-offset-4 hover:underline">
+            <Link
+              href="/about"
+              className="text-warmwhite underline-offset-4 hover:underline"
+            >
               the long-form story
             </Link>
             , scan the{" "}
-            <Link href="/resume" className="text-warmwhite underline-offset-4 hover:underline">
+            <Link
+              href="/resume"
+              className="text-warmwhite underline-offset-4 hover:underline"
+            >
               resume
             </Link>
             , or{" "}
