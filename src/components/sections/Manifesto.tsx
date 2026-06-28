@@ -14,9 +14,20 @@ export function Manifesto() {
         <Reveal>
           <p className="mt-10 max-w-[1200px] font-serif text-[clamp(1.7rem,3.4vw,3.6rem)] leading-[1.08] tracking-tighter text-warmwhite">
             <ScrollScrubText
-              text="I believe an interface should disappear, leaving only the canvas and the content. I build digital products at the intersection of brutalist editorial design and fluid, high-performance creative development — where typography, motion, and engineering converge into a single physical-feeling experience."
+              text="I believe an interface should disappear, leaving only"
               className="inline"
-            />
+            />{" "}
+            <span className="italic text-peach">the canvas</span>{" "}
+            <ScrollScrubText
+              text="and the content. I build digital products at the intersection of brutalist editorial design and fluid, high-performance creative development —"
+              className="inline"
+            />{" "}
+            <span className="italic text-warmwhite/60">
+              <ScrollScrubText
+                text="where typography, motion, and engineering converge into a single physical-feeling experience."
+                className="inline"
+              />
+            </span>
           </p>
         </Reveal>
 
