@@ -17,22 +17,22 @@ first before making changes. Companion documents:
 
 ## 1. Identity
 
-| Field | Value |
-| --- | --- |
-| Full name | **Delowar Hossain** (also: Md Delowar Hossain) |
-| Domain | `delowarhossain.dev` (apex, canonical) |
-| Email | `hello@delowarhossain.dev` |
-| Studio | The Compiled Thought |
-| Edition | **MMXXVII** (2027) |
-| Booking | Q2 '27 → Q4 '27 |
-| Base | Joypurhat, Bangladesh |
-| Languages | English · Bengali |
-| Repo | `mdhossain-2437/Creative-Folio` |
-| GitHub | [`@mdhossain-2437`](https://github.com/mdhossain-2437) — 127+ public repos |
-| LinkedIn | [`linkedin.com/in/mdhossain2437`](https://www.linkedin.com/in/mdhossain2437) |
-| Twitter / X | [`@mdhossain2437`](https://twitter.com/mdhossain2437) |
-| read.cv | [`read.cv/delowar`](https://read.cv/delowar) |
-| Branding source of truth | [`src/lib/site.ts`](../src/lib/site.ts) |
+| Field                    | Value                                                                        |
+| ------------------------ | ---------------------------------------------------------------------------- |
+| Full name                | **Delowar Hossain** (also: Md Delowar Hossain)                               |
+| Domain                   | `delowarhossain.dev` (apex, canonical)                                       |
+| Email                    | `hello@delowarhossain.dev`                                                   |
+| Studio                   | The Compiled Thought                                                         |
+| Edition                  | **MMXXVII** (2027)                                                           |
+| Booking                  | Q2 '27 → Q4 '27                                                              |
+| Base                     | Joypurhat, Bangladesh                                                        |
+| Languages                | English · Bengali                                                            |
+| Repo                     | `mdhossain-2437/Creative-Folio`                                              |
+| GitHub                   | [`@mdhossain-2437`](https://github.com/mdhossain-2437) — 127+ public repos   |
+| LinkedIn                 | [`linkedin.com/in/mdhossain2437`](https://www.linkedin.com/in/mdhossain2437) |
+| Twitter / X              | [`@mdhossain2437`](https://twitter.com/mdhossain2437)                        |
+| read.cv                  | [`read.cv/delowar`](https://read.cv/delowar)                                 |
+| Branding source of truth | [`src/lib/site.ts`](../src/lib/site.ts)                                      |
 
 **Education**
 
@@ -71,16 +71,16 @@ When the year ticks (e.g. 2027 → 2028):
 
 ## 2. Stack & Folder Map
 
-| Layer | Tech | Notes |
-| --- | --- | --- |
+| Layer     | Tech                                           | Notes                                  |
+| --------- | ---------------------------------------------- | -------------------------------------- |
 | Framework | Next.js 16 (App Router, RSC, Turbopack stable) | static-first, server actions in `/api` |
-| Language | TypeScript strict | path alias `@/*` → `src/*` |
-| Styling | Tailwind + custom tokens | tokens in `tailwind.config.ts` |
-| Motion | GSAP, Lenis, Framer Motion | reduced-motion respected globally |
-| WebGL | raw GLSL (no Three.js in hero) | hero shader is hand-rolled WebGL2 |
-| Type | Newsreader (serif), Inter, JetBrains Mono | loaded via `next/font` |
-| Icons | Lucide | `lucide-react` |
-| Forms | none — `mailto:` only | no third-party form |
+| Language  | TypeScript strict                              | path alias `@/*` → `src/*`             |
+| Styling   | Tailwind + custom tokens                       | tokens in `tailwind.config.ts`         |
+| Motion    | GSAP, Lenis, Framer Motion                     | reduced-motion respected globally      |
+| WebGL     | raw GLSL (no Three.js in hero)                 | hero shader is hand-rolled WebGL2      |
+| Type      | Newsreader (serif), Inter, JetBrains Mono      | loaded via `next/font`                 |
+| Icons     | Lucide                                         | `lucide-react`                         |
+| Forms     | none — `mailto:` only                          | no third-party form                    |
 
 ```
 src/
@@ -116,13 +116,13 @@ next.config.mjs        # security headers + image domains + remote patterns
 
 ### Palette (Tailwind tokens)
 
-| Token | Hex | Use |
-| --- | --- | --- |
-| `ink-950` | `#070708` | deepest black, page background |
-| `ink-900` | `#0c0c0c` | section background |
-| `peach` | `#e3bfb4` | accent, hover state |
-| `warmwhite` | `#efece9` | primary text |
-| `electric` | `#cdfa00` | second accent (storm atmosphere) |
+| Token       | Hex       | Use                              |
+| ----------- | --------- | -------------------------------- |
+| `ink-950`   | `#070708` | deepest black, page background   |
+| `ink-900`   | `#0c0c0c` | section background               |
+| `peach`     | `#e3bfb4` | accent, hover state              |
+| `warmwhite` | `#efece9` | primary text                     |
+| `electric`  | `#cdfa00` | second accent (storm atmosphere) |
 
 Always reach for the token classes (`bg-ink-950`, `text-warmwhite`, etc.).
 Never hard-code hex values in JSX/CSS — add the token in
@@ -130,35 +130,35 @@ Never hard-code hex values in JSX/CSS — add the token in
 
 ### Color contrast rules (WCAG AA)
 
-* **Primary text:** `text-warmwhite` (full opacity) or `text-warmwhite/85`.
-* **Secondary text:** `text-warmwhite/65` minimum on dark backgrounds.
+- **Primary text:** `text-warmwhite` (full opacity) or `text-warmwhite/85`.
+- **Secondary text:** `text-warmwhite/65` minimum on dark backgrounds.
   Anything ≤ `/55` is reserved for purely decorative typography (large display
   numerals, marquees) and must never carry critical information.
-* **Borders:** `border-warmwhite/15` minimum. `/10` is too low.
-* **Status pills / dots:** add a `bg-peach` / `bg-emerald-400` indicator next
+- **Borders:** `border-warmwhite/15` minimum. `/10` is too low.
+- **Status pills / dots:** add a `bg-peach` / `bg-emerald-400` indicator next
   to the text — never rely on color alone.
 
 ### Typography
 
-* Display: **Newsreader** with `tracking-tightest` for the largest sizes
+- Display: **Newsreader** with `tracking-tightest` for the largest sizes
   (3rem+). Italics for the second-line accent.
-* Body: **Inter** at 15–17px, leading-relaxed.
-* Mono / labels: **JetBrains Mono** at 10–11px uppercase tracking-widest.
-* Display numerals (year, time, edition, version) → wrap in
+- Body: **Inter** at 15–17px, leading-relaxed.
+- Mono / labels: **JetBrains Mono** at 10–11px uppercase tracking-widest.
+- Display numerals (year, time, edition, version) → wrap in
   `<span className="display-num">…</span>` to apply the OpenType salt feature.
 
 ### Z-index map
 
-| Layer | z-index | Component |
-| --- | --- | --- |
-| Cursor | **200** | `Cursor.tsx` (always on top) |
-| Modals | 110 | `ShowreelModal.tsx`, `CommandPalette.tsx` |
-| Route curtain | 95 | page transitions |
-| Preloader | 90 | `Preloader.tsx` |
-| Grid overlay | 60 | `GridOverlay.tsx` |
-| Header / Navbar | 50 | `Navbar.tsx` |
-| Atmosphere pill | 30 | `AtmosphereMode.tsx` |
-| Default | 0–10 | section content |
+| Layer           | z-index | Component                                 |
+| --------------- | ------- | ----------------------------------------- |
+| Cursor          | **200** | `Cursor.tsx` (always on top)              |
+| Modals          | 110     | `ShowreelModal.tsx`, `CommandPalette.tsx` |
+| Route curtain   | 95      | page transitions                          |
+| Preloader       | 90      | `Preloader.tsx`                           |
+| Grid overlay    | 60      | `GridOverlay.tsx`                         |
+| Header / Navbar | 50      | `Navbar.tsx`                              |
+| Atmosphere pill | 30      | `AtmosphereMode.tsx`                      |
+| Default         | 0–10    | section content                           |
 
 > **Critical:** the custom cursor must always be the topmost element so that
 > when modals open the cursor stays in front. Never lower `z-[200]` on
@@ -199,16 +199,16 @@ prefetch.
 
 `next.config.mjs` ships these headers on every route:
 
-| Header | What it buys |
-| --- | --- |
-| `Content-Security-Policy` | Locks script/style/img/connect/frame-ancestors with explicit allow-list for Vercel analytics + Cloudflare Stream + IndexNow. |
-| `Strict-Transport-Security` | `max-age=63072000; includeSubDomains; preload` (HSTS preload-eligible). |
-| `X-Frame-Options` | `DENY` |
-| `X-Content-Type-Options` | `nosniff` |
-| `Referrer-Policy` | `strict-origin-when-cross-origin` |
-| `Permissions-Policy` | camera/mic/geo/USB/sensors/payment all disabled |
-| `Cross-Origin-Opener-Policy` | `same-origin` |
-| `Cross-Origin-Resource-Policy` | `same-origin` |
+| Header                         | What it buys                                                                                                                 |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------- |
+| `Content-Security-Policy`      | Locks script/style/img/connect/frame-ancestors with explicit allow-list for Vercel analytics + Cloudflare Stream + IndexNow. |
+| `Strict-Transport-Security`    | `max-age=63072000; includeSubDomains; preload` (HSTS preload-eligible).                                                      |
+| `X-Frame-Options`              | `DENY`                                                                                                                       |
+| `X-Content-Type-Options`       | `nosniff`                                                                                                                    |
+| `Referrer-Policy`              | `strict-origin-when-cross-origin`                                                                                            |
+| `Permissions-Policy`           | camera/mic/geo/USB/sensors/payment all disabled                                                                              |
+| `Cross-Origin-Opener-Policy`   | `same-origin`                                                                                                                |
+| `Cross-Origin-Resource-Policy` | `same-origin`                                                                                                                |
 
 Validators: securityheaders.com, csp-evaluator.withgoogle.com,
 hstspreload.org. Goal: **A** rating, A+ once HSTS preload is approved.
@@ -230,31 +230,31 @@ deploy.
 
 ## 6. Source-of-truth Constants
 
-| File | Owns |
-| --- | --- |
-| `src/lib/site.ts` | Identity, brand strings, year, edition, booking, socials, nav, education, GitHub footprint, portrait + resume paths |
-| `src/lib/data.ts` | Works, archive, journal, reel clips, lab cards, services, awards, journey |
-| `tailwind.config.ts` | Color tokens, type scale, animation utilities |
-| `src/app/globals.css` | Atmosphere modes, cursor styles, print sheet, kinetic class |
-| `next.config.mjs` | Image domains + remote patterns + security headers + cache rules |
+| File                  | Owns                                                                                                                |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `src/lib/site.ts`     | Identity, brand strings, year, edition, booking, socials, nav, education, GitHub footprint, portrait + resume paths |
+| `src/lib/data.ts`     | Works, archive, journal, reel clips, lab cards, services, awards, journey                                           |
+| `tailwind.config.ts`  | Color tokens, type scale, animation utilities                                                                       |
+| `src/app/globals.css` | Atmosphere modes, cursor styles, print sheet, kinetic class                                                         |
+| `next.config.mjs`     | Image domains + remote patterns + security headers + cache rules                                                    |
 
 ---
 
 ## 7. The Showreel Modal (functional)
 
-* Opened via `window.dispatchEvent(new CustomEvent("delowar:open-showreel"))`.
-* Plays a real `<video>` element — sources are listed in `reelClips[].videoSrc`
+- Opened via `window.dispatchEvent(new CustomEvent("delowar:open-showreel"))`.
+- Plays a real `<video>` element — sources are listed in `reelClips[].videoSrc`
   in `src/lib/data.ts`.
-* Keyboard map: `Space` play/pause · `←/→` ±5s · `M` mute · `Shift` slow-mo · `Esc` close.
-* Auto-advances chapters on `onEnded`.
-* Body scroll is locked while open.
-* The poster `<Image fill>` falls back behind the video while it buffers — the
+- Keyboard map: `Space` play/pause · `←/→` ±5s · `M` mute · `Shift` slow-mo · `Esc` close.
+- Auto-advances chapters on `onEnded`.
+- Body scroll is locked while open.
+- The poster `<Image fill>` falls back behind the video while it buffers — the
   poster URLs use Unsplash (must be in `next.config.mjs` `remotePatterns`).
-* Verified mock video sources:
-  * `https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4`
-  * `https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_1MB.mp4`
-  * `https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_2MB.mp4`
-  * `https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_640x360.m4v`
+- Verified mock video sources:
+  - `https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4`
+  - `https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_1MB.mp4`
+  - `https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_2MB.mp4`
+  - `https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_640x360.m4v`
 
 If a video URL goes 4xx, replace it with another from the lists above and
 re-run `pnpm build` to verify no runtime errors.
@@ -263,24 +263,24 @@ re-run `pnpm build` to verify no runtime errors.
 
 ## 8. 2027 Future-Stack Features
 
-| Feature | Trigger | Component |
-| --- | --- | --- |
-| Atmosphere modes (aura/storm/stillness/eink/terminal) | press **T** or click pill · Shift-click pill copies a `?atmosphere=<mode>` shareable URL | `AtmosphereMode.tsx` + `globals.css` data-attribute |
-| Page-dwell counter | appears bottom-left after 30 s on a page; "settled" achievement at 3 min | `PageDwellCounter.tsx` |
-| Smart back-link pill | floating "Back to <referrer>" pill on `/works/[slug]` | `SmartBackLink.tsx` |
-| Ghost cursors | 2-3 faint canned cursor trails replay near hero | `GhostCursors.tsx` |
-| Variable-weight type | body copy morphs `wght 320 → 540` on scroll-in | `WeightShift.tsx` |
-| Hero fluid displacement | curl-noise WebGL2 ripple over hero H1 | `HeroFluidDisplacement.tsx` |
-| 3D reel chapter carousel | drag/scroll/buttons on `/showreel` | `ReelChapterCarousel.tsx` |
-| Time capsule (snapshot of page state) | press **C** | `TimeCapsule.tsx` |
-| Funny page titles | tab loses focus + scroll milestones | `TabTitleFlicker.tsx` |
-| Idle drift | after 60 s of zero input, slow marquees + dim accent · `data-idle="true"` on `<html>` | `IdleDrift.tsx` + `globals.css` |
-| Section progress dots | right-edge column tracks `<section>` scroll on `/ai`, `/about`, `/works/[slug]` | `SectionProgressDots.tsx` |
-| Quote of the Day | 64-quote daily rotation in footer, click to copy | `QuoteOfTheDay.tsx` |
-| Dynamic SEO JSON-LD (Person + WebSite + Organization + ProfilePage) | always | `JsonLd.tsx` |
-| StatusStrip (time / temp / GH stars / booking) | always above footer | `StatusStrip.tsx` |
-| Showreel video player | `delowar:open-showreel` event | `ShowreelModal.tsx` |
-| RoutePrefetcher | mounts inside layout, warms every primary route during preloader | `RoutePrefetcher.tsx` |
+| Feature                                                             | Trigger                                                                                  | Component                                           |
+| ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| Atmosphere modes (aura/storm/stillness/eink/terminal)               | press **T** or click pill · Shift-click pill copies a `?atmosphere=<mode>` shareable URL | `AtmosphereMode.tsx` + `globals.css` data-attribute |
+| Page-dwell counter                                                  | appears bottom-left after 30 s on a page; "settled" achievement at 3 min                 | `PageDwellCounter.tsx`                              |
+| Smart back-link pill                                                | floating "Back to <referrer>" pill on `/works/[slug]`                                    | `SmartBackLink.tsx`                                 |
+| Ghost cursors                                                       | 2-3 faint canned cursor trails replay near hero                                          | `GhostCursors.tsx`                                  |
+| Variable-weight type                                                | body copy morphs `wght 320 → 540` on scroll-in                                           | `WeightShift.tsx`                                   |
+| Hero fluid displacement                                             | curl-noise WebGL2 ripple over hero H1                                                    | `HeroFluidDisplacement.tsx`                         |
+| 3D reel chapter carousel                                            | drag/scroll/buttons on `/showreel`                                                       | `ReelChapterCarousel.tsx`                           |
+| Time capsule (snapshot of page state)                               | press **C**                                                                              | `TimeCapsule.tsx`                                   |
+| Funny page titles                                                   | tab loses focus + scroll milestones                                                      | `TabTitleFlicker.tsx`                               |
+| Idle drift                                                          | after 60 s of zero input, slow marquees + dim accent · `data-idle="true"` on `<html>`    | `IdleDrift.tsx` + `globals.css`                     |
+| Section progress dots                                               | right-edge column tracks `<section>` scroll on `/ai`, `/about`, `/works/[slug]`          | `SectionProgressDots.tsx`                           |
+| Quote of the Day                                                    | 64-quote daily rotation in footer, click to copy                                         | `QuoteOfTheDay.tsx`                                 |
+| Dynamic SEO JSON-LD (Person + WebSite + Organization + ProfilePage) | always                                                                                   | `JsonLd.tsx`                                        |
+| StatusStrip (time / temp / GH stars / booking)                      | always above footer                                                                      | `StatusStrip.tsx`                                   |
+| Showreel video player                                               | `delowar:open-showreel` event                                                            | `ShowreelModal.tsx`                                 |
+| RoutePrefetcher                                                     | mounts inside layout, warms every primary route during preloader                         | `RoutePrefetcher.tsx`                               |
 
 To add a new global overlay: register it in
 `src/components/layout/ClientOverlays.tsx`. Keep them client-side only
@@ -411,31 +411,31 @@ opening a PR.
 
 ### Optional environment variables
 
-| Var | Purpose | Where to set |
-| --- | --- | --- |
-| `NEXT_PUBLIC_INDEXNOW_KEY` | Override the hardcoded default IndexNow key. | Vercel → Project → Settings → Environment Variables. |
-| `NEXT_PUBLIC_GOOGLE_VERIFICATION` | Google Search Console verification meta. | Vercel env. |
-| `NEXT_PUBLIC_BING_VERIFICATION` | Bing Webmaster verification meta (`msvalidate.01`). | Vercel env. |
-| `NEXT_PUBLIC_YANDEX_VERIFICATION` | Yandex Webmaster verification meta. | Vercel env. |
-| `GITHUB_PAT` | Lifts `/api/github` from 60 → 5000 req/hr per IP. | Vercel env. |
+| Var                               | Purpose                                             | Where to set                                         |
+| --------------------------------- | --------------------------------------------------- | ---------------------------------------------------- |
+| `NEXT_PUBLIC_INDEXNOW_KEY`        | Override the hardcoded default IndexNow key.        | Vercel → Project → Settings → Environment Variables. |
+| `NEXT_PUBLIC_GOOGLE_VERIFICATION` | Google Search Console verification meta.            | Vercel env.                                          |
+| `NEXT_PUBLIC_BING_VERIFICATION`   | Bing Webmaster verification meta (`msvalidate.01`). | Vercel env.                                          |
+| `NEXT_PUBLIC_YANDEX_VERIFICATION` | Yandex Webmaster verification meta.                 | Vercel env.                                          |
+| `GITHUB_PAT`                      | Lifts `/api/github` from 60 → 5000 req/hr per IP.   | Vercel env.                                          |
 
 To create a GitHub PAT: github.com → Settings → Developer settings →
 Personal access tokens → Fine-grained tokens → Generate new token.
-Repository access: *All public repositories* (read-only). Permissions:
-*Metadata = read-only*.
+Repository access: _All public repositories_ (read-only). Permissions:
+_Metadata = read-only_.
 
 ---
 
 ## 12. `/api/github` (consolidated GitHub data route)
 
-* Single endpoint feeding `StatusStrip` (the `··· GH` pill),
+- Single endpoint feeding `StatusStrip` (the `··· GH` pill),
   `ContributionHeatmap` on `/now`, and the recent-commits list on `/now`.
-* Cache: `s-maxage=1800, stale-while-revalidate=86400` (30-minute fresh,
+- Cache: `s-maxage=1800, stale-while-revalidate=86400` (30-minute fresh,
   24-hour SWR). Page-level `revalidate = 1800` on `/now`.
-* Implementation: `src/app/api/github/route.ts` thin wrapper over
+- Implementation: `src/app/api/github/route.ts` thin wrapper over
   `src/lib/github-fetch.ts` (server-only). The `/now` page calls
   `fetchGitHubData()` directly — no HTTP roundtrip.
-* Fallback: never throws. On full failure returns a baked snapshot with
+- Fallback: never throws. On full failure returns a baked snapshot with
   `stale: true` from `githubFallback` in `src/lib/data.ts`.
 
 ---
@@ -446,16 +446,16 @@ When you need a placeholder image or video, use the following verified
 sources (HTTP 200 as of MMXXVII rollout). If anything 4xx's, swap it out
 and update this list.
 
-* **Images:** Unsplash IDs already wired in `data.ts` (replace dead IDs by
+- **Images:** Unsplash IDs already wired in `data.ts` (replace dead IDs by
   searching another similar abstract dark/peach photo — verify with
   `curl -I` first).
-* **Videos:** see §7 above.
+- **Videos:** see §7 above.
 
 Domains permitted in `next.config.mjs` for `next/image`:
 
-* `images.unsplash.com`
-* `flagcdn.com`
-* `avatars.githubusercontent.com`
+- `images.unsplash.com`
+- `flagcdn.com`
+- `avatars.githubusercontent.com`
 
 When adding a new external image origin, **also** extend the CSP
 `img-src` directive in `next.config.mjs` headers. Both lists must agree.
@@ -464,35 +464,99 @@ When adding a new external image origin, **also** extend the CSP
 
 ## 14. Common Edits
 
-* **New page:** create `src/app/<slug>/page.tsx` with `export const metadata`,
+- **New page:** create `src/app/<slug>/page.tsx` with `export const metadata`,
   use `<PageHero>`, register in `src/lib/site.ts > nav` if it belongs in the
   navbar.
-* **New section on home:** add to `src/app/page.tsx`. Wrap in `<Reveal>` for
+- **New section on home:** add to `src/app/page.tsx`. Wrap in `<Reveal>` for
   scroll-fade entry.
-* **New navbar primary item:** edit the `PRIMARY` array in
+- **New navbar primary item:** edit the `PRIMARY` array in
   `src/components/layout/Navbar.tsx`.
-* **New shortcut:** add a handler in `src/components/ui/NavShortcuts.tsx` and
+- **New shortcut:** add a handler in `src/components/ui/NavShortcuts.tsx` and
   document it in `src/components/ui/CheatSheet.tsx`.
-* **New atmosphere mode:** add a `Mode` to `AtmosphereMode.tsx`, extend the
+- **New atmosphere mode:** add a `Mode` to `AtmosphereMode.tsx`, extend the
   `:root[data-atmosphere=...]` block in `globals.css`.
-* **New external origin:** add to `next.config.mjs` `images.remotePatterns`
+- **New external origin:** add to `next.config.mjs` `images.remotePatterns`
   AND to the CSP `img-src` / `connect-src` in the same file.
-* **New rAF / canvas:** add IntersectionObserver pause/resume (see
+- **New rAF / canvas:** add IntersectionObserver pause/resume (see
   `HeroFluidDisplacement.tsx` for the pattern). Honour reduced-motion.
 
 ---
 
-## 15. Don't
+## 15. Feature Flags for Unverified Content
 
-* Don't reduce cursor z-index.
-* Don't hard-code branding strings — use `site.*`.
-* Don't introduce new domains in `next/image` `src` without adding them to
+The site includes feature flags to hide unverified or aspirational content until it is earned. This prevents credibility issues while preserving the content for future use.
+
+### Available Flags
+
+Located in `src/lib/site.ts`:
+
+| Flag               | Default | Purpose                                                    |
+| ------------------ | ------- | ---------------------------------------------------------- |
+| `showAwards`       | `false` | Hides awards sections and award metadata from case studies |
+| `showTestimonials` | `false` | Hides testimonials from case studies                       |
+| `showShowreel`     | `false` | Hides showreel functionality and navigation entry          |
+
+Located in `src/lib/data.ts`:
+
+| Flag                      | Default | Purpose                                                                              |
+| ------------------------- | ------- | ------------------------------------------------------------------------------------ |
+| `SHOW_PLACEHOLDER_VIDEOS` | `false` | Hides stock test videos (Big Buck Bunny, Sintel) - falls back to static cover images |
+
+### How to Enable
+
+When you earn real awards or have verified testimonials:
+
+1. Update `src/lib/site.ts`:
+
+   ```typescript
+   showAwards: true,
+   showTestimonials: true,
+   showShowreel: true,
+   ```
+
+2. Update `src/lib/data.ts`:
+
+   ```typescript
+   export const SHOW_PLACEHOLDER_VIDEOS = true;
+   ```
+
+3. Uncomment navigation entries in `src/lib/site.ts`:
+
+   ```typescript
+   { label: "Awards", href: "/awards" },
+   { label: "Showreel", href: "/showreel" },
+   ```
+
+4. Run `pnpm build` to verify.
+
+### What Gets Hidden
+
+- **Awards**: Entire `AwardsSection` component, award metadata in case study hero
+- **Testimonials**: Testimonial sections in case studies
+- **Placeholder videos**: All `test-videos.co.uk` URLs (Big Buck Bunny, Sintel)
+- **Navigation**: Awards and Showreel routes are commented out
+
+### Why This Exists
+
+Fabricated awards, testimonials, and placeholder videos can destroy credibility when discovered by technical clients, recruiters, or peers. These flags allow you to:
+
+- Keep aspirational content in the codebase for future use
+- Present an honest, verifiable portfolio now
+- Enable verified content with a single flag change later
+
+---
+
+## 16. Don't
+
+- Don't reduce cursor z-index.
+- Don't hard-code branding strings — use `site.*`.
+- Don't introduce new domains in `next/image` `src` without adding them to
   `next.config.mjs` (and the CSP).
-* Don't ship `console.log`s outside of `ConsoleBanner.tsx`.
-* Don't commit `.env*` files.
-* Don't downgrade text contrast for "aesthetic" reasons. Pretty +
+- Don't ship `console.log`s outside of `ConsoleBanner.tsx`.
+- Don't commit `.env*` files.
+- Don't downgrade text contrast for "aesthetic" reasons. Pretty +
   unreadable is just unreadable.
-* Don't add a per-frame React `setState` on a scroll handler — write to a
+- Don't add a per-frame React `setState` on a scroll handler — write to a
   CSS custom property instead.
-* Don't ship a canvas without IO pause/resume.
-* Don't bypass `prefers-reduced-motion`.
+- Don't ship a canvas without IO pause/resume.
+- Don't bypass `prefers-reduced-motion`.
