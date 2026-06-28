@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
 
 // Test critical static routes first
 const criticalRoutes = [
@@ -16,10 +17,10 @@ const criticalRoutes = [
 ];
 
 test.describe("Smoke tests - critical routes", () => {
-  test.use({ timeout: 60000 });
-
   criticalRoutes.forEach((route) => {
     test(`should load ${route} without errors`, async ({ page }) => {
+      test.setTimeout(60000);
+
       const errors: string[] = [];
 
       page.on("console", (msg) => {
@@ -41,6 +42,18 @@ test.describe("Smoke tests - critical routes", () => {
       const title = await page.title();
       expect(title).toBeTruthy();
       expect(title.length).toBeGreaterThan(0);
+    });
+
+    test(`should have no accessibility violations on ${route}`, async ({
+      page,
+    }) => {
+      test.setTimeout(60000);
+
+      await page.goto(route);
+      await page.waitForLoadState("domcontentloaded");
+
+      const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
+      expect(accessibilityScanResults.violations).toEqual([]);
     });
   });
 });
