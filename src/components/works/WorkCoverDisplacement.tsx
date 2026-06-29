@@ -293,11 +293,14 @@ export function WorkCoverDisplacement({
     );
   }
 
+  const isDecorative = alt.trim().length === 0;
+
   return (
     <canvas
       ref={canvasRef}
-      aria-label={alt}
-      role="img"
+      aria-hidden={isDecorative ? true : undefined}
+      aria-label={isDecorative ? undefined : alt}
+      role={isDecorative ? undefined : "img"}
       className={className ?? "absolute inset-0 h-full w-full"}
     />
   );
