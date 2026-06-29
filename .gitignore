@@ -8,6 +8,11 @@ out
 .turbo
 .vercel
 .swc
+.lighthouseci
+.lighthouseci/chrome-user-data
+.playwright-results
+playwright-report
+test-results
 test-plan-*.md
 test-report-*.md
 upgrade-plan-*.md
