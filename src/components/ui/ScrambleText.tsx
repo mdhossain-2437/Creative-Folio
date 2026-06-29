@@ -124,7 +124,8 @@ export function ScrambleText({
   }, [target, duration, trigger, replay, delay, glyphs]);
 
   return (
-    <Tag ref={ref as never} className={className} aria-label={target}>
+    <Tag ref={ref as never} className={className}>
+      <span className="sr-only">{target}</span>
       <span aria-hidden>{display}</span>
     </Tag>
   );
