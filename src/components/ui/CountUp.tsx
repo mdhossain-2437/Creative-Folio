@@ -95,7 +95,8 @@ export function CountUp({
     : formatted;
 
   return (
-    <span ref={ref} className={className} aria-label={`${prefix}${to}${suffix}`}>
+    <span ref={ref} className={className}>
+      <span className="sr-only">{`${prefix}${to}${suffix}`}</span>
       <span aria-hidden>
         {prefix}
         {display}
