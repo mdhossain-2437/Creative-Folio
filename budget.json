@@ -1,71 +1,122 @@
-{
-  "budgets": [
-    {
-      "path": "/*",
-      "timings": [
-        {
-          "metric": "first-contentful-paint",
-          "budget": 2000
-        },
-        {
-          "metric": "interactive",
-          "budget": 5000
-        },
-        {
-          "metric": "first-meaningful-paint",
-          "budget": 3000
-        },
-        {
-          "metric": "largest-contentful-paint",
-          "budget": 2500
-        }
-      ],
-      "resourceSizes": [
-        {
-          "resourceType": "script",
-          "budget": 150
-        },
-        {
-          "resourceType": "stylesheet",
-          "budget": 50
-        },
-        {
-          "resourceType": "font",
-          "budget": 200
-        },
-        {
-          "resourceType": "total",
-          "budget": 500
-        }
-      ],
-      "resourceCounts": [
-        {
-          "resourceType": "script",
-          "budget": 15
-        },
-        {
-          "resourceType": "total",
-          "budget": 50
-        }
-      ]
-    },
-    {
-      "path": "/lab",
-      "resourceSizes": [
-        {
-          "resourceType": "total",
-          "budget": 800
-        }
-      ]
-    },
-    {
-      "path": "/works/*",
-      "resourceSizes": [
-        {
-          "resourceType": "total",
-          "budget": 600
-        }
-      ]
-    }
-  ]
-}
+[
+  {
+    "path": "/$",
+    "resourceSizes": [
+      { "resourceType": "script", "budget": 700 },
+      { "resourceType": "stylesheet", "budget": 20 },
+      { "resourceType": "font", "budget": 270 },
+      { "resourceType": "image", "budget": 1 },
+      { "resourceType": "total", "budget": 1880 }
+    ],
+    "resourceCounts": [
+      { "resourceType": "script", "budget": 65 },
+      { "resourceType": "font", "budget": 6 },
+      { "resourceType": "total", "budget": 360 }
+    ]
+  },
+  {
+    "path": "/about$",
+    "resourceSizes": [
+      { "resourceType": "script", "budget": 700 },
+      { "resourceType": "stylesheet", "budget": 20 },
+      { "resourceType": "font", "budget": 270 },
+      { "resourceType": "image", "budget": 20 },
+      { "resourceType": "total", "budget": 1880 }
+    ],
+    "resourceCounts": [
+      { "resourceType": "script", "budget": 65 },
+      { "resourceType": "font", "budget": 6 },
+      { "resourceType": "total", "budget": 360 }
+    ]
+  },
+  {
+    "path": "/works$",
+    "resourceSizes": [
+      { "resourceType": "script", "budget": 700 },
+      { "resourceType": "stylesheet", "budget": 20 },
+      { "resourceType": "font", "budget": 270 },
+      { "resourceType": "image", "budget": 45 },
+      { "resourceType": "total", "budget": 1920 }
+    ],
+    "resourceCounts": [
+      { "resourceType": "script", "budget": 65 },
+      { "resourceType": "font", "budget": 6 },
+      { "resourceType": "total", "budget": 360 }
+    ]
+  },
+  {
+    "path": "/lab$",
+    "resourceSizes": [
+      { "resourceType": "script", "budget": 700 },
+      { "resourceType": "stylesheet", "budget": 20 },
+      { "resourceType": "font", "budget": 270 },
+      { "resourceType": "image", "budget": 1 },
+      { "resourceType": "total", "budget": 1870 }
+    ],
+    "resourceCounts": [
+      { "resourceType": "script", "budget": 65 },
+      { "resourceType": "font", "budget": 6 },
+      { "resourceType": "total", "budget": 360 }
+    ]
+  },
+  {
+    "path": "/lab/particle-systems$",
+    "resourceSizes": [
+      { "resourceType": "script", "budget": 700 },
+      { "resourceType": "stylesheet", "budget": 20 },
+      { "resourceType": "font", "budget": 270 },
+      { "resourceType": "image", "budget": 1 },
+      { "resourceType": "total", "budget": 1860 }
+    ],
+    "resourceCounts": [
+      { "resourceType": "script", "budget": 65 },
+      { "resourceType": "font", "budget": 6 },
+      { "resourceType": "total", "budget": 360 }
+    ]
+  },
+  {
+    "path": "/contact$",
+    "resourceSizes": [
+      { "resourceType": "script", "budget": 700 },
+      { "resourceType": "stylesheet", "budget": 20 },
+      { "resourceType": "font", "budget": 270 },
+      { "resourceType": "image", "budget": 1 },
+      { "resourceType": "total", "budget": 1860 }
+    ],
+    "resourceCounts": [
+      { "resourceType": "script", "budget": 65 },
+      { "resourceType": "font", "budget": 6 },
+      { "resourceType": "total", "budget": 360 }
+    ]
+  },
+  {
+    "path": "/services$",
+    "resourceSizes": [
+      { "resourceType": "script", "budget": 700 },
+      { "resourceType": "stylesheet", "budget": 20 },
+      { "resourceType": "font", "budget": 270 },
+      { "resourceType": "image", "budget": 1 },
+      { "resourceType": "total", "budget": 1865 }
+    ],
+    "resourceCounts": [
+      { "resourceType": "script", "budget": 65 },
+      { "resourceType": "font", "budget": 6 },
+      { "resourceType": "total", "budget": 360 }
+    ]
+  },
+  {
+    "path": "/resume$",
+    "resourceSizes": [
+      { "resourceType": "script", "budget": 700 },
+      { "resourceType": "stylesheet", "budget": 20 },
+      { "resourceType": "font", "budget": 270 },
+      { "resourceType": "image", "budget": 1 },
+      { "resourceType": "total", "budget": 1865 }
+    ],
+    "resourceCounts": [
+      { "resourceType": "script", "budget": 65 },
+      { "resourceType": "font", "budget": 6 },
+      { "resourceType": "total", "budget": 360 }
+    ]
+  }
+]

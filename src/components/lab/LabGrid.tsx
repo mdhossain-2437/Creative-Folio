@@ -70,8 +70,12 @@ export function LabGrid({ experiments }: Props) {
       ) : (
         <ul className="grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-2 lg:grid-cols-3">
           {visible.map((e, i) => (
-            <Reveal key={e.index} delay={i * 0.04}>
-              <TiltCard as="li" max={5} className="group relative flex h-full flex-col bg-ink-900">
+            <Reveal key={e.index} as="li" delay={i * 0.04}>
+              <TiltCard
+                as="div"
+                max={5}
+                className="group relative flex h-full flex-col bg-ink-900"
+              >
                 <Link
                   href={`/lab/${e.slug}`}
                   data-cursor="view"

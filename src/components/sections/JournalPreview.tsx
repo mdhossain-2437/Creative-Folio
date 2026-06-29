@@ -27,8 +27,7 @@ export function JournalPreview() {
 
         <ul className="mt-16 divide-y divide-warmwhite/15 border-y border-warmwhite/15">
           {journal.slice(0, 4).map((p, i) => (
-            <Reveal key={p.slug} delay={i * 0.05}>
-              <li>
+            <Reveal key={p.slug} as="li" delay={i * 0.05}>
                 <Link
                   href={`/journal/${p.slug}`}
                   data-cursor="view"
@@ -49,7 +48,6 @@ export function JournalPreview() {
                     {p.readingTime}
                   </span>
                 </Link>
-              </li>
             </Reveal>
           ))}
         </ul>

@@ -9,6 +9,13 @@ test.describe("WebGL context-loss handling", () => {
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
 
+    const errors: string[] = [];
+    page.on("console", (msg) => {
+      if (msg.type() === "error") {
+        errors.push(msg.text());
+      }
+    });
+
     // Trigger WebGL context loss via page script
     const contextLost = await page.evaluate(() => {
       // Try to find and lose WebGL contexts
@@ -24,6 +31,12 @@ test.describe("WebGL context-loss handling", () => {
       ext.loseContext();
       return "context-lost-triggered";
     });
+    expect([
+      "no-canvas",
+      "no-webgl-context",
+      "no-lose-context-extension",
+      "context-lost-triggered",
+    ]).toContain(contextLost);
 
     // Wait a moment for any error handlers to run
     await page.waitForTimeout(1000);
@@ -32,14 +45,6 @@ test.describe("WebGL context-loss handling", () => {
     const title = await page.title();
     expect(title).toBeTruthy();
     expect(title.length).toBeGreaterThan(0);
-
-    // No console errors should be thrown
-    const errors: string[] = [];
-    page.on("console", (msg) => {
-      if (msg.type() === "error") {
-        errors.push(msg.text());
-      }
-    });
 
     // Navigate to another section to test recovery
     await page.goto("/works");
@@ -55,6 +60,13 @@ test.describe("WebGL context-loss handling", () => {
 
     await page.goto("/lab");
     await page.waitForLoadState("domcontentloaded");
+
+    const errors: string[] = [];
+    page.on("console", (msg) => {
+      if (msg.type() === "error") {
+        errors.push(msg.text());
+      }
+    });
 
     // Trigger WebGL context loss via page script
     const contextLost = await page.evaluate(() => {
@@ -74,6 +86,7 @@ test.describe("WebGL context-loss handling", () => {
 
       return lostCount > 0 ? `${lostCount}-contexts-lost` : "no-contexts-lost";
     });
+    expect(contextLost).toMatch(/^(no-contexts-lost|\d+-contexts-lost)$/);
 
     // Wait a moment for any error handlers to run
     await page.waitForTimeout(1000);
@@ -82,14 +95,6 @@ test.describe("WebGL context-loss handling", () => {
     const title = await page.title();
     expect(title).toBeTruthy();
     expect(title.length).toBeGreaterThan(0);
-
-    // No console errors should be thrown
-    const errors: string[] = [];
-    page.on("console", (msg) => {
-      if (msg.type() === "error") {
-        errors.push(msg.text());
-      }
-    });
 
     // Navigate to home to test recovery
     await page.goto("/");

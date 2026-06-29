@@ -28,9 +28,9 @@ export function AwardsSection() {
 
         <ul className="mt-16 grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-2">
           {awards.map((a, i) => (
-            <Reveal key={a.index} delay={i * 0.06}>
+            <Reveal key={a.index} as="li" delay={i * 0.06}>
               <TiltCard
-                as="li"
+                as="div"
                 max={4}
                 className="group/card relative flex h-full flex-col justify-between gap-10 overflow-hidden bg-ink-950 p-8 transition-shadow duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:shadow-[0_28px_64px_-26px_rgba(227,191,180,0.32)] motion-reduce:transition-none motion-reduce:hover:shadow-none md:p-10"
               >

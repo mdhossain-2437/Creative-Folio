@@ -55,8 +55,7 @@ export default function JournalPage() {
           </div>
           <ul className="divide-y divide-warmwhite/15">
             {journal.map((p, i) => (
-              <Reveal key={p.slug} delay={i * 0.04}>
-                <li>
+              <Reveal key={p.slug} as="li" delay={i * 0.04}>
                   <Link
                     href={`/journal/${p.slug}`}
                     data-cursor="view"
@@ -80,7 +79,6 @@ export default function JournalPage() {
                       {p.excerpt}
                     </p>
                   </Link>
-                </li>
               </Reveal>
             ))}
           </ul>

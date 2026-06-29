@@ -86,8 +86,11 @@ export default function ResumePage() {
             <Block title="Experience">
               <ul className="divide-y divide-warmwhite/15">
                 {journey.map((j) => (
-                  <Reveal key={j.range}>
-                    <li className="grid grid-cols-12 items-baseline gap-4 py-6">
+                  <Reveal
+                    key={j.range}
+                    as="li"
+                    className="grid grid-cols-12 items-baseline gap-4 py-6"
+                  >
                       <span className="col-span-12 font-mono text-[11px] uppercase tracking-widest text-warmwhite/65 md:col-span-3">
                         {j.range}
                       </span>
@@ -97,7 +100,6 @@ export default function ResumePage() {
                       <p className="col-span-12 font-sans text-sm leading-relaxed text-warmwhite/65 md:col-span-4">
                         {j.summary}
                       </p>
-                    </li>
                   </Reveal>
                 ))}
               </ul>

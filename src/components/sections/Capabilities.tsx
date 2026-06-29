@@ -17,8 +17,12 @@ export function Capabilities() {
 
         <ul className="mt-16 divide-y divide-warmwhite/15 border-t border-warmwhite/15">
           {services.map((s, i) => (
-            <Reveal key={s.index} delay={i * 0.05}>
-              <li className="grid grid-cols-1 gap-6 py-10 md:grid-cols-12 md:gap-10 md:py-14">
+            <Reveal
+              key={s.index}
+              as="li"
+              delay={i * 0.05}
+              className="grid grid-cols-1 gap-6 py-10 md:grid-cols-12 md:gap-10 md:py-14"
+            >
                 <p className="display-num font-sans text-[10px] uppercase tracking-widest text-warmwhite/65 md:col-span-1">
                   {s.index}
                 </p>
@@ -42,7 +46,6 @@ export function Capabilities() {
                     </li>
                   ))}
                 </ul>
-              </li>
             </Reveal>
           ))}
         </ul>

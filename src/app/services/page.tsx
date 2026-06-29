@@ -146,8 +146,12 @@ export default function ServicesPage() {
           </header>
           <ul className="mt-16 grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-3">
             {serviceTiers.map((t, i) => (
-              <Reveal key={t.index} delay={i * 0.08}>
-                <li className="relative flex h-full flex-col gap-7 bg-ink-900 p-8 md:p-10">
+              <Reveal
+                key={t.index}
+                as="li"
+                delay={i * 0.08}
+                className="relative flex h-full flex-col gap-7 bg-ink-900 p-8 md:p-10"
+              >
                   <div className="flex items-center justify-between">
                     <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                       {t.index}
@@ -188,7 +192,6 @@ export default function ServicesPage() {
                       </p>
                     </div>
                   </div>
-                </li>
               </Reveal>
             ))}
           </ul>
@@ -202,8 +205,12 @@ export default function ServicesPage() {
           </p>
           <ul className="mt-12 space-y-px overflow-hidden bg-warmwhite/15">
             {services.map((s, i) => (
-              <Reveal key={s.index} delay={i * 0.05}>
-                <li className="grid grid-cols-1 gap-6 bg-ink-900 p-8 md:grid-cols-12 md:gap-10 md:p-12">
+              <Reveal
+                key={s.index}
+                as="li"
+                delay={i * 0.05}
+                className="grid grid-cols-1 gap-6 bg-ink-900 p-8 md:grid-cols-12 md:gap-10 md:p-12"
+              >
                   <div className="md:col-span-2">
                     <span className="display-num font-serif text-7xl leading-none tracking-tightest text-warmwhite/85">
                       {s.index}
@@ -225,7 +232,6 @@ export default function ServicesPage() {
                       </li>
                     ))}
                   </ul>
-                </li>
               </Reveal>
             ))}
           </ul>
@@ -244,8 +250,12 @@ export default function ServicesPage() {
           </header>
           <ol className="mt-16 grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-4">
             {process.map((p, i) => (
-              <Reveal key={p.phase} delay={i * 0.05}>
-                <li className="flex h-full flex-col gap-6 bg-ink-950 p-8 md:p-10">
+              <Reveal
+                key={p.phase}
+                as="li"
+                delay={i * 0.05}
+                className="flex h-full flex-col gap-6 bg-ink-950 p-8 md:p-10"
+              >
                   <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
                     {p.phase}
                   </span>
@@ -253,7 +263,6 @@ export default function ServicesPage() {
                     {p.title}
                   </h3>
                   <p className="font-sans text-sm leading-relaxed text-warmwhite/65">{p.summary}</p>
-                </li>
               </Reveal>
             ))}
           </ol>
@@ -285,14 +294,17 @@ export default function ServicesPage() {
                 desc: "Lead creative engineering inside a product team. Build motion systems, hire, and codify a craft language.",
               },
             ].map((e, i) => (
-              <Reveal key={e.title} delay={i * 0.05}>
-                <li className="aura relative flex h-full flex-col gap-5 rounded-md border border-warmwhite/15 bg-ink-900 p-8">
+              <Reveal
+                key={e.title}
+                as="li"
+                delay={i * 0.05}
+                className="aura relative flex h-full flex-col gap-5 rounded-md border border-warmwhite/15 bg-ink-900 p-8"
+              >
                   <p className="font-sans text-[10px] uppercase tracking-widest text-peach">
                     {e.tagline}
                   </p>
                   <h3 className="font-serif text-3xl tracking-tighter">{e.title}</h3>
                   <p className="font-sans text-sm leading-relaxed text-warmwhite/65">{e.desc}</p>
-                </li>
               </Reveal>
             ))}
           </ul>

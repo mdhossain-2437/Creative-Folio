@@ -8,7 +8,12 @@
     "build": "next build",
     "start": "next start -H 0.0.0.0 -p 3000",
     "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:e2e": "playwright test e2e/smoke.spec.ts --grep-invert \"accessibility violations\"",
+    "test:a11y": "playwright test e2e/smoke.spec.ts --grep \"accessibility violations\"",
+    "test:webgl": "playwright test e2e/webgl-context-loss.spec.ts",
+    "lhci": "node scripts/lhci-windows-safe.mjs",
+    "quality": "pnpm typecheck && pnpm lint && pnpm build && pnpm test:e2e && pnpm test:a11y && pnpm test:webgl && pnpm lhci"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",

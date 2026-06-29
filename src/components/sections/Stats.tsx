@@ -24,7 +24,12 @@ export function Stats() {
           {stats.map((s, i) => {
             const parsed = parseStat(s.value);
             return (
-              <Reveal key={s.label} delay={i * 0.06} className="border-l border-warmwhite/15 pl-6">
+              <Reveal
+                key={s.label}
+                as="li"
+                delay={i * 0.06}
+                className="border-l border-warmwhite/15 pl-6"
+              >
                 <p className="display-num font-serif text-[clamp(3rem,7vw,6.5rem)] leading-none tracking-tightest text-warmwhite">
                   <CountUp
                     to={parsed.num}

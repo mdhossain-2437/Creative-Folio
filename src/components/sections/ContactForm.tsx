@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState, useEffect } from "react";
+import { FormEvent, useState } from "react";
 import { Magnetic } from "@/components/ui/Magnetic";
 
 const services = [
@@ -95,6 +95,7 @@ export function ContactForm() {
   const [budget, setBudget] = useState<string>(budgets[1]);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [messageLength, setMessageLength] = useState(0);
+  const [timestamp] = useState(() => Date.now().toString());
 
   const toggle = (s: string) => {
     setPicked((p) => {
@@ -129,7 +130,6 @@ export function ContactForm() {
     // Validate and sanitize inputs
     const name = sanitizeInput(String(formData.get("name") ?? ""));
     const email = String(formData.get("email") ?? "").trim();
-    const company = sanitizeInput(String(formData.get("company") ?? ""));
     const url = String(formData.get("url") ?? "").trim();
     const message = String(formData.get("message") ?? "").trim();
 
@@ -175,7 +175,7 @@ export function ContactForm() {
       // Record successful submission
       recordSubmission();
       setState("sent");
-    } catch (error) {
+    } catch {
       setState("error");
       setErrorMessage("Something went wrong. Please try again.");
     }
@@ -233,7 +233,7 @@ export function ContactForm() {
       <input
         type="hidden"
         name={TIMESTAMP_FIELD}
-        value={Date.now().toString()}
+        value={timestamp}
       />
       <input
         type="hidden"
@@ -299,7 +299,7 @@ export function ContactForm() {
         <legend className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
           ◊ Budget range
         </legend>
-        <ul
+        <div
           className="mt-4 grid grid-cols-2 gap-2 md:grid-cols-4"
           role="radiogroup"
           aria-label="Budget range"
@@ -307,24 +307,23 @@ export function ContactForm() {
           {budgets.map((b) => {
             const isOn = budget === b;
             return (
-              <li key={b}>
-                <button
-                  type="button"
-                  onClick={() => setBudget(b)}
-                  role="radio"
-                  aria-checked={isOn}
-                  className={`w-full rounded-md border px-4 py-2.5 font-sans text-[10px] uppercase tracking-widest transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach ${
-                    isOn
-                      ? "border-warmwhite bg-warmwhite/15 text-warmwhite"
-                      : "border-warmwhite/15 text-warmwhite/65 hover:border-warmwhite"
-                  }`}
-                >
-                  {b}
-                </button>
-              </li>
+              <button
+                key={b}
+                type="button"
+                onClick={() => setBudget(b)}
+                role="radio"
+                aria-checked={isOn}
+                className={`w-full rounded-md border px-4 py-2.5 font-sans text-[10px] uppercase tracking-widest transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach ${
+                  isOn
+                    ? "border-warmwhite bg-warmwhite/15 text-warmwhite"
+                    : "border-warmwhite/15 text-warmwhite/65 hover:border-warmwhite"
+                }`}
+              >
+                {b}
+              </button>
             );
           })}
-        </ul>
+        </div>
       </fieldset>
 
       <div>

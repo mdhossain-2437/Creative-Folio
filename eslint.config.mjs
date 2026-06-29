@@ -8,6 +8,7 @@ const config = [
   ...coreWebVitals,
   ...typescript,
   {
+    files: ["**/*.{js,jsx,mjs,ts,tsx,mts,cts}"],
     rules: {
       "@next/next/no-img-element": "off",
       "react/no-unescaped-entities": "off",
@@ -27,7 +28,16 @@ const config = [
     },
   },
   {
-    ignores: [".next/**", "node_modules/**", "out/**", "dist/**"],
+    ignores: [
+      ".lighthouseci/**",
+      ".next/**",
+      ".playwright-results/**",
+      "node_modules/**",
+      "out/**",
+      "dist/**",
+      "playwright-report/**",
+      "test-results/**",
+    ],
   },
 ];
 

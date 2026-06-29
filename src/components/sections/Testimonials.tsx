@@ -16,8 +16,12 @@ export function Testimonials() {
 
         <ul className="mt-16 grid grid-cols-1 gap-px bg-warmwhite/15 border border-warmwhite/15 md:grid-cols-2">
           {testimonials.map((t, i) => (
-            <Reveal key={t.name} delay={i * 0.08}>
-              <li className="flex flex-col justify-between bg-ink-900 p-8 md:p-12 h-full">
+            <Reveal
+              key={t.name}
+              as="li"
+              delay={i * 0.08}
+              className="flex h-full flex-col justify-between bg-ink-900 p-8 md:p-12"
+            >
                 <blockquote className="font-serif text-[clamp(1.1rem,1.8vw,1.5rem)] leading-[1.35] tracking-tight text-warmwhite/85 italic">
                   &ldquo;{t.quote}&rdquo;
                 </blockquote>
@@ -32,7 +36,6 @@ export function Testimonials() {
                     </p>
                   </div>
                 </div>
-              </li>
             </Reveal>
           ))}
         </ul>

@@ -262,8 +262,12 @@ export default function AboutPage() {
           </div>
           <ol className="md:col-span-9">
             {site.education.map((edu, i) => (
-              <Reveal key={edu.institution} delay={i * 0.05}>
-                <li className="grid grid-cols-12 items-baseline gap-4 border-b border-warmwhite/15 py-7 last:border-b-0">
+              <Reveal
+                key={edu.institution}
+                as="li"
+                delay={i * 0.05}
+                className="grid grid-cols-12 items-baseline gap-4 border-b border-warmwhite/15 py-7 last:border-b-0"
+              >
                   <span className="col-span-12 font-mono text-[11px] uppercase tracking-widest text-warmwhite/65 md:col-span-3">
                     {edu.degree}
                   </span>
@@ -286,7 +290,6 @@ export default function AboutPage() {
                   <p className="col-span-12 font-sans text-sm leading-relaxed text-warmwhite/65 md:col-span-4">
                     {edu.role}
                   </p>
-                </li>
               </Reveal>
             ))}
           </ol>
@@ -326,8 +329,12 @@ export default function AboutPage() {
           </div>
           <ul className="md:col-span-8 grid grid-cols-1 gap-3 md:grid-cols-2">
             {site.github.highlights.map((repo, i) => (
-              <Reveal key={repo.name} delay={i * 0.04}>
-                <li className="flex flex-col gap-2 rounded-2xl border border-warmwhite/15 bg-ink-950 p-5">
+              <Reveal
+                key={repo.name}
+                as="li"
+                delay={i * 0.04}
+                className="flex flex-col gap-2 rounded-2xl border border-warmwhite/15 bg-ink-950 p-5"
+              >
                   <a
                     href={`https://github.com/${site.github.handle}/${repo.name}`}
                     target="_blank"
@@ -341,7 +348,6 @@ export default function AboutPage() {
                   <p className="font-sans text-sm leading-relaxed text-warmwhite/65">
                     {repo.note}
                   </p>
-                </li>
               </Reveal>
             ))}
           </ul>
@@ -361,8 +367,12 @@ export default function AboutPage() {
           </div>
           <ol className="md:col-span-9">
             {journey.map((j, i) => (
-              <Reveal key={j.range} delay={i * 0.05}>
-                <li className="grid grid-cols-12 items-baseline gap-4 border-b border-warmwhite/15 py-8 last:border-b-0">
+              <Reveal
+                key={j.range}
+                as="li"
+                delay={i * 0.05}
+                className="grid grid-cols-12 items-baseline gap-4 border-b border-warmwhite/15 py-8 last:border-b-0"
+              >
                   <span className="col-span-12 font-mono text-[11px] uppercase tracking-widest text-warmwhite/65 md:col-span-3">
                     {j.range}
                   </span>
@@ -372,7 +382,6 @@ export default function AboutPage() {
                   <p className="col-span-12 font-sans text-sm leading-relaxed text-warmwhite/65 md:col-span-4">
                     {j.summary}
                   </p>
-                </li>
               </Reveal>
             ))}
           </ol>

@@ -26,6 +26,11 @@ export function Reveal({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.style.setProperty("transition-delay", "0s");
+      el.classList.add("is-in");
+      return;
+    }
     el.style.setProperty("transition-delay", `${delay}s`);
     const io = new IntersectionObserver(
       (entries) => {

@@ -83,8 +83,12 @@ export default function WorksPage() {
               stack pinned to one row, footer hugging the bottom). */}
           <ul className="grid grid-cols-1 items-stretch gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-2">
             {works.map((w, i) => (
-              <Reveal key={w.slug} delay={i * 0.05}>
-                <li className="h-full bg-ink-900">
+              <Reveal
+                key={w.slug}
+                as="li"
+                delay={i * 0.05}
+                className="h-full bg-ink-900"
+              >
                   <Link
                     href={`/works/${w.slug}`}
                     data-cursor="view"
@@ -139,7 +143,6 @@ export default function WorksPage() {
                       </p>
                     </div>
                   </Link>
-                </li>
               </Reveal>
             ))}
           </ul>

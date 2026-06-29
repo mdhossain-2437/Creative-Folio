@@ -39,8 +39,12 @@ export default function AwardsPage() {
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
           <ul className="grid grid-cols-1 gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-2">
             {awards.map((a, i) => (
-              <Reveal key={a.index} delay={i * 0.06}>
-                <li className="flex h-full flex-col justify-between gap-10 bg-ink-900 p-10">
+              <Reveal
+                key={a.index}
+                as="li"
+                delay={i * 0.06}
+                className="flex h-full flex-col justify-between gap-10 bg-ink-900 p-10"
+              >
                   <header className="flex items-start justify-between gap-6">
                     <span className="display-num font-serif text-7xl leading-none tracking-tightest text-warmwhite/85">
                       {a.index}
@@ -58,7 +62,6 @@ export default function AwardsPage() {
                   <p className="max-w-prose font-sans text-base leading-relaxed text-warmwhite/65">
                     {a.summary}
                   </p>
-                </li>
               </Reveal>
             ))}
           </ul>

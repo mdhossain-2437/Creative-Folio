@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
 // Test critical static routes first
@@ -15,6 +15,46 @@ const criticalRoutes = [
   "/contact",
   "/ai",
 ];
+
+const A11Y_STABLE_CSS = `
+      *,
+      *::before,
+      *::after {
+        animation-delay: 0s !important;
+        animation-duration: 0.001s !important;
+        transition-delay: 0s !important;
+        transition-duration: 0.001s !important;
+      }
+
+      .reveal,
+      .reveal.is-in,
+      .mask-reveal,
+      .mask-reveal.is-in {
+        opacity: 1 !important;
+        transform: none !important;
+        filter: none !important;
+      }
+    `;
+
+async function prepareStaticA11yScan(page: Page) {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.addInitScript((css) => {
+    const inject = () => {
+      if (document.getElementById("a11y-static-scan-style")) return;
+      const style = document.createElement("style");
+      style.id = "a11y-static-scan-style";
+      style.textContent = css;
+      (document.head ?? document.documentElement).appendChild(style);
+    };
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", inject, { once: true });
+      return;
+    }
+
+    inject();
+  }, A11Y_STABLE_CSS);
+}
 
 test.describe("Smoke tests - critical routes", () => {
   test.describe.configure({ mode: "serial" });
@@ -51,10 +91,9 @@ test.describe("Smoke tests - critical routes", () => {
       page,
     }) => {
       test.setTimeout(120000);
-      await page.emulateMedia({ reducedMotion: "reduce" });
+      await prepareStaticA11yScan(page);
 
-      await page.goto(route);
-      await page.waitForLoadState("domcontentloaded");
+      await page.goto(route, { waitUntil: "domcontentloaded" });
 
       const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
       const blockingViolations = accessibilityScanResults.violations.filter(

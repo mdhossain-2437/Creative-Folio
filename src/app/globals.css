@@ -233,13 +233,13 @@ button {
 }
 @media (prefers-reduced-motion: reduce) {
   .reveal {
-    opacity: 0;
+    opacity: 1;
     transform: none;
     filter: none;
   }
   .reveal.is-in {
     opacity: 1;
-    transition: opacity 0.4s ease;
+    transition: none;
   }
 }
 

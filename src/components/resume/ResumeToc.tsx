@@ -64,7 +64,7 @@ export function ResumeToc({ items }: { items: Item[] }) {
       aria-label="Resume sections"
       className="sticky top-24 space-y-3"
     >
-      <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
+      <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/75">
         ◊ Contents
       </p>
       <ul className="space-y-1.5">
@@ -81,12 +81,12 @@ export function ResumeToc({ items }: { items: Item[] }) {
                 className={`group flex items-baseline gap-3 rounded-sm py-1 pl-3 font-sans text-[10px] uppercase tracking-widest transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach ${
                   isActive
                     ? "border-l border-peach text-warmwhite"
-                    : "border-l border-warmwhite/15 text-warmwhite/55 hover:border-warmwhite/40 hover:text-warmwhite/85"
+                    : "border-l border-warmwhite/25 text-warmwhite/75 hover:border-warmwhite/40 hover:text-warmwhite"
                 }`}
               >
                 <span
                   className={`display-num font-mono text-[9px] ${
-                    isActive ? "text-peach" : "text-warmwhite/55"
+                    isActive ? "text-warmwhite" : "text-warmwhite/75"
                   }`}
                 >
                   §{String(i + 1).padStart(2, "0")}
