@@ -19,7 +19,6 @@ export async function GET(): Promise<Response> {
       "Content-Type": "application/json; charset=utf-8",
       "Cache-Control":
         "public, max-age=300, s-maxage=1800, stale-while-revalidate=86400",
-      "Access-Control-Allow-Origin": "*",
     },
   });
 }

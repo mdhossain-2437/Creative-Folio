@@ -75,7 +75,6 @@ export async function GET(): Promise<Response> {
     headers: {
       "Content-Type": "application/feed+json; charset=utf-8",
       "Cache-Control": "public, max-age=3600, s-maxage=3600",
-      "Access-Control-Allow-Origin": "*",
     },
   });
 }
