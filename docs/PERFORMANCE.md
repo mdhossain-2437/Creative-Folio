@@ -160,8 +160,9 @@ When adding a new canvas, default to **paused-when-off-screen**.
 `RoutePrefetcher` mounts inside `<SmoothScrollProvider>` next to
 `<Preloader>`, but it does not compete with first paint. Strategy:
 
-1. **Wait for idle:** decorative chrome starts after a late
-   `requestIdleCallback` (with a timeout fallback) so hydration, font
+1. **Wait for idle + quiet:** decorative chrome starts only after late idle and
+   a quiet user window. If the user is scrolling, touching, clicking or typing,
+   cursor/grid/meter/showreel chunks keep waiting so hydration, font
    activation, image decode and hero rendering get the first budget.
 2. **Quiet-window gate:** prefetch does not start until roughly 16s after the
    page has settled, and every batch postpones itself while the user has
