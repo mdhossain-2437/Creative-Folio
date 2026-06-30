@@ -22,8 +22,29 @@ const SHORTCUTS: { keys: string[]; label: string }[] = [
   { keys: ["Click", "Reel"], label: "Open the showreel" },
 ];
 
+type OverlayReplayWindow = Window & {
+  __delowarPendingOverlayReplay?: string;
+};
+
 export function CheatSheet() {
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const onOpen = () => {
+      setOpen(true);
+      unlock("power-user");
+    };
+    const replayWindow = window as OverlayReplayWindow;
+    if (
+      replayWindow.__delowarPendingOverlayReplay === "delowar:open-cheat-sheet"
+    ) {
+      delete replayWindow.__delowarPendingOverlayReplay;
+      onOpen();
+    }
+    window.addEventListener("delowar:open-cheat-sheet", onOpen);
+    return () => window.removeEventListener("delowar:open-cheat-sheet", onOpen);
+  }, []);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       const tag = (document.activeElement?.tagName || "").toLowerCase();

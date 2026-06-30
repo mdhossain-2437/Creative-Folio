@@ -4,6 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { reelClips } from "@/lib/data";
 
+type OverlayReplayWindow = Window & {
+  __delowarPendingOverlayReplay?: string;
+};
+
 function fmtTime(t: number): string {
   if (!Number.isFinite(t) || t < 0) return "0:00";
   const m = Math.floor(t / 60);
@@ -23,6 +27,11 @@ export function ShowreelModal() {
   // Open / Esc handling — also lock body scroll while modal is open.
   useEffect(() => {
     const onOpen = () => setOpen(true);
+    const replayWindow = window as OverlayReplayWindow;
+    if (replayWindow.__delowarPendingOverlayReplay === "delowar:open-showreel") {
+      delete replayWindow.__delowarPendingOverlayReplay;
+      onOpen();
+    }
     const onKey = (e: KeyboardEvent) => {
       if (!open) return;
       if (e.key === "Escape") setOpen(false);

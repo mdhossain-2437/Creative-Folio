@@ -16,6 +16,10 @@ type Item = {
   haystack?: string;
 };
 
+type OverlayReplayWindow = Window & {
+  __delowarPendingOverlayReplay?: string;
+};
+
 export function CommandPalette() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -80,6 +84,21 @@ export function CommandPalette() {
         (it.haystack ?? "").includes(q)
     );
   }, [items, query]);
+
+  useEffect(() => {
+    const onOpen = () => setOpen(true);
+    const replayWindow = window as OverlayReplayWindow;
+    if (
+      replayWindow.__delowarPendingOverlayReplay ===
+      "delowar:open-command-palette"
+    ) {
+      delete replayWindow.__delowarPendingOverlayReplay;
+      onOpen();
+    }
+    window.addEventListener("delowar:open-command-palette", onOpen);
+    return () =>
+      window.removeEventListener("delowar:open-command-palette", onOpen);
+  }, []);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
