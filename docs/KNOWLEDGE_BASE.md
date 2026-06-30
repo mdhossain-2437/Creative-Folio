@@ -282,10 +282,11 @@ re-run `pnpm build` to verify no runtime errors.
 | Showreel video player                                               | `delowar:open-showreel` event                                                            | `ShowreelModal.tsx`                                 |
 | RoutePrefetcher                                                     | mounts inside layout, warms every primary route during preloader                         | `RoutePrefetcher.tsx`                               |
 
-To add a new global overlay: register it in
-`src/components/layout/ClientOverlays.tsx`. Keep them client-side only
-(`"use client"`). New overlays must respect `prefers-reduced-motion` and
-should pause when off-screen if they animate.
+To add a new global overlay: register the actual dynamic component in
+`src/components/layout/ClientOverlaysBundle.tsx`. Keep
+`ClientOverlays.tsx` as the tiny on-demand shell so production builds do not
+preload every overlay during first scroll. New overlays must respect
+`prefers-reduced-motion` and should pause when off-screen if they animate.
 
 ---
 

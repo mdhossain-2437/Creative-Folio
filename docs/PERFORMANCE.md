@@ -189,6 +189,11 @@ Decorative chrome is split as a tiny `LazyChrome` shell plus
 the bundle, not the shell, because Next can preload dynamic chunks referenced
 by a mounted client module even when that module returns `null`.
 
+Global overlays follow the same rule: `ClientOverlays` is an on-demand shell
+and `ClientOverlaysBundle` owns the `next/dynamic` declarations. The shell
+loads the bundle after a quiet window, or immediately when the user asks for
+the command palette, shortcut sheet, or showreel.
+
 ### Connection-aware
 
 Skip prefetching entirely when the user is on:
