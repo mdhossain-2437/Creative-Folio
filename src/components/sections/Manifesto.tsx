@@ -16,16 +16,19 @@ export function Manifesto() {
             <ScrollScrubText
               text="I believe an interface should disappear, leaving only"
               className="inline"
+              as="span"
             />{" "}
             <span className="italic text-peach">the canvas</span>{" "}
             <ScrollScrubText
               text="and the content. I build digital products at the intersection of brutalist editorial design and fluid, high-performance creative development —"
               className="inline"
+              as="span"
             />{" "}
             <span className="italic text-warmwhite/60">
               <ScrollScrubText
                 text="where typography, motion, and engineering converge into a single physical-feeling experience."
                 className="inline"
+                as="span"
               />
             </span>
           </p>

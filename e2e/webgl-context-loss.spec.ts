@@ -1,5 +1,11 @@
 import { test, expect } from "@playwright/test";
 
+function isExpectedWebGLFallbackTelemetry(message: string) {
+  return /^\[WebGL Error\] (context_creation_failed|context_lost) in /.test(
+    message,
+  );
+}
+
 test.describe("WebGL context-loss handling", () => {
   test("should handle WebGL context loss on homepage without crashing", async ({
     page,
@@ -10,11 +16,13 @@ test.describe("WebGL context-loss handling", () => {
     await page.waitForLoadState("domcontentloaded");
 
     const errors: string[] = [];
+    const pageErrors: string[] = [];
     page.on("console", (msg) => {
       if (msg.type() === "error") {
         errors.push(msg.text());
       }
     });
+    page.on("pageerror", (error) => pageErrors.push(error.message));
 
     // Trigger WebGL context loss via page script
     const contextLost = await page.evaluate(() => {
@@ -50,7 +58,11 @@ test.describe("WebGL context-loss handling", () => {
     await page.goto("/works");
     await page.waitForLoadState("domcontentloaded");
 
-    expect(errors).toHaveLength(0);
+    const unexpectedErrors = errors.filter(
+      (message) => !isExpectedWebGLFallbackTelemetry(message),
+    );
+    expect(unexpectedErrors).toHaveLength(0);
+    expect(pageErrors).toHaveLength(0);
   });
 
   test("should handle WebGL context loss on lab page without crashing", async ({
@@ -62,11 +74,13 @@ test.describe("WebGL context-loss handling", () => {
     await page.waitForLoadState("domcontentloaded");
 
     const errors: string[] = [];
+    const pageErrors: string[] = [];
     page.on("console", (msg) => {
       if (msg.type() === "error") {
         errors.push(msg.text());
       }
     });
+    page.on("pageerror", (error) => pageErrors.push(error.message));
 
     // Trigger WebGL context loss via page script
     const contextLost = await page.evaluate(() => {
@@ -100,6 +114,10 @@ test.describe("WebGL context-loss handling", () => {
     await page.goto("/");
     await page.waitForLoadState("domcontentloaded");
 
-    expect(errors).toHaveLength(0);
+    const unexpectedErrors = errors.filter(
+      (message) => !isExpectedWebGLFallbackTelemetry(message),
+    );
+    expect(unexpectedErrors).toHaveLength(0);
+    expect(pageErrors).toHaveLength(0);
   });
 });

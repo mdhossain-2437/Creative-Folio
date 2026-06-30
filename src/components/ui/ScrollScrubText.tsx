@@ -12,10 +12,15 @@ if (typeof window !== "undefined") {
 interface ScrollScrubTextProps {
   text: string;
   className?: string;
+  as?: "div" | "span";
 }
 
-export function ScrollScrubText({ text, className = "" }: ScrollScrubTextProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
+export function ScrollScrubText({
+  text,
+  className = "",
+  as: Component = "div",
+}: ScrollScrubTextProps) {
+  const containerRef = useRef<HTMLElement | null>(null);
   const wordsRef = useRef<HTMLSpanElement[]>([]);
 
   useEffect(() => {
@@ -59,8 +64,20 @@ export function ScrollScrubText({ text, className = "" }: ScrollScrubTextProps) 
     </span>
   ));
 
+  const setContainerRef = (element: HTMLElement | null) => {
+    containerRef.current = element;
+  };
+
+  if (Component === "span") {
+    return (
+      <span ref={setContainerRef} className={className}>
+        {wordElements}
+      </span>
+    );
+  }
+
   return (
-    <div ref={containerRef} className={className}>
+    <div ref={setContainerRef} className={className}>
       {wordElements}
     </div>
   );
