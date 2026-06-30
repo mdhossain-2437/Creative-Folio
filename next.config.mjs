@@ -27,6 +27,7 @@ const nextConfig = {
   //    script and inline JSON-LD/<style>. We pair with 'strict-dynamic'
   //    so once the boot script runs, only scripts it loads are allowed.
   //  · 'unsafe-eval' kept for next/dynamic + framer-motion compat.
+  //  · Added 'require-trusted-types-for' to lock down DOM XSS sinks.
   //  · img-src includes data: for the OG portrait dataURL + blob: for
   //    canvas snapshots. https: catches Unsplash, GitHub avatars, etc.
   //  · connect-src includes the IndexNow API.
@@ -45,6 +46,7 @@ const nextConfig = {
       "manifest-src 'self'",
       "worker-src 'self' blob:",
       "object-src 'none'",
+      "require-trusted-types-for 'script'",
       "upgrade-insecure-requests",
     ].join("; ");
 
@@ -67,7 +69,10 @@ const nextConfig = {
         source: "/(.*)",
         headers: [
           { key: "Content-Security-Policy", value: ContentSecurityPolicy },
-          { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+          },
           { key: "X-Frame-Options", value: "DENY" },
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "X-DNS-Prefetch-Control", value: "on" },
@@ -82,14 +87,20 @@ const nextConfig = {
       {
         source: "/_next/static/(.*)",
         headers: [
-          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
         ],
       },
       // Public images / portrait — long cache.
       {
         source: "/(.*).(png|jpg|jpeg|webp|avif|svg|ico|woff|woff2)",
         headers: [
-          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
         ],
       },
     ];
