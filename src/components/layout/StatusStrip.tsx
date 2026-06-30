@@ -5,7 +5,7 @@
 // the studio booking line as a calm telemetry band that sits above the Footer.
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
+import Link from "@/components/ui/PerformanceLink";
 import { site } from "@/lib/site";
 
 function formatCountdown(targetMs: number): string {

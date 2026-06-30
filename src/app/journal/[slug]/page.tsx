@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/PerformanceLink";
 import { notFound } from "next/navigation";
 import { PageHero } from "@/components/layout/PageHero";
 import { ReadingProgress } from "@/components/ui/ReadingProgress";

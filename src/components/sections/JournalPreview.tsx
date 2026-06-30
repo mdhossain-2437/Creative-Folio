@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/PerformanceLink";
 import { journal } from "@/lib/data";
 import { Reveal } from "@/components/ui/Reveal";
 

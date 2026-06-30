@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
+import Link from "@/components/ui/PerformanceLink";
 import { PageHero } from "@/components/layout/PageHero";
 import { LabDemo } from "@/components/lab/LabDemo";
 import { LabVisitTracker } from "@/components/lab/LabVisitTracker";

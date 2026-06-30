@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/PerformanceLink";
 import { reelClips } from "@/lib/data";
 
 // ShowreelTeaser — kinetic h2 inherits `--scroll-vy` from the document

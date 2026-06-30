@@ -15,7 +15,7 @@
 //     a small "↗ open live" pill in the corner opens that archive in a
 //     new tab.
 
-import Link from "next/link";
+import Link from "@/components/ui/PerformanceLink";
 import { portfolios } from "@/lib/data";
 import { Reveal } from "@/components/ui/Reveal";
 

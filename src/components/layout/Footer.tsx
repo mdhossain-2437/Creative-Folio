@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Link from "@/components/ui/PerformanceLink";
 import { useRef } from "react";
 import { Marquee } from "@/components/ui/Marquee";
 import { MotionToggle } from "@/components/ui/MotionToggle";
@@ -220,9 +220,9 @@ function FooterCol({
       <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">{title}</p>
       <ul className="mt-5 space-y-2 font-serif text-lg leading-tight">
         {items.map((it) => {
-          // External links (Connect column — socials) get rel + target.
-          // Internal next/link routing keeps the App Router prefetch on the
-          // pages + studio columns.
+          // External links (Connect column/socials) get rel + target.
+          // Internal links use PerformanceLink so route warming stays under
+          // RoutePrefetcher's quiet-window budget.
           const isExternal = /^https?:\/\//.test(it.href);
           if (isExternal) {
             return (

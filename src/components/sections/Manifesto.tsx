@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/PerformanceLink";
 import { Reveal } from "@/components/ui/Reveal";
 import { WeightShift } from "@/components/ui/WeightShift";
 import { ScrollScrubText } from "@/components/ui/ScrollScrubText";

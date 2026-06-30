@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "@/components/ui/PerformanceLink";
 import { ParticleField404 } from "@/components/ui/ParticleField404";
 
 export default function NotFound() {

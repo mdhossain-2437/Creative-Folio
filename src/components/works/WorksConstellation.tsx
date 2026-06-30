@@ -15,7 +15,7 @@
 // every card is virtualised by the browser anyway.
 
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/PerformanceLink";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Work } from "@/lib/data";
 

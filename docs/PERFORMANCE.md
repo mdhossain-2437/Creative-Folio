@@ -176,6 +176,13 @@ When adding a new canvas, default to **paused-when-off-screen**.
 This preserves instant-feeling navigation on capable clients while preventing
 live deployments from doing dozens of background fetches during first scroll.
 
+Internal links should import `@/components/ui/PerformanceLink`, not
+`next/link` directly. `PerformanceLink` keeps client navigation behavior but
+sets `prefetch={false}` by default, so production-only App Router prefetching
+does not compete with animation, shader, image decode, or first-scroll work.
+Use an explicit `prefetch={true}` only when a route has been measured and fits
+inside the first-load budget.
+
 ### Connection-aware
 
 Skip prefetching entirely when the user is on:

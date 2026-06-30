@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import Link from "@/components/ui/PerformanceLink";
 import { PageHero } from "@/components/layout/PageHero";
 import { AskAiPrompts } from "@/components/ai/AskAiPrompts";
 import { site } from "@/lib/site";

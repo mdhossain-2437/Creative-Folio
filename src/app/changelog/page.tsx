@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import Link from "@/components/ui/PerformanceLink";
 import { PageHero } from "@/components/layout/PageHero";
 import { ChangelogVisitTracker } from "@/components/changelog/ChangelogVisitTracker";
 import { site } from "@/lib/site";

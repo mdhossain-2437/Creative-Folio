@@ -6,7 +6,7 @@
 // reveal-on-scroll cadence by passing `delay={i * 0.04}`.
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
+import Link from "@/components/ui/PerformanceLink";
 import { LabDemo } from "@/components/lab/LabDemo";
 import { LabCardCopyLink } from "@/components/lab/LabCardCopyLink";
 import { Reveal } from "@/components/ui/Reveal";

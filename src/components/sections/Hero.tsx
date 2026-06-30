@@ -7,7 +7,7 @@ import { Marquee } from "@/components/ui/Marquee";
 import { Magnetic } from "@/components/ui/Magnetic";
 import { ScrambleText } from "@/components/ui/ScrambleText";
 import { GhostCursors } from "@/components/ui/GhostCursors";
-import Link from "next/link";
+import Link from "@/components/ui/PerformanceLink";
 import { site } from "@/lib/site";
 import { useEffect, useRef, useState } from "react";
 import {

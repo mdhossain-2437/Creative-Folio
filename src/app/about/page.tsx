@@ -5,7 +5,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { Marquee } from "@/components/ui/Marquee";
 import { journey, expertise } from "@/lib/data";
 import { site } from "@/lib/site";
-import Link from "next/link";
+import Link from "@/components/ui/PerformanceLink";
 import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
