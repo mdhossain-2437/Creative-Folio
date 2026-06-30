@@ -158,24 +158,28 @@ When adding a new canvas, default to **paused-when-off-screen**.
 ## 3. Route Pre-warming
 
 `RoutePrefetcher` mounts inside `<SmoothScrollProvider>` next to
-`<Preloader>`. Strategy:
+`<Preloader>`, but it does not compete with first paint. Strategy:
 
-1. **Primary routes (immediate):** Home, Works, Lab, Journal, About,
-   Resume, Contact, AI. These are the most-likely first-clicks after the
-   preloader fades.
-2. **Secondary routes (T+600ms):** Now, Services, Achievements, Colophon,
-   Colors, Changelog, Uses, Showreel.
-3. **Slug pages (T+1200ms):** every `/works/*`, `/lab/*`, `/journal/*`.
+1. **Wait for idle:** chrome and prefetch work start after
+   `requestIdleCallback` (with a timeout fallback) so hydration, font
+   activation, image decode and hero rendering get the first budget.
+2. **Primary routes, batched:** Home, Works, Lab, Journal, About, Resume,
+   Contact, AI are warmed in small batches after idle.
+3. **Secondary routes, delayed:** Now, Services, Achievements, Colophon,
+   Colors, Changelog, Uses, Showreel, Portfolios start several seconds later.
+4. **Slug pages, high-tier only:** `/works/*`, `/lab/*`, `/journal/*` prefetch
+   only on high-tier healthy clients, in slower batches.
 
-The 600ms / 1200ms delays let the LCP-class resources settle before we
-saturate the network with prefetches.
+This preserves instant-feeling navigation on capable clients while preventing
+live deployments from doing dozens of background fetches during first scroll.
 
 ### Connection-aware
 
 Skip prefetching entirely when the user is on:
 
 - `Save-Data` header set
-- `effectiveType` is `slow-2g` or `2g` (Network Information API)
+- `effectiveType` is `slow-2g`, `2g`, or `3g` (Network Information API)
+- very low `downlink` when the browser exposes it
 
 This is a **politeness rule**, not a perf optimisation — pre-fetching on
 metered or slow connections is hostile.
