@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { works } from "@/lib/data";
+import { works, type Work } from "@/lib/data";
 import { Reveal } from "@/components/ui/Reveal";
 import { ScrambleText } from "@/components/ui/ScrambleText";
 import { WorkCoverDisplacement } from "@/components/works/WorkCoverDisplacement";
@@ -57,13 +57,15 @@ function WorkRow({
   work,
   idx,
 }: {
-  work: ReturnType<typeof getWorkType>;
+  work: Work;
   idx: number;
 }) {
   const rowRef = useRef<HTMLAnchorElement>(null);
   const peekRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const closeTimerRef = useRef<number | null>(null);
   const [intensity, setIntensity] = useState(0);
+  const [previewActive, setPreviewActive] = useState(false);
   const [peekMouse, setPeekMouse] = useState({ x: 0.5, y: 0.5 });
 
   useEffect(() => {
@@ -84,17 +86,23 @@ function WorkRow({
       });
     };
     const onEnter = () => {
+      if (closeTimerRef.current !== null) {
+        window.clearTimeout(closeTimerRef.current);
+        closeTimerRef.current = null;
+      }
       visible = true;
+      setPreviewActive(true);
       peek.style.opacity = "1";
       peek.style.transform += " scale(1)";
       setIntensity(1);
-      const video = videoRef.current;
-      if (video) {
+      window.requestAnimationFrame(() => {
+        const video = videoRef.current;
+        if (!video) return;
         video.currentTime = 0;
         video.play().catch(() => {
           /* autoplay blocked — fall back to static cover silently */
         });
-      }
+      });
     };
     const onLeave = () => {
       visible = false;
@@ -104,6 +112,10 @@ function WorkRow({
       if (video) {
         video.pause();
       }
+      closeTimerRef.current = window.setTimeout(() => {
+        setPreviewActive(false);
+        closeTimerRef.current = null;
+      }, 450);
     };
     row.addEventListener("mousemove", onMove);
     row.addEventListener("mouseenter", onEnter);
@@ -112,6 +124,9 @@ function WorkRow({
       row.removeEventListener("mousemove", onMove);
       row.removeEventListener("mouseenter", onEnter);
       row.removeEventListener("mouseleave", onLeave);
+      if (closeTimerRef.current !== null) {
+        window.clearTimeout(closeTimerRef.current);
+      }
     };
   }, []);
 
@@ -145,44 +160,47 @@ function WorkRow({
             ref={peekRef}
             className="pointer-events-none absolute left-0 top-0 h-56 w-80 -translate-x-1/2 -translate-y-1/2 scale-95 overflow-hidden rounded-md opacity-0 transition-opacity duration-500"
           >
-            <Image
-              src={work.cover}
-              alt={work.title}
-              fill
-              fetchPriority="high"
-              sizes="320px"
-              className="object-cover"
-            />
-            <WorkCoverDisplacement
-              src={work.cover}
-              alt=""
-              intensity={intensity}
-              mouse={peekMouse}
-              className="absolute inset-0 h-full w-full mix-blend-screen opacity-80"
-            />
-            {work.previewSrc && (
-              <video
-                ref={videoRef}
-                src={work.previewSrc}
-                muted
-                loop
-                playsInline
-                preload="none"
-                aria-hidden
-                className="absolute inset-0 h-full w-full object-cover"
-              />
+            {previewActive && (
+              <>
+                <Image
+                  src={work.cover}
+                  alt={work.title}
+                  fill
+                  loading="eager"
+                  quality={60}
+                  sizes="320px"
+                  className="object-cover"
+                />
+                <WorkCoverDisplacement
+                  src={work.cover}
+                  alt=""
+                  intensity={intensity}
+                  mouse={peekMouse}
+                  className="absolute inset-0 h-full w-full mix-blend-screen opacity-80"
+                />
+                {work.previewSrc && (
+                  <video
+                    ref={videoRef}
+                    src={work.previewSrc}
+                    muted
+                    loop
+                    playsInline
+                    preload="none"
+                    aria-hidden
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                )}
+              </>
             )}
             <div
               className="absolute inset-0 mix-blend-multiply"
-              style={{ background: work.accent + "55" }}
+              style={{
+                background: previewActive ? work.accent + "55" : "transparent",
+              }}
             />
           </div>
         </Link>
       </Reveal>
     </li>
   );
-}
-
-function getWorkType() {
-  return works[0];
 }
