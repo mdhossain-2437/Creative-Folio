@@ -61,7 +61,7 @@ const GridOverlay = dynamic(
 export function LazyChrome() {
   const [ready, setReady] = useState(false);
 
-  useEffect(() => scheduleIdleWork(() => setReady(true), 2600), []);
+  useEffect(() => scheduleIdleWork(() => setReady(true), 4200), []);
 
   if (!ready) return null;
 

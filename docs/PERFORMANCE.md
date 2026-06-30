@@ -160,14 +160,17 @@ When adding a new canvas, default to **paused-when-off-screen**.
 `RoutePrefetcher` mounts inside `<SmoothScrollProvider>` next to
 `<Preloader>`, but it does not compete with first paint. Strategy:
 
-1. **Wait for idle:** chrome and prefetch work start after
+1. **Wait for idle:** decorative chrome starts after a late
    `requestIdleCallback` (with a timeout fallback) so hydration, font
    activation, image decode and hero rendering get the first budget.
-2. **Primary routes, batched:** Home, Works, Lab, Journal, About, Resume,
-   Contact, AI are warmed in small batches after idle.
-3. **Secondary routes, delayed:** Now, Services, Achievements, Colophon,
-   Colors, Changelog, Uses, Showreel, Portfolios start several seconds later.
-4. **Slug pages, high-tier only:** `/works/*`, `/lab/*`, `/journal/*` prefetch
+2. **Quiet-window gate:** prefetch does not start until roughly 16s after the
+   page has settled, and every batch postpones itself while the user has
+   scrolled, clicked, typed or touched within the last 5s.
+3. **Primary routes, batched:** Home, Works, Lab, Journal, About, Resume,
+   Contact, AI are warmed in small batches only after that quiet window.
+4. **Secondary routes, delayed:** Now, Services, Achievements, Colophon,
+   Colors, Changelog, Uses, Showreel, Portfolios start much later.
+5. **Slug pages, high-tier only:** `/works/*`, `/lab/*`, `/journal/*` prefetch
    only on high-tier healthy clients, in slower batches.
 
 This preserves instant-feeling navigation on capable clients while preventing

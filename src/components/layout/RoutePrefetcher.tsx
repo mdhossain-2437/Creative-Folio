@@ -11,24 +11,10 @@ import {
   shouldPrefetchDeepRoutes,
 } from "@/lib/clientPerformance";
 
-// Pre-warms every primary route while the preloader is on screen.
-// After the preloader fades, the very first navigation has the route's
-// HTML + JS already in the Next.js client cache, so the transition is
-// effectively instant.
-//
-// Tradeoff:
-//   On first paint we kick off ~14 background fetches (one per route).
-//   These race with critical resources but are deprioritised by Next's
-//   prefetch implementation (it uses `<link rel="prefetch">` where
-//   supported and falls back to silent fetches at low priority).
-//
-// Strategy:
-//   1. Prefetch primary nav routes immediately (critical paths users
-//      most likely to visit first).
-//   2. After 600ms (when LCP-class resources are settled), prefetch
-//      secondary routes (slug pages, /achievements, /colophon, etc).
-//   3. Skip on `prefers-reduced-data` or save-data Network Information
-//      API hint to be polite to metered connections.
+// Route pre-warming is deliberately late and quiet-window gated. On live
+// deploys, eager prefetching can compete with hydration, shader setup, image
+// decode and the user's first scroll. Navigation still warms up for readers
+// who linger, but it never steals the opening frame budget.
 
 const PRIMARY_ROUTES = [
   "/",
@@ -67,9 +53,23 @@ export function RoutePrefetcher() {
     if (isConstrainedConnection({ include3g: true })) return;
 
     let cancelled = false;
+    let lastActivity = performance.now();
     const timers: number[] = [];
     const profile = deviceProfile();
     const primaryRoutes = PRIMARY_ROUTES.filter((route) => route !== pathname);
+    const noteActivity = () => {
+      lastActivity = performance.now();
+    };
+    const activityEvents: Array<keyof WindowEventMap> = [
+      "scroll",
+      "wheel",
+      "pointerdown",
+      "keydown",
+      "touchstart",
+    ];
+    for (const eventName of activityEvents) {
+      window.addEventListener(eventName, noteActivity, { passive: true });
+    }
 
     const scheduleBatch = (
       routes: string[],
@@ -83,6 +83,10 @@ export function RoutePrefetcher() {
         let index = 0;
         const run = () => {
           if (cancelled || document.visibilityState === "hidden") return;
+          if (performance.now() - lastActivity < 5000) {
+            timers.push(window.setTimeout(run, 3000));
+            return;
+          }
           for (let i = 0; i < batchSize && index < routes.length; i++) {
             router.prefetch(routes[index]);
             index++;
@@ -98,8 +102,8 @@ export function RoutePrefetcher() {
 
     const cancelIdle = scheduleIdleWork(() => {
       if (cancelled) return;
-      scheduleBatch(primaryRoutes, 700, 3, 450);
-      scheduleBatch(SECONDARY_ROUTES, 6400, 2, 700);
+      scheduleBatch(primaryRoutes, 1000, 2, 900);
+      scheduleBatch(SECONDARY_ROUTES, 14000, 2, 1200);
 
       if (shouldPrefetchDeepRoutes(profile.tier)) {
         scheduleBatch(
@@ -108,17 +112,20 @@ export function RoutePrefetcher() {
             ...journal.map((j) => `/journal/${j.slug}`),
             ...experiments.map((e) => `/lab/${e.slug}`),
           ],
-          12000,
+          30000,
           3,
-          900,
+          1500,
         );
       }
-    }, 4800);
+    }, 16000);
 
     return () => {
       cancelled = true;
       cancelIdle();
       for (const timer of timers) window.clearTimeout(timer);
+      for (const eventName of activityEvents) {
+        window.removeEventListener(eventName, noteActivity);
+      }
     };
     // We intentionally only run once per mount.
     // eslint-disable-next-line react-hooks/exhaustive-deps

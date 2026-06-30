@@ -9,7 +9,7 @@ import { ScrambleText } from "@/components/ui/ScrambleText";
 import { GhostCursors } from "@/components/ui/GhostCursors";
 import Link from "next/link";
 import { site } from "@/lib/site";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   resolveRuntimeGraphicsMode,
   scheduleIdleWork,
@@ -20,14 +20,36 @@ import { onDeviceProfileChange } from "@/lib/deviceTier";
 export function Hero() {
   const [graphicsMode, setGraphicsMode] =
     useState<RuntimeGraphicsMode>("static");
+  const cancelEnhancementRef = useRef<() => void>(() => {});
 
   useEffect(() => {
-    const applyMode = () => setGraphicsMode(resolveRuntimeGraphicsMode());
-    const cancelIdle = scheduleIdleWork(applyMode, 900);
+    let cancelled = false;
+    const applyMode = () => {
+      cancelEnhancementRef.current();
+      const mode = resolveRuntimeGraphicsMode();
+
+      if (mode !== "enhanced") {
+        setGraphicsMode(mode);
+        cancelEnhancementRef.current = () => {};
+        return;
+      }
+
+      // Ship the signature field first, then let the additive fluid/cursor
+      // layers join only after the live page has had a quiet moment.
+      setGraphicsMode("base");
+      const cancelEnhancement = scheduleIdleWork(() => {
+        if (!cancelled) setGraphicsMode("enhanced");
+      }, 9000);
+      cancelEnhancementRef.current = cancelEnhancement;
+    };
+
+    const cancelIdle = scheduleIdleWork(applyMode, 1200);
     const offProfile = onDeviceProfileChange(applyMode);
 
     return () => {
+      cancelled = true;
       cancelIdle();
+      cancelEnhancementRef.current();
       offProfile();
     };
   }, []);
