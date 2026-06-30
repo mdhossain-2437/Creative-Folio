@@ -54,6 +54,17 @@ async function safeFetch(url: string, init?: RequestInit): Promise<Response | nu
   }
 }
 
+async function readJson<T>(res: Response): Promise<T | null> {
+  try {
+    const text = await res.text();
+    return JSON.parse(
+      text.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, ""),
+    ) as T;
+  } catch {
+    return null;
+  }
+}
+
 function ago(ts: string): string {
   const diff = Math.max(0, Date.now() - new Date(ts).getTime());
   const m = Math.floor(diff / 60_000);
@@ -94,19 +105,27 @@ async function fetchUser(): Promise<{
   let ok = true;
 
   if (userRes && userRes.ok) {
-    const j = (await userRes.json()) as GhUser;
-    publicRepos = j.public_repos ?? publicRepos;
-    followers = j.followers ?? followers;
-    following = j.following ?? following;
+    const j = await readJson<GhUser>(userRes);
+    if (!j) {
+      ok = false;
+    } else {
+      publicRepos = j.public_repos ?? publicRepos;
+      followers = j.followers ?? followers;
+      following = j.following ?? following;
+    }
   } else {
     ok = false;
   }
 
   if (reposRes && reposRes.ok) {
-    const repos = (await reposRes.json()) as GhRepo[];
-    totalStars = repos
-      .filter((r) => !r.fork)
-      .reduce((acc, r) => acc + (r.stargazers_count ?? 0), 0);
+    const repos = await readJson<GhRepo[]>(reposRes);
+    if (!repos) {
+      ok = false;
+    } else {
+      totalStars = repos
+        .filter((r) => !r.fork)
+        .reduce((acc, r) => acc + (r.stargazers_count ?? 0), 0);
+    }
   } else {
     ok = false;
   }
@@ -121,7 +140,8 @@ async function fetchEvents(): Promise<{ events: GitHubEvent[]; ok: boolean }> {
     { headers }
   );
   if (!res || !res.ok) return { events: githubFallback, ok: false };
-  const events = (await res.json()) as GhEvent[];
+  const events = await readJson<GhEvent[]>(res);
+  if (!events) return { events: githubFallback, ok: false };
   const out: GitHubEvent[] = [];
   for (const ev of events) {
     if (ev.type !== "PushEvent") continue;
@@ -206,7 +226,8 @@ async function fetchContributionsGraphQL(): Promise<{
   });
 
   if (!res || !res.ok) return { contributions: { total: 0, days: [] }, ok: false };
-  const j = (await res.json()) as GraphQLContribResponse;
+  const j = await readJson<GraphQLContribResponse>(res);
+  if (!j) return { contributions: { total: 0, days: [] }, ok: false };
   const cal = j.data?.user?.contributionsCollection?.contributionCalendar;
   if (!cal) return { contributions: { total: 0, days: [] }, ok: false };
 
@@ -240,7 +261,8 @@ async function fetchContributionsPublic(): Promise<{
     `https://github-contributions-api.jogruber.de/v4/${USER}?y=last`
   );
   if (!res || !res.ok) return { contributions: { total: 0, days: [] }, ok: false };
-  const j = (await res.json()) as ApiResponse;
+  const j = await readJson<ApiResponse>(res);
+  if (!j) return { contributions: { total: 0, days: [] }, ok: false };
   const days: GitHubDay[] = j.contributions.map((d) => ({
     date: d.date,
     count: d.count,
