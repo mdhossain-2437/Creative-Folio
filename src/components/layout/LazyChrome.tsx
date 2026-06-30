@@ -1,11 +1,14 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { scheduleIdleWork } from "@/lib/clientPerformance";
+import type { ComponentType } from "react";
 
-// LazyChrome — defers the load of every chrome component that is purely
-// decorative and doesn't need to be present on the very first paint.
+type ChromeBundle = ComponentType;
+
+// LazyChrome — a tiny shell that waits for a quiet user window before importing
+// the decorative chrome bundle. Keep the dynamic component definitions out of
+// this file; module-level `next/dynamic` calls are still preload-discovered.
 //
 // Why this is safe:
 //   • Cursor / CursorSpotlight: replace the native cursor, but until they
@@ -17,52 +20,12 @@ import { scheduleIdleWork } from "@/lib/clientPerformance";
 //   • ShowreelPill: bottom-left "Reel · 02:17" indicator. Loads after
 //     hydration so the LCP path stays uncluttered.
 //
-// Each component is split into its own chunk via `next/dynamic`, with
-// SSR explicitly disabled so the server HTML stays light. Setting
-// `ssr: false` from inside a client component is the only legal way
-// to do it on Next 16 (it's a hard error inside RSC).
-
-const Cursor = dynamic(
-  () => import("@/components/ui/Cursor").then((m) => m.Cursor),
-  { ssr: false },
-);
-
-const CursorSpotlight = dynamic(
-  () => import("@/components/ui/CursorSpotlight").then((m) => m.CursorSpotlight),
-  { ssr: false },
-);
-
-const RoutePrefetcher = dynamic(
-  () =>
-    import("@/components/layout/RoutePrefetcher").then((m) => m.RoutePrefetcher),
-  { ssr: false },
-);
-
-const ScrollToTop = dynamic(
-  () => import("@/components/ui/ScrollToTop").then((m) => m.ScrollToTop),
-  { ssr: false },
-);
-
-const ShowreelPill = dynamic(
-  () => import("@/components/ui/ShowreelPill").then((m) => m.ShowreelPill),
-  { ssr: false },
-);
-
-const ScrollMeter = dynamic(
-  () => import("@/components/ui/ScrollMeter").then((m) => m.ScrollMeter),
-  { ssr: false },
-);
-
-const GridOverlay = dynamic(
-  () => import("@/components/ui/GridOverlay").then((m) => m.GridOverlay),
-  { ssr: false },
-);
-
 export function LazyChrome() {
-  const [ready, setReady] = useState(false);
+  const [Chrome, setChrome] = useState<ChromeBundle | null>(null);
 
   useEffect(() => {
     let cancelled = false;
+    let loading = false;
     let lastActivity = performance.now();
     let timer: number | undefined;
 
@@ -81,6 +44,19 @@ export function LazyChrome() {
       timer = window.setTimeout(runWhenQuiet, delay);
     }
 
+    function loadChromeBundle() {
+      if (loading) return;
+      loading = true;
+      void import("@/components/layout/LazyChromeBundle")
+        .then((module) => {
+          if (!cancelled) setChrome(() => module.LazyChromeBundle);
+        })
+        .catch(() => {
+          loading = false;
+          if (!cancelled) scheduleRetry(5000);
+        });
+    }
+
     function runWhenQuiet() {
       if (cancelled) return;
       if (document.visibilityState === "hidden") {
@@ -94,7 +70,7 @@ export function LazyChrome() {
         return;
       }
 
-      setReady(true);
+      loadChromeBundle();
     }
 
     for (const eventName of activityEvents) {
@@ -113,17 +89,5 @@ export function LazyChrome() {
     };
   }, []);
 
-  if (!ready) return null;
-
-  return (
-    <>
-      <RoutePrefetcher />
-      <CursorSpotlight />
-      <Cursor />
-      <GridOverlay />
-      <ScrollMeter />
-      <ShowreelPill />
-      <ScrollToTop />
-    </>
-  );
+  return Chrome ? <Chrome /> : null;
 }

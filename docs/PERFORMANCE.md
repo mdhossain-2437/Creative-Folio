@@ -184,6 +184,11 @@ does not compete with animation, shader, image decode, or first-scroll work.
 Use an explicit `prefetch={true}` only when a route has been measured and fits
 inside the first-load budget.
 
+Decorative chrome is split as a tiny `LazyChrome` shell plus
+`LazyChromeBundle`. Keep module-level `next/dynamic` component definitions in
+the bundle, not the shell, because Next can preload dynamic chunks referenced
+by a mounted client module even when that module returns `null`.
+
 ### Connection-aware
 
 Skip prefetching entirely when the user is on:
