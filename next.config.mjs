@@ -27,7 +27,8 @@ const nextConfig = {
   //    script and inline JSON-LD/<style>. We pair with 'strict-dynamic'
   //    so once the boot script runs, only scripts it loads are allowed.
   //  · 'unsafe-eval' kept for next/dynamic + framer-motion compat.
-  //  · Added 'require-trusted-types-for' to lock down DOM XSS sinks.
+  //  · Trusted Types enforcement is intentionally not enabled yet: Next's
+  //    chunk loader still assigns dynamic script URLs without a site policy.
   //  · img-src includes data: for the OG portrait dataURL + blob: for
   //    canvas snapshots. https: catches Unsplash, GitHub avatars, etc.
   //  · connect-src includes the IndexNow API.
@@ -46,7 +47,6 @@ const nextConfig = {
       "manifest-src 'self'",
       "worker-src 'self' blob:",
       "object-src 'none'",
-      "require-trusted-types-for 'script'",
       "upgrade-insecure-requests",
     ].join("; ");
 
