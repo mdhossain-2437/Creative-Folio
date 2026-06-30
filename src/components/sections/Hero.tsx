@@ -9,13 +9,38 @@ import { ScrambleText } from "@/components/ui/ScrambleText";
 import { GhostCursors } from "@/components/ui/GhostCursors";
 import Link from "next/link";
 import { site } from "@/lib/site";
+import { useEffect, useState } from "react";
+import {
+  resolveRuntimeGraphicsMode,
+  scheduleIdleWork,
+  type RuntimeGraphicsMode,
+} from "@/lib/clientPerformance";
+import { onDeviceProfileChange } from "@/lib/deviceTier";
 
 export function Hero() {
+  const [graphicsMode, setGraphicsMode] =
+    useState<RuntimeGraphicsMode>("static");
+
+  useEffect(() => {
+    const applyMode = () => setGraphicsMode(resolveRuntimeGraphicsMode());
+    const cancelIdle = scheduleIdleWork(applyMode, 900);
+    const offProfile = onDeviceProfileChange(applyMode);
+
+    return () => {
+      cancelIdle();
+      offProfile();
+    };
+  }, []);
+
+  const showShader = graphicsMode === "base" || graphicsMode === "enhanced";
+  const showEnhancedLayers = graphicsMode === "enhanced";
+
   return (
     <section className="relative h-[100svh] min-h-[640px] w-full overflow-hidden md:min-h-[760px]">
-      <HeroShader />
-      <HeroFluidDisplacement />
-      <GhostCursors />
+      <div className="absolute inset-0 bg-ink-950" aria-hidden />
+      {showShader && <HeroShader />}
+      {showEnhancedLayers && <HeroFluidDisplacement />}
+      {showEnhancedLayers && <GhostCursors />}
       <div className="vignette absolute inset-0" />
 
       <div className="relative z-10 mx-auto flex h-full max-w-[1640px] flex-col px-6 pb-16 pt-24 md:px-10 md:pb-20 md:pt-28">
