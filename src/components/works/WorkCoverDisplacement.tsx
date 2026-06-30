@@ -11,6 +11,7 @@ import { damp, clampDt, K } from "@/lib/damp";
 import { cappedDpr, DPR_CANVAS } from "@/lib/dpr";
 import { deviceProfile, targetFps } from "@/lib/deviceTier";
 import { makeFrameGate } from "@/lib/frameGate";
+import { optimizedImageTextureSrc } from "@/lib/clientPerformance";
 
 const VERT = `
 attribute vec2 a_pos;
@@ -79,15 +80,16 @@ export function WorkCoverDisplacement({
   // already sits behind it and the peek is never revealed without a cursor.
   const [skip, setSkip] = useState(false);
   const stateRef = useRef({
-    intensity: 0,
-    mouseX: 0.5,
-    mouseY: 0.5,
+    intensity,
+    mouseX: mouse.x,
+    mouseY: mouse.y,
   });
 
-  // Update target values; animation loop interpolates.
-  stateRef.current.intensity = intensity;
-  stateRef.current.mouseX = mouse.x;
-  stateRef.current.mouseY = mouse.y;
+  useEffect(() => {
+    stateRef.current.intensity = intensity;
+    stateRef.current.mouseX = mouse.x;
+    stateRef.current.mouseY = mouse.y;
+  }, [intensity, mouse.x, mouse.y]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -198,7 +200,7 @@ export function WorkCoverDisplacement({
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
       texReady = true;
     };
-    img.src = src;
+    img.src = optimizedImageTextureSrc(src);
 
     let raf = 0;
     const start = performance.now();
@@ -283,7 +285,6 @@ export function WorkCoverDisplacement({
   if (supported === false) {
     // SSR-safe fallback. Same `fill` semantic via absolute positioning so
     // the parent peek frame keeps its shape.
-    // eslint-disable-next-line @next/next/no-img-element
     return (
       <img
         src={src}
