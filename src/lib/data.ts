@@ -1741,15 +1741,18 @@ export type Testimonial = {
   name: string;
   title: string;
   company: string;
+  status: "verified" | "process" | "draft";
+  sourceUrl?: string;
 };
 
-export const testimonials: Testimonial[] = [
+export const testimonialDrafts: Testimonial[] = [
   {
     quote:
       "Delowar turned a vague brief into a site that won us an Awwwards mention in its first week. His command of motion and editorial restraint is unmatched.",
     name: "Nora Vásquez",
     title: "Head of Brand",
     company: "Meridian Studio",
+    status: "draft",
   },
   {
     quote:
@@ -1757,6 +1760,7 @@ export const testimonials: Testimonial[] = [
     name: "Aiden Park",
     title: "Co-Founder & CEO",
     company: "Luminary AI",
+    status: "draft",
   },
   {
     quote:
@@ -1764,6 +1768,7 @@ export const testimonials: Testimonial[] = [
     name: "Priya Shankar",
     title: "Engineering Lead",
     company: "Sonder Health",
+    status: "draft",
   },
   {
     quote:
@@ -1771,8 +1776,49 @@ export const testimonials: Testimonial[] = [
     name: "Marcus Lindqvist",
     title: "Creative Director",
     company: "Atelier Nord",
+    status: "draft",
   },
 ];
+
+export const verifiedTestimonials: Testimonial[] = [];
+
+export const collaborationNotes: Testimonial[] = [
+  {
+    quote:
+      "Discovery starts with source-of-truth data, measurable outcomes, accessibility constraints and performance budgets before visual polish.",
+    name: "Discovery",
+    title: "Collaboration note",
+    company: "The Compiled Thought",
+    status: "process",
+  },
+  {
+    quote:
+      "Creative direction is paired with engineering checks: every motion idea needs a fallback, a reduced-motion state and a measurable frame budget.",
+    name: "Build",
+    title: "Collaboration note",
+    company: "The Compiled Thought",
+    status: "process",
+  },
+  {
+    quote:
+      "Handoff includes code, content assumptions, verification notes and rollback paths so a launch can stay calm after the first deploy.",
+    name: "Handoff",
+    title: "Collaboration note",
+    company: "The Compiled Thought",
+    status: "process",
+  },
+  {
+    quote:
+      "Public praise stays unpublished until it has a real person, permission and a source that can be verified outside the portfolio.",
+    name: "Proof",
+    title: "Verification rule",
+    company: "The Compiled Thought",
+    status: "process",
+  },
+];
+
+export const testimonials: Testimonial[] =
+  verifiedTestimonials.length > 0 ? verifiedTestimonials : collaborationNotes;
 
 // Year-by-year portfolio editions. Every yearly portfolio is its own
 // codename + visual identity. The newest entries are first. Used by the
