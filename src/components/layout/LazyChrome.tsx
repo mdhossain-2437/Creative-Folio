@@ -1,6 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
+import { scheduleIdleWork } from "@/lib/clientPerformance";
 
 // LazyChrome — defers the load of every chrome component that is purely
 // decorative and doesn't need to be present on the very first paint.
@@ -57,6 +59,12 @@ const GridOverlay = dynamic(
 );
 
 export function LazyChrome() {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => scheduleIdleWork(() => setReady(true), 2600), []);
+
+  if (!ready) return null;
+
   return (
     <>
       <RoutePrefetcher />
