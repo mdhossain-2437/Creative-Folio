@@ -7,6 +7,7 @@ const criticalRoutes = [
   "/about",
   "/works",
   "/lab",
+  "/lab/particle-systems",
   "/process",
   "/resume",
   "/journal",
@@ -102,5 +103,26 @@ test.describe("Smoke tests - critical routes", () => {
       );
       expect(blockingViolations).toEqual([]);
     });
+  });
+
+  test("should resolve the particle systems runtime metric", async ({
+    page,
+  }) => {
+    test.setTimeout(60000);
+    await page.emulateMedia({ reducedMotion: "reduce" });
+
+    await page.goto("/lab/particle-systems", { waitUntil: "domcontentloaded" });
+
+    const metric = page.locator("[data-lab-runtime-metric]").first();
+
+    await expect(metric).toHaveAttribute("data-renderer", "Canvas2D");
+    await expect(metric).toHaveAttribute(
+      "data-device-tier",
+      /^(low|mid|high)$/,
+    );
+    await expect(metric).toContainText("Canvas2D");
+
+    const count = Number(await metric.getAttribute("data-particle-count"));
+    expect([1100, 1600, 2200]).toContain(count);
   });
 });

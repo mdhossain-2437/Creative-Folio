@@ -9,7 +9,7 @@ import {
   registerCanvasRuntime,
 } from "@/lib/canvasRuntimeBudget";
 import { deviceProfile, onDeviceProfileChange } from "@/lib/deviceTier";
-import { particleSystemCountForTier } from "@/lib/labRuntime";
+import { particleSystemRuntimeProfile } from "@/lib/labRuntime";
 
 // Each lab experiment has its own dedicated demo — no two slugs share a
 // renderer. Every demo is cursor-reactive and pauses via IntersectionObserver
@@ -361,7 +361,7 @@ const volumetricTick: TickFn = ({ ctx, w, h, t, m, dpr }) => {
 
 // ── 03 — Particle Systems: attractor field + click bursts ───────────────────
 const partSysInit: InitFn = ({ w, h, store, compact }) => {
-  const N = particleSystemCountForTier(deviceProfile().tier, compact);
+  const N = particleSystemRuntimeProfile(deviceProfile().tier, compact).count;
   const parts = new Float32Array(N * 4);
   for (let i = 0; i < N; i++) {
     parts[i * 4] = Math.random() * w;

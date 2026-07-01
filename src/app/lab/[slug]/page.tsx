@@ -9,6 +9,7 @@ import { LabPlaygroundHints } from "@/components/lab/LabPlaygroundHints";
 import { LabSnapshotButton } from "@/components/lab/LabSnapshotButton";
 import { LabRuntimeMetric } from "@/components/lab/LabRuntimeMetric";
 import { experiments } from "@/lib/data";
+import { PARTICLE_SYSTEM_RENDERER } from "@/lib/labRuntime";
 import { site } from "@/lib/site";
 
 // Map an experiment's `meta` string (e.g. "GLSL · 2027", "Three.js · 2026") to
@@ -308,6 +309,14 @@ export default async function LabSlug({
   const note = NOTES[exp.slug];
   const idx = experiments.findIndex((e) => e.slug === exp.slug);
   const url = `${site.url}/lab/${exp.slug}`;
+  const rendererLabel =
+    exp.slug === "particle-systems"
+      ? `${PARTICLE_SYSTEM_RENDERER} / tiered`
+      : "WebGL2 / fallback";
+  const runtimePlatform =
+    exp.slug === "particle-systems"
+      ? `${PARTICLE_SYSTEM_RENDERER} (browser)`
+      : "WebGL2 / Canvas2D (browser)";
 
   // SoftwareSourceCode tells search engines (and AI engines) this is a
   // self-contained code experiment, not a marketing surface. Pairs with
@@ -322,12 +331,15 @@ export default async function LabSlug({
     abstract: exp.summary,
     codeRepository: "https://github.com/mdhossain-2437/Creative-Folio",
     programmingLanguage: inferLanguage(exp.meta),
-    runtimePlatform: "WebGL2 / Canvas2D (browser)",
+    runtimePlatform,
     targetProduct: {
       "@type": "WebApplication",
       name: `${exp.title} — Lab Playground`,
       url,
-      browserRequirements: "Requires WebGL2 or Canvas2D capable browser",
+      browserRequirements:
+        exp.slug === "particle-systems"
+          ? "Requires Canvas2D capable browser"
+          : "Requires WebGL2 or Canvas2D capable browser",
       applicationCategory: "DeveloperApplication",
       operatingSystem: "Any (browser)",
     },
@@ -370,7 +382,7 @@ export default async function LabSlug({
         meta={[
           { label: "Tech", value: exp.meta },
           { label: "Status", value: "Live" },
-          { label: "Renderer", value: "WebGL2 / fallback" },
+          { label: "Renderer", value: rendererLabel },
           { label: "Updated", value: "MMXXVII" },
         ]}
       />
