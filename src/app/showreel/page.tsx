@@ -8,9 +8,9 @@ import { PageSchema } from "@/components/seo/PageSchema";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/showreel" },
-  title: "Showreel — 02:17 of selected motion",
+  title: "Showreel — selected motion chapters",
   description:
-    "A vertical reel of selected work, 2026–2027. Six chapters, autoplay muted, click any chapter to scrub.",
+    "A vertical reel index of selected work, 2026–2027. Public chapters use verified static covers until project footage is published.",
 };
 
 export default function ShowreelPage() {
@@ -18,19 +18,19 @@ export default function ShowreelPage() {
     <>
       <PageSchema
         path="/showreel"
-        name="Showreel — 02:17 of selected motion"
-        description="A vertical reel of selected work, 2026–2027. Six chapters, autoplay muted, click any chapter to scrub."
+        name="Showreel — selected motion chapters"
+        description="A vertical reel index of selected work, 2026–2027. Public chapters use verified static covers until project footage is published."
         crumbs={[{ name: "Home", href: "/" }, { name: "Showreel", href: "/showreel" }]}
       />
       <PageHero
         eyebrow="§08 — Reel"
         title="Showreel"
         italic="2027."
-        description="Six chapters, 02:17 total. The reel is autoplay-muted and chapter-scrubbable. Press play in the floating pill at any moment to open the immersive view."
+        description="Four public chapters. Verified motion footage is being cut from project recordings; until then, the reel opens as a static cover sequence with the same chapter structure."
         meta={[
-          { label: "Length", value: "02:17" },
+          { label: "Runtime", value: "Static covers" },
           { label: "Chapters", value: String(reelClips.length).padStart(2, "0") },
-          { label: "Resolution", value: "1080p / 4K master" },
+          { label: "Media", value: "No stock video" },
           { label: "Captions", value: "EN" },
         ]}
       >

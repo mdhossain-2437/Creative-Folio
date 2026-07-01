@@ -52,6 +52,8 @@ export type Work = {
   cover: string;
   /** Optional muted-loop preview shown on hover. Falls back to `cover`. */
   previewSrc?: string;
+  /** Draft-only source kept for provenance; never rendered publicly. */
+  legacyPreviewSrc?: string;
   accent: string;
   recognition?: RecognitionClaim;
   client?: string;
@@ -60,17 +62,6 @@ export type Work = {
   liveUrl?: string;
   caseStudy?: WorkCaseStudy;
 };
-
-// Feature flags — set to true when content is verified/earned
-export const SHOW_PLACEHOLDER_VIDEOS = false;
-
-// Helper to conditionally include placeholder videos
-function maybePreviewSrc(src?: string): string | undefined {
-  if (!src) return undefined;
-  if (!SHOW_PLACEHOLDER_VIDEOS && src.includes("test-videos.co.uk"))
-    return undefined;
-  return src;
-}
 
 export function publicRecognitionLabel(
   recognition?: RecognitionClaim,
@@ -95,9 +86,8 @@ export const works: Work[] = [
     stack: ["Three.js", "GLSL", "GSAP", "Lenis"],
     cover:
       "https://images.unsplash.com/photo-1638272181967-7d3772a91265?auto=format&fit=crop&w=1600&q=80",
-    previewSrc: maybePreviewSrc(
+    legacyPreviewSrc:
       "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4",
-    ),
     accent: "#e3bfb4",
     recognition: {
       label: "Awwwards · Site of the Day",
@@ -198,9 +188,8 @@ export const works: Work[] = [
     stack: ["Next.js", "GSAP", "Framer Motion"],
     cover:
       "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1600&q=80",
-    previewSrc: maybePreviewSrc(
+    legacyPreviewSrc:
       "https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_1MB.mp4",
-    ),
     accent: "#c4c1bd",
     recognition: {
       label: "FWA · Site of the Day",
@@ -300,9 +289,8 @@ export const works: Work[] = [
     stack: ["React", "Radix", "TypeScript", "Storybook"],
     cover:
       "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=1600&q=80",
-    previewSrc: maybePreviewSrc(
+    legacyPreviewSrc:
       "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4",
-    ),
     accent: "#bfd2cf",
     recognition: {
       label: "CSS Design Awards · UI of the Day",
@@ -403,9 +391,8 @@ export const works: Work[] = [
     stack: ["Variable Fonts", "GSAP", "WebGL"],
     cover:
       "https://images.unsplash.com/photo-1522199755839-a2bacb67c546?auto=format&fit=crop&w=1600&q=80",
-    previewSrc: maybePreviewSrc(
+    legacyPreviewSrc:
       "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_2MB.mp4",
-    ),
     accent: "#e7d6b8",
     client: "Self-initiated",
     duration: "6 weeks",
@@ -489,9 +476,8 @@ export const works: Work[] = [
     stack: ["Three.js", "GLSL", "Web Audio API"],
     cover:
       "https://images.unsplash.com/photo-1604871000636-074fa5117945?auto=format&fit=crop&w=1600&q=80",
-    previewSrc: maybePreviewSrc(
+    legacyPreviewSrc:
       "https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_2MB.mp4",
-    ),
     accent: "#9aa6c2",
     client: "Lokal Sound (gallery commission)",
     duration: "11 weeks (installation), 4 weeks (web port)",
@@ -1687,8 +1673,11 @@ export const reelClips: {
   duration: string;
   topic: "Build" | "Concept" | "Reflection";
   body: string;
-  videoSrc: string;
+  videoSrc?: string;
   poster: string;
+  mediaStatus: "verified-video" | "static-cover" | "draft";
+  legacyVideoSrc?: string;
+  legacyPoster?: string;
 }[] = [
   {
     index: "01",
@@ -1696,9 +1685,11 @@ export const reelClips: {
     duration: "00:24",
     topic: "Build",
     body: "Why one well-tuned fbm function carried an entire site — and how to fall back when the GPU can’t hang.",
-    videoSrc:
+    poster: "/brand/banner-x.svg",
+    mediaStatus: "static-cover",
+    legacyVideoSrc:
       "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4",
-    poster:
+    legacyPoster:
       "https://images.unsplash.com/photo-1638272181967-7d3772a91265?auto=format&fit=crop&w=1600&q=80",
   },
   {
@@ -1707,9 +1698,11 @@ export const reelClips: {
     duration: "00:31",
     topic: "Concept",
     body: "Predictive outlines should fade in like mist, not interrupt. The motion system that makes that possible.",
-    videoSrc:
+    poster: "/brand/banner-linkedin.svg",
+    mediaStatus: "static-cover",
+    legacyVideoSrc:
       "https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_1MB.mp4",
-    poster:
+    legacyPoster:
       "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1600&q=80",
   },
   {
@@ -1718,9 +1711,11 @@ export const reelClips: {
     duration: "00:42",
     topic: "Build",
     body: "WebXR-ready, but designed first for keyboard + mouse. Spatial audio steered by cursor + gaze.",
-    videoSrc:
+    poster: "/brand/banner-email.svg",
+    mediaStatus: "static-cover",
+    legacyVideoSrc:
       "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_2MB.mp4",
-    poster:
+    legacyPoster:
       "https://images.unsplash.com/photo-1614849963640-9cc74b2a826f?auto=format&fit=crop&w=1600&q=80",
   },
   {
@@ -1729,9 +1724,11 @@ export const reelClips: {
     duration: "00:58",
     topic: "Reflection",
     body: "Why portfolios in 2027 should still be slow to load — if the seconds you spend feel earned.",
-    videoSrc:
+    poster: "/og.svg",
+    mediaStatus: "static-cover",
+    legacyVideoSrc:
       "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_640x360.m4v",
-    poster:
+    legacyPoster:
       "https://images.unsplash.com/photo-1617791160505-6f00504e3519?auto=format&fit=crop&w=1600&q=80",
   },
 ];

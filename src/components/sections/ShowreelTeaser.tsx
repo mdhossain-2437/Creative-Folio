@@ -20,8 +20,8 @@ export function ShowreelTeaser() {
               <span className="block italic text-warmwhite/60">one quiet reel.</span>
             </h2>
             <p className="mt-6 max-w-sm font-sans text-sm leading-relaxed text-warmwhite/80">
-              A vertical reel of selected motion work, 2026–2027. Open it
-              fullscreen with the play pill, or jump to any chapter.
+              A vertical reel index for selected motion work, 2026–2027. Public
+              chapters use verified static covers while project footage is cut.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <button
@@ -32,7 +32,7 @@ export function ShowreelTeaser() {
                 className="inline-flex items-center gap-2 rounded-full bg-warmwhite px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-ink-900 hover:bg-peach"
               >
                 <span className="block h-0 w-0 border-y-[5px] border-l-[7px] border-y-transparent border-l-ink-900" />
-                Play immersive reel
+                Open immersive reel
               </button>
               <Link
                 href="/showreel"

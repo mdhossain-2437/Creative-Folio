@@ -243,21 +243,22 @@ deploy.
 ## 7. The Showreel Modal (functional)
 
 - Opened via `window.dispatchEvent(new CustomEvent("delowar:open-showreel"))`.
-- Plays a real `<video>` element — sources are listed in `reelClips[].videoSrc`
-  in `src/lib/data.ts`.
-- Keyboard map: `Space` play/pause · `←/→` ±5s · `M` mute · `Shift` slow-mo · `Esc` close.
-- Auto-advances chapters on `onEnded`.
+- Public chapters use local/static covers unless a verified project recording is
+  available in `reelClips[].videoSrc`.
+- Keyboard map for verified video chapters: `Space` play/pause · `←/→` ±5s ·
+  `M` mute · `Shift` slow-mo · `Esc` close.
+- Video chapters auto-advance on `onEnded`; static chapters stay navigable from
+  the chapter selector.
 - Body scroll is locked while open.
-- The poster `<Image fill>` falls back behind the video while it buffers — the
-  poster URLs use Unsplash (must be in `next.config.mjs` `remotePatterns`).
-- Verified mock video sources:
+- Legacy stock/mock sources are kept only as draft reference fields
+  (`legacyVideoSrc`, `legacyPoster`) and must not be rendered publicly:
   - `https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4`
   - `https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_1MB.mp4`
   - `https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_2MB.mp4`
   - `https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_640x360.m4v`
 
-If a video URL goes 4xx, replace it with another from the lists above and
-re-run `pnpm build` to verify no runtime errors.
+When verified recordings are ready, add self-hosted or Cloudflare Stream URLs
+to `videoSrc`, keep local posters, and rerun the full quality gate.
 
 ---
 
@@ -350,8 +351,8 @@ focused PR.
   languages instead of static `site.github.repos = 127`.
 - LinkedIn live-pull via Brightdata or similar — keep "currently studying"
   copy in sync.
-- Replace test-videos.co.uk samples with self-hosted Cloudflare Stream
-  uploads.
+- Add verified showreel recordings via self-hosted files or Cloudflare Stream;
+  keep legacy stock samples in draft-only fields.
 
 ### SEO
 
@@ -499,9 +500,10 @@ Located in `src/lib/site.ts`:
 
 Located in `src/lib/data.ts`:
 
-| Flag                      | Default | Purpose                                                                              |
-| ------------------------- | ------- | ------------------------------------------------------------------------------------ |
-| `SHOW_PLACEHOLDER_VIDEOS` | `false` | Hides stock test videos (Big Buck Bunny, Sintel) - falls back to static cover images |
+| Field | Default | Purpose |
+| --- | --- | --- |
+| `reelClips[].videoSrc` | omitted until verified | Enables a public reel video only when a self-hosted or otherwise verified source is available |
+| `legacyPreviewSrc` / `legacyVideoSrc` | draft-only | Keeps old stock/mock URLs for provenance without rendering them publicly |
 
 ### How to Enable
 
@@ -521,10 +523,8 @@ When you earn real awards or have verified testimonials:
      before they appear as earned JSON-LD.
    - Keep unearned goals as `status: "target"` so public UI labels them as
      recognition targets.
-
-   ```typescript
-   export const SHOW_PLACEHOLDER_VIDEOS = true;
-   ```
+   - Add verified showreel recordings to `reelClips[].videoSrc`; do not move
+     stock/mock URLs out of the legacy fields.
 
 3. Uncomment navigation entries in `src/lib/site.ts`:
 
@@ -539,7 +539,8 @@ When you earn real awards or have verified testimonials:
 
 - **Awards**: Earned-awards section and earned-award metadata in case study hero
 - **Testimonials**: Testimonial sections in case studies
-- **Placeholder videos**: All `test-videos.co.uk` URLs (Big Buck Bunny, Sintel)
+- **Placeholder videos**: Stock/mock URLs stay in legacy fields and are not
+  rendered publicly
 - **Navigation**: Awards and Showreel routes are commented out
 
 ### Why This Exists

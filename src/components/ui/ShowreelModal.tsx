@@ -102,6 +102,13 @@ export function ShowreelModal() {
   // When the active chapter changes, reload + autoplay the new src.
   useEffect(() => {
     if (!open) return;
+    const clip = reelClips[active] ?? reelClips[0];
+    if (!clip.videoSrc) {
+      setTime(0);
+      setDuration(0);
+      setPlaying(false);
+      return;
+    }
     const v = videoRef.current;
     if (!v) return;
     v.currentTime = 0;
@@ -116,6 +123,7 @@ export function ShowreelModal() {
   if (!open) return null;
 
   const clip = reelClips[active] ?? reelClips[0];
+  const hasVideo = Boolean(clip.videoSrc);
   const progress = duration > 0 ? Math.min(1, time / duration) : 0;
 
   const togglePlay = () => {
@@ -186,22 +194,40 @@ export function ShowreelModal() {
               className="object-cover opacity-40"
               priority={false}
             />
-            <video
-              ref={videoRef}
-              key={clip.videoSrc}
-              src={clip.videoSrc}
-              poster={clip.poster}
-              autoPlay
-              muted={muted}
-              playsInline
-              loop={false}
-              onPlay={() => setPlaying(true)}
-              onPause={() => setPlaying(false)}
-              onTimeUpdate={(e) => setTime(e.currentTarget.currentTime)}
-              onLoadedMetadata={(e) => setDuration(e.currentTarget.duration || 0)}
-              onEnded={onEnded}
-              className="absolute inset-0 h-full w-full bg-black object-cover"
-            />
+            {clip.videoSrc ? (
+              <video
+                ref={videoRef}
+                key={clip.videoSrc}
+                src={clip.videoSrc}
+                poster={clip.poster}
+                autoPlay
+                muted={muted}
+                playsInline
+                loop={false}
+                onPlay={() => setPlaying(true)}
+                onPause={() => setPlaying(false)}
+                onTimeUpdate={(e) => setTime(e.currentTarget.currentTime)}
+                onLoadedMetadata={(e) =>
+                  setDuration(e.currentTarget.duration || 0)
+                }
+                onEnded={onEnded}
+                className="absolute inset-0 h-full w-full bg-black object-cover"
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-end bg-ink-950/40 p-6 md:p-10">
+                <div className="max-w-xl">
+                  <p className="font-sans text-[10px] uppercase tracking-widest text-peach">
+                    Static cover · verified footage pending
+                  </p>
+                  <p className="mt-3 font-serif text-4xl leading-[0.95] tracking-tight text-warmwhite md:text-6xl">
+                    {clip.title}
+                  </p>
+                  <p className="mt-4 max-w-md font-sans text-sm leading-relaxed text-warmwhite/75">
+                    {clip.body}
+                  </p>
+                </div>
+              </div>
+            )}
             {/* Subtle scanline overlay for that editorial reel feel */}
             <div
               aria-hidden
@@ -216,14 +242,19 @@ export function ShowreelModal() {
               type="button"
               onClick={togglePlay}
               data-cursor="view"
-              data-cursor-label={playing ? "PAUSE" : "PLAY"}
-              aria-label={playing ? "Pause" : "Play"}
+              data-cursor-label={hasVideo ? (playing ? "PAUSE" : "PLAY") : "STILL"}
+              aria-label={hasVideo ? (playing ? "Pause" : "Play") : "Static cover"}
+              disabled={!hasVideo}
               className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
-                playing ? "opacity-0 hover:opacity-100" : "opacity-100"
+                hasVideo && playing ? "opacity-0 hover:opacity-100" : "opacity-100"
               }`}
             >
               <span className="grid h-20 w-20 place-items-center rounded-full bg-warmwhite text-ink-900 shadow-2xl">
-                {playing ? (
+                {!hasVideo ? (
+                  <span className="font-mono text-[10px] uppercase tracking-widest">
+                    Still
+                  </span>
+                ) : playing ? (
                   <span className="flex gap-1.5">
                     <span className="block h-5 w-1.5 rounded-sm bg-ink-900" />
                     <span className="block h-5 w-1.5 rounded-sm bg-ink-900" />
@@ -245,7 +276,9 @@ export function ShowreelModal() {
             <div className="pointer-events-none absolute right-4 top-4 inline-flex items-center gap-2 rounded-full bg-ink-950/65 px-3 py-1 font-sans text-[10px] uppercase tracking-widest text-warmwhite/85 backdrop-blur">
               <span className="display-num">{fmtTime(time)}</span>
               <span aria-hidden className="text-warmwhite/35">/</span>
-              <span className="display-num text-warmwhite/65">{fmtTime(duration)}</span>
+              <span className="display-num text-warmwhite/65">
+                {hasVideo ? fmtTime(duration) : clip.duration}
+              </span>
             </div>
             {/* Bottom progress bar */}
             <div className="absolute inset-x-0 bottom-0 z-10 px-4 pb-4">
@@ -257,6 +290,7 @@ export function ShowreelModal() {
                 step={0.001}
                 value={progress}
                 onChange={onSeek}
+                disabled={!hasVideo}
                 className="reel-scrub h-1.5 w-full cursor-pointer appearance-none rounded-full"
                 style={{
                   background: `linear-gradient(to right, #e3bfb4 0%, #e3bfb4 ${
