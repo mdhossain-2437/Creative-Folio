@@ -147,42 +147,26 @@ const personSchema = {
   ],
   knowsLanguage: ["en", "bn"],
   // Educational background — surfaces in Knowledge Panel "Education" row.
-  // Two entries: current Computer Science studies at University of the
-  // People, plus the prior B.A. in Political Science. Listing both makes
-  // the timeline legible to AI engines and Google.
-  alumniOf: [
-    {
-      "@type": "EducationalOrganization",
-      name: "University of the People",
-      url: "https://www.uopeople.edu/",
-      description:
-        "B.Sc. Computer Science (in progress). Aspiring Software Engineer.",
-    },
-    {
-      "@type": "EducationalOrganization",
-      name: "B.A. Political Science",
-      description:
-        "Bachelor of Arts — systems-level thinking applied to product, behaviour, and communication.",
-    },
-  ],
+  // Derived from site.education so About, Resume, AI summary, and JSON-LD
+  // keep the same Political Science -> self-taught web -> CS narrative.
+  alumniOf: site.education.map((edu) => ({
+    "@type": "EducationalOrganization",
+    name: edu.institution,
+    ...(edu.url ? { url: edu.url } : {}),
+    description: `${edu.degree}${
+      edu.range ? ` (${edu.range})` : ""
+    }. ${edu.role}.`,
+  })),
   ...(earnedAwardNames.length > 0 ? { award: earnedAwardNames } : {}),
   // Credentials the studio has earned through formal courses or
   // certifications. Listed as EducationalOccupationalCredential nodes so
   // search engines surface them in the Knowledge Panel's credentials row.
-  hasCredential: [
-    {
-      "@type": "EducationalOccupationalCredential",
-      name: "B.Sc. Computer Science — University of the People (in progress)",
-      credentialCategory: "degree",
-      educationalLevel: "Bachelor's",
-    },
-    {
-      "@type": "EducationalOccupationalCredential",
-      name: "B.A. Political Science",
-      credentialCategory: "degree",
-      educationalLevel: "Bachelor's",
-    },
-  ],
+  hasCredential: site.education.map((edu) => ({
+    "@type": "EducationalOccupationalCredential",
+    name: `${edu.degree} - ${edu.institution}`,
+    credentialCategory: "degree",
+    educationalLevel: "Bachelor's",
+  })),
   // Brand back-reference — completes the Person ↔ Brand graph so AI
   // engines (Perplexity, ChatGPT) can map "2027.delowarhossain.dev" or
   // "The Compiled Thought" back to the operator.

@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "@/components/ui/PerformanceLink";
 import { PageHero } from "@/components/layout/PageHero";
 import { AskAiPrompts } from "@/components/ai/AskAiPrompts";
+import { educationNarrative } from "@/lib/education";
 import { site } from "@/lib/site";
 import { works, expertise, services } from "@/lib/data";
 
@@ -49,7 +50,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "What is Delowar Hossain's background?",
-    a: `Self-taught creative developer and aspiring software engineer. Currently studying B.Sc. Computer Science at the University of the People (online), on top of a B.A. in Political Science. Active web practice since ${site.yearStarted}. Works under the studio "${site.studio}".`,
+    a: educationNarrative.aiBackground,
   },
   {
     q: "Can I download Delowar Hossain's resume?",

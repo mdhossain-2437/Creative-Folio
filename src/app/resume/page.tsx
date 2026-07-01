@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { journey, expertise, awards, arsenal } from "@/lib/data";
+import { educationNarrative } from "@/lib/education";
 import { site } from "@/lib/site";
 import { PageSchema } from "@/components/seo/PageSchema";
 import { ResumeToc } from "@/components/resume/ResumeToc";
@@ -151,10 +152,7 @@ export default function ResumePage() {
 
             <Block title="Education">
               <p className="max-w-3xl font-sans text-sm leading-relaxed text-warmwhite/70">
-                Came to programming after Political Science, self-taught from{" "}
-                {site.yearStarted}, and now formalizing the craft through
-                Computer Science while keeping the systems-thinking background
-                visible.
+                {educationNarrative.resume}
               </p>
               <div className="mt-8 divide-y divide-warmwhite/15">
                 {site.education.map((edu) => (

@@ -36,15 +36,18 @@ first before making changes. Companion documents:
 
 **Education**
 
-- **University of the People** — B.Sc. Computer Science (in progress, online).
-  Aspiring Software Engineer track.
-- **B.A. Political Science** — bachelor's degree completed; informs systems
-  thinking and communication style.
+- Source of truth: `src/lib/site.ts > site.education`.
+- Narrative helper: `src/lib/education.ts` derives the public path from those
+  entries: Political Science → self-taught web practice → B.Sc. Computer
+  Science at University of the People.
+- Public pages must import the helper or map `site.education`; do not restate
+  education facts inline.
 
 **Practice**
 
 - Self-taught creative developer since 2023.
-- Aspiring Software Engineer formalising CS fundamentals at UoPeople.
+- Aspiring Software Engineer formalising CS fundamentals through the current
+  `site.education` entry.
 - Independent studio The Compiled Thought.
 - Works remotely with clients worldwide.
 
@@ -302,8 +305,8 @@ preload every overlay during first scroll. New overlays must respect
   keywords. Per-page metadata appends `· Delowar Hossain` via title template.
 - JSON-LD: a 4-node graph (`Person`, `WebSite`, `Organization`, `ProfilePage`)
   with stable `@id` cross-refs, injected via `JsonLd.tsx` in `<body>`.
-- `Person.alumniOf` is a 2-entry array — University of the People (B.Sc. CS
-  in progress) **and** B.A. Political Science.
+- `Person.alumniOf` maps from `site.education` so JSON-LD stays aligned with
+  About, Resume, and `/ai`.
 - Sitemap (`/sitemap.xml`) includes `<image:image>` entries for portrait +
   project covers + OG cards. Robots (`/robots.txt`) explicitly allows 16+ AI
   crawlers (GPTBot, ClaudeBot, PerplexityBot, …).
@@ -316,8 +319,9 @@ preload every overlay during first scroll. New overlays must respect
 - `/ai` page is a clean factual snapshot tuned for AI citation: portrait,
   hard-fact `<dl>`, services, recent works, 8-question FAQ with `FAQPage`
   JSON-LD.
-- `/about` leads with a plain-prose factual paragraph naming UoPeople, the
-  studio, the location, the languages — primary GEO citation target.
+- `/about` leads with a plain-prose factual paragraph derived from
+  `src/lib/education.ts`, plus studio, location, and language signals —
+  primary GEO citation target.
 
 ### IndexNow
 

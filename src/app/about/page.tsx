@@ -4,6 +4,11 @@ import { PageHero } from "@/components/layout/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { Marquee } from "@/components/ui/Marquee";
 import { journey, expertise } from "@/lib/data";
+import {
+  currentEducation,
+  educationNarrative,
+  priorEducation,
+} from "@/lib/education";
 import { site } from "@/lib/site";
 import Link from "@/components/ui/PerformanceLink";
 import { PageSchema } from "@/components/seo/PageSchema";
@@ -73,8 +78,8 @@ export default function AboutPage() {
         meta={[
           { label: "Base", value: site.location },
           { label: "Studio", value: site.studio },
-          { label: "Reading", value: "B.Sc. CS · UoPeople" },
-          { label: "Practice", value: "Aspiring Software Engineer" },
+          { label: "Reading", value: educationNarrative.currentStudyLabel },
+          { label: "Practice", value: currentEducation.role },
         ]}
       >
         <div className="flex items-center gap-3">
@@ -142,16 +147,10 @@ export default function AboutPage() {
             {/* Plain-prose factual block — primary GEO citation target. */}
             <Reveal>
               <p className="mt-8 font-sans text-base leading-relaxed text-warmwhite/85 md:text-lg">
-                {site.name} (also known as Delowar) is a self-taught creative
-                developer, UI/UX designer, and aspiring software engineer based
-                in {site.base}. He is currently studying B.Sc. Computer Science
-                at the University of the People (online), building a formal
-                foundation on top of years of independent practice. He has been
-                building for the web since {site.yearStarted} and works
-                independently under the studio name {site.studio}. His practice
-                spans creative frontend engineering with WebGL, Three.js, GLSL,
-                GSAP, Lenis, and Next.js — alongside design systems, motion
-                systems, and generative AI integration into product interfaces.
+                {educationNarrative.about} His practice spans creative frontend
+                engineering with WebGL, Three.js, GLSL, GSAP, Lenis, and Next.js
+                - alongside design systems, motion systems, and generative AI
+                integration into product interfaces.
                 He works remotely with clients worldwide and is{" "}
                 <span className="text-warmwhite">
                   currently {site.availability.toLowerCase()}
@@ -206,18 +205,18 @@ export default function AboutPage() {
               },
               {
                 tag: "Path",
-                title: "Self-Taught Developer",
-                body: "Built through curiosity, repetition, experimentation and independent study.",
+                title: "Political Science to Web",
+                body: `${priorEducation.institution} shaped the systems lens; self-taught web practice turned it into interfaces.`,
               },
               {
                 tag: "Background",
-                title: "Not from a CSE Track",
-                body: "A non-traditional path that shaped a different way of thinking about technology.",
+                title: priorEducation.institution,
+                body: `${priorEducation.degree}, ${priorEducation.range}; the non-traditional route stays visible in the product thinking.`,
               },
               {
                 tag: "Current Mode",
-                title: "Web + AI Learning",
-                body: "Growing deeper at the intersection of creative frontend craft and intelligent systems.",
+                title: currentEducation.degree,
+                body: `${currentEducation.role} at ${currentEducation.institution}, building formal CS depth onto the web practice.`,
               },
             ].map((s, i) => (
               <Reveal key={s.tag} delay={i * 0.06}>
@@ -238,8 +237,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Education + Open Source — surfaces UoPeople CS studies and the
-          GitHub footprint. Both feed JSON-LD's alumniOf and sameAs. */}
+      {/* Education + Open Source — surfaces site.education and the GitHub
+          footprint. Both feed JSON-LD's alumniOf and sameAs. */}
       <section
         id="education"
         data-section-label="Education"
@@ -255,9 +254,7 @@ export default function AboutPage() {
               <span className="italic text-peach">software engineer.</span>
             </h2>
             <p className="mt-4 font-sans text-sm leading-relaxed text-warmwhite/65">
-              Formal Computer Science studies stacked on top of years of
-              self-taught practice — political-science fluency in systems, CS
-              fluency in their machinery.
+              {educationNarrative.aboutEducation}
             </p>
           </div>
           <ol className="md:col-span-9">

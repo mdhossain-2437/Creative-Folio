@@ -2,6 +2,7 @@ import Link from "@/components/ui/PerformanceLink";
 import { Reveal } from "@/components/ui/Reveal";
 import { WeightShift } from "@/components/ui/WeightShift";
 import { ScrollScrubText } from "@/components/ui/ScrollScrubText";
+import { educationNarrative } from "@/lib/education";
 import { site } from "@/lib/site";
 
 export function Manifesto() {
@@ -36,8 +37,7 @@ export function Manifesto() {
 
         {/* Practitioner card — quick, citation-friendly statement of who is
             actually behind this manifesto. Mentions Joypurhat / Bangladesh,
-            self-taught practice, and the formal CS programme at UoPeople so
-            both human readers and AI engines have a clean fact block. */}
+            self-taught practice, and the formal CS path from site.education. */}
         <Reveal>
           <div className="mt-12 flex flex-col gap-6 rounded-2xl border border-warmwhite/12 bg-ink-950/40 p-6 md:flex-row md:items-center md:justify-between md:gap-12 md:p-8">
             <div className="flex flex-col gap-2">
@@ -45,20 +45,9 @@ export function Manifesto() {
                 ◊ Practitioner
               </p>
               <p className="max-w-2xl font-sans text-base leading-relaxed text-warmwhite/85 md:text-lg">
-                <span className="text-warmwhite">{site.name}</span> —
-                self-taught creative developer from {site.location}, currently
-                an aspiring software engineer reading{" "}
-                <a
-                  href="https://www.uopeople.edu/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-cursor="hover"
-                  data-cursor-label="UoPeople"
-                  className="text-warmwhite underline-offset-4 hover:text-peach hover:underline"
-                >
-                  B.Sc. Computer Science at University of the People
-                </a>
-                . Building for the web since {site.yearStarted}.
+                <span className="text-warmwhite">{site.name}</span> -{" "}
+                {educationNarrative.manifesto}. Building for the web since{" "}
+                {site.yearStarted}.
               </p>
             </div>
             <Link

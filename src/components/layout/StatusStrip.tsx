@@ -6,6 +6,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "@/components/ui/PerformanceLink";
+import { currentEducation, educationNarrative } from "@/lib/education";
 import { site } from "@/lib/site";
 
 function formatCountdown(targetMs: number): string {
@@ -94,15 +95,15 @@ export function StatusStrip() {
           <span className="display-num text-warmwhite/65">{site.editionShort}</span>
           <span aria-hidden className="text-warmwhite/30">·</span>
           <a
-            href="https://www.uopeople.edu/"
+            href={currentEducation.url ?? "/about#education"}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="University of the People — B.Sc. Computer Science (in progress)"
+            aria-label={`${currentEducation.institution} - ${currentEducation.degree}`}
             data-cursor="hover"
-            data-cursor-label="UoPeople"
+            data-cursor-label={currentEducation.institution}
             className="display-num text-warmwhite/65 underline-offset-4 transition-colors hover:text-peach hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
           >
-            B.Sc. CS · UoPeople
+            {educationNarrative.currentStudyLabel}
           </a>
           <span aria-hidden className="text-warmwhite/30">·</span>
           <span
