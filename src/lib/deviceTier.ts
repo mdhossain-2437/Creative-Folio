@@ -33,6 +33,28 @@
 
 export type DeviceTier = "low" | "mid" | "high";
 
+export type GpuRendererSignal =
+  | "software"
+  | "legacy-mobile"
+  | "capable"
+  | "unknown"
+  | "unavailable";
+
+export type GpuTimingStatus = "pending" | "measured" | "unavailable";
+
+export type GpuTierProbe = {
+  /** Renderer label when WebGL exposes one; "hidden" when the browser masks it. */
+  renderer: string;
+  /** Renderer-string score adjustment applied to the device tier. */
+  rendererAdjustment: number;
+  /** Coarse renderer family classification used for docs/tests/diagnostics. */
+  rendererSignal: GpuRendererSignal;
+  /** Runtime timing-probe score adjustment applied after first paint. */
+  timingAdjustment: number;
+  /** Whether the runtime timing probe has completed in this page session. */
+  timingStatus: GpuTimingStatus;
+};
+
 export type DeviceProfile = {
   /** Resolved capability tier. */
   tier: DeviceTier;
@@ -46,12 +68,18 @@ export type DeviceProfile = {
    * shaving fragment-shader pixel count where it isn't perceptible.
    */
   dprScale: number;
+  /** Secondary GPU signals that can downgrade the tier after first paint. */
+  gpu: GpuTierProbe;
 };
 
 let cached: DeviceProfile | null = null;
 let listenerBound = false;
-let rendererAdjustment: number | null = null;
+let rendererProbeResult: Pick<
+  GpuTierProbe,
+  "renderer" | "rendererAdjustment" | "rendererSignal"
+> | null = null;
 let runtimeGpuAdjustment = 0;
+let timingProbeStatus: GpuTimingStatus = "pending";
 let timingProbeScheduled = false;
 
 export const DEVICE_PROFILE_CHANGE_EVENT =
@@ -62,6 +90,13 @@ const SERVER_PROFILE: DeviceProfile = {
   isTouch: false,
   reducedMotion: false,
   dprScale: 1,
+  gpu: {
+    renderer: "server",
+    rendererAdjustment: 0,
+    rendererSignal: "unavailable",
+    timingAdjustment: 0,
+    timingStatus: "unavailable",
+  },
 };
 
 function mq(query: string): boolean {
@@ -77,11 +112,20 @@ function emitProfileChange() {
   window.dispatchEvent(new Event(DEVICE_PROFILE_CHANGE_EVENT));
 }
 
-function rendererScoreAdjustment(): number {
-  if (typeof window === "undefined") return 0;
-  if (rendererAdjustment !== null) return rendererAdjustment;
+function rendererProbe(): Pick<
+  GpuTierProbe,
+  "renderer" | "rendererAdjustment" | "rendererSignal"
+> {
+  if (typeof window === "undefined") {
+    return SERVER_PROFILE.gpu;
+  }
+  if (rendererProbeResult) return rendererProbeResult;
 
-  rendererAdjustment = 0;
+  rendererProbeResult = {
+    renderer: "hidden",
+    rendererAdjustment: 0,
+    rendererSignal: "unknown",
+  };
   try {
     const canvas = document.createElement("canvas");
     const gl = canvas.getContext("webgl", {
@@ -89,8 +133,12 @@ function rendererScoreAdjustment(): number {
       powerPreference: "low-power",
     });
     if (!gl) {
-      rendererAdjustment = -2;
-      return rendererAdjustment;
+      rendererProbeResult = {
+        renderer: "unavailable",
+        rendererAdjustment: -2,
+        rendererSignal: "unavailable",
+      };
+      return rendererProbeResult;
     }
 
     const debug = gl.getExtension("WEBGL_debug_renderer_info");
@@ -98,33 +146,56 @@ function rendererScoreAdjustment(): number {
       ? String(gl.getParameter(debug.UNMASKED_RENDERER_WEBGL) ?? "")
       : String(gl.getParameter(gl.RENDERER) ?? "");
     const r = renderer.toLowerCase();
+    const label = renderer.trim() || "hidden";
 
     if (
       /swiftshader|llvmpipe|software|microsoft basic render|mesa offscreen|warp/.test(
         r,
       )
     ) {
-      rendererAdjustment = -3;
+      rendererProbeResult = {
+        renderer: label,
+        rendererAdjustment: -3,
+        rendererSignal: "software",
+      };
     } else if (
       /mali-[234]|mali-t|adreno \(tm\) [34]|powervr sgx|vivante|tegra/.test(
         r,
       )
     ) {
-      rendererAdjustment = -1;
+      rendererProbeResult = {
+        renderer: label,
+        rendererAdjustment: -1,
+        rendererSignal: "legacy-mobile",
+      };
     } else if (
       /rtx|geforce|radeon rx|apple m\d|apple gpu|arc|iris xe|adreno \(tm\) [678]|mali-g7|mali-g8/.test(
         r,
       )
     ) {
-      rendererAdjustment = 1;
+      rendererProbeResult = {
+        renderer: label,
+        rendererAdjustment: 1,
+        rendererSignal: "capable",
+      };
+    } else {
+      rendererProbeResult = {
+        renderer: label,
+        rendererAdjustment: 0,
+        rendererSignal: "unknown",
+      };
     }
 
     gl.getExtension("WEBGL_lose_context")?.loseContext();
   } catch {
-    rendererAdjustment = 0;
+    rendererProbeResult = {
+      renderer: "hidden",
+      rendererAdjustment: 0,
+      rendererSignal: "unknown",
+    };
   }
 
-  return rendererAdjustment;
+  return rendererProbeResult;
 }
 
 function compileShader(
@@ -222,12 +293,22 @@ function scheduleGpuTimingProbe() {
   timingProbeScheduled = true;
   window.requestAnimationFrame(() => {
     const adjustment = measureGpuTimingAdjustment();
-    if (adjustment >= runtimeGpuAdjustment) return;
-
+    const previousAdjustment = runtimeGpuAdjustment;
+    const previousStatus = timingProbeStatus;
     const previousTier = cached?.tier;
-    runtimeGpuAdjustment = adjustment;
+
+    if (adjustment < runtimeGpuAdjustment) {
+      runtimeGpuAdjustment = adjustment;
+    }
+    timingProbeStatus = "measured";
     cached = compute(false);
-    if (cached.tier !== previousTier) emitProfileChange();
+    if (
+      cached.tier !== previousTier ||
+      previousAdjustment !== runtimeGpuAdjustment ||
+      previousStatus !== timingProbeStatus
+    ) {
+      emitProfileChange();
+    }
   });
 }
 
@@ -276,7 +357,8 @@ function compute(runTimingProbe = true): DeviceProfile {
     // Desktops/laptops start with headroom unless other signals object.
     score += 1;
   }
-  score += rendererScoreAdjustment() + runtimeGpuAdjustment;
+  const gpuRenderer = rendererProbe();
+  score += gpuRenderer.rendererAdjustment + runtimeGpuAdjustment;
 
   let tier: DeviceTier;
   if (score <= -2) tier = "low";
@@ -291,7 +373,17 @@ function compute(runTimingProbe = true): DeviceProfile {
 
   if (runTimingProbe) scheduleGpuTimingProbe();
 
-  return { tier, isTouch, reducedMotion, dprScale };
+  return {
+    tier,
+    isTouch,
+    reducedMotion,
+    dprScale,
+    gpu: {
+      ...gpuRenderer,
+      timingAdjustment: runtimeGpuAdjustment,
+      timingStatus: timingProbeStatus,
+    },
+  };
 }
 
 /**

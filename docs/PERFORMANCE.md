@@ -613,6 +613,21 @@ GPU secondary signals now feed the same score:
 - Profile changes dispatch `creative-folio:device-profile-change`; lab canvases
   re-fit their DPR and runtime particle density when that event fires.
 
+Renderer and timing signals are exposed on `deviceProfile().gpu` and mirrored by
+the `/lab/particle-systems` runtime metric as data attributes:
+
+| Signal                       | Values / thresholds                                                                 |
+| ---------------------------- | ------------------------------------------------------------------------------------ |
+| `rendererSignal`             | `software` (-3), `legacy-mobile` (-1), `capable` (+1), `unknown` (0), `unavailable` (-2) |
+| `timingAdjustment`           | `0` under 16ms, `-1` over 16ms, `-2` over 24ms for the first-frame shader fence        |
+| `timingStatus`               | `pending` before the post-paint probe, then `measured` once the probe has completed   |
+| profile-change event         | Fires after resize/orientation and after the timing probe changes diagnostics or tier |
+
+The automated proof lives in `e2e/device-tier.spec.ts`: Playwright fakes a
+mid CPU profile, a capable renderer string, and a slow GPU fence, then asserts
+the route downgrades to `low` and emits
+`creative-folio:device-profile-change`.
+
 **SSR-safe:** on the server it returns `high` so markup is never gated
 server-side; the real tier resolves on the client after mount (every consumer
 already runs detection inside `useEffect`).
