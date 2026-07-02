@@ -582,6 +582,11 @@ removing or visibly reducing a single effect**. The lever is _internal_ cost
 set. This is the technique [immersive-g.com](https://immersive-g.com) and peers
 use: identical perception, a fraction of the GPU work.
 
+Physical-device verification lives in
+[`docs/LOW_END_DEVICE_VERIFICATION.md`](./LOW_END_DEVICE_VERIFICATION.md). Run
+that checklist on Android Chrome after deploy before calling a mobile
+performance pass complete.
+
 ### The tier model — `src/lib/deviceTier.ts`
 
 `deviceProfile()` resolves once (memoised, re-evaluated on resize/orientation)

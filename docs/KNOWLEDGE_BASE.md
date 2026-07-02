@@ -5,6 +5,7 @@ portfolio at [delowarhossain.dev](https://delowarhossain.dev). Read this
 first before making changes. Companion documents:
 
 - [`docs/PERFORMANCE.md`](./PERFORMANCE.md) — frame-budget architecture, scroll, WebGL, lazy-load policy.
+- [`docs/LOW_END_DEVICE_VERIFICATION.md`](./LOW_END_DEVICE_VERIFICATION.md) — real Android Chrome performance checklist.
 - [`docs/SEO.md`](./SEO.md) — search + generative-engine optimisation playbook.
 - [`docs/BRIEF.md`](./BRIEF.md) — working style, brief format, ways of working.
 - [`docs/AGENT_SYSTEM_PROMPT.md`](./AGENT_SYSTEM_PROMPT.md) — copy-ready prompt for repo agents.
