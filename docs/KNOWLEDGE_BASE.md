@@ -98,6 +98,7 @@ src/
     sections/          # Page sections (Hero, ShowreelTeaser, MilestonesScroll, …)
     ui/                # Atomic UI (Cursor, Magnetic, Marquee, ShowreelModal, …)
     webgl/             # GLSL hand-rolled WebGL components
+    lab/               # Lab shell, shared CanvasDemo runtime, per-slug demo chunks
     seo/               # JsonLd graph (Person + WebSite + Organization + ProfilePage)
     providers/         # SmoothScrollProvider (Lenis-driven CSS vars)
   lib/
@@ -373,8 +374,9 @@ focused PR.
   the home page doesn't wait on the smooth-scroll bundle.
 - Move font subset to local self-hosted woff2 with `font-display: optional`
   to avoid layout shift on slow connections.
-- Consider splitting `/lab/[slug]` shaders into separate dynamic imports
-  (currently all in one `LabDemo.tsx` ~1.2k lines).
+- Move the heaviest lab simulations (`reaction-diffusion`, `boids-flock`,
+  `sand-piles`) to workers now that each slug already lives in its own dynamic
+  module under `src/components/lab/demos/`.
 
 ### "Add 2028+ tech without a refactor" guide
 

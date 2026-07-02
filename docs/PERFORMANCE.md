@@ -140,7 +140,8 @@ io.observe(canvas);
 - `WorkCoverDisplacement.tsx`
 - `AtlasConstellation.tsx`
 - `GhostCursors.tsx`
-- `LabDemo.tsx` (per-shader)
+- `LabDemo.tsx` shell + `lab/runtime/CanvasDemo.tsx` + per-slug modules in
+  `src/components/lab/demos/`
 
 ### Components NOT covered (intentionally)
 
@@ -421,10 +422,14 @@ browser can change `devicePixelRatio` when the user zooms.
 
 ### Lazy initial sizing in `LabDemo`
 
-`/lab` mounts ~17 demo cards at once. Instead of calling each demo's
-`init()` (which allocates typed-array stores) upfront, the first `fit()`
-call is deferred until the canvas's `IntersectionObserver` fires. Cards
-the user never scrolls to never pay the init cost.
+`/lab` renders `LabDemo.tsx` as a tiny lazy shell. Each slug maps to exactly one
+module in `src/components/lab/demos/`, and compact grid cards do not import
+their demo chunk until the shell is near the viewport (`rootMargin: 320px`).
+
+Once a chunk is loaded, the shared `CanvasDemo` runtime still defers each
+demo's first `fit()` call (which allocates typed-array stores) until the canvas
+`IntersectionObserver` fires. Cards the user never scrolls to never pay the
+network, parse, or allocation cost.
 
 ```ts
 let initialised = false;
@@ -568,8 +573,6 @@ cell — empirically ~150 distance checks per frame instead of ~1225.
 - **Edge runtime for `/api/github`.** Currently Node; Edge would shave
   ~150ms off first paint of `/now`.
 - **Service worker offline shell** for `/now`, `/journal`, `/ai`.
-- **Per-shader chunks for `LabDemo.tsx`.** Currently the lab demos ship
-  as one chunk; split via `next/dynamic` per slug.
 
 ---
 

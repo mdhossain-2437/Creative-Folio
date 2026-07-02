@@ -2,7 +2,12 @@
 
 ## Current State
 
-Lab simulations currently run on the main thread in `LabDemo.tsx`. The component uses:
+Lab simulations currently run on the main thread through the shared
+`src/components/lab/runtime/CanvasDemo.tsx` runtime. Each experiment now lives
+in its own lazy module under `src/components/lab/demos/`, so worker migration
+can target only the heavy slugs instead of touching every lab renderer at once.
+
+The runtime uses:
 - Canvas 2D rendering
 - IntersectionObserver for pause/resume
 - Device tier-based performance scaling
@@ -40,7 +45,8 @@ Moving lab simulations to Web Workers presents several challenges:
 3. Create message protocol for worker communication
 
 ### Phase 2: Extract Simulation Logic
-1. Separate render logic from React component
+1. Start with `ReactionDiffusionDemo.tsx`, `BoidsFlockDemo.tsx`, and
+   `SandPilesDemo.tsx`
 2. Create pure simulation functions
 3. Test simulations independently
 
@@ -50,7 +56,7 @@ Moving lab simulations to Web Workers presents several challenges:
 3. Add fallback to main thread rendering
 
 ### Phase 4: Integration
-1. Update LabDemo to use workers when available
+1. Update only the targeted per-slug demo modules to use workers when available
 2. Add worker lifecycle management
 3. Test across browsers
 
@@ -60,17 +66,19 @@ Given the current performance optimizations:
 - Device tier scaling already reduces load on low-end devices
 - IntersectionObserver pauses off-screen simulations
 - Runtime budget management prevents resource exhaustion
+- Per-slug dynamic modules prevent unseen grid cards from parsing every demo
 
-The Web Worker migration provides diminishing returns for the current workload. The main benefit would be for:
-- Very complex particle systems (>100K particles)
-- Physics simulations with many bodies
-- Complex shader compilation
+The Web Worker migration should therefore stay targeted. The strongest
+candidate slugs are:
+- `reaction-diffusion`
+- `boids-flock`
+- `sand-piles`
 
 ## Recommendation
 
-**Defer Web Worker migration** until:
-1. A specific lab simulation demonstrates performance issues
-2. OffscreenCanvas support reaches >95% browser market share
-3. The complexity can be justified by measurable performance gains
-
-Current main-thread implementation with device tier scaling and pause-on-scroll is sufficient for the current workload.
+Adopt workers as progressive enhancement only:
+1. Feature-detect `OffscreenCanvas` and worker transfer support
+2. Keep the existing main-thread Canvas2D renderer as the fallback
+3. Move only the CPU-bound simulation step off-thread; do not rewrite
+   shader-bound or already-lightweight demos
+4. Verify low-end Android Chrome with the real-device checklist after deploy

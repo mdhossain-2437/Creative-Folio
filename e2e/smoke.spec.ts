@@ -125,4 +125,29 @@ test.describe("Smoke tests - critical routes", () => {
     const count = Number(await metric.getAttribute("data-particle-count"));
     expect([1100, 1600, 2200]).toContain(count);
   });
+
+  test("should defer compact lab demo chunks until the grid needs them", async ({
+    page,
+  }) => {
+    test.setTimeout(60000);
+    await page.emulateMedia({ reducedMotion: "reduce" });
+
+    await page.goto("/lab", { waitUntil: "domcontentloaded" });
+
+    const shells = page.locator("[data-lab-demo-shell]");
+    await expect(shells.first()).toBeAttached();
+
+    const deferredCount = await page
+      .locator('[data-lab-demo-armed="false"]')
+      .count();
+    expect(deferredCount).toBeGreaterThan(0);
+
+    await page.goto("/lab/particle-systems", {
+      waitUntil: "domcontentloaded",
+    });
+
+    await expect(
+      page.locator('[data-lab-demo-shell="particle-systems"]').first(),
+    ).toHaveAttribute("data-lab-demo-armed", "true");
+  });
 });
