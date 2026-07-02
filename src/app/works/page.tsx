@@ -102,7 +102,8 @@ export default function WorksPage() {
                           src={w.cover}
                           alt={w.title}
                           fill
-                          sizes="(min-width: 768px) 50vw, 100vw"
+                          quality={35}
+                          sizes="(min-width: 1024px) 42vw, (min-width: 768px) 50vw, 58vw"
                           className="object-cover transition-transform duration-[1500ms] ease-out group-hover:scale-[1.04]"
                         />
                       </div>
