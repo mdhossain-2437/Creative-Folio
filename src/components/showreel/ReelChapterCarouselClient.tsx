@@ -1,17 +1,21 @@
 "use client";
 
-// Client wrapper for the WebGL carousel. Server pages can't pass
-// `ssr: false` to next/dynamic — so this thin client component does the
-// dynamic import on its behalf.
-//
-// The carousel is touch / reduced-motion / WebGL gated. We gate the
-// dynamic import itself (not just the rendered output) so the heavy
-// R3F + drei + three chunk never loads on devices that won't use it
-// or where the chunk's React-internals access fails. If the import or
-// mount throws, we fall back silently to null — the static `<ol>`
-// chapter list below remains the source of truth.
+// Thin enhanced-only loader for the R3F carousel. The static chapter list in
+// `/showreel` is the canonical public UI; this file only imports the heavy
+// Three/R3F/drei chunk after the runtime profile proves it is worth loading.
 
-import { useEffect, useState } from "react";
+import {
+  Component,
+  useEffect,
+  useState,
+  type ReactElement,
+  type ReactNode,
+} from "react";
+
+import {
+  resolveRuntimeGraphicsMode,
+  scheduleIdleWork,
+} from "@/lib/clientPerformance";
 
 type Clip = {
   index: string;
@@ -22,38 +26,101 @@ type Clip = {
 
 type Props = { clips: Clip[] };
 
-type CarouselComp = (props: Props) => React.ReactElement | null;
+type CarouselComp = (props: Props) => ReactElement | null;
+
+class CarouselBoundary extends Component<
+  { children: ReactNode },
+  { failed: boolean }
+> {
+  state = { failed: false };
+
+  static getDerivedStateFromError(): { failed: boolean } {
+    return { failed: true };
+  }
+
+  render() {
+    if (this.state.failed) return null;
+    return this.props.children;
+  }
+}
+
+function supportsWebGl2(): boolean {
+  try {
+    const probe = document.createElement("canvas");
+    const gl = probe.getContext("webgl2", {
+      antialias: false,
+      depth: false,
+      powerPreference: "low-power",
+      stencil: false,
+    });
+    if (!gl) return false;
+    gl.getExtension("WEBGL_lose_context")?.loseContext();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+function canLoadEnhancedCarousel(): boolean {
+  if (typeof window === "undefined" || typeof document === "undefined") {
+    return false;
+  }
+  if (document.visibilityState !== "visible") return false;
+  if (resolveRuntimeGraphicsMode() !== "enhanced") return false;
+  return supportsWebGl2();
+}
 
 export function ReelChapterCarouselClient({ clips }: Props) {
   const [Comp, setComp] = useState<CarouselComp | null>(null);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const isTouch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
-    if (reduce || isTouch) return;
-    // Probe WebGL2 — skip the import if unsupported (heavy chunk has no value).
-    try {
-      const probe = document.createElement("canvas");
-      if (!probe.getContext("webgl2")) return;
-    } catch {
-      return;
+    let mounted = true;
+    let cancelIdle = () => {};
+    let removeVisibilityListener = () => {};
+
+    const load = () => {
+      if (!mounted || !canLoadEnhancedCarousel()) return;
+
+      cancelIdle = scheduleIdleWork(() => {
+        if (!mounted) return;
+        import("./ReelChapterCarousel")
+          .then((m) => {
+            if (!mounted) return;
+            setComp(() => m.ReelChapterCarousel as CarouselComp);
+          })
+          .catch(() => {
+            // Silent fail: the static chapter list remains complete.
+          });
+      }, 1800);
+    };
+
+    if (document.visibilityState === "visible") {
+      load();
+    } else {
+      const onVisible = () => {
+        if (document.visibilityState !== "visible") return;
+        document.removeEventListener("visibilitychange", onVisible);
+        removeVisibilityListener = () => {};
+        load();
+      };
+
+      document.addEventListener("visibilitychange", onVisible);
+      removeVisibilityListener = () => {
+        document.removeEventListener("visibilitychange", onVisible);
+      };
     }
 
-    let mounted = true;
-    import("./ReelChapterCarousel")
-      .then((m) => {
-        if (!mounted) return;
-        setComp(() => m.ReelChapterCarousel as CarouselComp);
-      })
-      .catch(() => {
-        // Silent fail — static chapter list takes over.
-      });
     return () => {
       mounted = false;
+      cancelIdle();
+      removeVisibilityListener();
     };
   }, []);
 
   if (!Comp) return null;
-  return <Comp clips={clips} />;
+  return (
+    <CarouselBoundary>
+      <Comp clips={clips} />
+    </CarouselBoundary>
+  );
 }

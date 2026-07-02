@@ -1,14 +1,7 @@
 "use client";
 
-// ReelChapterCarousel — Pack D D3.2.
-// 3D rotating chapter gallery: each chapter poster sits on a horizontal
-// cylinder. Drag horizontally (or use scroll) to rotate. Click a card to
-// fire `onSelect` so the parent can scrub the reel modal to that chapter.
-//
-// Falls back gracefully:
-//   - touch + reduced-motion: hidden (the static <ol> below stands in)
-//   - no WebGL / R3F crash: the boundary returns null and the static
-//     list remains the source of truth.
+// Enhanced-only 3D rotating chapter gallery. Do not import directly from a
+// server page; `ReelChapterCarouselClient` owns the performance gate.
 
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
@@ -66,25 +59,89 @@ function Cylinder({ clips, target }: { clips: Clip[]; target: { current: number 
 }
 
 export function ReelChapterCarousel({ clips }: Props) {
-  const [enabled, setEnabled] = useState(false);
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [isVisible, setIsVisible] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const targetRef = useRef(0);
   const dragRef = useRef<{ x: number; rot: number } | null>(null);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const isTouch = window.matchMedia("(hover: none), (pointer: coarse)").matches;
-    if (reduce || isTouch) {
-      setEnabled(false);
-      return;
+    const node = sectionRef.current;
+    if (!node) return;
+
+    if (!("IntersectionObserver" in window)) {
+      const raf = requestAnimationFrame(() => setIsVisible(true));
+      return () => cancelAnimationFrame(raf);
     }
-    setEnabled(true);
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { rootMargin: "240px 0px", threshold: 0.01 },
+    );
+
+    observer.observe(node);
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
-  const angleStep = useMemo(() => (Math.PI * 2) / clips.length, [clips.length]);
+  useEffect(() => {
+    const onVisibilityChange = () => {
+      if (document.visibilityState !== "visible") {
+        setIsVisible(false);
+      }
+    };
 
-  if (!enabled) return null;
+    document.addEventListener("visibilitychange", onVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    const onProfileChange = () => {
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce) {
+        setIsVisible(false);
+      }
+    };
+
+    window.addEventListener(
+      "creative-folio:device-profile-change",
+      onProfileChange,
+    );
+    return () => {
+      window.removeEventListener(
+        "creative-folio:device-profile-change",
+        onProfileChange,
+      );
+    };
+  }, []);
+
+  useEffect(() => {
+    const reduceMedia = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const onMotionChange = () => {
+      if (reduceMedia.matches) {
+        setIsVisible(false);
+      }
+    };
+
+    reduceMedia.addEventListener("change", onMotionChange);
+    return () => {
+      reduceMedia.removeEventListener("change", onMotionChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) {
+      dragRef.current = null;
+      return;
+    }
+  }, [isVisible]);
+
+  const angleStep = useMemo(() => (Math.PI * 2) / clips.length, [clips.length]);
 
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     dragRef.current = { x: e.clientX, rot: targetRef.current };
@@ -119,6 +176,7 @@ export function ReelChapterCarousel({ clips }: Props) {
 
   return (
     <section
+      ref={sectionRef}
       aria-label="3D chapter carousel"
       className="relative border-y border-warmwhite/15 bg-ink-950"
     >
@@ -161,11 +219,15 @@ export function ReelChapterCarousel({ clips }: Props) {
         onPointerCancel={onPointerUp}
         onWheel={onWheel}
       >
-        <Canvas camera={{ position: [0, 0.4, 5.6], fov: 50 }} dpr={[1, 2]}>
-          <ambientLight intensity={0.85} />
-          <directionalLight intensity={0.6} position={[2, 4, 2]} />
-          <Cylinder clips={clips} target={targetRef} />
-        </Canvas>
+        {isVisible ? (
+          <Canvas camera={{ position: [0, 0.4, 5.6], fov: 50 }} dpr={[1, 1.5]}>
+            <ambientLight intensity={0.85} />
+            <directionalLight intensity={0.6} position={[2, 4, 2]} />
+            <Cylinder clips={clips} target={targetRef} />
+          </Canvas>
+        ) : (
+          <div aria-hidden className="absolute inset-0 bg-ink-950" />
+        )}
         <div className="pointer-events-none absolute inset-x-0 bottom-6 z-10 flex flex-col items-center gap-1 text-center">
           <span className="font-mono text-[10px] uppercase tracking-widest text-warmwhite/65">
             §{active?.index} · {active?.duration}

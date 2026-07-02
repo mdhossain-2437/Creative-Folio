@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "@/components/ui/PerformanceLink";
 import { PageHero } from "@/components/layout/PageHero";
 import { reelClips } from "@/lib/data";
@@ -41,16 +42,33 @@ export default function ShowreelPage() {
 
       <section className="bg-ink-900 py-20 md:py-28">
         <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-          <ol className="space-y-px overflow-hidden border-y border-warmwhite/15">
+          <ol
+            className="space-y-px overflow-hidden border-y border-warmwhite/15"
+            data-showreel-static-list
+          >
             {reelClips.map((c) => (
               <li
                 key={c.index}
                 className="group grid grid-cols-12 items-center gap-4 bg-ink-900 px-2 py-8 transition-colors duration-500 hover:bg-ink-950 md:px-6"
               >
+                <div
+                  className="col-span-12 overflow-hidden border border-warmwhite/15 bg-ink-950 md:col-span-2"
+                  data-showreel-static-cover
+                >
+                  <Image
+                    src={c.poster}
+                    alt=""
+                    width={360}
+                    height={203}
+                    sizes="(max-width: 768px) 100vw, 18vw"
+                    className="aspect-video h-full w-full object-cover opacity-85 transition duration-500 group-hover:scale-[1.03] group-hover:opacity-100"
+                    loading="lazy"
+                  />
+                </div>
                 <span className="col-span-2 font-mono text-[10px] uppercase tracking-widest text-warmwhite/65 md:col-span-1">
                   §{c.index}
                 </span>
-                <span className="col-span-7 font-serif text-2xl tracking-tight text-warmwhite md:col-span-7 md:text-4xl">
+                <span className="col-span-7 font-serif text-2xl tracking-tight text-warmwhite md:col-span-5 md:text-4xl">
                   {c.title}
                 </span>
                 <span className="col-span-3 hidden font-mono text-[10px] uppercase tracking-widest text-warmwhite/65 md:col-span-3 md:block">

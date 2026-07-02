@@ -280,6 +280,32 @@ Watch out for:
 - Adding lodash (use native + small helpers).
 - Pulling in `@react-three/fiber` for tiny effects — raw WebGL is smaller.
 
+### R3F exception: `/showreel`
+
+The only intentional Three.js / R3F / drei surface is the 3D chapter carousel on
+`/showreel`, because it is real spatial UI: posters are arranged around a
+rotating cylinder. It is not a hero shader, hover distortion, or flat fragment
+pass, so raw WebGL would be more bespoke code for less maintainable 3D.
+
+The exception is progressive enhancement only:
+
+- `src/app/showreel/page.tsx` renders the complete static chapter list with
+  local covers first. That list is the source of truth for crawlers, reduced
+  motion, constrained connections, touch devices, and unsupported GPUs.
+- `ReelChapterCarouselClient` imports the R3F chunk only after
+  `resolveRuntimeGraphicsMode() === "enhanced"`, the document is visible, WebGL2
+  probes successfully, and the browser reaches an idle slot.
+- `ReelChapterCarousel` mounts the actual `<Canvas>` only while the carousel is
+  near the viewport and drops its DPR ceiling to `1.5`, matching the wider WebGL
+  cap used elsewhere in the site.
+- The smoke suite covers the fallback: with reduced motion on, `/showreel` must
+  render four static covers and zero canvases.
+
+Measured during the 2026-07-02 Todo 14 build: the R3F/Three payload emitted as
+a lazy dynamic chunk (`.next/static/chunks/2n5p4_aaxeks6.js`, 890,699 B raw /
+236,018 B gzip). `/showreel`'s initial `entryJSFiles` did not include that
+chunk; it only appears behind the wrapper's idle dynamic import.
+
 To inspect: `pnpm build` then check the route-by-route table at the bottom
 of the output. If a route's first-load JS jumps by >10 kB, find out why.
 

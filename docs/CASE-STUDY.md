@@ -35,8 +35,10 @@ weightless.
 - **Raw WebGL/WebGL2 GLSL** for the hero, fluid displacement, work covers, and
   ambient noise — chosen over a 3D framework where the effect is a single
   full-screen fragment pass (smaller bundle, full control).
-- **Three.js + @react-three/fiber + drei** only where real 3D is needed (the
-  showreel chapter carousel).
+- **Three.js + @react-three/fiber + drei** only where real 3D is needed: the
+  showreel chapter carousel. That route still renders complete static covers
+  first; the R3F chunk loads only for enhanced, visible, idle, WebGL2-capable
+  clients.
 - **GSAP** (ScrollTrigger for the pinned Process scroller) + **Lenis** (smooth
   scroll) + **Framer Motion** (transitions).
 - **Static-first**: all content lives in `src/lib/data.ts`; pages are SSG, with

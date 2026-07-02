@@ -15,6 +15,7 @@ const criticalRoutes = [
   "/uses",
   "/contact",
   "/ai",
+  "/showreel",
 ];
 
 const A11Y_STABLE_CSS = `
@@ -149,5 +150,24 @@ test.describe("Smoke tests - critical routes", () => {
     await expect(
       page.locator('[data-lab-demo-shell="particle-systems"]').first(),
     ).toHaveAttribute("data-lab-demo-armed", "true");
+  });
+
+  test("should keep the showreel static fallback complete without R3F", async ({
+    page,
+  }) => {
+    test.setTimeout(60000);
+    await page.emulateMedia({ reducedMotion: "reduce" });
+
+    await page.goto("/showreel", { waitUntil: "domcontentloaded" });
+
+    await expect(
+      page.locator('section[aria-label="3D chapter carousel"]'),
+    ).toHaveCount(0);
+    await expect(page.locator("[data-showreel-static-list] > li")).toHaveCount(
+      4,
+    );
+    await expect(page.locator("[data-showreel-static-cover] img")).toHaveCount(
+      4,
+    );
   });
 });
