@@ -668,6 +668,31 @@ touch the component renders nothing (the identical `next/image` cover already
 sits behind it). On `pointer: fine` it behaves exactly as before. Reduced-motion
 still renders the static `<img>` fallback (desktop has a cursor to reveal it).
 
+### WebGL context LRU cap
+
+`src/lib/glContextRegistry.ts` is the WebGL-only context cap. It derives its cap
+from `deviceProfile()`:
+
+| Profile              | Max live WebGL contexts |
+| -------------------- | ----------------------- |
+| reduced motion touch | 2                       |
+| reduced motion fine  | 3                       |
+| low touch            | 2                       |
+| low fine             | 3                       |
+| mid touch            | 4                       |
+| mid fine             | 5                       |
+| high touch           | 5                       |
+| high fine            | 8                       |
+
+When live contexts exceed the cap, the registry loses only the least-recently
+used offscreen WebGL context. If every WebGL context is currently visible, it
+does not blank a visible hero just to satisfy the cap; the next offscreen
+transition reconciles the budget.
+
+Canvas2D lab demos are not part of this registry. They are scheduled by
+`src/lib/canvasRuntimeBudget.ts`, which pauses and resumes rAF loops instead of
+losing GPU contexts.
+
 ### Root overflow guard (mobile "shoved to one side")
 
 A separate but related mobile bug: with no `overflow-x: hidden` at the root, any
