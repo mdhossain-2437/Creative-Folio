@@ -124,8 +124,6 @@ export default function AiSummaryPage() {
                 src={site.portrait}
                 alt={`${site.name} — portrait`}
                 fill
-                priority
-                fetchPriority="high"
                 sizes="(max-width: 768px) 100vw, 33vw"
                 className="object-cover"
               />

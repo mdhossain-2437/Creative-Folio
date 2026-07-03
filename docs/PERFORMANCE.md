@@ -244,13 +244,19 @@ defeat the static-first model.
 | Property      | Default             | Override                                 |
 | ------------- | ------------------- | ---------------------------------------- |
 | `loading`     | `"lazy"`            | `"eager"` for above-fold imagery         |
-| `priority`    | `false`             | `true` only on the LCP element           |
+| `priority`    | `false`             | `true` only after Lighthouse proves image LCP |
 | `decoding`    | `"async"`           | never override                           |
 | `sizes`       | required            | always set per breakpoint, never default |
 | `placeholder` | `"empty"`           | `"blur"` if blurDataURL available        |
 | `quality`     | `75` (Next default) | drop to `60` for non-hero                |
 
-Above-fold portrait on `/about` is `priority` + `sizes="(max-width: 768px) 100vw, 33vw"`.
+2026-07-03 LHCI showed all audited routes (`/`, `/about`, `/works`, `/lab`,
+`/lab/particle-systems`, `/contact`, `/services`, `/resume`) using preloader
+text as LCP, not images. Do not add image `priority` or `fetchPriority="high"`
+to those routes until a fresh Lighthouse report names an image node as LCP.
+The preloader is capped to a short cold-load window, but synthetic Lighthouse
+may still name its text as LCP on a cold profile. Treat those routes as text
+LCP until a report proves otherwise.
 
 For raw `<img>` (used in OG routes only), set `decoding="async"` and
 `loading="lazy"` explicitly — `next/image` handles this automatically.

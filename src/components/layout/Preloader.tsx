@@ -3,9 +3,10 @@
 import { useEffect, useState } from "react";
 
 const SEEN_KEY = "delowar:preloader-seen";
-// Hard ceiling — never longer than 1.4s, even on cold loads. Earlier the
-// random-step RAF could drag past 4–5s on slow devices.
-const MAX_DURATION_MS = 1400;
+// Hard ceiling — keep the cold-load theatre short enough that it does not own
+// LCP on deployed Lighthouse runs.
+const MAX_DURATION_MS = 650;
+const EXIT_DELAY_MS = 120;
 
 export function Preloader() {
   const [pct, setPct] = useState(0);
@@ -41,7 +42,7 @@ export function Preloader() {
       } else {
         setPct(100);
         window.sessionStorage.setItem(SEEN_KEY, "1");
-        setTimeout(() => setDone(true), 280);
+        setTimeout(() => setDone(true), EXIT_DELAY_MS);
       }
     };
     raf = requestAnimationFrame(tick);
@@ -53,7 +54,7 @@ export function Preloader() {
   return (
     <div
       aria-hidden={done}
-      className={`pointer-events-none fixed inset-0 z-[90] flex items-end justify-between bg-ink-950 px-6 pb-10 pt-12 transition-[transform,opacity] duration-1000 ease-out md:px-10 ${
+      className={`pointer-events-none fixed inset-0 z-[90] flex items-end justify-between bg-ink-950 px-6 pb-10 pt-12 transition-[transform,opacity] duration-500 ease-out md:px-10 ${
         done ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"
       }`}
     >

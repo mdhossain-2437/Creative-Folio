@@ -115,8 +115,6 @@ export default function AboutPage() {
                   src={site.portrait}
                   alt={`${site.name} — portrait`}
                   fill
-                  priority
-                  fetchPriority="high"
                   sizes="(max-width: 768px) 100vw, 33vw"
                   className="object-cover grayscale transition-[filter] duration-700 hover:grayscale-0"
                 />
