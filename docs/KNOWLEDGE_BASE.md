@@ -82,7 +82,7 @@ When the year ticks (e.g. 2027 → 2028):
 | Styling   | Tailwind + custom tokens                       | tokens in `tailwind.config.ts`         |
 | Motion    | GSAP, Lenis, Framer Motion                     | reduced-motion respected globally      |
 | WebGL     | raw GLSL (no Three.js in hero)                 | hero shader is hand-rolled WebGL2      |
-| Type      | Newsreader (serif), Inter, JetBrains Mono      | loaded via `next/font`                 |
+| Type      | Newsreader (serif), Inter, JetBrains Mono      | local WOFF2 via `next/font/local`      |
 | Icons     | Lucide                                         | `lucide-react`                         |
 | Forms     | none — `mailto:` only                          | no third-party form                    |
 
@@ -372,8 +372,8 @@ focused PR.
 
 - Adopt `<link rel="modulepreload">` for the Lenis chunk so first paint of
   the home page doesn't wait on the smooth-scroll bundle.
-- Move font subset to local self-hosted woff2 with `font-display: optional`
-  to avoid layout shift on slow connections.
+- Keep local WOFF2 subsets audited in `src/assets/fonts` when changing the type
+  system.
 - Move the heaviest lab simulations (`reaction-diffusion`, `boids-flock`,
   `sand-piles`) to workers now that each slug already lives in its own dynamic
   module under `src/components/lab/demos/`.

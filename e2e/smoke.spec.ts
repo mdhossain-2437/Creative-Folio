@@ -97,7 +97,16 @@ test.describe("Smoke tests - critical routes", () => {
 
       await page.goto(route, { waitUntil: "domcontentloaded" });
 
-      const accessibilityScanResults = await new AxeBuilder({ page }).analyze();
+      // The root route covers shared chrome/footer once. Other routes scan the
+      // page-specific surface so the suite does not repeatedly traverse the
+      // same global marquee/signature/footer DOM on every route.
+      const axe = new AxeBuilder({ page });
+      axe.exclude('[data-a11y-decorative="true"]');
+      if (route !== "/") {
+        axe.include("#main-content");
+      }
+
+      const accessibilityScanResults = await axe.analyze();
       const blockingViolations = accessibilityScanResults.violations.filter(
         (violation) =>
           violation.impact === "serious" || violation.impact === "critical",

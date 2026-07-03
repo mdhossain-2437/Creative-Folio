@@ -78,7 +78,7 @@ export function LabRuntimeMetric({ compact = false }: { compact?: boolean }) {
       title={`Runtime count for ${profile.tier} tier on ${profile.renderer}; GPU ${profile.gpu.rendererSignal}, timing ${profile.gpu.timingStatus}`}
     >
       <span>{formatRuntimeCount(profile.count)}</span>
-      <span className="ml-2 text-warmwhite/45">
+      <span className="ml-2 text-warmwhite/60">
         {profile.tier} / {profile.renderer}
       </span>
     </span>

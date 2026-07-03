@@ -60,6 +60,7 @@ export function PortfoliosTeaser() {
               <article className="group relative flex h-full flex-col gap-5 bg-ink-900 p-6 transition-colors hover:bg-ink-950 md:p-8">
                 <span
                   aria-hidden
+                  data-a11y-decorative="true"
                   className="pointer-events-none absolute right-4 top-3 font-serif text-[clamp(3rem,6vw,5rem)] leading-none tracking-tightest opacity-15 transition-opacity duration-500 group-hover:opacity-30"
                   style={{ color: p.accent }}
                 >

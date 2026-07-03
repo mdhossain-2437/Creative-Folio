@@ -259,14 +259,23 @@ For raw `<img>` (used in OG routes only), set `decoding="async"` and
 
 ## 6. Font Strategy
 
-`next/font/google` self-hosts Inter + Newsreader + JetBrains Mono at build
-time. Only the latin subset is loaded.
+`next/font/local` loads committed Latin WOFF2 assets from
+`src/assets/fonts`. Builds no longer fetch Google Fonts CSS or font binaries;
+the exact Inter, Newsreader, JetBrains Mono, and Sacramento files live in the
+repo beside their OFL license texts.
 
 Newsreader uses `display: "optional"` because it is the editorial display face:
 on slow connections, a stable system fallback for the first paint is less
 jarring than a visible serif hot-swap. Inter, JetBrains Mono, and Sacramento keep
 `display: "swap"` because they are interface/signature faces where immediate
 legibility matters more than avoiding a subtle style swap.
+
+Only the normal Newsreader variable face is wired into the global shell. The
+italic WOFF2 is retained in `src/assets/fonts` as source material, but global
+italic spans synthesize from the normal face until a route-specific preload can
+justify the extra transfer. JetBrains Mono and Sacramento are local,
+non-preload faces because they are not first-viewport dependencies on the
+audited routes.
 
 ---
 
