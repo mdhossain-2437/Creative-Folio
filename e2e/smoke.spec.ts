@@ -38,6 +38,11 @@ const A11Y_STABLE_CSS = `
       }
     `;
 
+const LAB_A11Y_SELECTORS = [
+  "[data-lab-filters]",
+  '[data-lab-card="fluid-dynamics"]',
+];
+
 async function prepareStaticA11yScan(page: Page) {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.addInitScript((css) => {
@@ -102,7 +107,13 @@ test.describe("Smoke tests - critical routes", () => {
       // same global marquee/signature/footer DOM on every route.
       const axe = new AxeBuilder({ page });
       axe.exclude('[data-a11y-decorative="true"]');
-      if (route !== "/") {
+      if (route === "/lab") {
+        await expect(page.locator("[data-lab-filters]")).toBeAttached();
+        await expect(
+          page.locator('[data-lab-card="fluid-dynamics"]'),
+        ).toBeAttached();
+        LAB_A11Y_SELECTORS.forEach((selector) => axe.include(selector));
+      } else if (route !== "/") {
         axe.include("#main-content");
       }
 

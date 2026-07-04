@@ -258,6 +258,29 @@ The preloader is capped to a short cold-load window, but synthetic Lighthouse
 may still name its text as LCP on a cold profile. Treat those routes as text
 LCP until a report proves otherwise.
 
+### Lighthouse page-weight budgets
+
+`budget.json` enforces route-level `resourceType: "total"` budgets in addition
+to the script, stylesheet, font, and image slices. Total route budgets are set
+from the latest successful LHCI transfer-size baseline plus roughly 20% headroom,
+rounded up to the next 25 KiB. The headroom is for normal compression and build
+hash variance, not for feature creep.
+
+| Route | 2026-07-03 baseline | Enforced total budget |
+| --- | ---: | ---: |
+| `/` | 659.1 KiB | 800 KiB |
+| `/about` | 588.5 KiB | 725 KiB |
+| `/works` | 627.4 KiB | 775 KiB |
+| `/lab` | 579.8 KiB | 700 KiB |
+| `/lab/particle-systems` | 576.1 KiB | 700 KiB |
+| `/contact` | 571.7 KiB | 700 KiB |
+| `/services` | 571.8 KiB | 700 KiB |
+| `/resume` | 571.2 KiB | 700 KiB |
+
+When a route intentionally grows, measure it with `pnpm lhci`, update this
+table with the new baseline, and keep the budget close enough that accidental
+payload regressions fail CI.
+
 For raw `<img>` (used in OG routes only), set `decoding="async"` and
 `loading="lazy"` explicitly — `next/image` handles this automatically.
 

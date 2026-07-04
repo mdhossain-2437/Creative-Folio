@@ -6,7 +6,7 @@
       { "resourceType": "stylesheet", "budget": 20 },
       { "resourceType": "font", "budget": 270 },
       { "resourceType": "image", "budget": 1 },
-      { "resourceType": "total", "budget": 1880 }
+      { "resourceType": "total", "budget": 800 }
     ],
     "resourceCounts": [
       { "resourceType": "script", "budget": 65 },
@@ -21,7 +21,7 @@
       { "resourceType": "stylesheet", "budget": 20 },
       { "resourceType": "font", "budget": 270 },
       { "resourceType": "image", "budget": 20 },
-      { "resourceType": "total", "budget": 1880 }
+      { "resourceType": "total", "budget": 725 }
     ],
     "resourceCounts": [
       { "resourceType": "script", "budget": 65 },
@@ -36,7 +36,7 @@
       { "resourceType": "stylesheet", "budget": 20 },
       { "resourceType": "font", "budget": 270 },
       { "resourceType": "image", "budget": 45 },
-      { "resourceType": "total", "budget": 1920 }
+      { "resourceType": "total", "budget": 775 }
     ],
     "resourceCounts": [
       { "resourceType": "script", "budget": 65 },
@@ -51,7 +51,7 @@
       { "resourceType": "stylesheet", "budget": 20 },
       { "resourceType": "font", "budget": 270 },
       { "resourceType": "image", "budget": 1 },
-      { "resourceType": "total", "budget": 1870 }
+      { "resourceType": "total", "budget": 700 }
     ],
     "resourceCounts": [
       { "resourceType": "script", "budget": 65 },
@@ -66,7 +66,7 @@
       { "resourceType": "stylesheet", "budget": 20 },
       { "resourceType": "font", "budget": 270 },
       { "resourceType": "image", "budget": 1 },
-      { "resourceType": "total", "budget": 1860 }
+      { "resourceType": "total", "budget": 700 }
     ],
     "resourceCounts": [
       { "resourceType": "script", "budget": 65 },
@@ -81,7 +81,7 @@
       { "resourceType": "stylesheet", "budget": 20 },
       { "resourceType": "font", "budget": 270 },
       { "resourceType": "image", "budget": 1 },
-      { "resourceType": "total", "budget": 1860 }
+      { "resourceType": "total", "budget": 700 }
     ],
     "resourceCounts": [
       { "resourceType": "script", "budget": 65 },
@@ -96,7 +96,7 @@
       { "resourceType": "stylesheet", "budget": 20 },
       { "resourceType": "font", "budget": 270 },
       { "resourceType": "image", "budget": 1 },
-      { "resourceType": "total", "budget": 1865 }
+      { "resourceType": "total", "budget": 700 }
     ],
     "resourceCounts": [
       { "resourceType": "script", "budget": 65 },
@@ -111,7 +111,7 @@
       { "resourceType": "stylesheet", "budget": 20 },
       { "resourceType": "font", "budget": 270 },
       { "resourceType": "image", "budget": 1 },
-      { "resourceType": "total", "budget": 1865 }
+      { "resourceType": "total", "budget": 700 }
     ],
     "resourceCounts": [
       { "resourceType": "script", "budget": 65 },
