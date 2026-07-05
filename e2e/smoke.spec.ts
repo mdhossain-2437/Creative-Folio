@@ -136,15 +136,50 @@ test.describe("Smoke tests - critical routes", () => {
 
     const metric = page.locator("[data-lab-runtime-metric]").first();
 
-    await expect(metric).toHaveAttribute("data-renderer", "Canvas2D");
+    await expect(metric).toHaveAttribute("data-renderer", /^(Canvas2D|WebGPU)$/);
     await expect(metric).toHaveAttribute(
       "data-device-tier",
       /^(low|mid|high)$/,
     );
-    await expect(metric).toContainText("Canvas2D");
+    const renderer = await metric.getAttribute("data-renderer");
+    expect(renderer).toMatch(/^(Canvas2D|WebGPU)$/);
+    await expect(metric).toContainText(renderer ?? "Canvas2D");
 
     const count = Number(await metric.getAttribute("data-particle-count"));
     expect([1100, 1600, 2200]).toContain(count);
+  });
+
+  test("should fall back when WebGPU adapter is unavailable", async ({
+    page,
+  }) => {
+    test.setTimeout(60000);
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.addInitScript(() => {
+      Object.defineProperty(navigator, "gpu", {
+        configurable: true,
+        value: {
+          getPreferredCanvasFormat: () => "bgra8unorm",
+          requestAdapter: async () => null,
+        },
+      });
+    });
+
+    const errors: string[] = [];
+    page.on("console", (msg) => {
+      if (msg.type() === "error") errors.push(msg.text());
+    });
+
+    const response = await page.goto("/lab/particle-systems", {
+      waitUntil: "domcontentloaded",
+    });
+    expect(response?.status()).toBe(200);
+
+    const metric = page.locator("[data-lab-runtime-metric]").first();
+    await expect(metric).toHaveAttribute("data-renderer", "Canvas2D");
+    await expect(
+      page.locator('[data-lab-demo-shell="particle-systems"]').first(),
+    ).toHaveAttribute("data-lab-demo-armed", "true");
+    expect(errors).toHaveLength(0);
   });
 
   test("should defer compact lab demo chunks until the grid needs them", async ({

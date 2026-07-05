@@ -81,7 +81,7 @@ When the year ticks (e.g. 2027 → 2028):
 | Language  | TypeScript strict                              | path alias `@/*` → `src/*`             |
 | Styling   | Tailwind + custom tokens                       | tokens in `tailwind.config.ts`         |
 | Motion    | GSAP, Lenis, Framer Motion                     | reduced-motion respected globally      |
-| WebGL     | raw GLSL (no Three.js in hero)                 | hero shader is hand-rolled WebGL2      |
+| Graphics  | WebGPU, raw WebGL/GLSL, Canvas2D               | WebGPU is progressive; WebGL/Canvas2D fallbacks stay complete |
 | Type      | Newsreader (serif), Inter, JetBrains Mono      | local WOFF2 via `next/font/local`      |
 | Icons     | Lucide                                         | `lucide-react`                         |
 | Forms     | none — `mailto:` only                          | no third-party form                    |
@@ -343,8 +343,6 @@ focused PR.
 - **Strict CSP with nonces.** Switch from `'unsafe-inline'` to per-request
   nonces using Next.js middleware. Touches: `next.config.mjs`, every inline
   `<script>` (JSON-LD, GA, etc.). Validate with csp-evaluator.
-- **WebGPU fallback for `HeroShader`.** Detect `navigator.gpu`, prefer it on
-  supported browsers (~60% global as of 2027). Fall back to current WebGL2.
 - **Edge runtime for `/api/github`.** Currently Node runtime; Edge would
   shave ~150ms off the first paint of `/now`.
 - **Service worker offline shell** for `/now`, `/journal`, `/ai`.

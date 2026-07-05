@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { HeroShader } from "@/components/webgl/HeroShader";
 import { HeroFluidDisplacement } from "@/components/webgl/HeroFluidDisplacement";
 import { MagneticLetters } from "@/components/ui/MagneticLetters";
@@ -9,18 +10,34 @@ import { ScrambleText } from "@/components/ui/ScrambleText";
 import { GhostCursors } from "@/components/ui/GhostCursors";
 import Link from "@/components/ui/PerformanceLink";
 import { site } from "@/lib/site";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   resolveRuntimeGraphicsMode,
   scheduleIdleWork,
   type RuntimeGraphicsMode,
 } from "@/lib/clientPerformance";
 import { onDeviceProfileChange } from "@/lib/deviceTier";
+import { shouldAttemptWebGPU } from "@/lib/webgpuHelper";
+
+const HeroShaderGpu = dynamic(
+  () =>
+    import("@/components/webgl/HeroShaderGpu").then(
+      (mod) => mod.HeroShaderGpu,
+    ),
+  { ssr: false },
+);
+
+type HeroShaderBackend = "webgpu" | "webgl";
 
 export function Hero() {
   const [graphicsMode, setGraphicsMode] =
     useState<RuntimeGraphicsMode>("static");
+  const [shaderBackend, setShaderBackend] =
+    useState<HeroShaderBackend>("webgl");
   const cancelEnhancementRef = useRef<() => void>(() => {});
+  const fallbackToWebGl = useCallback(() => {
+    setShaderBackend("webgl");
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -36,6 +53,7 @@ export function Hero() {
 
       // Ship the signature field first, then let the additive fluid/cursor
       // layers join only after the live page has had a quiet moment.
+      setShaderBackend(shouldAttemptWebGPU() ? "webgpu" : "webgl");
       setGraphicsMode("base");
       const cancelEnhancement = scheduleIdleWork(() => {
         if (!cancelled) setGraphicsMode("enhanced");
@@ -60,7 +78,12 @@ export function Hero() {
   return (
     <section className="relative h-[100svh] min-h-[640px] w-full overflow-hidden md:min-h-[760px]">
       <div className="absolute inset-0 bg-ink-950" aria-hidden />
-      {showShader && <HeroShader />}
+      {showShader &&
+        (shaderBackend === "webgpu" ? (
+          <HeroShaderGpu onFallback={fallbackToWebGl} />
+        ) : (
+          <HeroShader />
+        ))}
       {showEnhancedLayers && <HeroFluidDisplacement />}
       {showEnhancedLayers && <GhostCursors />}
       <div className="vignette absolute inset-0" />

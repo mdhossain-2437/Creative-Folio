@@ -9,6 +9,7 @@ import {
 } from "@/lib/deviceTier";
 import {
   formatRuntimeCount,
+  onParticleSystemRendererChange,
   particleSystemRuntimeProfile,
   type ParticleSystemRuntimeProfile,
 } from "@/lib/labRuntime";
@@ -40,7 +41,12 @@ export function LabRuntimeMetric({ compact = false }: { compact?: boolean }) {
     };
 
     update();
-    return onDeviceProfileChange(update);
+    const offProfile = onDeviceProfileChange(update);
+    const offRenderer = onParticleSystemRendererChange(update);
+    return () => {
+      offProfile();
+      offRenderer();
+    };
   }, [compact]);
 
   if (!profile) {

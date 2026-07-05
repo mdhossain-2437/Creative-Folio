@@ -1,185 +1,218 @@
-// WebGPU Helper Module
-// Provides WebGPU detection and initialization with WebGL fallback
-//
-// NOTE: WebGPU integration is prepared but not fully implemented in this codebase.
-// The current WebGL implementation uses GLSL shaders which would need to be
-// rewritten in WGSL (WebGPU Shading Language) for WebGPU compatibility.
-// This helper provides the foundation for future WebGPU adoption when browser
-// support is more mature and the migration effort can be justified.
-//
-// Current status:
-// - WebGPU detection: Implemented
-// - Context initialization: Implemented with fallback
-// - Shader migration: Not implemented (requires GLSL → WGSL conversion)
-// - Rendering pipeline: WebGL-only for now
+import { deviceProfile } from "@/lib/deviceTier";
 
 type WebGpuAlphaMode = "opaque" | "premultiplied";
+type WebGpuPowerPreference = "low-power" | "high-performance";
 
-type WebGpuDevice = {
-  limits: {
-    maxTextureDimension2D?: number;
-  };
-};
+export type WebGpuFallbackStage =
+  | "WebGPU"
+  | "WebGL2"
+  | "WebGL1"
+  | "Canvas2D"
+  | "Static";
+
+export const GRAPHICS_FALLBACK_CHAIN = [
+  "WebGPU",
+  "WebGL2",
+  "WebGL1",
+  "Canvas2D",
+  "Static",
+] as const satisfies readonly WebGpuFallbackStage[];
 
 type WebGpuAdapter = {
   requestDevice(): Promise<WebGpuDevice>;
 };
 
-type WebGpuCanvasContext = {
+export type WebGpuBuffer = object;
+export type WebGpuRenderPipeline = object;
+export type WebGpuBindGroupLayout = object;
+export type WebGpuPipelineLayout = object;
+export type WebGpuBindGroup = object;
+export type WebGpuShaderModule = object;
+export type WebGpuTextureView = object;
+export type WebGpuCommandBuffer = object;
+
+export type WebGpuRenderPassEncoder = {
+  setPipeline(pipeline: WebGpuRenderPipeline): void;
+  setBindGroup(index: number, bindGroup: WebGpuBindGroup): void;
+  setVertexBuffer(slot: number, buffer: WebGpuBuffer): void;
+  draw(vertexCount: number, instanceCount?: number): void;
+  end(): void;
+};
+
+export type WebGpuCommandEncoder = {
+  beginRenderPass(descriptor: Record<string, unknown>): WebGpuRenderPassEncoder;
+  finish(): WebGpuCommandBuffer;
+};
+
+export type WebGpuCanvasContext = {
   configure(options: {
     device: WebGpuDevice;
     format: string;
     alphaMode: WebGpuAlphaMode;
   }): void;
+  getCurrentTexture(): { createView(): WebGpuTextureView };
+};
+
+export type WebGpuDevice = {
+  queue: {
+    writeBuffer(
+      buffer: WebGpuBuffer,
+      bufferOffset: number,
+      data: BufferSource,
+    ): void;
+    submit(commandBuffers: WebGpuCommandBuffer[]): void;
+  };
+  lost?: Promise<{ reason?: string; message?: string }>;
+  destroy?: () => void;
+  createShaderModule(descriptor: {
+    label?: string;
+    code: string;
+  }): WebGpuShaderModule;
+  createRenderPipeline(
+    descriptor: Record<string, unknown>,
+  ): WebGpuRenderPipeline;
+  createBuffer(descriptor: {
+    label?: string;
+    size: number;
+    usage: number;
+  }): WebGpuBuffer;
+  createBindGroupLayout(
+    descriptor: Record<string, unknown>,
+  ): WebGpuBindGroupLayout;
+  createPipelineLayout(descriptor: {
+    bindGroupLayouts: WebGpuBindGroupLayout[];
+  }): WebGpuPipelineLayout;
+  createBindGroup(descriptor: Record<string, unknown>): WebGpuBindGroup;
+  createCommandEncoder(): WebGpuCommandEncoder;
 };
 
 type WebGpuNavigator = {
-  requestAdapter(): Promise<WebGpuAdapter | null>;
+  requestAdapter(options?: {
+    powerPreference?: WebGpuPowerPreference;
+  }): Promise<WebGpuAdapter | null>;
   getPreferredCanvasFormat(): string;
 };
 
-// Type declarations for WebGPU (not yet in this project's TypeScript lib).
 declare global {
   interface Navigator {
     gpu?: WebGpuNavigator;
   }
 }
 
-export type GraphicsBackend = "webgpu" | "webgl" | "none";
-
-export interface GraphicsContext {
-  backend: GraphicsBackend;
-  device?: WebGpuDevice;
-  context?: WebGpuCanvasContext;
-  gl?: WebGLRenderingContext | WebGL2RenderingContext;
-  canvas: HTMLCanvasElement;
-}
-
-/**
- * Check if WebGPU is available in the current browser
- */
-export function isWebGPUSupported(): boolean {
-  if (typeof window === "undefined") return false;
-
-  // Check for navigator.gpu
-  if (!navigator.gpu) return false;
-
-  return true;
-}
-
-/**
- * Initialize WebGPU context with WebGL fallback
- * Attempts WebGPU first, falls back to WebGL if unavailable or fails
- */
-export async function initGraphicsContext(
-  canvas: HTMLCanvasElement,
-  options?: {
-    powerPreference?: WebGLPowerPreference;
-    antialias?: boolean;
-    alpha?: boolean;
-  },
-): Promise<GraphicsContext> {
-  // Try WebGPU first
-  if (isWebGPUSupported()) {
-    try {
-      const adapter = await navigator.gpu!.requestAdapter();
-      if (!adapter) {
-        console.warn("WebGPU adapter request failed, falling back to WebGL");
-        return initWebGLContext(canvas, options);
-      }
-
-      const device = await adapter.requestDevice();
-      const context = canvas.getContext(
-        "webgpu",
-      ) as unknown as WebGpuCanvasContext | null;
-
-      if (!context) {
-        console.warn("WebGPU context creation failed, falling back to WebGL");
-        return initWebGLContext(canvas, options);
-      }
-
-      // Configure the swap chain
-      const format = navigator.gpu!.getPreferredCanvasFormat();
-      context.configure({
-        device,
-        format,
-        alphaMode: options?.alpha ? "premultiplied" : "opaque",
-      });
-
-      return {
-        backend: "webgpu",
-        device,
-        context,
-        canvas,
-      };
-    } catch (error) {
-      console.warn("WebGPU initialization failed:", error);
-      return initWebGLContext(canvas, options);
+export type WebGpuInitResult =
+  | {
+      ok: true;
+      adapter: WebGpuAdapter;
+      device: WebGpuDevice;
+      context: WebGpuCanvasContext;
+      format: string;
     }
+  | {
+      ok: false;
+      reason:
+        | "unsupported"
+        | "adapter-unavailable"
+        | "device-unavailable"
+        | "context-unavailable";
+    };
+
+export const WEBGPU_BUFFER_USAGE = {
+  COPY_DST: 0x0008,
+  VERTEX: 0x0020,
+  UNIFORM: 0x0040,
+} as const;
+
+export const WEBGPU_SHADER_STAGE = {
+  VERTEX: 0x1,
+  FRAGMENT: 0x2,
+} as const;
+
+export function canUseWebGPU(): boolean {
+  return typeof navigator !== "undefined" && Boolean(navigator.gpu);
+}
+
+export function shouldAttemptWebGPU({
+  allowLowTier = false,
+}: {
+  allowLowTier?: boolean;
+} = {}): boolean {
+  if (!canUseWebGPU() || typeof window === "undefined") return false;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    return false;
   }
 
-  // Fallback to WebGL
-  return initWebGLContext(canvas, options);
+  const connection = (
+    navigator as Navigator & {
+      connection?: { saveData?: boolean; effectiveType?: string };
+    }
+  ).connection;
+  const effectiveType = connection?.effectiveType ?? "";
+  if (connection?.saveData || /(^|-)2g$/.test(effectiveType)) return false;
+
+  const profile = deviceProfile();
+  if (!allowLowTier && profile.tier === "low") return false;
+  return (
+    profile.gpu.rendererSignal !== "software" &&
+    profile.gpu.rendererSignal !== "unavailable"
+  );
 }
 
-/**
- * Initialize WebGL context (fallback)
- */
-function initWebGLContext(
+export async function initWebGpuCanvas(
   canvas: HTMLCanvasElement,
-  options?: {
-    powerPreference?: WebGLPowerPreference;
-    antialias?: boolean;
+  {
+    alpha = false,
+    powerPreference = "high-performance",
+  }: {
     alpha?: boolean;
-  },
-): GraphicsContext {
-  const gl = canvas.getContext("webgl", {
-    antialias: options?.antialias ?? false,
-    alpha: options?.alpha ?? false,
-    powerPreference: options?.powerPreference ?? "high-performance",
+    powerPreference?: WebGpuPowerPreference;
+  } = {},
+): Promise<WebGpuInitResult> {
+  if (!navigator.gpu) return { ok: false, reason: "unsupported" };
+
+  const adapter = await navigator.gpu.requestAdapter({ powerPreference });
+  if (!adapter) return { ok: false, reason: "adapter-unavailable" };
+
+  let device: WebGpuDevice;
+  try {
+    device = await adapter.requestDevice();
+  } catch {
+    return { ok: false, reason: "device-unavailable" };
+  }
+
+  const context = canvas.getContext(
+    "webgpu",
+  ) as unknown as WebGpuCanvasContext | null;
+  if (!context) {
+    device.destroy?.();
+    return { ok: false, reason: "context-unavailable" };
+  }
+
+  const format = navigator.gpu.getPreferredCanvasFormat();
+  context.configure({
+    device,
+    format,
+    alphaMode: alpha ? "premultiplied" : "opaque",
   });
 
-  if (!gl) {
-    console.error("WebGL context creation failed");
-    return {
-      backend: "none",
-      canvas,
-    };
-  }
-
-  return {
-    backend: "webgl",
-    gl,
-    canvas,
-  };
+  return { ok: true, adapter, device, context, format };
 }
 
-/**
- * Get the preferred graphics backend
- * Returns "webgpu" if supported, "webgl" otherwise
- */
-export function getPreferredBackend(): GraphicsBackend {
-  return isWebGPUSupported() ? "webgpu" : "webgl";
-}
+export function getWebGlFallbackContext(
+  canvas: HTMLCanvasElement,
+  options: WebGLContextAttributes = {
+    antialias: false,
+    alpha: false,
+    powerPreference: "high-performance",
+  },
+): {
+  stage: "WebGL2" | "WebGL1" | "Static";
+  gl: WebGLRenderingContext | WebGL2RenderingContext | null;
+} {
+  const webgl2 = canvas.getContext("webgl2", options);
+  if (webgl2) return { stage: "WebGL2", gl: webgl2 };
 
-/**
- * Get renderer information for debugging
- */
-export function getRendererInfo(context: GraphicsContext): string {
-  if (context.backend === "webgpu" && context.device) {
-    const adapterInfo = context.device.limits;
-    return `WebGPU - maxTextureDimension2D: ${adapterInfo.maxTextureDimension2D}`;
-  }
+  const webgl1 = canvas.getContext("webgl", options);
+  if (webgl1) return { stage: "WebGL1", gl: webgl1 };
 
-  if (context.backend === "webgl" && context.gl) {
-    const debug = context.gl.getExtension("WEBGL_debug_renderer_info");
-    if (debug) {
-      const renderer = context.gl.getParameter(debug.UNMASKED_RENDERER_WEBGL);
-      const vendor = context.gl.getParameter(debug.UNMASKED_VENDOR_WEBGL);
-      return `WebGL - ${vendor} ${renderer}`;
-    }
-    return "WebGL - debug info unavailable";
-  }
-
-  return "No graphics context";
+  return { stage: "Static", gl: null };
 }

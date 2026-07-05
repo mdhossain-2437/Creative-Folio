@@ -627,10 +627,32 @@ cell — empirically ~150 distance checks per frame instead of ~1225.
 
 ---
 
-## 15. Future-Performance Roadmap
+## 15. GPU Backend Fallbacks
 
-- **WebGPU fallback for `HeroShader`.** Detect `navigator.gpu`, prefer it
-  on supported browsers. Fall back to current WebGL2.
+`src/lib/webgpuHelper.ts` owns the progressive backend selector. It never makes
+WebGPU mandatory: reduced-motion, Save-Data/2g, low-tier, software-renderer, and
+adapter/device/context failures all stay on the existing renderer.
+
+Fallback order:
+
+1. `WebGPU`
+2. `WebGL2`
+3. `WebGL1`
+4. `Canvas2D`
+5. `Static`
+
+Active surfaces:
+
+- `HeroShaderGpu` is dynamically imported only after the runtime graphics gate
+  allows live hero graphics. If WebGPU setup fails, it calls back to the
+  existing `HeroShader` WebGL path; the static ink background remains the final
+  fallback.
+- `/lab/particle-systems` attempts WebGPU only for the full playground. Compact
+  `/lab` grid previews stay Canvas2D so the index never opens many GPU devices.
+  The runtime metric reports the active renderer as `WebGPU` or `Canvas2D`.
+
+### Remaining roadmap
+
 - **Modulepreload for Lenis.** Add `<link rel="modulepreload" href="...">`
   for the smooth-scroll chunk so first paint doesn't wait on it.
 - **View Transitions API.** Once Chromium-stable, replace `RouteCurtain`.
@@ -774,6 +796,11 @@ transition reconciles the budget.
 Canvas2D lab demos are not part of this registry. They are scheduled by
 `src/lib/canvasRuntimeBudget.ts`, which pauses and resumes rAF loops instead of
 losing GPU contexts.
+
+WebGPU canvases are also outside the WebGL LRU because they do not expose the
+`WEBGL_lose_context` extension. Current WebGPU usage is limited to one visible
+hero canvas or one full particle playground; if future work adds multiple live
+WebGPU canvases, add a matching WebGPU device budget before shipping it.
 
 ### Root overflow guard (mobile "shoved to one side")
 

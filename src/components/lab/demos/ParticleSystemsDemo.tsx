@@ -1,8 +1,19 @@
 "use client";
 
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { CanvasDemo, type LabDemoModuleProps, type InitFn, type TickFn } from "@/components/lab/runtime/CanvasDemo";
-import { deviceProfile } from "@/lib/deviceTier";
-import { particleSystemRuntimeProfile } from "@/lib/labRuntime";
+import { deviceProfile, onDeviceProfileChange } from "@/lib/deviceTier";
+import {
+  particleSystemRuntimeProfile,
+  setParticleSystemRenderer,
+} from "@/lib/labRuntime";
+import { shouldAttemptWebGPU } from "@/lib/webgpuHelper";
+
+const ParticleSystemsWebGpuDemo = lazy(() =>
+  import("@/components/lab/demos/ParticleSystemsWebGpuDemo").then((mod) => ({
+    default: mod.ParticleSystemsWebGpuDemo,
+  })),
+);
 
 // ── 03 — Particle Systems: attractor field + click bursts ───────────────────
 const partSysInit: InitFn = ({ w, h, store, compact }) => {
@@ -94,5 +105,75 @@ const partSysTick: TickFn = ({ ctx, w, h, t, m, store, dpr }) => {
 };
 
 export default function ParticleSystemsDemo({ compact }: LabDemoModuleProps) {
-  return <CanvasDemo init={partSysInit} tick={partSysTick} compact={compact} fpsCap={compact ? 30 : 60} />;
+  const [mode, setMode] = useState<"webgpu" | "canvas">("canvas");
+  const webGpuFailedRef = useRef(false);
+
+  useEffect(() => {
+    let modeTimer = 0;
+    const scheduleMode = (nextMode: "webgpu" | "canvas") => {
+      window.clearTimeout(modeTimer);
+      modeTimer = window.setTimeout(() => setMode(nextMode), 0);
+    };
+
+    if (compact) {
+      scheduleMode("canvas");
+      return () => window.clearTimeout(modeTimer);
+    }
+
+    const update = () => {
+      if (!webGpuFailedRef.current && shouldAttemptWebGPU()) {
+        scheduleMode("webgpu");
+      } else {
+        scheduleMode("canvas");
+        setParticleSystemRenderer("Canvas2D");
+      }
+    };
+
+    update();
+    const offProfile = onDeviceProfileChange(update);
+    return () => {
+      window.clearTimeout(modeTimer);
+      offProfile();
+    };
+  }, [compact]);
+
+  const fallbackToCanvas = useCallback(() => {
+    webGpuFailedRef.current = true;
+    setParticleSystemRenderer("Canvas2D");
+    setMode("canvas");
+  }, []);
+
+  const markWebGpuReady = useCallback(() => {
+    setParticleSystemRenderer("WebGPU");
+  }, []);
+
+  if (!compact && mode === "webgpu") {
+    return (
+      <Suspense
+        fallback={
+          <CanvasDemo
+            init={partSysInit}
+            tick={partSysTick}
+            compact={compact}
+            fpsCap={60}
+          />
+        }
+      >
+        <ParticleSystemsWebGpuDemo
+          compact={compact}
+          onFallback={fallbackToCanvas}
+          onReady={markWebGpuReady}
+        />
+      </Suspense>
+    );
+  }
+
+  return (
+    <CanvasDemo
+      init={partSysInit}
+      tick={partSysTick}
+      compact={compact}
+      fpsCap={compact ? 30 : 60}
+    />
+  );
 }

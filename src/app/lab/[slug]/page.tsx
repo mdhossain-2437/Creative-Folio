@@ -9,7 +9,7 @@ import { LabPlaygroundHints } from "@/components/lab/LabPlaygroundHints";
 import { LabSnapshotButton } from "@/components/lab/LabSnapshotButton";
 import { LabRuntimeMetric } from "@/components/lab/LabRuntimeMetric";
 import { experiments } from "@/lib/data";
-import { PARTICLE_SYSTEM_RENDERER } from "@/lib/labRuntime";
+import { PARTICLE_SYSTEM_RENDERER_LABEL } from "@/lib/labRuntime";
 import { site } from "@/lib/site";
 
 // Map an experiment's `meta` string (e.g. "GLSL · 2027", "Three.js · 2026") to
@@ -311,11 +311,11 @@ export default async function LabSlug({
   const url = `${site.url}/lab/${exp.slug}`;
   const rendererLabel =
     exp.slug === "particle-systems"
-      ? `${PARTICLE_SYSTEM_RENDERER} / tiered`
+      ? `${PARTICLE_SYSTEM_RENDERER_LABEL} / tiered`
       : "WebGL2 / fallback";
   const runtimePlatform =
     exp.slug === "particle-systems"
-      ? `${PARTICLE_SYSTEM_RENDERER} (browser)`
+      ? `${PARTICLE_SYSTEM_RENDERER_LABEL} (browser)`
       : "WebGL2 / Canvas2D (browser)";
 
   // SoftwareSourceCode tells search engines (and AI engines) this is a
@@ -338,7 +338,7 @@ export default async function LabSlug({
       url,
       browserRequirements:
         exp.slug === "particle-systems"
-          ? "Requires Canvas2D capable browser"
+          ? "Uses WebGPU when available; falls back to Canvas2D capable browsers"
           : "Requires WebGL2 or Canvas2D capable browser",
       applicationCategory: "DeveloperApplication",
       operatingSystem: "Any (browser)",

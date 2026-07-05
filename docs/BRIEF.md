@@ -207,7 +207,7 @@ this protocol so the new thing slots in cleanly:
 | Hypothetical 2028+ feature | How to slot it in |
 | --- | --- |
 | **View Transitions API** | Wrap `RouteCurtain` with `document.startViewTransition()` when `'startViewTransition' in document`. Falls back to current curtain. |
-| **WebGPU shader** | Detect `navigator.gpu`, conditionally swap `HeroShader.tsx` for `HeroShaderGpu.tsx` via dynamic import. WebGL2 path stays as fallback. |
+| **WebGPU compute particles** | Build on the existing WebGPU render selector; keep Canvas2D as the browser fallback. |
 | **CSS `@container queries` + style queries** | Add new container queries inside existing rule blocks; safe because of progressive enhancement. |
 | **New AI crawler** | Add the user-agent to the `Allow: /` block in `src/app/robots.ts`. One-line change. |
 | **New design token / colour** | Add to `tailwind.config.ts > theme.extend.colors`. Reference via `bg-<token>`. |

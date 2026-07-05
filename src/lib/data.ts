@@ -966,7 +966,7 @@ export const experiments: ExperimentExtended[] = [
     title: "Particle Systems",
     summary:
       "Tier-aware particle system with curl-noise-style advection, click shockwaves and frame-budgeted rendering.",
-    meta: "Canvas2D · 2027",
+    meta: "WebGPU / Canvas2D · 2027",
   },
   {
     slug: "variable-font-scroll",

@@ -49,8 +49,9 @@ const metric = document.querySelector("[data-lab-runtime-metric]");
 Expected:
 
 - Real low-end Android should usually report `low` or `mid`.
-- Renderer should match the active path, currently `Canvas2D` for particle
-  systems.
+- Renderer should match the active path. Real low-end Android should usually
+  stay on `Canvas2D`; `WebGPU` is acceptable only on devices that resolve to a
+  capable mid/high tier without Save-Data/reduced-motion.
 - Particle count should match the tiered runtime:
   - `low`: `1100`
   - `mid`: `1600`
