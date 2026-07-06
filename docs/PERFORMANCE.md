@@ -88,7 +88,7 @@ No scroll-coupled feature is lost: the native path still updates the same
 `--scroll-vy` / `--scroll-progress` CSS vars and the same `refs` singleton,
 sourced from real scroll events (with a damped, clamped velocity in identical
 units to the Lenis path, decayed back to 0 when momentum ends). See
-§ 16 for the full device-tier model.
+§ 18 for the full device-tier model.
 
 ### CSS-var write throttle
 
@@ -328,7 +328,29 @@ audited routes.
 
 ---
 
-## 7. Bundle Hygiene
+## 7. Real User Monitoring
+
+Vercel Web Analytics and Speed Insights mount from `src/app/layout.tsx` through
+`RumProbes`. They are the production feedback loop for route-level traffic and
+Core Web Vitals:
+
+- Web Analytics answers which routes users actually hit after deploy.
+- Speed Insights answers whether LCP, INP, CLS, FCP, or TTFB regress for real
+  users on real devices.
+- Local production servers do not mount the probes unless Vercel deployment
+  env vars are present, preventing local `/_vercel/...` script 404s from
+  polluting smoke tests.
+- `RumProbes` imports both packages dynamically. A static import merges the
+  analytics client code into a shared chunk every route downloads (~7 kB on
+  the homepage), which blows the § 5 page-weight budget for a component that
+  never mounts locally.
+
+Local gates remain `pnpm quality`; live regression diagnosis starts from
+[`docs/RUM.md`](./RUM.md) after the deployment is ready.
+
+---
+
+## 8. Bundle Hygiene
 
 The first-load shared JS is **106 kB** as of MMXXVII. Don't let it grow.
 Watch out for:
@@ -369,7 +391,7 @@ of the output. If a route's first-load JS jumps by >10 kB, find out why.
 
 ---
 
-## 8. Reduced-Motion Contract
+## 9. Reduced-Motion Contract
 
 Every motion path must check:
 
@@ -387,7 +409,7 @@ There's no "reduced-but-still-some" middle ground — reduced means **none**.
 
 ---
 
-## 9. Verification Checklist
+## 10. Verification Checklist
 
 Before merging a PR that touches anything in this file's domain:
 
@@ -403,7 +425,7 @@ Before merging a PR that touches anything in this file's domain:
 
 ---
 
-## 10. Frame-Rate-Independent Damping (`damp.ts`)
+## 11. Frame-Rate-Independent Damping (`damp.ts`)
 
 The studio canon for "buttery" cursor + camera follow — same formula
 Immersive Garden, Robot Studio, and Active Theory cite in the David Whyte
@@ -461,7 +483,7 @@ ring follows. Damping the dot makes it feel laggy.
 
 ---
 
-## 11. WebGL Context Options + DPR Caps (`dpr.ts`)
+## 12. WebGL Context Options + DPR Caps (`dpr.ts`)
 
 The paper § "Performance Budget" warns that retina iPhones report
 `devicePixelRatio = 3`, which means a default canvas renders **9× as
@@ -499,7 +521,7 @@ A central place for the four caps:
 cap by the device's `dprScale` (`1` high / `0.85` mid / `0.7` low, floored at
 `1.0`) before clamping to `devicePixelRatio`. So a `DPR_HERO` surface renders at
 1.5× on a capable desktop and ~1.0× on a weak phone — half the fragments — with
-no per-component code change. See § 16.
+no per-component code change. See § 18.
 
 Always read `cappedDpr(cap)` once per `resize`, not per frame. The
 browser can change `devicePixelRatio` when the user zooms.
@@ -548,7 +570,7 @@ the grid from letting every near-viewport preview keep its own rAF loop alive.
 
 ---
 
-## 12. Shared rAF Bus (`rafBus.ts`)
+## 13. Shared rAF Bus (`rafBus.ts`)
 
 Paper § "Scroll Management": _"Lenis allows the developers to
 synchronize the scroll position with the WebGL rendering loop, ensuring
@@ -594,7 +616,7 @@ keeps running so one buggy canvas can't take down the cursor or scroll.
 
 ---
 
-## 13. Pre-Baked Noise (`bakeNoise.ts`)
+## 14. Pre-Baked Noise (`bakeNoise.ts`)
 
 Paper § "Generative Reveal Animation":
 
@@ -623,7 +645,7 @@ shows the curl-noise loop becoming a bottleneck.
 
 ---
 
-## 14. Spatial Hashing for Atlas Connection Lines
+## 15. Spatial Hashing for Atlas Connection Lines
 
 `AtlasConstellation` draws faint lines between stars within a `link`
 distance (currently 140 CSS px). The naive O(N²) all-pairs scan with
@@ -647,7 +669,7 @@ cell — empirically ~150 distance checks per frame instead of ~1225.
 
 ---
 
-## 15. GPU Backend Fallbacks
+## 16. GPU Backend Fallbacks
 
 `src/lib/webgpuHelper.ts` owns the progressive backend selector. It never makes
 WebGPU mandatory: reduced-motion, Save-Data/2g, low-tier, software-renderer, and
@@ -671,7 +693,7 @@ Active surfaces:
   `/lab` grid previews stay Canvas2D so the index never opens many GPU devices.
   The runtime metric reports the active renderer as `WebGPU` or `Canvas2D`.
 
-## 16. Worker-Backed Lab Simulations
+## 17. Worker-Backed Lab Simulations
 
 `src/components/lab/runtime/WorkerCanvasDemo.tsx` moves CPU-heavy Canvas2D
 simulations off the main thread when `OffscreenCanvas` transfer is available.
@@ -706,7 +728,7 @@ Rules:
 
 ---
 
-## 17. Device-Tier Adaptation (`deviceTier.ts` + `frameGate.ts`)
+## 18. Device-Tier Adaptation (`deviceTier.ts` + `frameGate.ts`)
 
 The goal of this pass: run the **same** heavy WebGL on a low-end phone and an
 old laptop as on a desktop, with no perceptible scroll jank — and **without
@@ -730,7 +752,7 @@ into:
 | `tier`          | `"low" \| "mid" \| "high"` from a score over `deviceMemory`, `hardwareConcurrency`, touch, `devicePixelRatio`, shortest viewport edge, and GPU signals |
 | `isTouch`       | `(hover: none), (pointer: coarse)`                                                                                                        |
 | `reducedMotion` | `prefers-reduced-motion: reduce`                                                                                                          |
-| `dprScale`      | `1` / `0.85` / `0.7` — the multiplier `cappedDpr` applies (§ 11)                                                                          |
+| `dprScale`      | `1` / `0.85` / `0.7` — the multiplier `cappedDpr` applies (§ 12)                                                                          |
 
 Scoring is **best-effort and forgiving**: missing signals (Safari hides
 `deviceMemory`) are treated as "capable" so we never over-penalise a device we

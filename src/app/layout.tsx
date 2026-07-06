@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
+import { RumProbes } from "@/components/providers/RumProbes";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Preloader } from "@/components/layout/Preloader";
@@ -230,6 +231,7 @@ export default function RootLayout({
             />
           </MaskFooter>
         </SmoothScrollProvider>
+        <RumProbes />
       </body>
     </html>
   );

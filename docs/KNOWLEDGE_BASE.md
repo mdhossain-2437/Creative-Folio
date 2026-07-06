@@ -6,6 +6,7 @@ first before making changes. Companion documents:
 
 - [`docs/PERFORMANCE.md`](./PERFORMANCE.md) — frame-budget architecture, scroll, WebGL, lazy-load policy.
 - [`docs/LOW_END_DEVICE_VERIFICATION.md`](./LOW_END_DEVICE_VERIFICATION.md) — real Android Chrome performance checklist.
+- [`docs/RUM.md`](./RUM.md) — Vercel Web Analytics + Speed Insights validation.
 - [`docs/SEO.md`](./SEO.md) — search + generative-engine optimisation playbook.
 - [`docs/BRIEF.md`](./BRIEF.md) — working style, brief format, ways of working.
 - [`docs/AGENT_SYSTEM_PROMPT.md`](./AGENT_SYSTEM_PROMPT.md) — copy-ready prompt for repo agents.
@@ -82,6 +83,7 @@ When the year ticks (e.g. 2027 → 2028):
 | Styling   | Tailwind + custom tokens                       | tokens in `tailwind.config.ts`         |
 | Motion    | GSAP, Lenis, Framer Motion                     | reduced-motion respected globally      |
 | Graphics  | WebGPU, raw WebGL/GLSL, Canvas2D               | WebGPU is progressive; WebGL/Canvas2D fallbacks stay complete |
+| RUM       | Vercel Web Analytics + Speed Insights          | route pageviews + Core Web Vitals after deploy |
 | Type      | Newsreader (serif), Inter, JetBrains Mono      | local WOFF2 via `next/font/local`      |
 | Icons     | Lucide                                         | `lucide-react`                         |
 | Forms     | none — `mailto:` only                          | no third-party form                    |
