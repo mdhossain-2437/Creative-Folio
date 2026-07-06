@@ -231,6 +231,52 @@ button {
     transform 1s var(--easing, cubic-bezier(0.22, 1, 0.36, 1)),
     filter 1s var(--easing, cubic-bezier(0.22, 1, 0.36, 1));
 }
+
+@keyframes scroll-progress-native-scale {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes reveal-native-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-progress-native {
+      animation: scroll-progress-native-scale linear both;
+      animation-timeline: scroll();
+      transform-origin: left center;
+    }
+  }
+}
+
+@supports (animation-timeline: view()) and
+  (animation-range: entry 0% cover 30%) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal[data-scroll-reveal="true"] {
+      animation: reveal-native-in 1s var(--easing, cubic-bezier(0.22, 1, 0.36, 1))
+        both;
+      animation-timeline: view();
+      animation-range: entry 8% cover 34%;
+      transition: none;
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal {
     opacity: 1;

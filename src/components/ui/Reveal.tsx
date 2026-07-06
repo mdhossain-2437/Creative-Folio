@@ -1,6 +1,7 @@
 "use client";
 
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef, type CSSProperties } from "react";
+import { supportsNativeViewTimeline } from "@/lib/nativeScrollAnimation";
 
 // React 19's tightened typing makes dynamic `as` props infer `never` for
 // children / ref unless we forward through a permissive component shape.
@@ -8,6 +9,8 @@ import { ReactNode, useEffect, useRef } from "react";
 type AsTag = React.ComponentType<{
   ref?: React.Ref<HTMLElement>;
   className?: string;
+  style?: CSSProperties;
+  "data-scroll-reveal"?: string;
   children?: ReactNode;
 }>;
 
@@ -32,6 +35,9 @@ export function Reveal({
       return;
     }
     el.style.setProperty("transition-delay", `${delay}s`);
+    el.style.setProperty("--reveal-delay", `${delay}s`);
+    if (supportsNativeViewTimeline()) return;
+
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
@@ -48,7 +54,12 @@ export function Reveal({
   }, [delay]);
   const Component = Tag as unknown as AsTag;
   return (
-    <Component ref={ref} className={`reveal ${className}`}>
+    <Component
+      ref={ref}
+      className={`reveal ${className}`}
+      data-scroll-reveal="true"
+      style={{ "--reveal-delay": `${delay}s` } as CSSProperties}
+    >
       {children}
     </Component>
   );

@@ -7,6 +7,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+import { supportsNativeScrollTimeline } from "@/lib/nativeScrollAnimation";
 
 export function ScrollProgress() {
   const barRef = useRef<HTMLDivElement>(null);
@@ -21,6 +22,11 @@ export function ScrollProgress() {
       return;
     }
     setShow(true);
+    if (supportsNativeScrollTimeline()) {
+      if (barRef.current) barRef.current.style.transform = "";
+      return;
+    }
+
     let raf = 0;
     const update = () => {
       const doc = document.documentElement;
@@ -51,7 +57,7 @@ export function ScrollProgress() {
     >
       <div
         ref={barRef}
-        className="h-full origin-left bg-peach/70"
+        className="scroll-progress-native h-full origin-left bg-peach/70"
         style={{ transform: "scaleX(0)" }}
       />
     </div>

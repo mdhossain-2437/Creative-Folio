@@ -1,74 +1,65 @@
-# CSS Scroll-Driven Animations Migration
+# CSS Scroll-Driven Animations
 
 ## Current State
 
-The site currently uses JavaScript-driven scroll animations:
-- GSAP for complex timeline animations
-- Framer Motion for React component animations
-- Custom SmoothScrollProvider with Lenis for smooth scrolling
-- Scroll position tracking via custom hooks
+The site now uses native CSS scroll-driven animations for simple, safe cases
+while keeping JavaScript fallbacks for browsers without support.
 
-## CSS Scroll-Driven Animations
+Native paths:
 
-CSS scroll-driven animations allow animations to be driven by scroll position:
-- `animation-timeline: scroll()` - drive animation by scroll progress
-- `view-timeline` - drive animation by element visibility
-- Off-main-thread execution for better performance
+- Page progress hairlines use `animation-timeline: scroll()`.
+- Generic `Reveal` blocks use `animation-timeline: view()`.
 
-### Browser Support
-- Chrome/Edge: Supported (Chrome 115+)
-- Firefox: Behind flag (not enabled by default)
-- Safari: Not supported
+Fallback paths:
 
-### Current Animation Patterns
+- Progress bars use passive scroll listeners plus direct DOM `transform`
+  updates.
+- `Reveal` uses the existing `IntersectionObserver` class toggle.
+- GSAP, Lenis, Framer Motion, and complex timeline work stay unchanged.
 
-The site uses several scroll-driven patterns:
-1. **Reveal animations**: Elements fade/slide in as they enter viewport
-2. **Parallax effects**: Background elements move at different speeds
-3. **Scroll-linked animations**: Animations tied to scroll position
-4. **Smooth scrolling**: Lenis provides custom scroll behavior
+## Files
 
-## Migration Challenges
+- `src/lib/nativeScrollAnimation.ts` feature-detects support.
+- `src/app/globals.css` owns the `@supports` timeline rules.
+- `src/components/ui/ScrollProgress.tsx` and
+  `src/components/ui/ScrollMeter.tsx` use native `scroll()` where available.
+- `src/components/ui/Reveal.tsx` marks elements for native `view()` timelines
+  and skips its observer on capable browsers.
 
-### 1. Animation Complexity
-- GSAP timelines are complex and would need CSS equivalents
-- Some animations use easing functions not available in CSS
-- Sequenced animations would need restructuring
+## Policy
 
-### 2. Smooth Scrolling Integration
-- Lenis smooth scrolling conflicts with native scroll timelines
-- Would need to either disable smooth scrolling or find hybrid approach
-- Current smooth scroll is a key UX feature
+Use native scroll-driven CSS only for animations that are:
 
-### 3. Feature Detection
-- Requires extensive feature detection and fallbacks
-- Fallback to JS animations for unsupported browsers
-- Dual maintenance of CSS and JS animation paths
+1. Pure opacity/transform/filter.
+2. Decorative or already visible through a fallback.
+3. Independent of React state.
+4. Safe under Lenis and native touch scrolling.
 
-### 4. Performance Benefits
-- Current animations are already optimized with IntersectionObserver
-- Frame gating prevents excessive rAF calls
-- Performance benefits may be marginal given existing optimizations
+Do not migrate:
 
-## Recommendation
+- GSAP timelines.
+- Pinned/sticky editorial choreography.
+- Canvas/WebGL/rAF loops.
+- Anything that needs route state, measurements, or user input.
 
-**Defer CSS scroll-driven animations migration** until:
-1. Browser support reaches >90% market share (Firefox/Safari support)
-2. Smooth scrolling integration is resolved
-3. Clear performance benefit is demonstrated
-4. Migration effort can be justified
+## Reduced Motion
 
-The current GSAP + Framer Motion + Lenis setup provides:
-- Excellent cross-browser compatibility
-- Complex animation capabilities
-- Smooth scrolling UX
-- Adequate performance with existing optimizations
+`prefers-reduced-motion: reduce` still disables reveal motion and leaves
+progress indicators static/fallback-driven as before. Do not add native scroll
+animations outside the existing reduced-motion media guards.
 
-## Future Implementation
+## Verification
 
-When adoption makes sense:
-1. Start with simple reveal animations (easiest to migrate)
-2. Use feature detection with @supports
-3. Keep JS fallbacks for unsupported browsers
-4. Gradually migrate complex animations
-5. Consider hybrid approach for smooth scrolling
+Automated smoke coverage checks that capable Chromium exposes a native
+`animation-timeline` on the progress bar. Unsupported browsers are covered by
+the same smoke routes because the fallback DOM remains unchanged.
+
+Manual verification:
+
+```js
+CSS.supports("animation-timeline: scroll()");
+getComputedStyle(document.querySelector("[data-scroll-progress-native]"))
+  .animationTimeline;
+```
+
+If support is true, the timeline should not be `auto`.

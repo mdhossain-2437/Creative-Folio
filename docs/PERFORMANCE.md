@@ -154,6 +154,17 @@ io.observe(canvas);
 
 When adding a new canvas, default to **paused-when-off-screen**.
 
+### Native scroll-driven CSS
+
+Simple progress/reveal effects use native CSS scroll timelines where the
+browser supports them:
+
+- `.scroll-progress-native` -> `animation-timeline: scroll()`
+- `.reveal[data-scroll-reveal="true"]` -> `animation-timeline: view()`
+
+Do not migrate pinned timelines, GSAP sequences, or canvas/WebGL loops. Keep JS
+fallbacks for unsupported browsers and always honor reduced motion.
+
 ---
 
 ## 3. Route Pre-warming

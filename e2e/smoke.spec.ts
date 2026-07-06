@@ -303,6 +303,49 @@ test.describe("Smoke tests - critical routes", () => {
     }
   });
 
+  test("should expose native scroll-driven CSS when supported", async ({
+    page,
+  }) => {
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+
+    const result = await page.evaluate(() => {
+      const supportsScroll = CSS.supports("animation-timeline: scroll()");
+      const supportsView =
+        CSS.supports("animation-timeline: view()") &&
+        CSS.supports("animation-range: entry 0% cover 30%");
+
+      const progress = document.createElement("div");
+      progress.className = "scroll-progress-native";
+      document.body.appendChild(progress);
+      const progressTimeline = getComputedStyle(progress).getPropertyValue(
+        "animation-timeline",
+      );
+      progress.remove();
+
+      const reveal = document.createElement("div");
+      reveal.className = "reveal";
+      reveal.setAttribute("data-scroll-reveal", "true");
+      document.body.appendChild(reveal);
+      const revealTimeline =
+        getComputedStyle(reveal).getPropertyValue("animation-timeline");
+      reveal.remove();
+
+      return {
+        progressTimeline,
+        revealTimeline,
+        supportsScroll,
+        supportsView,
+      };
+    });
+
+    if (result.supportsScroll) {
+      expect(result.progressTimeline).not.toBe("auto");
+    }
+    if (result.supportsView) {
+      expect(result.revealTimeline).not.toBe("auto");
+    }
+  });
+
   test("should defer compact lab demo chunks until the grid needs them", async ({
     page,
   }) => {
