@@ -1,43 +1,62 @@
-# Speculation Rules API Adoption
+# Speculation Rules API
 
 ## Current State
 
-The site currently uses Next.js built-in prefetching:
-- `<Link>` components with `prefetch` behavior
-- Route prefetching via `RoutePrefetcher` component
-- Dynamic imports for code splitting
+Speculation Rules are active as a progressive enhancement, not as a baseline
+navigation dependency.
 
-## Speculation Rules API
+The normal navigation warmup still comes from:
 
-The Speculation Rules API provides a declarative way to hint to browsers about:
-- Prefetching resources
-- Prerendering pages
-- Navigational intent
+- `<Link prefetch={false}>` by default, with measured exceptions only.
+- `RoutePrefetcher`, loaded by `LazyChrome` after a quiet window.
+- Route-level dynamic imports and static generation.
 
-### Browser Support
-- Chrome/Edge: Supported (Chrome 121+)
-- Firefox: Not supported
-- Safari: Not supported
+`RoutePrefetcher` now also installs `<link rel="speculationrules">` only when:
 
-### Implementation Considerations
+1. The browser reports support through `HTMLScriptElement.supports`.
+2. The page is visible.
+3. The connection is not Save-Data, `slow-2g`, `2g`, or `3g`.
 
-1. **Fallback Required**: Since Firefox and Safari don't support it, we need fallback logic
-2. **Complexity**: Adding speculation rules adds complexity without clear benefit for this site
-3. **Current Performance**: The existing Next.js prefetching already provides good performance
+## Rules Route
 
-## Recommendation
+`src/app/speculation-rules/route.ts` returns
+`application/speculationrules+json`.
 
-**Defer Speculation Rules API adoption** until:
-1. Browser support reaches >90% market share
-2. Clear performance benefit is demonstrated for this specific site
-3. The complexity can be justified
+Active rules:
 
-The current Next.js prefetching strategy combined with the existing `RoutePrefetcher` component provides adequate performance for the current navigation patterns.
+- `prefetch`: `/works`, `/lab`, `/journal`, `/about`, `/ai`
+- `prerender`: `/works`, `/lab`
 
-## Future Implementation
+Prerender uses `eagerness: "conservative"` and only includes stable, public,
+side-effect-free GET routes. Dynamic slugs, API routes, contact form paths,
+media-heavy showreel, and legal pages are intentionally excluded.
 
-When adoption makes sense, the implementation would involve:
-1. Create `/speculation-rules` route handler
-2. Add `<link rel="speculationrules">` to layout
-3. Define rules for key navigation paths
-4. Add feature detection for browser support
+## Constrained Connections
+
+The route returns an empty ruleset when request headers indicate:
+
+- `Save-Data: on`
+- `ECT: slow-2g`
+- `ECT: 2g`
+- `ECT: 3g`
+
+The response varies on `Save-Data` and `ECT` and uses private short caching so
+one user's constrained rules do not get served as a shared CDN default.
+
+## Verification
+
+Automated smoke coverage checks:
+
+- The default route returns a valid speculation-rules object.
+- Save-Data requests return empty `prefetch` and `prerender` arrays.
+- 2g/3g request hints also return empty rules.
+
+Manual browser verification:
+
+```js
+document.querySelector('link[rel="speculationrules"]')?.href;
+```
+
+On capable Chromium, after `LazyChrome` loads and the page has been quiet, this
+should point to `/speculation-rules`. On Save-Data or slow network hints, it
+should stay absent.

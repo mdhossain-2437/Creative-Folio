@@ -263,6 +263,46 @@ test.describe("Smoke tests - critical routes", () => {
     expect(errors).toHaveLength(0);
   });
 
+  test("should expose conservative speculation rules", async ({ request }) => {
+    const response = await request.get("/speculation-rules");
+    expect(response.status()).toBe(200);
+    expect(response.headers()["content-type"]).toContain(
+      "application/speculationrules+json",
+    );
+
+    const rules = await response.json();
+    expect(rules.prefetch).toHaveLength(1);
+    expect(rules.prefetch[0].urls).toEqual([
+      "/works",
+      "/lab",
+      "/journal",
+      "/about",
+      "/ai",
+    ]);
+    expect(rules.prefetch[0].eagerness).toBe("moderate");
+    expect(rules.prerender).toHaveLength(1);
+    expect(rules.prerender[0].urls).toEqual(["/works", "/lab"]);
+    expect(rules.prerender[0].eagerness).toBe("conservative");
+  });
+
+  test("should skip speculation rules on constrained requests", async ({
+    request,
+  }) => {
+    const constrainedHeaders: Array<Record<string, string>> = [
+      { "Save-Data": "on" },
+      { ECT: "2g" },
+      { ECT: "3g" },
+    ];
+
+    for (const headers of constrainedHeaders) {
+      const response = await request.get("/speculation-rules", { headers });
+      expect(response.status()).toBe(200);
+      const rules = await response.json();
+      expect(rules.prefetch).toEqual([]);
+      expect(rules.prerender).toEqual([]);
+    }
+  });
+
   test("should defer compact lab demo chunks until the grid needs them", async ({
     page,
   }) => {

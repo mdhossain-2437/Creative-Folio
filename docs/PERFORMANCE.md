@@ -206,6 +206,11 @@ Skip prefetching entirely when the user is on:
 This is a **politeness rule**, not a perf optimisation — pre-fetching on
 metered or slow connections is hostile.
 
+Speculation Rules follow the same policy. `RoutePrefetcher` appends the
+`/speculation-rules` link only on capable Chromium-style browsers after the
+connection gate passes. The route itself also returns empty rules for
+`Save-Data`, `slow-2g`, `2g`, and `3g` request hints.
+
 ### Pre-connect
 
 We also emit `<link rel="preconnect">` for known third-party origins so

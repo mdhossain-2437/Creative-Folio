@@ -204,7 +204,6 @@ export default function RootLayout({
         <link rel="author" href="/humans.txt" type="text/plain" />
         <link rel="alternate" hrefLang="en" href={site.url} />
         <link rel="alternate" hrefLang="x-default" href={site.url} />
-        <link rel="speculationrules" href="/speculation-rules" />
         <meta name="geo.region" content="BD-E" />
         <meta name="geo.placename" content={site.location} />
         <meta name="ICBM" content="25.0953, 89.0227" />

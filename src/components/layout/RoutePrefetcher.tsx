@@ -39,6 +39,31 @@ const SECONDARY_ROUTES = [
   "/portfolios",
 ];
 
+const SPECULATION_RULES_LINK_ID = "creative-folio-speculation-rules";
+
+function supportsSpeculationRules(): boolean {
+  if (typeof HTMLScriptElement === "undefined") return false;
+  const scriptElement = HTMLScriptElement as unknown as {
+    supports?: (type: string) => boolean;
+  };
+  return scriptElement.supports?.("speculationrules") ?? false;
+}
+
+function installSpeculationRulesLink(): () => void {
+  if (!supportsSpeculationRules()) return () => {};
+  if (document.getElementById(SPECULATION_RULES_LINK_ID)) return () => {};
+
+  const link = document.createElement("link");
+  link.id = SPECULATION_RULES_LINK_ID;
+  link.rel = "speculationrules";
+  link.href = "/speculation-rules";
+  document.head.appendChild(link);
+
+  return () => {
+    link.remove();
+  };
+}
+
 export function RoutePrefetcher() {
   const router = useRouter();
   const pathname = usePathname();
@@ -52,6 +77,7 @@ export function RoutePrefetcher() {
     // first scroll frame.
     if (isConstrainedConnection({ include3g: true })) return;
 
+    const removeSpeculationRulesLink = installSpeculationRulesLink();
     let cancelled = false;
     let lastActivity = performance.now();
     const timers: number[] = [];
@@ -121,6 +147,7 @@ export function RoutePrefetcher() {
 
     return () => {
       cancelled = true;
+      removeSpeculationRulesLink();
       cancelIdle();
       for (const timer of timers) window.clearTimeout(timer);
       for (const eventName of activityEvents) {
