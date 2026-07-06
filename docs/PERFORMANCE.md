@@ -270,7 +270,7 @@ hash variance, not for feature creep.
 | --- | ---: | ---: |
 | `/` | 659.1 KiB | 800 KiB |
 | `/about` | 588.5 KiB | 725 KiB |
-| `/works` | 627.4 KiB | 775 KiB |
+| `/works` | 700.0 KiB | 775 KiB |
 | `/lab` | 579.8 KiB | 700 KiB |
 | `/lab/particle-systems` | 576.1 KiB | 700 KiB |
 | `/contact` | 571.7 KiB | 700 KiB |
@@ -280,6 +280,10 @@ hash variance, not for feature creep.
 When a route intentionally grows, measure it with `pnpm lhci`, update this
 table with the new baseline, and keep the budget close enough that accidental
 payload regressions fail CI.
+
+`/works` keeps a 135 KiB image-slice cap because Lighthouse can load the first
+five AVIF covers in one run. The total route budget remains the real guardrail
+for page weight.
 
 For raw `<img>` (used in OG routes only), set `decoding="async"` and
 `loading="lazy"` explicitly — `next/image` handles this automatically.
@@ -651,6 +655,30 @@ Active surfaces:
   `/lab` grid previews stay Canvas2D so the index never opens many GPU devices.
   The runtime metric reports the active renderer as `WebGPU` or `Canvas2D`.
 
+## 16. Worker-Backed Lab Simulations
+
+`src/components/lab/runtime/WorkerCanvasDemo.tsx` moves CPU-heavy Canvas2D
+simulations off the main thread when `OffscreenCanvas` transfer is available.
+The public experience is unchanged; unsupported browsers keep the original
+`CanvasDemo` renderer.
+
+Worker-backed full routes:
+
+- `/lab/reaction-diffusion`
+- `/lab/boids-flock`
+- `/lab/sand-piles`
+
+Rules:
+
+1. Keep compact `/lab` cards on the main thread. Worker creation overhead is
+   not worth it for small previews and would create too many workers at once.
+2. Mirror the main runtime lifecycle: IO pause, resize, DPR caps, device-tier
+   profile changes, pointer state, reseed, and cleanup.
+3. Terminate workers on unmount. Do not leave background simulations running
+   after route transitions.
+4. Treat workers as progressive enhancement. A failed transfer must fall back
+   to `CanvasDemo` without user-visible breakage or console errors.
+
 ### Remaining roadmap
 
 - **Modulepreload for Lenis.** Add `<link rel="modulepreload" href="...">`
@@ -662,7 +690,7 @@ Active surfaces:
 
 ---
 
-## 16. Device-Tier Adaptation (`deviceTier.ts` + `frameGate.ts`)
+## 17. Device-Tier Adaptation (`deviceTier.ts` + `frameGate.ts`)
 
 The goal of this pass: run the **same** heavy WebGL on a low-end phone and an
 old laptop as on a desktop, with no perceptible scroll jank — and **without

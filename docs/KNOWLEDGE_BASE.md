@@ -372,9 +372,8 @@ focused PR.
   the home page doesn't wait on the smooth-scroll bundle.
 - Keep local WOFF2 subsets audited in `src/assets/fonts` when changing the type
   system.
-- Move the heaviest lab simulations (`reaction-diffusion`, `boids-flock`,
-  `sand-piles`) to workers now that each slug already lives in its own dynamic
-  module under `src/components/lab/demos/`.
+- Keep worker-backed lab simulations limited to the full slug pages unless
+  profiling shows compact grid workers would pay for their creation cost.
 
 ### "Add 2028+ tech without a refactor" guide
 

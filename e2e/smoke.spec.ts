@@ -43,6 +43,12 @@ const LAB_A11Y_SELECTORS = [
   '[data-lab-card="fluid-dynamics"]',
 ];
 
+const workerBackedLabRoutes = [
+  { route: "/lab/reaction-diffusion", slug: "reaction-diffusion" },
+  { route: "/lab/boids-flock", slug: "boids-flock" },
+  { route: "/lab/sand-piles", slug: "sand-piles" },
+];
+
 async function prepareStaticA11yScan(page: Page) {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.addInitScript((css) => {
@@ -179,6 +185,81 @@ test.describe("Smoke tests - critical routes", () => {
     await expect(
       page.locator('[data-lab-demo-shell="particle-systems"]').first(),
     ).toHaveAttribute("data-lab-demo-armed", "true");
+    expect(errors).toHaveLength(0);
+  });
+
+  test("should move heavy full lab simulations to workers when supported", async ({
+    page,
+  }) => {
+    test.setTimeout(90000);
+    await page.emulateMedia({ reducedMotion: "reduce" });
+
+    const canTransfer = await page.evaluate(() => {
+      return (
+        typeof Worker !== "undefined" &&
+        "OffscreenCanvas" in window &&
+        "transferControlToOffscreen" in HTMLCanvasElement.prototype
+      );
+    });
+
+    for (const { route, slug } of workerBackedLabRoutes) {
+      const response = await page.goto(route, { waitUntil: "domcontentloaded" });
+      expect(response?.status()).toBe(200);
+
+      await expect(
+        page.locator(`[data-lab-demo-shell="${slug}"]`).first(),
+      ).toHaveAttribute("data-lab-demo-armed", "true");
+
+      if (canTransfer) {
+        await expect(
+          page.locator(`[data-lab-worker-runtime="${slug}"]`).first(),
+        ).toHaveAttribute("data-lab-worker-mode", "worker");
+      } else {
+        await expect(page.locator("canvas").first()).toBeAttached();
+      }
+    }
+  });
+
+  test("should fall back when OffscreenCanvas transfer is unavailable", async ({
+    page,
+  }) => {
+    test.setTimeout(90000);
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.addInitScript(() => {
+      try {
+        Object.defineProperty(
+          HTMLCanvasElement.prototype,
+          "transferControlToOffscreen",
+          {
+            configurable: true,
+            value: undefined,
+          },
+        );
+      } catch {
+        Reflect.deleteProperty(
+          HTMLCanvasElement.prototype,
+          "transferControlToOffscreen",
+        );
+      }
+    });
+
+    const errors: string[] = [];
+    page.on("console", (msg) => {
+      if (msg.type() === "error") errors.push(msg.text());
+    });
+
+    for (const { route, slug } of workerBackedLabRoutes) {
+      const response = await page.goto(route, { waitUntil: "domcontentloaded" });
+      expect(response?.status()).toBe(200);
+      await expect(
+        page.locator(`[data-lab-demo-shell="${slug}"]`).first(),
+      ).toHaveAttribute("data-lab-demo-armed", "true");
+      await expect(
+        page.locator(`[data-lab-worker-runtime="${slug}"]`),
+      ).toHaveCount(0);
+      await expect(page.locator("canvas").first()).toBeAttached();
+    }
+
     expect(errors).toHaveLength(0);
   });
 

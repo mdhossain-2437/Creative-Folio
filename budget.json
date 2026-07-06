@@ -35,7 +35,7 @@
       { "resourceType": "script", "budget": 700 },
       { "resourceType": "stylesheet", "budget": 20 },
       { "resourceType": "font", "budget": 270 },
-      { "resourceType": "image", "budget": 45 },
+      { "resourceType": "image", "budget": 135 },
       { "resourceType": "total", "budget": 775 }
     ],
     "resourceCounts": [

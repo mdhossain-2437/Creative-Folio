@@ -1,6 +1,12 @@
 "use client";
 
-import { CanvasDemo, type LabDemoModuleProps, type InitFn, type TickFn } from "@/components/lab/runtime/CanvasDemo";
+import {
+  CanvasDemo,
+  type InitFn,
+  type LabDemoModuleProps,
+  type TickFn,
+} from "@/components/lab/runtime/CanvasDemo";
+import { WorkerCanvasDemo } from "@/components/lab/runtime/WorkerCanvasDemo";
 
 // ── 25 — Falling Sand ───────────────────────────────────────────────────────
 const sandInit: InitFn = ({ w, h, store, compact }) => {
@@ -66,6 +72,34 @@ const sandTick: TickFn = ({ ctx, w, h, m, store }) => {
   }
 };
 
+const createSandWorker = () =>
+  new Worker(new URL("../workers/sandPiles.worker.ts", import.meta.url), {
+    type: "module",
+    name: "sand-piles-lab",
+  });
+
+function SandFallback({ compact }: { compact: boolean }) {
+  return (
+    <CanvasDemo
+      init={sandInit}
+      tick={sandTick}
+      compact={compact}
+      fpsCap={compact ? 24 : 45}
+    />
+  );
+}
+
 export default function SandPilesDemo({ compact }: LabDemoModuleProps) {
-  return <CanvasDemo init={sandInit} tick={sandTick} compact={compact} fpsCap={compact ? 24 : 45} />;
+  const fallback = <SandFallback compact={compact} />;
+  if (compact) return fallback;
+
+  return (
+    <WorkerCanvasDemo
+      workerFactory={createSandWorker}
+      fallback={fallback}
+      runtimeLabel="sand-piles"
+      compact={compact}
+      fpsCap={45}
+    />
+  );
 }

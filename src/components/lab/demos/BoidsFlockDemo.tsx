@@ -1,6 +1,12 @@
 "use client";
 
-import { CanvasDemo, type LabDemoModuleProps, type InitFn, type TickFn } from "@/components/lab/runtime/CanvasDemo";
+import {
+  CanvasDemo,
+  type InitFn,
+  type LabDemoModuleProps,
+  type TickFn,
+} from "@/components/lab/runtime/CanvasDemo";
+import { WorkerCanvasDemo } from "@/components/lab/runtime/WorkerCanvasDemo";
 
 // ── 14 — Boids Flock ────────────────────────────────────────────────────────
 const boidsInit: InitFn = ({ w, h, store, compact }) => {
@@ -103,6 +109,36 @@ const boidsTick: TickFn = ({ ctx, w, h, m, store, dpr }) => {
   }
 };
 
+const createBoidsWorker = () =>
+  new Worker(new URL("../workers/boidsFlock.worker.ts", import.meta.url), {
+    type: "module",
+    name: "boids-flock-lab",
+  });
+
+function BoidsFallback({ compact }: { compact: boolean }) {
+  return (
+    <CanvasDemo
+      init={boidsInit}
+      tick={boidsTick}
+      compact={compact}
+      fpsCap={compact ? 30 : 60}
+      reseedOnClick
+    />
+  );
+}
+
 export default function BoidsFlockDemo({ compact }: LabDemoModuleProps) {
-  return <CanvasDemo init={boidsInit} tick={boidsTick} compact={compact} fpsCap={compact ? 30 : 60} reseedOnClick />;
+  const fallback = <BoidsFallback compact={compact} />;
+  if (compact) return fallback;
+
+  return (
+    <WorkerCanvasDemo
+      workerFactory={createBoidsWorker}
+      fallback={fallback}
+      runtimeLabel="boids-flock"
+      compact={compact}
+      fpsCap={60}
+      reseedOnClick
+    />
+  );
 }

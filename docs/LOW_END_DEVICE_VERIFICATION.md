@@ -28,6 +28,9 @@ site motion toggle off:
 - `/works`
 - `/lab`
 - `/lab/particle-systems`
+- `/lab/reaction-diffusion`
+- `/lab/boids-flock`
+- `/lab/sand-piles`
 - `/showreel`
 - `/contact`
 - `/resume`
@@ -84,6 +87,9 @@ Acceptance thresholds:
 - No route may show a blank canvas, frozen hero, sideways overflow, or blocked
   navigation.
 - First interaction after load should respond within roughly 100 ms.
+- Worker-backed lab routes should keep scrolling responsive while the canvas is
+  active. If `data-lab-worker-runtime` is absent on current Chrome, record the
+  browser support result and verify the Canvas2D fallback still remains smooth.
 
 ## Context-Loss Check
 
