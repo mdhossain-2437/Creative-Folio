@@ -346,6 +346,28 @@ test.describe("Smoke tests - critical routes", () => {
     }
   });
 
+  test("should install Vercel real-user monitoring probes", async ({
+    page,
+  }) => {
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+
+    const expectedCount =
+      process.env.VERCEL === "1" || process.env.VERCEL_ENV ? 1 : 0;
+
+    await expect
+      .poll(async () =>
+        page.locator('script[src$="/_vercel/insights/script.js"]').count(),
+      )
+      .toBe(expectedCount);
+    await expect
+      .poll(async () =>
+        page
+          .locator('script[src$="/_vercel/speed-insights/script.js"]')
+          .count(),
+      )
+      .toBe(expectedCount);
+  });
+
   test("should defer compact lab demo chunks until the grid needs them", async ({
     page,
   }) => {
