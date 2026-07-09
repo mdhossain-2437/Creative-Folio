@@ -1,5 +1,14 @@
 import { test, expect } from "@playwright/test";
 
+declare global {
+  interface Window {
+    __webglContextLossTelemetry?: Array<{
+      route?: string;
+      tier?: string;
+    }>;
+  }
+}
+
 function isExpectedWebGLFallbackTelemetry(message: string) {
   return /^\[WebGL Error\] (context_creation_failed|context_lost) in /.test(
     message,
@@ -7,6 +16,19 @@ function isExpectedWebGLFallbackTelemetry(message: string) {
 }
 
 test.describe("WebGL context-loss handling", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(() => {
+      window.__webglContextLossTelemetry = [];
+      window.addEventListener("creative-folio:webgl-error", (event) => {
+        const customEvent = event as CustomEvent<{
+          route?: string;
+          tier?: string;
+        }>;
+        window.__webglContextLossTelemetry?.push(customEvent.detail);
+      });
+    });
+  });
+
   test("should handle WebGL context loss on homepage without crashing", async ({
     page,
   }) => {
@@ -48,6 +70,14 @@ test.describe("WebGL context-loss handling", () => {
 
     // Wait a moment for any error handlers to run
     await page.waitForTimeout(1000);
+
+    const telemetry = await page.evaluate(() => {
+      return window.__webglContextLossTelemetry ?? [];
+    });
+    for (const event of telemetry) {
+      expect(event.route).toBeTruthy();
+      expect(["low", "mid", "high"]).toContain(event.tier);
+    }
 
     // Page should still be responsive
     const title = await page.title();
@@ -104,6 +134,14 @@ test.describe("WebGL context-loss handling", () => {
 
     // Wait a moment for any error handlers to run
     await page.waitForTimeout(1000);
+
+    const telemetry = await page.evaluate(() => {
+      return window.__webglContextLossTelemetry ?? [];
+    });
+    for (const event of telemetry) {
+      expect(event.route).toBeTruthy();
+      expect(["low", "mid", "high"]).toContain(event.tier);
+    }
 
     // Page should still be responsive
     const title = await page.title();

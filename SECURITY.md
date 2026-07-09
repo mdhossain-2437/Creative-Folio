@@ -65,10 +65,12 @@ The contact form implements multiple security layers:
 
 ## Error Tracking & Monitoring
 
-- WebGL errors are tracked with structured logging including renderer info
+- WebGL errors are tracked with structured logging including renderer info,
+  route, renderer signal, and device tier
 - Error logs are kept in memory (max 50 entries) for debugging
 - Context loss events are monitored for WebGL components
-- In production, errors would be sent to a monitoring service (e.g., Sentry)
+- When `NEXT_PUBLIC_SENTRY_DSN` is configured, WebGL compile/link/context-loss
+  failures are sent to Sentry. Without the DSN, reporting is a no-op.
 
 ## Out of Scope
 

@@ -425,6 +425,7 @@ opening a PR.
 | `NEXT_PUBLIC_GOOGLE_VERIFICATION` | Google Search Console verification meta.            | Vercel env.                                          |
 | `NEXT_PUBLIC_BING_VERIFICATION`   | Bing Webmaster verification meta (`msvalidate.01`). | Vercel env.                                          |
 | `NEXT_PUBLIC_YANDEX_VERIFICATION` | Yandex Webmaster verification meta.                 | Vercel env.                                          |
+| `NEXT_PUBLIC_SENTRY_DSN`          | Enables Sentry reporting for WebGL/shader failures. | Vercel env.                                          |
 | `GITHUB_PAT`                      | Lifts `/api/github` from 60 → 5000 req/hr per IP.   | Vercel env.                                          |
 
 To create a GitHub PAT: github.com → Settings → Developer settings →

@@ -348,6 +348,12 @@ Core Web Vitals:
 Local gates remain `pnpm quality`; live regression diagnosis starts from
 [`docs/RUM.md`](./RUM.md) after the deployment is ready.
 
+WebGL/shader failures use the same production-feedback path. The central
+`webglErrorTracker` keeps the local in-memory buffer, dispatches a
+`creative-folio:webgl-error` event for tests, and sends failures to Sentry only
+when `NEXT_PUBLIC_SENTRY_DSN` is configured. Captured metadata includes route,
+renderer, renderer signal, timing status, and device tier.
+
 ---
 
 ## 8. Bundle Hygiene

@@ -9,6 +9,7 @@ and Core Web Vitals telemetry after a Vercel deployment.
 
 - `@vercel/analytics/next` injects the Web Analytics script.
 - `@vercel/speed-insights/next` injects the Speed Insights script.
+- `@sentry/nextjs` initializes only when `NEXT_PUBLIC_SENTRY_DSN` is set.
 - `RumProbes` only renders when `VERCEL=1` or `VERCEL_ENV` is present, and it
   imports both packages dynamically so non-Vercel builds ship zero analytics
   bytes in shared client chunks (the homepage page-weight budget stays intact).
@@ -44,6 +45,8 @@ Expected dashboards:
   deployment-only lag reports. Local Lighthouse and Playwright stay synthetic.
 - If live animation feels heavier than local, compare Speed Insights route data
   against `/lab/particle-systems`, `/works`, and `/showreel` first.
+- WebGL compile/link/context-loss failures are reported to Sentry when a DSN is
+  configured. Events include route, renderer, renderer signal, and device tier.
 - Do not add custom analytics events until a specific product question exists.
   Pageviews and CWV are enough for this RUM milestone.
 - If a privacy blocker blocks the probes, the site must keep rendering normally.

@@ -1,6 +1,10 @@
+import { deviceProfile } from "@/lib/deviceTier";
+import { reportClientError } from "@/lib/sentryClient";
+
 // WebGL Error Tracking
-// Centralized error logging for WebGL context failures, shader compilation errors,
-// and runtime WebGL errors. Provides a structured way to track and report issues.
+// Centralized error logging for WebGL context failures, shader compilation
+// errors, and runtime WebGL errors. Sentry reporting is a no-op unless
+// NEXT_PUBLIC_SENTRY_DSN is configured.
 
 export type WebGLErrorType =
   | "context_creation_failed"
@@ -16,8 +20,11 @@ export type WebGLError = {
   message: string;
   timestamp: number;
   userAgent?: string;
+  route?: string;
   renderer?: string;
   tier?: string;
+  rendererSignal?: string;
+  timingStatus?: string;
 };
 
 const MAX_ERROR_LOG = 50;
@@ -45,18 +52,29 @@ function getRendererInfo(): string | undefined {
   }
 }
 
+function getRoute(): string | undefined {
+  if (typeof window === "undefined") return undefined;
+  return `${window.location.pathname}${window.location.search}`;
+}
+
 export function logWebGLError(
   type: WebGLErrorType,
   component: string,
   message: string,
 ): void {
+  const profile =
+    typeof window !== "undefined" ? deviceProfile() : undefined;
   const error: WebGLError = {
     type,
     component,
     message,
     timestamp: Date.now(),
     userAgent: typeof navigator !== "undefined" ? navigator.userAgent : undefined,
+    route: getRoute(),
     renderer: getRendererInfo(),
+    tier: profile?.tier,
+    rendererSignal: profile?.gpu.rendererSignal,
+    timingStatus: profile?.gpu.timingStatus,
   };
 
   // Add to log
@@ -70,8 +88,33 @@ export function logWebGLError(
   // Log to console with structured format
   console.error(`[WebGL Error] ${type} in ${component}:`, message, error);
 
-  // In production, this would send to an error tracking service like Sentry
-  // For now, we just log to console and keep an in-memory buffer
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(
+      new CustomEvent("creative-folio:webgl-error", { detail: error }),
+    );
+  }
+
+  reportClientError(
+    new Error(`[WebGL] ${type} in ${component}: ${message}`),
+    {
+      "webgl.type": type,
+      "webgl.component": component,
+      "webgl.route": error.route,
+      "webgl.tier": error.tier,
+      "webgl.renderer_signal": error.rendererSignal,
+    },
+    {
+      type,
+      component,
+      message,
+      route: error.route,
+      renderer: error.renderer,
+      tier: error.tier,
+      rendererSignal: error.rendererSignal,
+      timingStatus: error.timingStatus,
+      userAgent: error.userAgent,
+    },
+  );
 }
 
 export function getWebGLErrors(): WebGLError[] {
