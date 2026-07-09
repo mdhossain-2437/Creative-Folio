@@ -1,3 +1,8 @@
+overrides:
+  '@babel/core': 7.29.7
+  'brace-expansion@>=5.0.0 <5.0.6': 5.0.6
+  postcss: 8.5.14
+
 allowBuilds:
   '@sentry/cli': false
   sharp: true
