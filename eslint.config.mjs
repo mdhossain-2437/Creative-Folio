@@ -30,8 +30,10 @@ const config = [
   {
     ignores: [
       ".lighthouseci/**",
+      ".claude/**",
       ".next/**",
       ".playwright-results/**",
+      "cinematic/**",
       "node_modules/**",
       "out/**",
       "dist/**",
