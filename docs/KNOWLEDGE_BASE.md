@@ -86,7 +86,7 @@ When the year ticks (e.g. 2027 → 2028):
 | RUM       | Vercel Web Analytics + Speed Insights          | route pageviews + Core Web Vitals after deploy |
 | Type      | Newsreader (serif), Inter, JetBrains Mono      | local WOFF2 via `next/font/local`      |
 | Icons     | Lucide                                         | `lucide-react`                         |
-| Forms     | none — `mailto:` only                          | no third-party form                    |
+| Forms     | `/api/contact` + Resend                        | server validation, honeypot, rate cap  |
 
 ```
 src/
@@ -426,6 +426,10 @@ opening a PR.
 | `NEXT_PUBLIC_BING_VERIFICATION`   | Bing Webmaster verification meta (`msvalidate.01`). | Vercel env.                                          |
 | `NEXT_PUBLIC_YANDEX_VERIFICATION` | Yandex Webmaster verification meta.                 | Vercel env.                                          |
 | `NEXT_PUBLIC_SENTRY_DSN`          | Enables Sentry reporting for WebGL/shader failures. | Vercel env.                                          |
+| `RESEND_API_KEY`                  | Sends validated `/api/contact` inquiries.            | Vercel env, server-only.                             |
+| `CONTACT_TO_EMAIL`                | Recipient mailbox for contact form inquiries.        | Vercel env, server-only.                             |
+| `CONTACT_FROM_EMAIL`              | Verified Resend sender address/domain.               | Vercel env, server-only.                             |
+| `TURNSTILE_SECRET_KEY`            | Optional Cloudflare Turnstile verification.          | Vercel env, server-only.                             |
 | `GITHUB_PAT`                      | Lifts `/api/github` from 60 → 5000 req/hr per IP.   | Vercel env.                                          |
 
 To create a GitHub PAT: github.com → Settings → Developer settings →

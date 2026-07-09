@@ -9,7 +9,7 @@
     "start": "next start -H 0.0.0.0 -p 3000",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
-    "test:e2e": "playwright test e2e/smoke.spec.ts e2e/device-tier.spec.ts --grep-invert \"accessibility violations\"",
+    "test:e2e": "playwright test e2e/smoke.spec.ts e2e/device-tier.spec.ts e2e/contact-api.spec.ts --grep-invert \"accessibility violations\"",
     "test:a11y": "playwright test e2e/smoke.spec.ts --grep \"accessibility violations\"",
     "test:webgl": "playwright test e2e/webgl-context-loss.spec.ts",
     "lhci": "node scripts/lhci-windows-safe.mjs",
@@ -29,6 +29,7 @@
     "next": "^16.2.9",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
+    "resend": "^6.17.2",
     "three": "^0.184.0"
   },
   "devDependencies": {

@@ -17,6 +17,14 @@ export default defineConfig({
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
     timeout: 120000,
+    env: {
+      ...process.env,
+      CONTACT_ROUTE_TEST_MODE: "1",
+      RESEND_API_KEY: process.env.RESEND_API_KEY ?? "re_test_mock",
+      CONTACT_TO_EMAIL: process.env.CONTACT_TO_EMAIL ?? "studio@example.com",
+      CONTACT_FROM_EMAIL:
+        process.env.CONTACT_FROM_EMAIL ?? "Delowar Studio <contact@example.com>",
+    },
   },
   projects: [
     {

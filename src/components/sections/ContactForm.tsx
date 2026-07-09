@@ -17,7 +17,7 @@ const budgets = ["< $5k", "$5k — $15k", "$15k — $30k", "$30k+"];
 const HONEYPOT_FIELD = "website";
 const TIMESTAMP_FIELD = "timestamp";
 const MAX_SUBMISSIONS_PER_HOUR = 3;
-const MAX_MESSAGE_LENGTH = 2000;
+const MAX_MESSAGE_LENGTH = 3000;
 
 // Rate limiting using localStorage
 function canSubmit(): boolean {
@@ -60,16 +60,6 @@ function recordSubmission(): void {
   } catch {
     // Silently fail if localStorage is unavailable
   }
-}
-
-function sanitizeInput(input: string): string {
-  return input
-    .trim()
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#x27;")
-    .slice(0, 500); // Limit length
 }
 
 function validateEmail(email: string): boolean {
@@ -127,8 +117,8 @@ export function ContactForm() {
       return;
     }
 
-    // Validate and sanitize inputs
-    const name = sanitizeInput(String(formData.get("name") ?? ""));
+    // Fast client-side validation; the API route repeats validation server-side.
+    const name = String(formData.get("name") ?? "").trim();
     const email = String(formData.get("email") ?? "").trim();
     const url = String(formData.get("url") ?? "").trim();
     const message = String(formData.get("message") ?? "").trim();
@@ -169,15 +159,46 @@ export function ContactForm() {
     setState("submitting");
 
     try {
-      // Simulate form submission - in production this would send to a backend
-      await new Promise((r) => setTimeout(r, 900));
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          [HONEYPOT_FIELD]: trap,
+          [TIMESTAMP_FIELD]: String(formData.get(TIMESTAMP_FIELD) ?? ""),
+          name,
+          email,
+          company: String(formData.get("company") ?? "").trim(),
+          url,
+          services: Array.from(picked).join(", "),
+          budget,
+          message,
+          turnstileToken: "",
+        }),
+      });
+
+      const result = (await response.json().catch(() => null)) as {
+        ok?: boolean;
+        message?: string;
+      } | null;
+
+      if (!response.ok || !result?.ok) {
+        throw new Error(
+          result?.message || "Something went wrong. Please try again.",
+        );
+      }
 
       // Record successful submission
       recordSubmission();
       setState("sent");
-    } catch {
+    } catch (error) {
       setState("error");
-      setErrorMessage("Something went wrong. Please try again.");
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : "Something went wrong. Please try again.",
+      );
     }
   };
 

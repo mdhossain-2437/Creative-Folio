@@ -57,11 +57,21 @@ Validate after deploy:
 
 The contact form implements multiple security layers:
 
-- **Rate limiting**: Maximum 3 submissions per hour per user via localStorage
-- **Input sanitization**: All text inputs are sanitized to prevent XSS attacks
-- **Honeypot field**: Hidden field to trap automated bots
-- **Validation**: Email format validation, URL validation, message length limits
-- **Error handling**: Graceful error states without exposing system details
+- **Server validation**: `/api/contact` validates JSON shape, email, URL,
+  selected service values, budget values, and message length before delivery.
+- **Payload cap**: Requests over 8 KiB are rejected before parsing.
+- **Origin check**: Browser submissions must come from the deployed site origin
+  or the active local development origin.
+- **Honeypot field**: The hidden `website` field silently accepts bot-like
+  submissions without sending email.
+- **Best-effort rate limit**: Maximum 3 accepted submissions per hour per IP in
+  an in-memory bucket. This is intentionally best-effort on serverless runtimes.
+- **Email delivery**: Resend sends only when `RESEND_API_KEY`,
+  `CONTACT_TO_EMAIL`, and `CONTACT_FROM_EMAIL` are configured server-side.
+- **Optional Turnstile**: `TURNSTILE_SECRET_KEY` enables Cloudflare Turnstile
+  verification before email delivery.
+- **Error handling**: Client responses stay generic and avoid exposing secrets,
+  provider errors, or stack traces.
 
 ## Error Tracking & Monitoring
 

@@ -32,12 +32,15 @@ export default function PrivacyPage() {
             When you submit the contact form, the message and any contact details
             you include are emailed directly to {`<hello@delowarhossain.dev>`}.
             We retain inquiries for up to 12 months purely to maintain a project
-            history.
+            history. The form also checks the request origin, uses a honeypot,
+            applies a small rate limit, and may verify Cloudflare Turnstile if
+            that protection is enabled.
           </p>
           <h2 className="font-serif text-3xl tracking-tighter text-warmwhite">3. Third parties</h2>
           <p>
-            Fonts are served by Google Fonts. Hosting is provided by Vercel.
-            Both providers may log standard request data per their own policies.
+            Fonts are self-hosted from this site. Hosting and aggregate analytics
+            are provided by Vercel; contact email delivery is provided by Resend.
+            These providers may log standard request data per their own policies.
           </p>
           <h2 className="font-serif text-3xl tracking-tighter text-warmwhite">4. Your rights</h2>
           <p>
