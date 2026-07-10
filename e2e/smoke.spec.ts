@@ -211,9 +211,14 @@ test.describe("Smoke tests - critical routes", () => {
       ).toHaveAttribute("data-lab-demo-armed", "true");
 
       if (canTransfer) {
-        await expect(
-          page.locator(`[data-lab-worker-runtime="${slug}"]`).first(),
-        ).toHaveAttribute("data-lab-worker-mode", "worker");
+        const runtime = page
+          .locator(`[data-lab-worker-runtime="${slug}"]`)
+          .first();
+
+        await expect(runtime).toHaveAttribute("data-lab-worker-mode", "worker");
+        if (slug === "boids-flock") {
+          await expect(runtime).toHaveAttribute("data-lab-wasm-mode", "active");
+        }
       } else {
         await expect(page.locator("canvas").first()).toBeAttached();
       }
@@ -261,6 +266,31 @@ test.describe("Smoke tests - critical routes", () => {
     }
 
     expect(errors).toHaveLength(0);
+  });
+
+  test("should keep boids worker navigable when the WASM pilot is unavailable", async ({
+    page,
+  }) => {
+    test.setTimeout(60000);
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.route("**/lab/wasm/boids-neighborhood.wasm", (route) =>
+      route.fulfill({
+        status: 404,
+        contentType: "application/wasm",
+        body: "",
+      }),
+    );
+
+    const response = await page.goto("/lab/boids-flock", {
+      waitUntil: "domcontentloaded",
+    });
+    expect(response?.status()).toBe(200);
+
+    const runtime = page
+      .locator('[data-lab-worker-runtime="boids-flock"]')
+      .first();
+    await expect(runtime).toHaveAttribute("data-lab-worker-mode", "worker");
+    await expect(runtime).toHaveAttribute("data-lab-wasm-mode", "fallback");
   });
 
   test("should expose conservative speculation rules", async ({ request }) => {

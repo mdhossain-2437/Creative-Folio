@@ -37,6 +37,19 @@ Each worker imports the shared loop from
 - `src/components/lab/workers/boidsFlock.worker.ts`
 - `src/components/lab/workers/sandPiles.worker.ts`
 
+`boids-flock` also has a small WASM pilot for the CPU-bound neighborhood
+aggregation pass. The source lives at
+`src/components/lab/wasm/boids-neighborhood.wat`, the committed browser asset
+is `public/lab/wasm/boids-neighborhood.wasm`, and it can be rebuilt with:
+
+```bash
+pnpm wasm:build
+```
+
+The WASM path owns only neighbor aggregation; steering, pointer interaction,
+wrapping, and drawing stay in TypeScript so the existing worker fallback remains
+complete and readable.
+
 The worker loop mirrors the main runtime rules:
 
 1. Pause when the owning canvas is off-screen.
@@ -57,6 +70,8 @@ Acceptance checks:
   show `data-lab-worker-runtime` when transfer support exists.
 - The same routes should still render a canvas and produce no console errors
   when transfer support is removed.
+- `/lab/boids-flock` should report `data-lab-wasm-mode="active"` on capable
+  Chromium and `fallback` when the WASM asset cannot be loaded.
 - Compact lab cards must not mount worker canvases.
 
 ## Verification

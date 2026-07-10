@@ -50,6 +50,11 @@ export type WorkerCanvasOutboundMessage =
       type: "ready";
     }
   | {
+      type: "feature";
+      key: "wasm";
+      value: "active" | "fallback" | "pending";
+    }
+  | {
       type: "error";
       message: string;
     };

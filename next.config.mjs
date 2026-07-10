@@ -95,7 +95,7 @@ const nextConfig = {
       },
       // Public images / portrait — long cache.
       {
-        source: "/(.*).(png|jpg|jpeg|webp|avif|svg|ico|woff|woff2)",
+        source: "/(.*).(png|jpg|jpeg|webp|avif|svg|ico|wasm|woff|woff2)",
         headers: [
           {
             key: "Cache-Control",

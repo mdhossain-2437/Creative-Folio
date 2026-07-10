@@ -20,6 +20,7 @@ import type {
 } from "@/components/lab/runtime/workerProtocol";
 
 type WorkerMode = "pending" | "worker" | "fallback";
+type WorkerWasmMode = "none" | "active" | "fallback" | "pending";
 
 export function canUseWorkerCanvas(): boolean {
   if (typeof window === "undefined") return false;
@@ -61,6 +62,7 @@ export function WorkerCanvasDemo({
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [mode, setMode] = useState<WorkerMode>("pending");
+  const [wasmMode, setWasmMode] = useState<WorkerWasmMode>("none");
 
   useEffect(() => {
     const timeout = window.setTimeout(() => {
@@ -161,6 +163,12 @@ export function WorkerCanvasDemo({
       event: MessageEvent<WorkerCanvasOutboundMessage>,
     ) => {
       if (event.data.type === "error") fallbackToCanvasDemo();
+      if (event.data.type === "feature" && event.data.key === "wasm") {
+        const nextWasmMode = event.data.value;
+        setWasmMode((current) =>
+          current === nextWasmMode ? current : nextWasmMode,
+        );
+      }
     };
     const onWorkerError = () => fallbackToCanvasDemo();
 
@@ -236,6 +244,7 @@ export function WorkerCanvasDemo({
       aria-hidden
       data-lab-worker-runtime={runtimeLabel}
       data-lab-worker-mode={mode}
+      data-lab-wasm-mode={wasmMode}
       className={className}
     />
   );

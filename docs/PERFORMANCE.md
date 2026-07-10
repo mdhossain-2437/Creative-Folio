@@ -723,6 +723,19 @@ Rules:
 4. Treat workers as progressive enhancement. A failed transfer must fall back
    to `CanvasDemo` without user-visible breakage or console errors.
 
+### WASM Pilot
+
+`/lab/boids-flock` has a deliberately narrow WASM pilot for the CPU-bound
+neighborhood aggregation pass. The module reads the worker's packed boid buffer
+and writes per-boid separation/alignment/cohesion sums; TypeScript still handles
+steering, pointer force, wrapping, and drawing. That keeps the optimization
+useful without moving shader-bound or paint-bound work into WASM.
+
+- Source: `src/components/lab/wasm/boids-neighborhood.wat`
+- Browser asset: `public/lab/wasm/boids-neighborhood.wasm`
+- Rebuild: `pnpm wasm:build`
+- Runtime marker: `data-lab-wasm-mode="active" | "fallback" | "pending"`
+
 ### Remaining roadmap
 
 - **Modulepreload for Lenis.** Add `<link rel="modulepreload" href="...">`

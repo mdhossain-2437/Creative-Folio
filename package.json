@@ -13,7 +13,8 @@
     "test:a11y": "playwright test e2e/smoke.spec.ts --grep \"accessibility violations\"",
     "test:webgl": "playwright test e2e/webgl-context-loss.spec.ts",
     "lhci": "node scripts/lhci-windows-safe.mjs",
-    "quality": "pnpm typecheck && pnpm lint && pnpm build && pnpm test:e2e && pnpm test:a11y && pnpm test:webgl && pnpm lhci"
+    "wasm:build": "node scripts/build-boids-wasm.mjs",
+    "quality": "pnpm typecheck && pnpm lint && pnpm wasm:build && pnpm build && pnpm test:e2e && pnpm test:a11y && pnpm test:webgl && pnpm lhci"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.7",
@@ -45,6 +46,7 @@
     "eslint-config-next": "^16.2.9",
     "postcss": "^8.5.14",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "wabt": "^1.0.39"
   }
 }
