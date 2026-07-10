@@ -84,7 +84,7 @@ When the year ticks (e.g. 2027 → 2028):
 | Motion    | GSAP, Lenis, Framer Motion                     | reduced-motion respected globally      |
 | Graphics  | WebGPU, raw WebGL/GLSL, Canvas2D               | WebGPU is progressive; WebGL/Canvas2D fallbacks stay complete |
 | RUM       | Vercel Web Analytics + Speed Insights          | route pageviews + Core Web Vitals after deploy |
-| Type      | Newsreader (serif), Inter, JetBrains Mono      | local WOFF2 via `next/font/local`      |
+| Type      | Newsreader (serif), Inter, JetBrains Mono      | original `next/font/google`; same-origin runtime assets |
 | Icons     | Lucide                                         | `lucide-react`                         |
 | Forms     | `/api/contact` + Resend                        | server validation, honeypot, rate cap  |
 

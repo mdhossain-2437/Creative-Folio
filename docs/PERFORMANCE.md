@@ -308,10 +308,11 @@ For raw `<img>` (used in OG routes only), set `decoding="async"` and
 
 ## 6. Font Strategy
 
-`next/font/local` loads committed Latin WOFF2 assets from
-`src/assets/fonts`. Builds no longer fetch Google Fonts CSS or font binaries;
-the exact Inter, Newsreader, JetBrains Mono, and Sacramento files live in the
-repo beside their OFL license texts.
+The root layout keeps the original `next/font/google` configuration for
+Newsreader, Inter, JetBrains Mono, and Sacramento. Next.js fetches these faces
+at build time and emits hashed, same-origin font assets, so production browsers
+do not make runtime requests to Google. The committed files in
+`src/assets/fonts` are retained as unwired source material only.
 
 Newsreader uses `display: "optional"` because it is the editorial display face:
 on slow connections, a stable system fallback for the first paint is less
@@ -319,12 +320,11 @@ jarring than a visible serif hot-swap. Inter, JetBrains Mono, and Sacramento kee
 `display: "swap"` because they are interface/signature faces where immediate
 legibility matters more than avoiding a subtle style swap.
 
-Only the normal Newsreader variable face is wired into the global shell. The
-italic WOFF2 is retained in `src/assets/fonts` as source material, but global
-italic spans synthesize from the normal face until a route-specific preload can
-justify the extra transfer. JetBrains Mono and Sacramento are local,
-non-preload faces because they are not first-viewport dependencies on the
-audited routes.
+Newsreader keeps the original 300, 400, and 500 weights with both normal and
+italic styles. This is a visual-design contract: do not replace the provider,
+remove variants, or synthesize the editorial italic without explicit visual
+approval and browser comparison. The smoke suite checks the four root font
+variables and the emitted Newsreader italic face.
 
 ---
 

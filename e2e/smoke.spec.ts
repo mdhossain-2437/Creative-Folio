@@ -132,6 +132,42 @@ test.describe("Smoke tests - critical routes", () => {
     });
   });
 
+  test("should preserve the canonical typography faces", async ({ page }) => {
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+
+    const typography = await page.evaluate(async () => {
+      await document.fonts.ready;
+
+      const rootStyle = getComputedStyle(document.documentElement);
+      const fontFaceRules: string[] = [];
+
+      for (const sheet of Array.from(document.styleSheets)) {
+        for (const rule of Array.from(sheet.cssRules)) {
+          if (rule instanceof CSSFontFaceRule) {
+            fontFaceRules.push(rule.cssText);
+          }
+        }
+      }
+
+      return {
+        newsreader: rootStyle.getPropertyValue("--font-newsreader"),
+        inter: rootStyle.getPropertyValue("--font-inter"),
+        mono: rootStyle.getPropertyValue("--font-jetbrains"),
+        sacramento: rootStyle.getPropertyValue("--font-sacramento"),
+        hasNewsreaderItalic: fontFaceRules.some(
+          (rule) =>
+            /newsreader/i.test(rule) && /font-style:\s*italic/i.test(rule),
+        ),
+      };
+    });
+
+    expect(typography.newsreader).toMatch(/newsreader/i);
+    expect(typography.inter).toMatch(/inter/i);
+    expect(typography.mono).toMatch(/jetbrains/i);
+    expect(typography.sacramento).toMatch(/sacramento/i);
+    expect(typography.hasNewsreaderItalic).toBe(true);
+  });
+
   test("should resolve the particle systems runtime metric", async ({
     page,
   }) => {

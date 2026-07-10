@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import localFont from "next/font/local";
+import { Newsreader, Inter, JetBrains_Mono, Sacramento } from "next/font/google";
 import "./globals.css";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { RumProbes } from "@/components/providers/RumProbes";
@@ -15,42 +15,35 @@ import { LazyChrome } from "@/components/layout/LazyChrome";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { site } from "@/lib/site";
 
-const newsreader = localFont({
-  src: "../assets/fonts/newsreader-latin-variable.woff2",
+const newsreader = Newsreader({
+  subsets: ["latin"],
   variable: "--font-newsreader",
   display: "optional",
-  weight: "300 500",
-  style: "normal",
+  weight: ["300", "400", "500"],
+  style: ["normal", "italic"],
 });
 
-const inter = localFont({
-  src: "../assets/fonts/inter-latin-variable.woff2",
+const inter = Inter({
+  subsets: ["latin"],
   variable: "--font-inter",
   display: "swap",
-  weight: "100 900",
-  style: "normal",
 });
 
-const mono = localFont({
-  src: "../assets/fonts/jetbrains-mono-latin-variable.woff2",
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
   variable: "--font-jetbrains",
   display: "swap",
-  weight: "100 800",
-  style: "normal",
-  preload: false,
 });
 
 // Sacramento — a single-weight formal signature script used exclusively
 // for the footer SignatureSVG. Loaded with display:swap so the fallback
 // (cursive) shows immediately and the real face hot-swaps in once
 // available without blocking layout.
-const sacramento = localFont({
-  src: "../assets/fonts/sacramento-latin-regular.woff2",
+const sacramento = Sacramento({
+  subsets: ["latin"],
   variable: "--font-sacramento",
   display: "swap",
   weight: "400",
-  style: "normal",
-  preload: false,
 });
 
 export const metadata: Metadata = {

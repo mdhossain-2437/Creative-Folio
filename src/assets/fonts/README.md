@@ -1,7 +1,9 @@
 # Local Font Assets
 
-Committed Latin WOFF2 subsets for `next/font/local`. Files may be retained as
-source material even when they are not globally wired into `src/app/layout.tsx`.
+Committed Latin WOFF2 subsets retained as unwired source material. The public
+site uses its original `next/font/google` configuration in
+`src/app/layout.tsx`; do not substitute these files without explicit visual
+approval and a rendered typography comparison.
 
 | Family | File | Source CSS URL | License |
 | --- | --- | --- | --- |
@@ -11,8 +13,7 @@ source material even when they are not globally wired into `src/app/layout.tsx`.
 | JetBrains Mono | `jetbrains-mono-latin-variable.woff2` | `https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..800&display=swap` | `OFL-JetBrains-Mono.txt` |
 | Sacramento | `sacramento-latin-regular.woff2` | `https://fonts.googleapis.com/css2?family=Sacramento&display=swap` | `OFL-Sacramento.txt` |
 
-Keep Newsreader `display: "optional"` and the interface fonts `display: "swap"`
-unless a performance measurement says otherwise. The normal Newsreader face is
-the global display face; the italic file is retained for future route-specific
-loading, while global italic text currently uses browser synthesis to stay
-inside the route font budget.
+The original global configuration keeps Newsreader `display: "optional"` with
+300, 400, and 500 weights in normal and italic styles. Inter, JetBrains Mono,
+and Sacramento use `display: "swap"`. These files are not imported by the root
+layout.
