@@ -24,6 +24,7 @@ type WebGpuAdapter = {
 
 export type WebGpuBuffer = object;
 export type WebGpuRenderPipeline = object;
+export type WebGpuComputePipeline = object;
 export type WebGpuBindGroupLayout = object;
 export type WebGpuPipelineLayout = object;
 export type WebGpuBindGroup = object;
@@ -41,7 +42,15 @@ export type WebGpuRenderPassEncoder = {
 
 export type WebGpuCommandEncoder = {
   beginRenderPass(descriptor: Record<string, unknown>): WebGpuRenderPassEncoder;
+  beginComputePass(): WebGpuComputePassEncoder;
   finish(): WebGpuCommandBuffer;
+};
+
+export type WebGpuComputePassEncoder = {
+  setPipeline(pipeline: WebGpuComputePipeline): void;
+  setBindGroup(index: number, bindGroup: WebGpuBindGroup): void;
+  dispatchWorkgroups(x: number, y?: number, z?: number): void;
+  end(): void;
 };
 
 export type WebGpuCanvasContext = {
@@ -71,6 +80,9 @@ export type WebGpuDevice = {
   createRenderPipeline(
     descriptor: Record<string, unknown>,
   ): WebGpuRenderPipeline;
+  createComputePipeline(
+    descriptor: Record<string, unknown>,
+  ): WebGpuComputePipeline;
   createBuffer(descriptor: {
     label?: string;
     size: number;
@@ -120,11 +132,13 @@ export const WEBGPU_BUFFER_USAGE = {
   COPY_DST: 0x0008,
   VERTEX: 0x0020,
   UNIFORM: 0x0040,
+  STORAGE: 0x0080,
 } as const;
 
 export const WEBGPU_SHADER_STAGE = {
   VERTEX: 0x1,
   FRAGMENT: 0x2,
+  COMPUTE: 0x4,
 } as const;
 
 export function canUseWebGPU(): boolean {

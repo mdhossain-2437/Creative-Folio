@@ -697,7 +697,10 @@ Active surfaces:
   fallback.
 - `/lab/particle-systems` attempts WebGPU only for the full playground. Compact
   `/lab` grid previews stay Canvas2D so the index never opens many GPU devices.
-  The runtime metric reports the active renderer as `WebGPU` or `Canvas2D`.
+  The WebGPU path uses a compute pass for particle integration, then renders
+  the same storage buffer as points. The runtime metric reports the active
+  renderer as `WebGPU` or `Canvas2D`, and the canvas exposes
+  `data-lab-particle-path="compute"` when the compute path is active.
 
 ## 17. Worker-Backed Lab Simulations
 

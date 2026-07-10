@@ -150,6 +150,11 @@ test.describe("Smoke tests - critical routes", () => {
     const renderer = await metric.getAttribute("data-renderer");
     expect(renderer).toMatch(/^(Canvas2D|WebGPU)$/);
     await expect(metric).toContainText(renderer ?? "Canvas2D");
+    if (renderer === "WebGPU") {
+      await expect(
+        page.locator('[data-lab-particle-renderer="WebGPU"]').first(),
+      ).toHaveAttribute("data-lab-particle-path", "compute");
+    }
 
     const count = Number(await metric.getAttribute("data-particle-count"));
     expect([1100, 1600, 2200]).toContain(count);
