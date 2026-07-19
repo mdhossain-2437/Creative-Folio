@@ -147,7 +147,9 @@ export const metadata: Metadata = {
   // Search-engine + AI-engine verification meta tags. Read from env so
   // they stay out of source. If unset Next omits the tag (no-op).
   verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION,
+    google:
+      process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION ??
+      "IR3vpUNmtXUM39iFqzEApG1ItfT9kCrbxDlmK12-HnQ",
     other: {
       "msvalidate.01": process.env.NEXT_PUBLIC_BING_VERIFICATION ?? "",
       "yandex-verification": process.env.NEXT_PUBLIC_YANDEX_VERIFICATION ?? "",
