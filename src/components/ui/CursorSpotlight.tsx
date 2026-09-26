@@ -6,6 +6,8 @@
 // the page background (z-0 fixed, pointer-events-none).
 
 import { useEffect, useState } from "react";
+import { damp, clampDt, K } from "@/lib/damp";
+import { subscribeRafPriority } from "@/lib/rafBus";
 
 export function CursorSpotlight() {
   const [enabled, setEnabled] = useState(false);
@@ -19,24 +21,28 @@ export function CursorSpotlight() {
     if (reduced || !fine) return;
     setEnabled(true);
 
-    let raf = 0;
-    let tx = window.innerWidth / 2;
-    let ty = window.innerHeight / 2;
+    let cx = window.innerWidth / 2;
+    let cy = window.innerHeight / 2;
+    let tx = cx;
+    let ty = cy;
+
     const onMove = (e: MouseEvent) => {
       tx = e.clientX;
       ty = e.clientY;
-      if (!raf) {
-        raf = requestAnimationFrame(() => {
-          document.documentElement.style.setProperty("--spot-x", `${tx}px`);
-          document.documentElement.style.setProperty("--spot-y", `${ty}px`);
-          raf = 0;
-        });
-      }
     };
-    window.addEventListener("mousemove", onMove);
+
+    const off = subscribeRafPriority((_now, dt) => {
+      const d = clampDt(dt);
+      cx = damp(cx, tx, K.K_FAST, d);
+      cy = damp(cy, ty, K.K_FAST, d);
+      document.documentElement.style.setProperty("--spot-x", `${cx.toFixed(1)}px`);
+      document.documentElement.style.setProperty("--spot-y", `${cy.toFixed(1)}px`);
+    }, 0);
+
+    window.addEventListener("mousemove", onMove, { passive: true });
     return () => {
       window.removeEventListener("mousemove", onMove);
-      if (raf) cancelAnimationFrame(raf);
+      off();
     };
   }, []);
 

@@ -6,23 +6,63 @@ import type { ComponentType } from "react";
 
 type ChromeBundle = ComponentType;
 
-// LazyChrome — a tiny shell that waits for a quiet user window before importing
-// the decorative chrome bundle. Keep the dynamic component definitions out of
-// this file; module-level `next/dynamic` calls are still preload-discovered.
-//
-// Why this is safe:
-//   • Cursor / CursorSpotlight: replace the native cursor, but until they
-//     mount the browser's native cursor is fully functional. No layout
-//     shift.
-//   • ScrollToTop: button that only appears after the user has scrolled
-//     a few screens — never visible on first paint.
-//   • RoutePrefetcher: only schedules prefetch work; safe to start late.
-//   • ShowreelPill: bottom-left "Reel · 02:17" indicator. Loads after
-//     hydration so the LCP path stays uncluttered.
-//
 export function LazyChrome() {
   const [Chrome, setChrome] = useState<ChromeBundle | null>(null);
+  const [CursorGroup, setCursorGroup] = useState<ChromeBundle | null>(null);
 
+  // Tier 1: Instant Custom Cursor & Spotlight on desktop with fine pointer
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const isFinePointer = window.matchMedia("(pointer: fine)").matches;
+    if (!isFinePointer) return;
+
+    let cancelled = false;
+    let loaded = false;
+
+    const loadCursor = () => {
+      if (loaded || cancelled) return;
+      loaded = true;
+      cleanup();
+
+      void Promise.all([
+        import("@/components/ui/Cursor"),
+        import("@/components/ui/CursorSpotlight"),
+      ]).then(([cursorMod, spotlightMod]) => {
+        if (!cancelled) {
+          const CursorComponent = cursorMod.Cursor;
+          const SpotlightComponent = spotlightMod.CursorSpotlight;
+          setCursorGroup(() => function InstantCursorLayer() {
+            return (
+              <>
+                <SpotlightComponent />
+                <CursorComponent />
+              </>
+            );
+          });
+        }
+      });
+    };
+
+    const cleanup = () => {
+      window.removeEventListener("pointermove", loadCursor);
+      window.removeEventListener("mousemove", loadCursor);
+    };
+
+    // Activate immediately on initial pointer movement
+    window.addEventListener("pointermove", loadCursor, { passive: true, once: true });
+    window.addEventListener("mousemove", loadCursor, { passive: true, once: true });
+
+    // Fallback: activate shortly after hydration (200ms) even without movement
+    const fallbackTimer = window.setTimeout(loadCursor, 200);
+
+    return () => {
+      cancelled = true;
+      cleanup();
+      window.clearTimeout(fallbackTimer);
+    };
+  }, []);
+
+  // Tier 2: Deferred Secondary Chrome (RoutePrefetcher, ScrollToTop, etc.)
   useEffect(() => {
     let cancelled = false;
     let loading = false;
@@ -89,5 +129,10 @@ export function LazyChrome() {
     };
   }, []);
 
-  return Chrome ? <Chrome /> : null;
+  return (
+    <>
+      {CursorGroup ? <CursorGroup /> : null}
+      {Chrome ? <Chrome /> : null}
+    </>
+  );
 }

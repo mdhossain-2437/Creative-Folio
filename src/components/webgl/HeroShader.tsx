@@ -218,6 +218,26 @@ export function HeroShader({ className = "" }: { className?: string }) {
     };
     window.addEventListener("mousemove", onMove);
 
+    const reducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reducedMotion) {
+      gl.uniform2f(uMouse, mouse.x, mouse.y);
+      gl.uniform1f(uTime, 0);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      return () => {
+        window.removeEventListener("resize", resize);
+        window.removeEventListener("mousemove", onMove);
+        canvas.removeEventListener("webglcontextlost", handleContextLoss);
+        gl.deleteProgram(prog);
+        gl.deleteShader(vs);
+        gl.deleteShader(fs);
+        gl.deleteBuffer(buf);
+        glContextRegistry.unregister(contextId.current);
+      };
+    }
+
     let raf = 0;
     let visible = true;
     const start = performance.now();
@@ -251,12 +271,15 @@ export function HeroShader({ className = "" }: { className?: string }) {
       ([entry]) => {
         visible = entry.isIntersecting;
         glContextRegistry.markVisible(contextId.current, visible);
-        if (visible) {
-          cancelAnimationFrame(raf);
+        if (visible && !raf) {
+          last = performance.now();
           raf = requestAnimationFrame(tick);
+        } else if (!visible && raf) {
+          cancelAnimationFrame(raf);
+          raf = 0;
         }
       },
-      { threshold: 0 },
+      { threshold: 0.01 },
     );
     io.observe(canvas);
 
@@ -267,7 +290,7 @@ export function HeroShader({ className = "" }: { className?: string }) {
     canvas.addEventListener("webglcontextlost", handleContextLoss);
 
     return () => {
-      cancelAnimationFrame(raf);
+      if (raf) cancelAnimationFrame(raf);
       io.disconnect();
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMove);

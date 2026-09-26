@@ -1,15 +1,20 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { cappedDpr, DPR_CANVAS } from "@/lib/dpr";
 
 // Subtle particle trail behind the cursor. Honours the global motion preference
-// (`localStorage['delowar:motion']`) and pauses entirely when the document is
+// (`localStorage['delowar:motion']` + prefers-reduced-motion) and pauses entirely when the document is
 // hidden. Pointer-events: none, fixed under the custom cursor — never blocks UI.
 export function CursorTrail() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    const motion = typeof window !== "undefined" && window.localStorage.getItem("delowar:motion");
+    if (typeof window === "undefined") return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced) return;
+
+    const motion = window.localStorage.getItem("delowar:motion");
     if (motion === "off") return;
 
     const canvas = canvasRef.current;
@@ -17,7 +22,7 @@ export function CursorTrail() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    const dpr = cappedDpr(DPR_CANVAS);
     const fit = () => {
       canvas.width = Math.floor(window.innerWidth * dpr);
       canvas.height = Math.floor(window.innerHeight * dpr);

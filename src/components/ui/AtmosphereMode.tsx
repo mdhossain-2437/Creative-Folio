@@ -87,49 +87,28 @@ export function AtmosphereMode() {
   const [mode, setMode] = useState<Mode>("aura");
   const [open, setOpen] = useState(false);
   const visitedRef = useRef<Set<Mode>>(new Set(["aura"]));
-  const userManuallySelectedRef = useRef(false);
 
   useEffect(() => {
-    // Default: detect system preference (prefers-color-scheme: light -> eink, dark -> aura).
-    // Atmosphere choice is in-session only.
+    // Default: "aura" (dark). Atmosphere choice is in-session only.
     //
     // Override: a `?atmosphere=<mode>` query param preselects the mode at
     // mount. Used for shareable links.
-    const prefersLight =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-color-scheme: light)").matches;
-
-    let initial: Mode = prefersLight ? "eink" : "aura";
+    let initial: Mode = "aura";
     try {
       const params = new URLSearchParams(window.location.search);
       const fromUrl = params.get("atmosphere");
-      if (isMode(fromUrl)) {
-        initial = fromUrl;
-        userManuallySelectedRef.current = true;
-      }
+      if (isMode(fromUrl)) initial = fromUrl;
     } catch {
       // ignore — SSR / invalid URL
     }
     applyMode(initial);
-    setMode(initial);
-    visitedRef.current.add(initial);
-  }, []);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const mq = window.matchMedia("(prefers-color-scheme: light)");
-    const onChange = (e: MediaQueryListEvent) => {
-      if (userManuallySelectedRef.current) return;
-      const nextMode: Mode = e.matches ? "eink" : "aura";
-      setMode(nextMode);
-      applyMode(nextMode);
-    };
-    mq.addEventListener("change", onChange);
-    return () => mq.removeEventListener("change", onChange);
+    if (initial !== "aura") {
+      setMode(initial);
+      visitedRef.current.add(initial);
+    }
   }, []);
 
   const cycle = useCallback((origin?: { x: number; y: number }) => {
-    userManuallySelectedRef.current = true;
     setMode((curr) => {
       const next = MODES[(MODES.indexOf(curr) + 1) % MODES.length];
       applyMode(next);
@@ -155,7 +134,6 @@ export function AtmosphereMode() {
   }, []);
 
   const setExact = useCallback((next: Mode, origin?: { x: number; y: number }) => {
-    userManuallySelectedRef.current = true;
     setMode(() => {
       applyMode(next);
       const x =

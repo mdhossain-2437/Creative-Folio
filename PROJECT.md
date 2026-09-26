@@ -1,104 +1,76 @@
-# Project: Creative-Folio De-sloppification MMXXVII
+# Project: Creative-Folio Stack Modernization, Theme Restoration, Cursor Acceleration & Physics Optimization
 
 ## Architecture
-- Framework: Next.js 16 App Router, React 19, TypeScript 5.9, Tailwind CSS 3.4.
-- Theme system: Custom atmosphere mode engine with 5 modes (`aura`, `storm`, `stillness`, `eink`, `terminal`), where `eink` serves as the high-contrast editorial light mode (`--bg: #efece9`, `--fg: #0c0c0c`).
-- Motion & Canvas: GSAP, Lenis smooth scroll, rAF bus (`rafBus.ts`), raw WebGL2 canvas with off-screen `IntersectionObserver` pause and DPR clamping.
-- Data Layer: Canonical identity in `src/lib/site.ts`, works, experiments, process workflows, and verified stats in `src/lib/data.ts`.
+- Framework: Next.js 16.3.6 (App Router), React 19.3.0, TypeScript 5.9, Tailwind CSS 3.4.19.
+- Atmosphere Engine: Canonical dark palette default (`aura` on `#0c0c0c` / `#070708`) with 5 user-selectable atmosphere modes (`aura`, `storm`, `stillness`, `eink`, `terminal`). Voluntary `eink` retained without intrusive CSS class `!important` overrides.
+- Fast-Track Desktop Cursor: Fine-pointer detection `(pointer: fine)` activates `Cursor` and `CursorSpotlight` immediately on client hydration / initial pointer movement, while deferred background chrome remains on the 7–12s idle quiet timer. Mobile/touch devices bypass cursor layers entirely.
+- Motion, Physics & Graphics: Frame-rate-independent continuous exponential decay damping (`damp.ts`, `K_FAST`, `K_HERO`), strict `prefers-reduced-motion: reduce` fallbacks across GSAP (`ScrollScrubText`), WebGL shaders, Three.js canvases, CSS transforms, offscreen `IntersectionObserver` pause (`threshold: 0.01`), and tier-aware DPR capping (`dpr.ts`).
 
 ## Feature Inventory
-Every feature from the Survey phase appears here with its assigned milestone:
 | # | Feature | Description | Milestone | Source |
 |---|---------|-------------|-----------|--------|
-| 1 | Body Text Contrast ($L \ge 0.85$) | Upgrade body copy classes from mid-grey opacities (`text-warmwhite/60..85`) to `text-warmwhite/90` ($L^* = 85.45$, contrast 13.8:1 $\ge$ `#d4d4d8`) | M1 | Survey 1 |
-| 2 | System Theme Respect (`prefers-color-scheme`) | Adapt color scheme to visitor's system preference by defaulting to `eink` light mode when light scheme is requested, adding `@media` CSS fallback and responsive viewport theme-color | M1 | Survey 1 |
-| 3 | Eliminate Uppercase Kicker Labels | Remove all decorative uppercase kicker labels (`§01..§12`) preceding section H2 headings across all landing page sections so H2s lead directly | M1 | Survey 2 |
-| 4 | De-sloppify Typography Tracking | Replace `uppercase tracking-widest` (22% spacing) with natural sentence case or clean `font-mono text-xs tracking-normal` on functional badges and shared navigation | M1 | Survey 2 |
-| 5 | Concrete Engineering Workflows | Replace abstract "1 · 2 · 3" numbered steps and generic verbs with 4 authentic engineering workflows in `data.ts` and `Process.tsx` | M1 | Survey 3 |
-| 6 | Visual Artifact Previews | Embed interactive/tangible technical artifact panels (Token Matrix, GLSL Fragment, rAF Bus, Audit Scorecard) into the Process carousel | M1 | Survey 3 |
-| 7 | Verifiable Grounded Stat Metrics | Upgrade `Stat` schema with proof links and replace vanity numbers with 4 cited public metrics (Lighthouse 100/100, 127 Repos, 30 Lab Demos, 05 Editions) | M1 | Survey 3 |
-| 8 | Interactive Cited Stat Banner | Refactor `Stats.tsx` with clickable cards linking directly to public proofs (`pagespeed.web.dev`, GitHub, `/lab`, `/portfolios`) with verified contrast | M1 | Survey 3 |
-| 9 | Quality Gate & Build Verification | Verify `pnpm typecheck`, `pnpm lint`, and `pnpm build` pass with zero errors across all changes | M1 | Quality Gate |
+| 1 | Revert Light-Mode Overrides in `globals.css` | Delete `@media (prefers-color-scheme: light)` block (lines 13–21) and high-contrast class overrides (lines 56–111) | M1 | Survey 1 (21e68efa) |
+| 2 | Restore Canonical `themeColor` & Body in `layout.tsx` | Revert `viewport.themeColor` to `#0c0c0c` and `<body>` className to `bg-ink-900 text-warmwhite` | M1 | Survey 1 (21e68efa) |
+| 3 | Restore `"aura"` Default in `AtmosphereMode.tsx` | Set initial mode to `"aura"`, delete system `prefers-color-scheme` listener and manual override ref | M1 | Survey 1 (21e68efa) |
+| 4 | Decouple Cursor from 7-12s Idle Gate in `LazyChrome.tsx` | Implement Tier 1 fine-pointer fast-track for `Cursor` and `CursorSpotlight` with instant pointermove + 200ms hydration fallback; bypass on mobile | M1 | Survey 1 (21e68efa) |
+| 5 | Clean `LazyChromeBundle.tsx` | Remove `Cursor` and `CursorSpotlight` from secondary idle-deferred bundle | M1 | Survey 1 (21e68efa) |
+| 6 | Core Framework Upgrade (Next.js & React) | Bump Next.js & eslint-config-next to `^16.3.6`, React & React-DOM + types to `^19.3.0` | M1 | Survey 2 (7d35e047) |
+| 7 | Graphics & Motion Upgrade (Three, Fiber, Drei, Lenis) | Bump Three.js to `^0.186.1` & types `^0.186.0`, Fiber `^9.8.1`, Drei `^10.7.8`, Lenis `^1.3.26`, Tailwind `^3.4.19` | M1 | Survey 2 (7d35e047) |
+| 8 | Three.js Damping in `ReelChapterCarousel.tsx` | Replace linear lerp `* 0.06` with `damp(..., K.K_HERO, clampDt(delta))` in `useFrame` | M1 | Survey 3 (41535931) |
+| 9 | Cursor Spotlight Damping & rafBus Priority | Subscribe to `subscribeRafPriority(..., 0)` and damp coordinates with `K.K_FAST` | M1 | Survey 3 (41535931) |
+| 10 | Idle Sleep & Reduced Motion in `Magnetic.tsx` | Sleep rAF loop when element is at rest; bypass transform when `prefers-reduced-motion` is active | M1 | Survey 3 (41535931) |
+| 11 | Throttle & Proximity rAF in `MagneticLetters.tsx` | Stop continuous rAF loop, cache letter bounding boxes, tick only when pointer enters bounding proximity | M1 | Survey 3 (41535931) |
+| 12 | GSAP Strict Reduced Motion in `ScrollScrubText.tsx` | Under `prefers-reduced-motion: reduce`, set word spans to opacity 1 and do not instantiate GSAP / `ScrollTrigger` | M1 | Survey 3 (41535931) |
+| 13 | WebGL/Shader Reduced Motion & IO 0.01 Threshold | Update IO threshold to `0.01` and cancel rAF immediately on exit in `HeroShader.tsx`, `HeroShaderGpu.tsx`, `NoiseField.tsx` | M1 | Survey 3 (41535931) |
+| 14 | Canvas DPR Capping & 404 IO Pause | Use `cappedDpr(DPR_CANVAS)` in `AtlasConstellation.tsx`, `ParticleField404.tsx`, `CursorTrail.tsx`; add IO pause to `ParticleField404.tsx` | M1 | Survey 3 (41535931) |
+| 15 | Remove Scroll Hot Path State in `SectionRail.tsx` | Replace React `setProgress` state with CSS `calc(var(--scroll-progress, 0) * 100%)` | M1 | Survey 3 (41535931) |
+| 16 | Reduced Motion CSS Fallbacks in `globals.css` | Add `@media (prefers-reduced-motion: reduce)` rules for `.kinetic` and `.marquee-track` | M1 | Survey 3 (41535931) |
+| 17 | Canvas Budget Manager Zero under Reduced Motion | Set `maxActiveRuntimes` to `0` when `profile.reducedMotion` is true in `canvasRuntimeBudget.ts` | M1 | Survey 3 (41535931) |
+| 18 | Quality Gate Verification | Run `pnpm typecheck`, `pnpm lint`, and `pnpm build` with zero errors | M1 | Survey 2 & AGENTS.md |
 
 ## Milestones
 | # | Name | Scope | Dependencies | Status |
 |---|------|-------|-------------|--------|
-| 1 | M1: MMXXVII Landing Page De-sloppification | Full implementation of R1 (Contrast & Theme), R2 (Typography & Labels), R3 (Process Flow), R4 (Grounded Stats) & Quality Gate | None | DONE |
+| 1 | M1: Stack Upgrades, Theme Restoration, Cursor Acceleration & Physics Optimization | Features 1–18 (R1 through R5) | None | DONE |
 
 ## Interface Contracts
 
-### Atmosphere & Theme Contract (`AtmosphereMode.tsx` ↔ `globals.css`)
-- Type: `Mode = "aura" | "storm" | "stillness" | "eink" | "terminal"`
-- HTML attribute: `document.documentElement.dataset.atmosphere = mode`
-- System preference: When `!saved && !urlOverride`, if `window.matchMedia("(prefers-color-scheme: light)").matches === true`, default mode is `"eink"`.
-- CSS variable binding:
-  - Dark modes (`aura`, `storm`, `stillness`, `terminal`): `--bg: #070708` / `#0a0a0b`, `--fg: #efece9`.
-  - Light mode (`eink`): `--bg: #efece9`, `--fg: #0c0c0c`, `--accent: #1f1f1f`, `color-scheme: light`.
+### Theme Contract
+- Root default: `--bg: #0c0c0c; --fg: #efece9; --accent: #e3bfb4; color-scheme: dark;`
+- Initial atmosphere: `"aura"` on `#0c0c0c` / `#070708`.
+- Viewport themeColor: `#0c0c0c`.
+- Body classes: `bg-ink-900 text-warmwhite font-sans antialiased selection:bg-peach selection:text-ink-900`.
 
-### Process Workflow Contract (`src/lib/data.ts` ↔ `src/components/sections/Process.tsx`)
-- Type `Phase`:
-  ```ts
-  export type Phase = {
-    id: string;
-    num: string;
-    name: string;
-    tagline: string;
-    description: string;
-    duration: string;
-    deliverables: string[];
-    context: {
-      domain: string;
-      artifactTitle: string;
-      artifactType: "matrix" | "code" | "diagram" | "audit";
-      details: string[];
-    };
-    steps?: string[]; // kept for backward compatibility if needed
-  };
-  ```
+### Desktop Cursor Fast-Track Contract (`LazyChrome.tsx`)
+- Desktop condition: `window.matchMedia("(pointer: fine)").matches === true`.
+- Hydration / pointer activation: `pointermove` and `mousemove` with `{ passive: true, once: true }` plus 200ms hydration fallback.
+- Mobile/Touch: Completely bypassed; no imports, no listeners.
 
-### Stat Metric Contract (`src/lib/data.ts` ↔ `src/components/sections/Stats.tsx`)
-- Type `Stat`:
-  ```ts
-  export type Stat = {
-    label: string;
-    value: string;
-    sub?: string;
-    href: string;
-    source: string;
-    proof: string;
-    external: boolean;
-  };
-  ```
+### Damping & Motion Contract
+- Exponential decay damping: `damp(current, target, k, dt)` where $k = -60 \ln(1 - f)$.
+- `clampDt(dt, maxMs = 50)` bounds step duration to avoid overshoot.
+- Constants from `src/lib/damp.ts`: `K.K_FAST = 11.94`, `K.K_HERO = 3.71`, `K.K_GENTLE = 5.0`.
+- Continuous drag: `exp(-k * dt)`.
+- IntersectionObserver: `{ threshold: 0.01 }` with immediate `cancelAnimationFrame(raf)` on `!isIntersecting`.
+- DPR cap: `cappedDpr(cap)` honoring `tierDprScale()`.
 
 ## Code Layout
-
-- **M1 (Theme & Contrast)**:
-  - `src/app/globals.css`
-  - `src/components/ui/AtmosphereMode.tsx`
-  - `src/app/layout.tsx`
-  - Body paragraph classes across `src/components/sections/`
-- **M2 (Typography & Labels)**:
-  - `src/components/sections/Hero.tsx`
-  - `src/components/sections/Manifesto.tsx`
-  - `src/components/sections/SelectedWorks.tsx`
-  - `src/components/sections/ShowreelTeaser.tsx`
-  - `src/components/sections/MilestonesScroll.tsx`
-  - `src/components/sections/NowTeaser.tsx`
-  - `src/components/sections/Testimonials.tsx`
-  - `src/components/sections/Awards.tsx`
-  - `src/components/sections/Capabilities.tsx`
-  - `src/components/sections/PortfoliosTeaser.tsx`
-  - `src/components/sections/JournalPreview.tsx`
-  - `src/components/sections/SiteMap.tsx`
-  - `src/components/layout/Footer.tsx`
-  - `src/components/ui/SectionLabel.tsx`
-  - `src/components/ui/SectionRail.tsx`
-  - `src/components/ui/SectionProgressDots.tsx`
-  - `src/components/layout/PageHero.tsx`
-- **M3 (Process Flow)**:
-  - `src/lib/data.ts` (process array & types)
-  - `src/components/sections/Process.tsx`
-  - `src/app/process/page.tsx`
-- **M4 (Stats Banner)**:
-  - `src/lib/data.ts` (stats array & types)
-  - `src/components/sections/Stats.tsx`
+- `src/app/globals.css` (R1 theme revert, R4 reduced-motion CSS)
+- `src/app/layout.tsx` (R1 themeColor & body class)
+- `src/components/ui/AtmosphereMode.tsx` (R1 canonical aura default)
+- `src/components/layout/LazyChrome.tsx` (R2 Tier 1 fine pointer fast-track)
+- `src/components/layout/LazyChromeBundle.tsx` (R2 Tier 2 deferred bundle)
+- `package.json` (R3 core dependencies & devDependencies)
+- `src/components/showreel/ReelChapterCarousel.tsx` (R4 Three.js damp)
+- `src/components/ui/CursorSpotlight.tsx` (R4 rafBus priority 0 + damp K_FAST)
+- `src/components/ui/Magnetic.tsx` (R4 idle sleep + reduced-motion check)
+- `src/components/ui/MagneticLetters.tsx` (R4 hover proximity rAF + cached rects)
+- `src/components/ui/ScrollScrubText.tsx` (R4 GSAP reduced-motion fallback)
+- `src/components/webgl/HeroShader.tsx` (R4 IO threshold 0.01 + immediate cancel)
+- `src/components/webgl/HeroShaderGpu.tsx` (R4 IO threshold 0.01 + immediate cancel)
+- `src/components/webgl/NoiseField.tsx` (R4 IO threshold 0.01 + reduced-motion guard)
+- `src/components/atlas/AtlasConstellation.tsx` (R4 cappedDpr + static frame under reduce)
+- `src/components/ui/ParticleField404.tsx` (R4 cappedDpr + IO pause)
+- `src/components/ui/CursorTrail.tsx` (R4 cappedDpr + reduced-motion check)
+- `src/lib/canvasRuntimeBudget.ts` (R4 0 simulations under reduced-motion)
+- `src/components/ui/SectionRail.tsx` (R4 remove scroll hot path React state)

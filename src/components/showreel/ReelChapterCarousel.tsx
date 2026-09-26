@@ -7,6 +7,7 @@ import { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Image as DreiImage } from "@react-three/drei";
 import * as THREE from "three";
+import { damp, clampDt, K } from "@/lib/damp";
 
 type Clip = {
   index: string;
@@ -25,8 +26,8 @@ function Cylinder({ clips, target }: { clips: Clip[]; target: { current: number 
   const angleStep = (Math.PI * 2) / clips.length;
   const rotRef = useRef(0);
 
-  useFrame(() => {
-    rotRef.current += (target.current - rotRef.current) * 0.06;
+  useFrame((_, delta) => {
+    rotRef.current = damp(rotRef.current, target.current, K.K_HERO, clampDt(delta));
     if (groupRef.current) groupRef.current.rotation.y = rotRef.current;
   });
 

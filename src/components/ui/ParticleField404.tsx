@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { cappedDpr, DPR_CANVAS } from "@/lib/dpr";
 
 const SAMPLE_TEXT = "404";
 
@@ -56,7 +57,10 @@ export function ParticleField404() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    const dpr = cappedDpr(DPR_CANVAS);
+    const reducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const setup = () => {
       const w = canvas.clientWidth;
@@ -72,8 +76,8 @@ export function ParticleField404() {
       for (let i = 0; i < targets.length; i += stride) sampled.push(targets[i]);
 
       particles.current = sampled.map((t) => ({
-        x: Math.random() * w,
-        y: Math.random() * h,
+        x: reducedMotion ? t.x : Math.random() * w,
+        y: reducedMotion ? t.y : Math.random() * h,
         tx: t.x,
         ty: t.y,
         baseTx: t.x,
@@ -85,6 +89,29 @@ export function ParticleField404() {
     };
 
     setup();
+
+    if (reducedMotion) {
+      const renderStatic = () => {
+        setup();
+        const w = canvas.clientWidth;
+        const h = canvas.clientHeight;
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = "rgba(239,236,233,0.85)";
+        const list = particles.current;
+        for (let i = 0; i < list.length; i++) {
+          const p = list[i];
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      };
+      renderStatic();
+      window.addEventListener("resize", renderStatic);
+      return () => {
+        window.removeEventListener("resize", renderStatic);
+      };
+    }
+
     const onResize = () => setup();
     window.addEventListener("resize", onResize);
 
@@ -131,10 +158,24 @@ export function ParticleField404() {
       }
       animateRef.current = requestAnimationFrame(tick);
     };
-    tick();
+    animateRef.current = requestAnimationFrame(tick);
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !animateRef.current) {
+          animateRef.current = requestAnimationFrame(tick);
+        } else if (!entry.isIntersecting && animateRef.current) {
+          cancelAnimationFrame(animateRef.current);
+          animateRef.current = 0;
+        }
+      },
+      { threshold: 0.01 },
+    );
+    io.observe(canvas);
 
     return () => {
-      cancelAnimationFrame(animateRef.current);
+      io.disconnect();
+      if (animateRef.current) cancelAnimationFrame(animateRef.current);
       window.removeEventListener("resize", onResize);
       canvas.removeEventListener("mousemove", onMove);
       canvas.removeEventListener("mouseleave", onLeave);

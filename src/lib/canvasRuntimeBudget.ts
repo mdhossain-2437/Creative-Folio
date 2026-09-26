@@ -20,7 +20,7 @@ let unlistenProfileChange: (() => void) | null = null;
 
 function maxActiveRuntimes(): number {
   const profile = deviceProfile();
-  if (profile.reducedMotion) return 1;
+  if (profile.reducedMotion) return 0;
   if (profile.tier === "low") return profile.isTouch ? 2 : 3;
   if (profile.tier === "mid") return profile.isTouch ? 4 : 5;
   return profile.isTouch ? 5 : 8;

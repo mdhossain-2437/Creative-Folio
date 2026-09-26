@@ -47,14 +47,15 @@
 //   page. The most-visible section (by ratio, midline-anchored) becomes
 //   active.
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 
 type Item = { id: string; label: string };
 
 export function SectionRail({ items }: { items: Item[] }) {
   const [active, setActive] = useState<string>(items[0]?.id ?? "");
-  const [progress, setProgress] = useState(0); // 0..1 — total page scroll
+  const desktopPercentRef = useRef<HTMLSpanElement>(null);
+  const mobilePercentRef = useRef<HTMLSpanElement>(null);
   const [mounted, setMounted] = useState(false);
   const [open, setOpen] = useState(false); // mobile bottom-pill expanded
   const [expanded, setExpanded] = useState(false); // desktop hover/focus
@@ -113,7 +114,9 @@ export function SectionRail({ items }: { items: Item[] }) {
     const update = () => {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const p = max > 0 ? window.scrollY / max : 0;
-      setProgress(Math.max(0, Math.min(1, p)));
+      const pct = `${Math.round(Math.max(0, Math.min(1, p)) * 100)}%`;
+      if (desktopPercentRef.current) desktopPercentRef.current.textContent = pct;
+      if (mobilePercentRef.current) mobilePercentRef.current.textContent = pct;
       const y = window.scrollY;
       const vh = window.innerHeight;
       setPastHero((prev) => {
@@ -272,11 +275,11 @@ export function SectionRail({ items }: { items: Item[] }) {
         >
           <span aria-hidden className="block h-px flex-1 bg-warmwhite/15">
             <span
-              className="block h-full bg-peach transition-[width] duration-300 ease-out"
-              style={{ width: `${(progress * 100).toFixed(1)}%` }}
+              className="block h-full bg-peach transition-[width] duration-150 ease-out"
+              style={{ width: "calc(var(--scroll-progress, 0) * 100%)" }}
             />
           </span>
-          <span className="display-num">{Math.round(progress * 100)}%</span>
+          <span ref={desktopPercentRef} className="display-num">0%</span>
         </footer>
       </div>
     </nav>
@@ -313,12 +316,12 @@ export function SectionRail({ items }: { items: Item[] }) {
           <span className="ml-auto flex items-center gap-2">
             <span aria-hidden className="block h-1 w-10 overflow-hidden rounded-full bg-warmwhite/15">
               <span
-                className="block h-full bg-peach transition-[width] duration-300 ease-out"
-                style={{ width: `${(progress * 100).toFixed(1)}%` }}
+                className="block h-full bg-peach transition-[width] duration-150 ease-out"
+                style={{ width: "calc(var(--scroll-progress, 0) * 100%)" }}
               />
             </span>
-            <span className="display-num font-mono text-[10px] text-warmwhite/75">
-              {Math.round(progress * 100)}%
+            <span ref={mobilePercentRef} className="display-num font-mono text-[10px] text-warmwhite/75">
+              0%
             </span>
             <span aria-hidden className="font-sans text-[11px] leading-none text-warmwhite/55">
               ▴

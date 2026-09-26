@@ -44,12 +44,22 @@ export function MagneticLetters({
     let mx = -9999;
     let my = -9999;
     let raf = 0;
+    let isSettled = true;
+
+    // Cache letter centers relative to viewport to avoid layout thrashing per frame
+    let letterCenters: { el: HTMLElement; cx: number; cy: number }[] = [];
+    const cacheRects = () => {
+      letterCenters = letters.map((el) => {
+        const r = el.getBoundingClientRect();
+        return { el, cx: r.left + r.width / 2, cy: r.top + r.height / 2 };
+      });
+    };
+    cacheRects();
 
     const apply = () => {
-      letters.forEach((letter) => {
-        const r = letter.getBoundingClientRect();
-        const cx = r.left + r.width / 2;
-        const cy = r.top + r.height / 2;
+      let anyActive = false;
+      for (let i = 0; i < letterCenters.length; i++) {
+        const { el, cx, cy } = letterCenters[i];
         const dx = mx - cx;
         const dy = my - cy;
         const dist = Math.hypot(dx, dy);
@@ -57,30 +67,66 @@ export function MagneticLetters({
           const fall = 1 - dist / radius;
           const tx = (dx / radius) * pull * fall * 1.6;
           const ty = (dy / radius) * pull * fall * 1.6;
-          letter.style.transform = `translate3d(${tx}px, ${ty}px, 0)`;
+          el.style.transform = `translate3d(${tx.toFixed(2)}px, ${ty.toFixed(2)}px, 0)`;
+          anyActive = true;
         } else {
-          letter.style.transform = "translate3d(0, 0, 0)";
+          if (el.style.transform && el.style.transform !== "translate3d(0, 0, 0)") {
+            el.style.transform = "translate3d(0, 0, 0)";
+          }
         }
-      });
+      }
+      if (!anyActive) {
+        letterCenters.forEach(({ el }) => {
+          el.style.transform = "translate3d(0, 0, 0)";
+        });
+        isSettled = true;
+        raf = 0;
+        return;
+      }
       raf = requestAnimationFrame(apply);
+    };
+
+    const startIfNear = () => {
+      const nodeRect = node.getBoundingClientRect();
+      const near =
+        mx >= nodeRect.left - radius &&
+        mx <= nodeRect.right + radius &&
+        my >= nodeRect.top - radius &&
+        my <= nodeRect.bottom + radius;
+
+      if (near) {
+        if (isSettled || !raf) {
+          isSettled = false;
+          if (!raf) raf = requestAnimationFrame(apply);
+        }
+      } else if (!isSettled && !raf) {
+        raf = requestAnimationFrame(apply);
+      }
     };
 
     const onMove = (e: MouseEvent) => {
       mx = e.clientX;
       my = e.clientY;
+      startIfNear();
     };
 
     const onLeave = () => {
       mx = -9999;
       my = -9999;
+      if (!isSettled && !raf) {
+        raf = requestAnimationFrame(apply);
+      }
     };
 
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseleave", onLeave);
-    raf = requestAnimationFrame(apply);
+    window.addEventListener("resize", cacheRects, { passive: true });
+    window.addEventListener("scroll", cacheRects, { passive: true });
+    window.addEventListener("mousemove", onMove, { passive: true });
+    window.addEventListener("mouseleave", onLeave, { passive: true });
 
     return () => {
-      cancelAnimationFrame(raf);
+      if (raf) cancelAnimationFrame(raf);
+      window.removeEventListener("resize", cacheRects);
+      window.removeEventListener("scroll", cacheRects);
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseleave", onLeave);
       letters.forEach((l) => (l.style.transform = ""));

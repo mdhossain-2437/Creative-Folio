@@ -6,16 +6,6 @@ import dynamic from "next/dynamic";
 // disabled so the server HTML stays light. This bundle is itself imported by
 // `LazyChrome` only after the user has had a quiet window.
 
-const Cursor = dynamic(
-  () => import("@/components/ui/Cursor").then((m) => m.Cursor),
-  { ssr: false },
-);
-
-const CursorSpotlight = dynamic(
-  () => import("@/components/ui/CursorSpotlight").then((m) => m.CursorSpotlight),
-  { ssr: false },
-);
-
 const RoutePrefetcher = dynamic(
   () =>
     import("@/components/layout/RoutePrefetcher").then((m) => m.RoutePrefetcher),
@@ -46,8 +36,6 @@ export function LazyChromeBundle() {
   return (
     <>
       <RoutePrefetcher />
-      <CursorSpotlight />
-      <Cursor />
       <GridOverlay />
       <ScrollMeter />
       <ShowreelPill />

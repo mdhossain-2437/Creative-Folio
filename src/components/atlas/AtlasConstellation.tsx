@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { unlock } from "@/lib/achievements";
 import { clampDt } from "@/lib/damp";
+import { cappedDpr, DPR_CANVAS } from "@/lib/dpr";
 
 export type ConstellationStar = {
   label: string;
@@ -47,7 +48,10 @@ export function AtlasConstellation({ stars }: { stars: ConstellationStar[] }) {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    const dpr = cappedDpr(DPR_CANVAS);
+    const reducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const placed: Placed[] = stars.map((s, i) => {
       const { x, y } = hashedPos(i + 7);
       return {
@@ -62,13 +66,6 @@ export function AtlasConstellation({ stars }: { stars: ConstellationStar[] }) {
 
     let cw = 0;
     let ch = 0;
-    const fit = () => {
-      cw = canvas.clientWidth * dpr;
-      ch = canvas.clientHeight * dpr;
-      canvas.width = cw;
-      canvas.height = ch;
-    };
-    fit();
 
     let pointerX = -1000;
     let pointerY = -1000;
@@ -79,6 +76,16 @@ export function AtlasConstellation({ stars }: { stars: ConstellationStar[] }) {
     let panY = 0;
     let scale = 1;
     let raf = 0;
+    let requestRender = () => {};
+
+    const fit = () => {
+      cw = canvas.clientWidth * dpr;
+      ch = canvas.clientHeight * dpr;
+      canvas.width = cw;
+      canvas.height = ch;
+      requestRender();
+    };
+    fit();
 
     const setHoverFor = (sx: number, sy: number) => {
       // sx/sy in client coords (CSS px)
@@ -113,6 +120,7 @@ export function AtlasConstellation({ stars }: { stars: ConstellationStar[] }) {
         pressY = pointerY;
       }
       setHoverFor(pointerX, pointerY);
+      requestRender();
     };
     const onPointerDown = (e: PointerEvent) => {
       const r = canvas.getBoundingClientRect();
@@ -127,6 +135,7 @@ export function AtlasConstellation({ stars }: { stars: ConstellationStar[] }) {
         const cx = e.clientX - r.left;
         const cy = e.clientY - r.top;
         if (Math.abs(cx - pressX) + Math.abs(cy - pressY) > 6) dragging = true;
+        requestRender();
       }
     };
     const onPointerUp = (e: PointerEvent) => {
@@ -155,6 +164,7 @@ export function AtlasConstellation({ stars }: { stars: ConstellationStar[] }) {
       pressX = null;
       pressY = null;
       try { canvas.releasePointerCapture(e.pointerId); } catch { /* noop */ }
+      requestRender();
     };
     const onWheel = (e: WheelEvent) => {
       e.preventDefault();
@@ -167,8 +177,12 @@ export function AtlasConstellation({ stars }: { stars: ConstellationStar[] }) {
       panX = cx - k * (cx - panX);
       panY = cy - k * (cy - panY);
       scale = newScale;
+      requestRender();
     };
-    const onLeave = () => setHovered(null);
+    const onLeave = () => {
+      setHovered(null);
+      requestRender();
+    };
 
     canvas.addEventListener("pointermove", onPointerMove);
     canvas.addEventListener("pointermove", onPointerMoveDrag);
@@ -250,12 +264,14 @@ export function AtlasConstellation({ stars }: { stars: ConstellationStar[] }) {
       }
       ctx.globalAlpha = 1;
 
-      // ── ambient drift (frame-rate independent)
-      for (const p of placed) {
-        p.x += p.vx * dtScale;
-        p.y += p.vy * dtScale;
-        if (p.x < 0.02 || p.x > 0.98) p.vx *= -1;
-        if (p.y < 0.02 || p.y > 0.98) p.vy *= -1;
+      if (!reducedMotion) {
+        // ── ambient drift (frame-rate independent)
+        for (const p of placed) {
+          p.x += p.vx * dtScale;
+          p.y += p.vy * dtScale;
+          if (p.x < 0.02 || p.x > 0.98) p.vx *= -1;
+          if (p.y < 0.02 || p.y > 0.98) p.vy *= -1;
+        }
       }
 
       // ── stars
@@ -278,14 +294,27 @@ export function AtlasConstellation({ stars }: { stars: ConstellationStar[] }) {
         }
       }
 
-      raf = requestAnimationFrame(tick);
+      if (!reducedMotion) {
+        raf = requestAnimationFrame(tick);
+      }
     };
-    raf = requestAnimationFrame(tick);
+
+    requestRender = () => {
+      if (reducedMotion) {
+        if (raf) cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(tick);
+      }
+    };
+
+    tick();
+    if (!reducedMotion) {
+      raf = requestAnimationFrame(tick);
+    }
 
     // Pause atlas rendering when scrolled off-screen.
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !raf) {
+        if (!reducedMotion && entry.isIntersecting && !raf) {
           raf = requestAnimationFrame(tick);
         } else if (!entry.isIntersecting && raf) {
           cancelAnimationFrame(raf);

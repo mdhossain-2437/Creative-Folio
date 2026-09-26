@@ -268,6 +268,41 @@ export function HeroShaderGpu({
         raf = requestAnimationFrame(render);
       };
 
+      if (
+        typeof window !== "undefined" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
+        resize();
+        uniforms[0] = canvas.width;
+        uniforms[1] = canvas.height;
+        uniforms[2] = mouse.x;
+        uniforms[3] = mouse.y;
+        uniforms[4] = 0;
+        device.queue.writeBuffer(uniformBuffer, 0, uniforms);
+
+        const encoder = device.createCommandEncoder();
+        const pass = encoder.beginRenderPass({
+          colorAttachments: [
+            {
+              view: context.getCurrentTexture().createView(),
+              clearValue: { r: 0.035, g: 0.035, b: 0.045, a: 1 },
+              loadOp: "clear",
+              storeOp: "store",
+            },
+          ],
+        });
+        pass.setPipeline(pipeline);
+        pass.setBindGroup(0, bindGroup);
+        pass.draw(3);
+        pass.end();
+        device.queue.submit([encoder.finish()]);
+
+        cleanup = () => {
+          device.destroy?.();
+        };
+        return;
+      }
+
       resize();
       window.addEventListener("resize", resize);
       window.addEventListener("mousemove", onMove);
@@ -275,12 +310,15 @@ export function HeroShaderGpu({
       const io = new IntersectionObserver(
         ([entry]) => {
           visible = Boolean(entry?.isIntersecting);
-          if (visible) {
-            cancelAnimationFrame(raf);
+          if (visible && !raf) {
+            last = performance.now();
             raf = requestAnimationFrame(render);
+          } else if (!visible && raf) {
+            cancelAnimationFrame(raf);
+            raf = 0;
           }
         },
-        { threshold: 0 },
+        { threshold: 0.01 },
       );
       io.observe(canvas);
       raf = requestAnimationFrame(render);
@@ -290,7 +328,7 @@ export function HeroShaderGpu({
       });
 
       cleanup = () => {
-        cancelAnimationFrame(raf);
+        if (raf) cancelAnimationFrame(raf);
         io.disconnect();
         window.removeEventListener("resize", resize);
         window.removeEventListener("mousemove", onMove);

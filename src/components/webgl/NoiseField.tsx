@@ -179,6 +179,31 @@ export function NoiseField({
     };
     resize();
     window.addEventListener("resize", resize);
+    // Track context loss
+    const handleContextLoss = () => {
+      logWebGLError("context_lost", "NoiseField", "WebGL context was lost");
+    };
+    canvas.addEventListener("webglcontextlost", handleContextLoss);
+
+    const reducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reducedMotion) {
+      gl.uniform1f(uT, 0);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      return () => {
+        window.removeEventListener("resize", resize);
+        canvas.removeEventListener("webglcontextlost", handleContextLoss);
+        gl.deleteTexture(tex);
+        gl.deleteProgram(prog);
+        gl.deleteShader(vs);
+        gl.deleteShader(fs);
+        gl.deleteBuffer(buf);
+        glContextRegistry.unregister(contextId.current);
+      };
+    }
+
     let raf = 0;
     let visible = true;
     const start = performance.now();
@@ -203,23 +228,19 @@ export function NoiseField({
       ([entry]) => {
         visible = entry.isIntersecting;
         glContextRegistry.markVisible(contextId.current, visible);
-        if (visible) {
-          cancelAnimationFrame(raf);
+        if (visible && !raf) {
           raf = requestAnimationFrame(tick);
+        } else if (!visible && raf) {
+          cancelAnimationFrame(raf);
+          raf = 0;
         }
       },
-      { threshold: 0 },
+      { threshold: 0.01 },
     );
     io.observe(canvas);
 
-    // Track context loss
-    const handleContextLoss = () => {
-      logWebGLError("context_lost", "NoiseField", "WebGL context was lost");
-    };
-    canvas.addEventListener("webglcontextlost", handleContextLoss);
-
     return () => {
-      cancelAnimationFrame(raf);
+      if (raf) cancelAnimationFrame(raf);
       io.disconnect();
       window.removeEventListener("resize", resize);
       canvas.removeEventListener("webglcontextlost", handleContextLoss);

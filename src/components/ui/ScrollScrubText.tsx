@@ -29,6 +29,16 @@ export function ScrollScrubText({
 
     if (!container || words.length === 0) return;
 
+    if (
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      words.forEach((w) => {
+        if (w) w.style.opacity = "1";
+      });
+      return;
+    }
+
     // GSAP animation with scroll scrubbing
     const ctx = gsap.context(() => {
       gsap.fromTo(
