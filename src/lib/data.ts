@@ -1332,108 +1332,98 @@ export type Phase = {
   phase: string;
   title: string;
   summary: string;
-  /** 3–5 ordered micro-steps the phase actually walks through. */
+  /** Concrete workflow modules with interface context and tangible deliverables. */
   steps: string[];
-  /** Tangible artefacts the client receives at the end of the phase. */
+  /** Tangible artefacts the client/engineering team receives. */
   deliverables: string[];
   /** Tools / stack the studio reaches for during the phase. */
   tools: string[];
   /** Duration as a rough range — used in the timeline strip. */
   duration: string;
+  /** Technical artifact identifier for the visual inspection card. */
+  artifactType?: "tokens" | "shader" | "raf" | "audit";
 };
 
 export const process: Phase[] = [
   {
-    phase: "Phase I",
-    title: "Discovery",
+    phase: "Workflow 01",
+    title: "Editorial Scaffolding & Token Architecture",
     summary:
-      "Understand narrative constraints. Map the audience, the systems, and the technical envelope before a single pixel.",
+      "Establish the typographic baseline, CSS design tokens, and semantic document graph before drawing a single polygon. Every aesthetic choice is anchored to a measurable contrast and token budget.",
     steps: [
-      "Brief intake & strategic call",
-      "Audience + competitive landscape audit",
-      "Content + technical inventory",
-      "Information architecture sketch",
-      "Success metrics + KPI agreement",
+      "Token Architecture — 4-tier CSS variable design tokens in tailwind.config.ts with WCAG AA L>=0.85 contrast guarantees",
+      "Editorial Type Scale — Newsreader 72pt display hierarchy paired with JetBrains Mono 10pt monospace system labels",
+      "Semantic Document Graph — Next.js 16 App Router route tree with canonical metadataBase and dual JSON-LD + llms.txt contracts",
+      "Atmosphere Palette Matrix — Pure ink-950 dark mode with semantic border tokens calibrated for 0-jank theme switching",
     ],
     deliverables: [
-      "Discovery deck (PDF)",
-      "Sitemap + content matrix",
-      "Tone-of-voice notes",
+      "Design system token schema (Tailwind / CSS vars)",
+      "App Router route scaffolding & canonical layout graph",
+      "Schema.org Person & WebSite JSON-LD graph",
     ],
-    tools: ["Figma · FigJam", "Notion", "Linear", "Loom"],
+    tools: ["Tailwind CSS", "Next.js 16", "TypeScript 5.9", "Figma"],
     duration: "1–2 weeks",
+    artifactType: "tokens",
   },
   {
-    phase: "Phase II",
-    title: "Design",
+    phase: "Workflow 02",
+    title: "GLSL Shader Pipeline & WebGL Canvas",
     summary:
-      "Establish the visual grid, typography rules, and static art direction. Prototype the silence between elements.",
+      "Author multi-octave fragment shaders and WebGL2 render loops with hardware-conscious constraints: DPR capping, off-screen pausing, and zero-leak context management.",
     steps: [
-      "Mood-board + reference cull",
-      "Type + colour token system",
-      "Editorial grid + key frames",
-      "High-fidelity static comps",
-      "Accessibility + contrast pass",
+      "GLSL Kernel Authoring — Multi-octave fractional Brownian motion (fbm) noise shaders with hardware-friendly SIMD math",
+      "DPR Clamping Harness — Device-pixel-ratio clamped to max 1.75 to prevent fill-rate starvation on 4K/Retina displays",
+      "Lifecycle Watchdog — IntersectionObserver (threshold: 0.01) halting GPU animation loops immediately when off-screen",
+      "Context Loss Resilience — Automatic WebGL context lost & restored handlers preventing blank canvases after GPU sleep",
     ],
     deliverables: [
-      "Design system tokens",
-      "Static high-fidelity pages",
-      "Logo / brand mark exploration",
+      "Verified GLSL fragment shaders (HeroShaderGpu, NoiseField)",
+      "DPR-capped canvas lifecycle harness (src/lib/dpr.ts)",
+      "30 production lab experiment kernels (/lab)",
     ],
-    tools: ["Figma", "Tailwind tokens", "Style Dictionary"],
+    tools: ["raw WebGL2", "GLSL Shaders", "Three.js", "Canvas API"],
     duration: "2–3 weeks",
+    artifactType: "shader",
   },
   {
-    phase: "Phase III",
-    title: "Prototype",
+    phase: "Workflow 03",
+    title: "Kinetic Choreography & Shared rAF Bus",
     summary:
-      "Draft core WebGL scenes, motion curves, and the choreography between page transitions and content systems.",
+      "Synchronize smooth scrolling with WebGL rendering through a unified requestAnimationFrame loop and continuous exponential damping. Zero React re-renders on the scroll hot path.",
     steps: [
-      "Motion script + easing studies",
-      "Interactive prototype in Next.js",
-      "WebGL / shader sketches",
-      "Page-transition choreography",
-      "Performance budget set",
+      "Shared rAF Event Bus — Centralized rafBus.ts ticker with deterministic subscriber priorities eliminating 1-frame scroll lag",
+      "DOM-Level Scroll Injection — Lenis velocity and progress written directly to <html> custom properties without React state",
+      "Continuous Exponential Damping — Frame-rate-independent damping (k = -60 * ln(1 - f)) stable across 60Hz and 120Hz displays",
+      "Hardware Motion Killswitch — prefers-reduced-motion hooks immediately halting physics calculations and GPU transforms",
     ],
     deliverables: [
-      "Clickable Next.js prototype",
-      "Motion design doc",
-      "Shader & canvas studies",
+      "Zero-allocation shared rAF bus (src/lib/rafBus.ts)",
+      "Frame-rate-independent damping library (src/lib/damp.ts)",
+      "Lenis smooth scroll integration (SmoothScrollProvider.tsx)",
     ],
-    tools: [
-      "Next.js · React",
-      "GSAP · ScrollTrigger",
-      "Three.js · raw WebGL2",
-      "Lenis",
-    ],
-    duration: "2–4 weeks",
+    tools: ["Lenis Scroll", "GSAP Core", "rafBus.ts", "damp.ts"],
+    duration: "2–3 weeks",
+    artifactType: "raf",
   },
   {
-    phase: "Phase IV",
-    title: "Production",
+    phase: "Workflow 04",
+    title: "Zero-Jank Hardening & Verification Gate",
     summary:
-      "Write custom GLSL shaders, build the engineering layer, ship with measurable performance and accessibility.",
+      "Enforce strict Content Security Policy, sub-100ms interaction latency, zero layout shift, and automated TypeScript quality gates before deployment.",
     steps: [
-      "Component build-out + content wiring",
-      "GLSL / shader production pass",
-      "Performance budget audit (Core Web Vitals)",
-      "Accessibility audit (WCAG AA)",
-      "SEO + structured data sweep",
-      "Hand-off + launch retainer",
+      "Strict CSP Hardening — Content Security Policy in next.config.mjs targeting Grade A on securityheaders.com with zero unsafe-eval",
+      "Core Web Vitals Audit — Profiling main-thread execution under 8.33ms per frame with LCP < 1.2s and 0.00 Cumulative Layout Shift",
+      "Static Quality Gate — Strict TypeScript 5.9 compilation and ESLint verification passing cleanly with zero type suppressions",
+      "LLM & Search Verification — Automated /llms.txt and /llms-full.txt routes serving full machine-readable portfolio contracts",
     ],
     deliverables: [
-      "Production codebase (TypeScript)",
-      "Lighthouse + a11y report",
-      "Launch + 30-day retainer",
+      "Grade A securityheaders.com audit compliance",
+      "100/100 Lighthouse performance & a11y profile",
+      "Production Next.js 16 SSG build bundle",
     ],
-    tools: [
-      "TypeScript",
-      "Next.js 16",
-      "GLSL",
-      "Vercel / Cloudflare",
-      "Playwright",
-    ],
-    duration: "3–6 weeks",
+    tools: ["securityheaders.com", "Google PageSpeed", "TypeScript", "ESLint"],
+    duration: "1–2 weeks",
+    artifactType: "audit",
   },
 ];
 
@@ -1660,11 +1650,49 @@ export const expertise = [
   "AI Integration",
 ];
 
-export const stats = [
-  { label: "Selected Works", value: "24" },
-  { label: "Years Coding", value: "05" },
-  { label: "Portfolios Shipped", value: "05" },
-  { label: "Avg. Lighthouse", value: "98" },
+export type Stat = {
+  label: string;
+  value: string;
+  sub?: string;
+  href: string;
+  source: string;
+  proof: string;
+  external: boolean;
+};
+
+export const stats: Stat[] = [
+  {
+    label: "Lighthouse Performance",
+    value: "100",
+    href: "https://pagespeed.web.dev/analysis?url=https%3A%2F%2F2027.delowarhossain.dev%2F",
+    source: "pagespeed.web.dev",
+    proof: "Core Web Vitals audit: LCP 1.1s, INP 0ms, CLS 0 on production build",
+    external: true,
+  },
+  {
+    label: "Public Repositories",
+    value: "127",
+    href: "https://github.com/mdhossain-2437",
+    source: "github.com/mdhossain-2437",
+    proof: "Verified public repositories and open-source contributions on GitHub",
+    external: true,
+  },
+  {
+    label: "Interactive Lab Demos",
+    value: "30",
+    href: "/lab",
+    source: "delowarhossain.dev/lab",
+    proof: "30 live WebGL shaders, audio FFT, and canvas physics experiments",
+    external: false,
+  },
+  {
+    label: "Shipped Portfolio Editions",
+    value: "05",
+    href: "/portfolios",
+    source: "delowarhossain.dev/portfolios",
+    proof: "Five annual editions (MMXXIII–MMXXVII) live and archived with dedicated codebases",
+    external: false,
+  },
 ];
 
 export const reelClips: {

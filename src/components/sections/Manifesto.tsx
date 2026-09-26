@@ -9,11 +9,8 @@ export function Manifesto() {
   return (
     <section className="relative border-t border-warmwhite/15 bg-ink-900 py-28 md:py-40">
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-        <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
-          §01 — Manifesto
-        </p>
         <Reveal>
-          <p className="mt-10 max-w-[1200px] font-serif text-[clamp(1.7rem,3.4vw,3.6rem)] leading-[1.08] tracking-tighter text-warmwhite">
+          <p className="max-w-[1200px] font-serif text-[clamp(1.7rem,3.4vw,3.6rem)] leading-[1.08] tracking-tighter text-warmwhite">
             <ScrollScrubText
               text="I believe an interface should disappear, leaving only"
               className="inline"
@@ -25,7 +22,7 @@ export function Manifesto() {
               className="inline"
               as="span"
             />{" "}
-            <span className="italic text-warmwhite/60">
+            <span className="italic text-warmwhite/90">
               <ScrollScrubText
                 text="where typography, motion, and engineering converge into a single physical-feeling experience."
                 className="inline"
@@ -41,10 +38,10 @@ export function Manifesto() {
         <Reveal>
           <div className="mt-12 flex flex-col gap-6 rounded-2xl border border-warmwhite/12 bg-ink-950/40 p-6 md:flex-row md:items-center md:justify-between md:gap-12 md:p-8">
             <div className="flex flex-col gap-2">
-              <p className="font-sans text-[10px] uppercase tracking-widest text-peach">
-                ◊ Practitioner
+              <p className="font-mono text-xs tracking-normal text-peach">
+                Practitioner
               </p>
-              <p className="max-w-2xl font-sans text-base leading-relaxed text-warmwhite/85 md:text-lg">
+              <p className="max-w-2xl font-sans text-base leading-relaxed text-warmwhite/90 md:text-lg">
                 <span className="text-warmwhite">{site.name}</span> -{" "}
                 {educationNarrative.manifesto}. Building for the web since{" "}
                 {site.yearStarted}.
@@ -54,7 +51,7 @@ export function Manifesto() {
               href="/about"
               data-cursor="hover"
               data-cursor-label="STORY"
-              className="inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-warmwhite/25 px-5 py-2.5 font-sans text-[10px] uppercase tracking-widest text-warmwhite/85 transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach md:self-auto"
+              className="inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-warmwhite/25 px-5 py-2.5 font-mono text-xs tracking-normal text-warmwhite/90 transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach md:self-auto"
             >
               Full story <span aria-hidden>↗</span>
             </Link>
@@ -94,11 +91,11 @@ function Pillar({
 }) {
   return (
     <Reveal className="border-t border-warmwhite/15 pt-6">
-      <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
+      <p className="font-mono text-xs tracking-normal text-warmwhite/75">
         {tag}
       </p>
       <h3 className="mt-4 font-serif text-3xl tracking-tightest">{title}</h3>
-      <p className="mt-3 font-sans text-sm leading-relaxed text-warmwhite/65">
+      <p className="mt-3 font-sans text-sm leading-relaxed text-warmwhite/90">
         <WeightShift>{body}</WeightShift>
       </p>
     </Reveal>

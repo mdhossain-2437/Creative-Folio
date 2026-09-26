@@ -1,6 +1,5 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { TiltCard } from "@/components/ui/TiltCard";
-import { ScrambleText } from "@/components/ui/ScrambleText";
 import { awards } from "@/lib/data";
 import { site } from "@/lib/site";
 
@@ -12,15 +11,12 @@ export function AwardsSection() {
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <div className="grid grid-cols-1 items-end gap-10 md:grid-cols-12">
           <div className="md:col-span-7">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
-              <ScrambleText>§07 — Recognition Ledger</ScrambleText>
-            </p>
-            <h2 className="mt-4 font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[0.94] tracking-tightest">
+            <h2 className="font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[0.94] tracking-tightest">
               Recognition{" "}
-              <span className="italic text-warmwhite/60">Ledger</span>
+              <span className="italic text-warmwhite/90">Ledger</span>
             </h2>
           </div>
-          <p className="md:col-span-5 max-w-md font-sans text-base leading-relaxed text-warmwhite/65 md:text-lg">
+          <p className="md:col-span-5 max-w-md font-sans text-base leading-relaxed text-warmwhite/90 md:text-lg">
             Earned items are shown only with public verification. Everything
             still in motion is labelled as a target.
           </p>
@@ -39,20 +35,20 @@ export function AwardsSection() {
                   className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 [background:radial-gradient(280px_circle_at_var(--tilt-mx,50%)_var(--tilt-my,50%),rgba(227,191,180,0.18),transparent_60%)] hover:opacity-100"
                 />
                 <header className="relative flex items-start justify-between gap-6">
-                  <span className="display-num font-serif text-5xl tracking-tightest text-warmwhite/80">
+                  <span className="display-num font-serif text-5xl tracking-tightest text-warmwhite/85">
                     {a.index}
                   </span>
-                  <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
+                  <span className="font-mono text-xs tracking-normal text-warmwhite/85">
                     {a.org} · {a.year}
                   </span>
                 </header>
                 <h3 className="relative font-serif text-[clamp(2rem,4vw,3.4rem)] leading-[1] tracking-tightest">
                   {a.title}
                 </h3>
-                <p className="relative font-sans text-[10px] uppercase tracking-widest text-peach">
+                <p className="relative font-mono text-xs tracking-normal text-peach">
                   {a.status === "earned" ? "Verified recognition" : "Recognition target"}
                 </p>
-                <p className="relative max-w-prose font-sans text-sm leading-relaxed text-warmwhite/65">
+                <p className="relative max-w-prose font-sans text-sm leading-relaxed text-warmwhite/90">
                   {a.summary}
                 </p>
               </TiltCard>

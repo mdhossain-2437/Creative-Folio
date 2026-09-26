@@ -19,7 +19,7 @@ import { useEffect, useRef, useState } from "react";
 
 type Item = { year: string; title: string; body: string };
 
-export function StickyTimeline({ items, label = "§ Timeline" }: { items: Item[]; label?: string }) {
+export function StickyTimeline({ items, label = "Timeline chapters" }: { items: Item[]; label?: string }) {
   const [activeIdx, setActiveIdx] = useState(0);
   const refs = useRef<(HTMLLIElement | null)[]>([]);
 
@@ -63,14 +63,14 @@ export function StickyTimeline({ items, label = "§ Timeline" }: { items: Item[]
       <div className="mx-auto grid max-w-[1640px] grid-cols-1 gap-10 px-6 md:grid-cols-12 md:px-10">
         <aside className="md:col-span-5">
           <div className="md:sticky md:top-32">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">{label}</p>
-            <div className="mt-6 inline-flex items-center gap-3 rounded-full border border-warmwhite/15 bg-ink-950/60 px-3 py-1.5 font-sans text-[10px] uppercase tracking-widest text-warmwhite/85 backdrop-blur">
+            <p className="font-mono text-xs tracking-normal text-warmwhite/85">{label}</p>
+            <div className="mt-6 inline-flex items-center gap-3 rounded-full border border-warmwhite/15 bg-ink-950/60 px-3 py-1.5 font-mono text-xs tracking-normal text-warmwhite/90 backdrop-blur">
               <span
                 aria-hidden
                 className="inline-block h-1.5 w-1.5 rounded-full bg-peach"
               />
               <span className="display-num">
-                §{String(activeIdx + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
+                {String(activeIdx + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
               </span>
               <span aria-hidden className="text-warmwhite/30">·</span>
               <span className="display-num text-peach">{items[activeIdx]?.year}</span>
@@ -92,10 +92,10 @@ export function StickyTimeline({ items, label = "§ Timeline" }: { items: Item[]
                 </span>
               ))}
             </div>
-            <p className="mt-2 font-serif text-2xl italic text-warmwhite/80 md:text-3xl">
+            <p className="mt-2 font-serif text-2xl italic text-warmwhite/90 md:text-3xl">
               {items[activeIdx]?.title}
             </p>
-            <p className="mt-6 max-w-sm font-sans text-sm leading-relaxed text-warmwhite/60">
+            <p className="mt-6 max-w-sm font-sans text-sm leading-relaxed text-warmwhite/90">
               Scroll to walk through the chapters. The year on the left flips as you cross each
               entry — every right-hand card carries its own year badge so nothing slips by.
             </p>
@@ -146,16 +146,16 @@ export function StickyTimeline({ items, label = "§ Timeline" }: { items: Item[]
                         isActive ? "bg-peach" : "bg-warmwhite/30"
                       }`}
                     />
-                    <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
-                      <span className="display-num">§{String(i + 1).padStart(2, "0")}</span>
+                    <p className="font-mono text-xs tracking-normal text-warmwhite/85">
+                      <span className="display-num">{String(i + 1).padStart(2, "0")}</span>
                       <span className="mx-2 text-warmwhite/55">·</span>
-                      <span className="display-num text-warmwhite/85">{it.year}</span>
+                      <span className="display-num text-warmwhite/90">{it.year}</span>
                     </p>
                   </div>
                   <h3 className="mt-4 font-serif text-3xl tracking-tight text-warmwhite md:text-4xl">
                     {it.title}
                   </h3>
-                  <p className="mt-4 max-w-xl text-balance font-sans text-base leading-relaxed text-warmwhite/70">
+                  <p className="mt-4 max-w-xl text-balance font-sans text-base leading-relaxed text-warmwhite/90">
                     {it.body}
                   </p>
                 </div>

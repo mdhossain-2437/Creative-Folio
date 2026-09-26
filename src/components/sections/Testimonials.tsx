@@ -5,12 +5,9 @@ export function Testimonials() {
   return (
     <section className="relative border-t border-warmwhite/15 bg-ink-900 py-28 md:py-40">
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
-        <header className="grid grid-cols-1 gap-10 md:grid-cols-12">
-          <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65 md:col-span-3">
-            §06 — Collaboration
-          </p>
-          <h2 className="font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[0.94] tracking-tightest md:col-span-9">
-            Process notes, <span className="italic text-warmwhite/60">until quotes are verified.</span>
+        <header className="max-w-4xl">
+          <h2 className="font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[0.94] tracking-tightest">
+            Process notes, <span className="italic text-warmwhite/90">until quotes are verified.</span>
           </h2>
         </header>
 
@@ -23,16 +20,16 @@ export function Testimonials() {
               className="flex h-full flex-col justify-between bg-ink-900 p-8 md:p-12"
             >
               {t.status === "verified" ? (
-                <blockquote className="font-serif text-[clamp(1.1rem,1.8vw,1.5rem)] leading-[1.35] tracking-tight text-warmwhite/85 italic">
+                <blockquote className="font-serif text-[clamp(1.1rem,1.8vw,1.5rem)] leading-[1.35] tracking-tight text-warmwhite/90 italic">
                   &ldquo;{t.quote}&rdquo;
                 </blockquote>
               ) : (
-                <p className="font-serif text-[clamp(1.1rem,1.8vw,1.5rem)] leading-[1.35] tracking-tight text-warmwhite/85">
+                <p className="font-serif text-[clamp(1.1rem,1.8vw,1.5rem)] leading-[1.35] tracking-tight text-warmwhite/90">
                   {t.quote}
                 </p>
               )}
               <div className="mt-8 flex items-center gap-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-warmwhite/20 font-sans text-xs uppercase text-warmwhite/60">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full border border-warmwhite/20 font-mono text-xs text-warmwhite/85">
                   {t.name
                     .split(" ")
                     .map((w) => w[0])
@@ -42,7 +39,7 @@ export function Testimonials() {
                   <p className="font-sans text-sm font-medium text-warmwhite">
                     {t.name}
                   </p>
-                  <p className="font-sans text-[11px] text-warmwhite/65">
+                  <p className="font-sans text-[11px] text-warmwhite/85">
                     {t.title}, {t.company}
                   </p>
                 </div>

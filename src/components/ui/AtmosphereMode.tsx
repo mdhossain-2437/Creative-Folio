@@ -87,30 +87,49 @@ export function AtmosphereMode() {
   const [mode, setMode] = useState<Mode>("aura");
   const [open, setOpen] = useState(false);
   const visitedRef = useRef<Set<Mode>>(new Set(["aura"]));
+  const userManuallySelectedRef = useRef(false);
 
   useEffect(() => {
-    // Default: start fresh in `aura`. Atmosphere choice is in-session only;
-    // we deliberately don't persist across page loads — return visitors
-    // were landing in STORM with no context which felt jarring.
+    // Default: detect system preference (prefers-color-scheme: light -> eink, dark -> aura).
+    // Atmosphere choice is in-session only.
     //
     // Override: a `?atmosphere=<mode>` query param preselects the mode at
     // mount. Used for shareable links.
-    let initial: Mode = "aura";
+    const prefersLight =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-color-scheme: light)").matches;
+
+    let initial: Mode = prefersLight ? "eink" : "aura";
     try {
       const params = new URLSearchParams(window.location.search);
       const fromUrl = params.get("atmosphere");
-      if (isMode(fromUrl)) initial = fromUrl;
+      if (isMode(fromUrl)) {
+        initial = fromUrl;
+        userManuallySelectedRef.current = true;
+      }
     } catch {
       // ignore — SSR / invalid URL
     }
     applyMode(initial);
-    if (initial !== "aura") {
-      setMode(initial);
-      visitedRef.current.add(initial);
-    }
+    setMode(initial);
+    visitedRef.current.add(initial);
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(prefers-color-scheme: light)");
+    const onChange = (e: MediaQueryListEvent) => {
+      if (userManuallySelectedRef.current) return;
+      const nextMode: Mode = e.matches ? "eink" : "aura";
+      setMode(nextMode);
+      applyMode(nextMode);
+    };
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
   }, []);
 
   const cycle = useCallback((origin?: { x: number; y: number }) => {
+    userManuallySelectedRef.current = true;
     setMode((curr) => {
       const next = MODES[(MODES.indexOf(curr) + 1) % MODES.length];
       applyMode(next);
@@ -136,6 +155,7 @@ export function AtmosphereMode() {
   }, []);
 
   const setExact = useCallback((next: Mode, origin?: { x: number; y: number }) => {
+    userManuallySelectedRef.current = true;
     setMode(() => {
       applyMode(next);
       const x =
@@ -225,7 +245,7 @@ export function AtmosphereMode() {
         data-cursor-label="ATMOSPHERE"
         aria-label={`Atmosphere: ${LABEL[mode]} · press T to cycle, Shift-click to share link`}
         title={`Atmosphere: ${LABEL[mode]} · press T to cycle, Shift-click to share link`}
-        className="group inline-flex items-center gap-2 rounded-full border border-warmwhite/20 bg-ink-950/70 px-4 py-2 font-sans text-[10px] uppercase tracking-widest text-warmwhite/85 shadow-2xl backdrop-blur transition-colors hover:border-peach/60 hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
+        className="group inline-flex items-center gap-2 rounded-full border border-warmwhite/20 bg-ink-950/70 px-4 py-2 font-mono text-xs tracking-normal text-warmwhite/85 shadow-2xl backdrop-blur transition-colors hover:border-peach/60 hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
       >
         <span aria-hidden className="relative inline-flex h-2 w-2">
           <span className="absolute inset-0 animate-ping rounded-full bg-peach/40" />
@@ -234,7 +254,7 @@ export function AtmosphereMode() {
         <span className="display-num">{mode.toUpperCase()}</span>
       </button>
       {open && (
-        <div className="pointer-events-none absolute bottom-full right-0 mb-2 whitespace-nowrap rounded-md border border-warmwhite/20 bg-ink-950/95 px-3 py-2 font-sans text-[10px] uppercase tracking-widest text-warmwhite/85 shadow-xl">
+        <div className="pointer-events-none absolute bottom-full right-0 mb-2 whitespace-nowrap rounded-md border border-warmwhite/20 bg-ink-950/95 px-3 py-2 font-mono text-xs tracking-normal text-warmwhite/85 shadow-xl">
           T · cycle · ⇧+click · share
         </div>
       )}

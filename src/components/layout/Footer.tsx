@@ -66,11 +66,8 @@ export function Footer({ commitSha, buildTime }: FooterProps = {}) {
       <div className="mx-auto max-w-[1640px] px-6 pt-24 md:px-10">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
           <div className="lg:col-span-7">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
-              ◊ {site.availability} · Selected projects
-            </p>
-            <h2 className="mt-6 break-words font-serif text-[clamp(2.5rem,7.5vw,7rem)] leading-[0.94] tracking-tightest">
-              <span className="block italic text-warmwhite/60">Have an idea?</span>
+            <h2 className="break-words font-serif text-[clamp(2.5rem,7.5vw,7rem)] leading-[0.94] tracking-tightest">
+              <span className="block italic text-warmwhite/90">Have an idea?</span>
               <span className="block">Let&apos;s build it.</span>
             </h2>
             <div className="mt-10 flex flex-wrap items-center gap-3">
@@ -78,7 +75,7 @@ export function Footer({ commitSha, buildTime }: FooterProps = {}) {
                 href="/contact"
                 data-cursor="hover"
                 data-cursor-label="WRITE"
-                className="inline-flex max-w-full items-center gap-3 break-words rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-warmwhite transition-colors hover:border-warmwhite hover:bg-warmwhite hover:text-ink-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
+                className="inline-flex max-w-full items-center gap-3 break-words rounded-full border border-warmwhite/30 px-6 py-3 font-mono text-xs tracking-normal text-warmwhite transition-colors hover:border-warmwhite hover:bg-warmwhite hover:text-ink-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
               >
                 {site.email}
                 <span aria-hidden>↗</span>
@@ -127,12 +124,12 @@ export function Footer({ commitSha, buildTime }: FooterProps = {}) {
 
         <div className="mt-20 flex items-end justify-between gap-6 border-t border-warmwhite/15 pt-10">
           <div>
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
-              ◌ Signed
+            <p className="font-mono text-xs tracking-normal text-warmwhite/80">
+              Signed
             </p>
             <SignatureSVG className="mt-3 h-24 w-auto max-w-[520px] text-peach md:h-28" />
           </div>
-          <p className="hidden font-sans text-[10px] uppercase tracking-widest text-warmwhite/55 md:block">
+          <p className="hidden font-mono text-xs tracking-normal text-warmwhite/80 md:block">
             handwritten in vector — strokes draw on view
           </p>
         </div>
@@ -141,8 +138,8 @@ export function Footer({ commitSha, buildTime }: FooterProps = {}) {
           <div className="md:col-span-7">
             <QuoteOfTheDay />
           </div>
-          <p className="md:col-span-5 md:text-right font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
-            ◌ A new quote rotates in at 00:00 UTC. <br className="hidden md:block" />
+          <p className="md:col-span-5 md:text-right font-mono text-xs tracking-normal text-warmwhite/80">
+            A new quote rotates in at 00:00 UTC. <br className="hidden md:block" />
             Click to copy. Three hundred sixty-five total.
           </p>
         </div>
@@ -217,7 +214,7 @@ function FooterCol({
 }) {
   return (
     <div>
-      <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">{title}</p>
+      <p className="font-mono text-xs tracking-normal text-warmwhite/85">{title}</p>
       <ul className="mt-5 space-y-2 font-serif text-lg leading-tight">
         {items.map((it) => {
           // External links (Connect column/socials) get rel + target.
@@ -233,7 +230,7 @@ function FooterCol({
                   data-cursor-label="VIEW"
                   rel={it.rel ? `${it.rel} noopener` : "noopener"}
                   target="_blank"
-                  className="inline-block rounded-sm text-warmwhite/85 transition-colors hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
+                  className="inline-block rounded-sm text-warmwhite/90 transition-colors hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
                 >
                   {it.label}
                 </a>
@@ -246,7 +243,7 @@ function FooterCol({
                 href={it.href}
                 data-cursor="hover"
                 data-cursor-label="VIEW"
-                className="inline-block rounded-sm text-warmwhite/85 transition-colors hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
+                className="inline-block rounded-sm text-warmwhite/90 transition-colors hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
               >
                 {it.label}
               </Link>

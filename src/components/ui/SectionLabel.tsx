@@ -1,8 +1,8 @@
-export function SectionLabel({ index, children }: { index: string; children: React.ReactNode }) {
+export function SectionLabel({ index, children }: { index?: string; children: React.ReactNode }) {
   return (
-    <p className="flex items-center gap-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
-      <span className="display-num">§{index}</span>
-      <span aria-hidden className="h-px w-8 bg-warmwhite/20" />
+    <p className="flex items-center gap-2 font-mono text-xs tracking-normal text-warmwhite/85">
+      {index && <span className="display-num text-peach">{index}</span>}
+      {index && <span aria-hidden className="text-warmwhite/30">·</span>}
       <span>{children}</span>
     </p>
   );

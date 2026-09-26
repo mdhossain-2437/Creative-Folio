@@ -31,13 +31,10 @@ export function PortfoliosTeaser() {
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <header className="mb-12 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="max-w-3xl">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-peach">
-              ◊ §12 — Portfolios
-            </p>
-            <h2 className="mt-4 font-serif text-[clamp(2.4rem,5vw,5rem)] leading-[0.95] tracking-tightest">
+            <h2 className="font-serif text-[clamp(2.4rem,5vw,5rem)] leading-[0.95] tracking-tightest">
               Every year a <span className="italic text-peach">new portfolio.</span>
             </h2>
-            <p className="mt-4 max-w-prose font-sans text-sm leading-relaxed text-warmwhite/65 md:text-base">
+            <p className="mt-4 max-w-prose font-sans text-sm leading-relaxed text-warmwhite/90 md:text-base">
               The studio rebuilds its portfolio from scratch every year — a different codename,
               a different visual register, a different idea about what a portfolio should be.
               {" "}{portfolios.length} editions and counting, each one still live at its own
@@ -48,7 +45,7 @@ export function PortfoliosTeaser() {
             href="/portfolios"
             data-cursor="view"
             data-cursor-label="OPEN ARCHIVE"
-            className="inline-flex w-fit items-center gap-2 self-start rounded-full border border-peach/55 px-5 py-3 font-sans text-[10px] uppercase tracking-widest text-peach transition-colors hover:bg-peach hover:text-ink-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach md:self-end"
+            className="inline-flex w-fit items-center gap-2 self-start rounded-full border border-peach/55 px-5 py-3 font-mono text-xs tracking-normal text-peach transition-colors hover:bg-peach hover:text-ink-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach md:self-end"
           >
             See all {portfolios.length.toString().padStart(2, "0")} editions <span aria-hidden>↗</span>
           </Link>
@@ -67,7 +64,7 @@ export function PortfoliosTeaser() {
                   {p.year}
                 </span>
                 <span
-                  className="inline-flex items-center gap-2 font-sans text-[10px] uppercase tracking-widest"
+                  className="inline-flex items-center gap-2 font-mono text-xs tracking-normal"
                   style={{ color: p.accent }}
                 >
                   <span
@@ -76,10 +73,10 @@ export function PortfoliosTeaser() {
                   />
                   {p.edition}
                 </span>
-                <h3 className="break-words font-serif text-[clamp(1.4rem,2.2vw,2.2rem)] leading-tight tracking-tightest">
+                <h3 className="break-words font-serif text-[clamp(1.4rem,2.2vw,2.2rem)] leading-tight tracking-tightest text-warmwhite">
                   {p.codename}
                 </h3>
-                <p className="line-clamp-3 font-sans text-sm leading-relaxed text-warmwhite/65">
+                <p className="line-clamp-3 font-sans text-sm leading-relaxed text-warmwhite/90">
                   {p.description}
                 </p>
 
@@ -93,7 +90,7 @@ export function PortfoliosTeaser() {
                       data-cursor="view"
                       data-cursor-label="OPEN LIVE"
                       aria-label={`Open the ${p.year} portfolio (${p.codename}) in a new tab`}
-                      className="inline-flex items-center gap-1.5 rounded-full border border-warmwhite/25 px-3 py-1.5 font-sans text-[10px] uppercase tracking-widest text-warmwhite/85 transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
+                      className="inline-flex items-center gap-1.5 rounded-full border border-warmwhite/25 px-3 py-1.5 font-mono text-xs tracking-normal text-warmwhite/85 transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
                     >
                       ↗ {new URL(p.href).host}
                     </a>
@@ -102,7 +99,7 @@ export function PortfoliosTeaser() {
                     href="/portfolios"
                     data-cursor="view"
                     data-cursor-label="ARCHIVE"
-                    className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55 transition-colors hover:text-peach"
+                    className="font-mono text-xs tracking-normal text-warmwhite/80 transition-colors hover:text-peach"
                   >
                     {p.status === "Current" ? "✦ You are here" : "↗ View archive"}
                   </Link>

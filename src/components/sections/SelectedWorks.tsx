@@ -5,7 +5,6 @@ import Link from "@/components/ui/PerformanceLink";
 import { useEffect, useRef, useState } from "react";
 import { works, type Work } from "@/lib/data";
 import { Reveal } from "@/components/ui/Reveal";
-import { ScrambleText } from "@/components/ui/ScrambleText";
 import { WorkCoverDisplacement } from "@/components/works/WorkCoverDisplacement";
 
 export function SelectedWorks() {
@@ -14,10 +13,7 @@ export function SelectedWorks() {
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <header className="flex items-end justify-between gap-6">
           <div>
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
-              <ScrambleText>§02 — Selected Works</ScrambleText>
-            </p>
-            <h2 className="mt-4 font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[0.95] tracking-tightest">
+            <h2 className="font-serif text-[clamp(2.5rem,7vw,6rem)] leading-[0.95] tracking-tightest">
               Selected
               <span className="italic text-peach"> &amp; </span>
               <br className="hidden md:block" />
@@ -28,7 +24,7 @@ export function SelectedWorks() {
             href="/works"
             data-cursor="hover"
             data-cursor-label="ARCHIVE"
-            className="hidden items-baseline gap-2 rounded-full border border-warmwhite/15 px-4 py-2 font-sans text-[10px] uppercase tracking-widest text-warmwhite/85 transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach md:inline-flex"
+            className="hidden items-baseline gap-2 rounded-full border border-warmwhite/15 px-4 py-2 font-mono text-xs tracking-normal text-warmwhite/90 transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach md:inline-flex"
           >
             View All Archive <span aria-hidden>↗</span>
           </Link>
@@ -43,7 +39,7 @@ export function SelectedWorks() {
         <div className="mt-16 flex justify-center md:hidden">
           <Link
             href="/works"
-            className="inline-flex items-center gap-2 rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-warmwhite transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
+            className="inline-flex items-center gap-2 rounded-full border border-warmwhite/30 px-6 py-3 font-mono text-xs tracking-normal text-warmwhite/90 transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
           >
             View Archive <span aria-hidden>↗</span>
           </Link>
@@ -142,16 +138,16 @@ function WorkRow({
           className="group relative flex items-center justify-between overflow-hidden py-7 transition-colors hover:bg-warmwhite/[0.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-peach md:py-10"
         >
           <span className="flex items-center gap-6 md:gap-12">
-            <span className="display-num font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
+            <span className="display-num font-mono text-xs tracking-normal text-warmwhite/85">
               {work.index} · {work.year}
             </span>
             <span className="font-serif text-[clamp(1.6rem,4vw,3.6rem)] leading-none tracking-tightest transition-transform duration-700 ease-out group-hover:translate-x-3">
               {work.title}
             </span>
           </span>
-          <span className="hidden text-right font-sans text-[10px] uppercase tracking-widest text-warmwhite/55 md:block">
+          <span className="hidden text-right font-mono text-xs tracking-normal text-warmwhite/90 md:block">
             <span className="block">{work.category}</span>
-            <span className="mt-1 block text-warmwhite/55">
+            <span className="mt-1 block text-warmwhite/85">
               {work.stack.slice(0, 3).join(" · ")}
             </span>
           </span>

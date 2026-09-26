@@ -169,7 +169,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0c0c0c",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#efece9" },
+    { media: "(prefers-color-scheme: dark)", color: "#0c0c0c" },
+  ],
   width: "device-width",
   initialScale: 1,
 };
@@ -204,7 +207,7 @@ export default function RootLayout({
         <meta name="geo.placename" content={site.location} />
         <meta name="ICBM" content="25.0953, 89.0227" />
       </head>
-      <body className="bg-ink-900 text-warmwhite font-sans antialiased selection:bg-peach selection:text-ink-900">
+      <body className="bg-[var(--bg)] text-[var(--fg)] font-sans antialiased selection:bg-peach selection:text-ink-900">
         <SkipToContent />
         <SmoothScrollProvider>
           <Preloader />

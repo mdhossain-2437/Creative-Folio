@@ -12,14 +12,11 @@ export function ShowreelTeaser() {
       <div className="mx-auto max-w-[1640px] px-6 md:px-10">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12">
           <div className="md:col-span-5">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
-              §03 — Reel · 02:17
-            </p>
-            <h2 className="kinetic mt-6 font-serif text-[clamp(2.5rem,6vw,5.4rem)] leading-[0.96] tracking-tightest">
+            <h2 className="kinetic font-serif text-[clamp(2.5rem,6vw,5.4rem)] leading-[0.96] tracking-tightest">
               Six chapters,
-              <span className="block italic text-warmwhite/60">one quiet reel.</span>
+              <span className="block italic text-warmwhite/90">one quiet reel.</span>
             </h2>
-            <p className="mt-6 max-w-sm font-sans text-sm leading-relaxed text-warmwhite/80">
+            <p className="mt-6 max-w-sm font-sans text-sm leading-relaxed text-warmwhite/90">
               A vertical reel index for selected motion work, 2026–2027. Public
               chapters use verified static covers while project footage is cut.
             </p>
@@ -29,7 +26,7 @@ export function ShowreelTeaser() {
                 onClick={() => window.dispatchEvent(new CustomEvent("delowar:open-showreel"))}
                 data-cursor="view"
                 data-cursor-label="PLAY"
-                className="inline-flex items-center gap-2 rounded-full bg-warmwhite px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-ink-900 hover:bg-peach"
+                className="inline-flex items-center gap-2 rounded-full bg-warmwhite px-6 py-3 font-sans text-xs font-medium text-ink-900 hover:bg-peach"
               >
                 <span className="block h-0 w-0 border-y-[5px] border-l-[7px] border-y-transparent border-l-ink-900" />
                 Open immersive reel
@@ -38,7 +35,7 @@ export function ShowreelTeaser() {
                 href="/showreel"
                 data-cursor="hover"
                 data-cursor-label="INDEX"
-                className="rounded-full border border-warmwhite/30 px-5 py-3 font-sans text-[11px] uppercase tracking-widest hover:border-warmwhite"
+                className="rounded-full border border-warmwhite/30 px-5 py-3 font-sans text-xs font-medium text-warmwhite hover:border-warmwhite"
               >
                 Chapter index ↗
               </Link>
@@ -51,16 +48,16 @@ export function ShowreelTeaser() {
                   key={c.index}
                   className="grid grid-cols-12 items-center gap-4 border-b border-warmwhite/5 py-4 last:border-b-0"
                 >
-                  <span className="col-span-2 font-mono text-[10px] uppercase tracking-widest text-warmwhite/65 md:col-span-1">
-                    §{c.index}
+                  <span className="col-span-2 font-mono text-xs tracking-normal text-warmwhite/85 md:col-span-1">
+                    {c.index}
                   </span>
-                  <span className="col-span-7 font-serif text-xl leading-tight tracking-tight text-warmwhite/85 md:text-2xl">
+                  <span className="col-span-7 font-serif text-xl leading-tight tracking-tight text-warmwhite md:text-2xl">
                     {c.title}
                   </span>
-                  <span className="col-span-2 hidden font-mono text-[10px] uppercase tracking-widest text-warmwhite/65 md:col-span-3 md:block">
+                  <span className="col-span-2 hidden font-mono text-xs tracking-normal text-warmwhite/85 md:col-span-3 md:block">
                     {c.topic}
                   </span>
-                  <span className="col-span-3 text-right font-mono text-[10px] uppercase tracking-widest text-warmwhite/55 md:col-span-1">
+                  <span className="col-span-3 text-right font-mono text-xs tracking-normal text-warmwhite/85 md:col-span-1">
                     {c.duration}
                   </span>
                 </li>

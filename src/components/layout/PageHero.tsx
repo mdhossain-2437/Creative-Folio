@@ -28,13 +28,13 @@ export function PageHero({
       )}
       <div className="vignette absolute inset-0 -z-10" />
       <div className="mx-auto flex max-w-[1640px] flex-col px-6 pb-16 pt-40 md:px-10 md:pb-24 md:pt-48">
-        <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
+        <p className="font-mono text-xs tracking-normal text-warmwhite/85">
           {eyebrow}
         </p>
         <h1 className="mt-8 break-words font-serif text-[clamp(2.6rem,9vw,8.5rem)] leading-[0.92] tracking-tightest">
           <SplitText text={title} />
           {italic && (
-            <span className="block italic text-warmwhite/65">
+            <span className="block italic text-warmwhite/90">
               <SplitText text={italic} delay={0.18} />
             </span>
           )}
@@ -42,7 +42,7 @@ export function PageHero({
         {(description || meta) && (
           <div className="mt-12 grid grid-cols-1 gap-8 border-t border-warmwhite/15 pt-8 md:grid-cols-12">
             {description && (
-              <p className="md:col-span-6 max-w-2xl text-balance font-sans text-base leading-relaxed text-warmwhite/70 md:text-lg">
+              <p className="md:col-span-6 max-w-2xl text-balance font-sans text-base leading-relaxed text-warmwhite/90 md:text-lg">
                 {description}
               </p>
             )}
@@ -50,7 +50,7 @@ export function PageHero({
               <ul className="grid grid-cols-2 gap-x-6 gap-y-8 md:col-span-6 md:grid-cols-4">
                 {meta.map((m) => (
                   <li key={m.label} className="min-w-0">
-                    <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
+                    <p className="font-mono text-xs tracking-normal text-warmwhite/85">
                       {m.label}
                     </p>
                     <p className="mt-2 break-words font-serif text-base leading-snug tracking-tight text-warmwhite md:text-lg">

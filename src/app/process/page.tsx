@@ -9,10 +9,10 @@ export const metadata: Metadata = {
   alternates: { canonical: "/process" },
   title: "Process — How I work",
   description:
-    "The four-phase studio process: Discovery, Design, Prototype, Production. How I move from a blank Figma file to a shipped, award-grade web experience.",
+    "The four-phase engineering workflow: Scaffolding, Shaders, Motion, Hardening. How I move from technical architecture to a shipped, award-grade web experience.",
 };
 
-const TIMELINE = ["LISTEN", "SKETCH", "BUILD", "SHIP"];
+const TIMELINE = ["SCAFFOLD", "SHADERS", "MOTION", "HARDEN"];
 
 export default function ProcessPage() {
   return (
@@ -20,14 +20,14 @@ export default function ProcessPage() {
       <PageSchema
         path="/process"
         name="Process — How I work"
-        description="The four-phase studio process: Discovery, Design, Prototype, Production. How I move from a blank Figma file to a shipped, award-grade web experience."
+        description="The four-phase engineering workflow: Scaffolding, Shaders, Motion, Hardening. How I move from technical architecture to a shipped, award-grade web experience."
         crumbs={[{ name: "Home", href: "/" }, { name: "Process", href: "/process" }]}
       />
       <PageHero
-        eyebrow="§04 — How I work"
+        eyebrow="Workflow & Engineering"
         title="The"
         italic="Process."
-        description="Four phases, calibrated for ambitious creative briefs. Each one earns the right to the next — no production code until the design system is settled."
+        description="Four creative engineering workflows, calibrated for high-performance web experiences. Each one establishes the foundation for the next — no production code until the token and shader architecture is settled."
         meta={[
           { label: "Phases", value: "04" },
           { label: "Default duration", value: "6 — 9 weeks" },
@@ -41,7 +41,7 @@ export default function ProcessPage() {
           <ol className="grid grid-cols-2 gap-px overflow-hidden bg-warmwhite/15 md:grid-cols-4">
             {TIMELINE.map((step, i) => (
               <li key={step} className="bg-ink-900 p-6 text-center md:p-10">
-                <span className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
+                <span className="font-mono text-xs tracking-normal text-warmwhite/85">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <p className="mt-2 font-serif text-3xl tracking-tight text-warmwhite md:text-5xl">
@@ -66,37 +66,37 @@ export default function ProcessPage() {
                 <span className="block font-serif text-[clamp(7rem,18vw,16rem)] leading-none tracking-tightest text-warmwhite/80">
                   0{i + 1}
                 </span>
-                <p className="mt-3 font-sans text-[10px] uppercase tracking-widest text-warmwhite/65">
+                <p className="mt-3 font-mono text-xs tracking-normal text-warmwhite/85">
                   {p.phase} · {TIMELINE[i]}
                 </p>
               </div>
               <div className="md:col-span-8">
                 <Reveal>
-                  <h2 className="font-serif text-[clamp(2.6rem,5vw,5rem)] leading-[0.96] tracking-tightest">
+                  <h2 className="font-serif text-[clamp(2.6rem,5vw,5rem)] leading-[0.96] tracking-tightest text-warmwhite">
                     {p.title}
                   </h2>
                 </Reveal>
-                <p className="mt-8 max-w-2xl font-serif text-2xl leading-[1.25] tracking-tight text-warmwhite/85 md:text-3xl">
+                <p className="mt-8 max-w-2xl font-serif text-2xl leading-[1.25] tracking-tight text-warmwhite/90 md:text-3xl">
                   {p.summary}
                 </p>
                 <ul className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
                   {(
                     [
-                      ["Inputs", "Brief · references · constraints"],
-                      ["Output", "Concept doc · moodboard · plan"],
-                      ["Tools", "Figma · Are.na · iA Writer"],
+                      ["Inputs", "Design tokens · CSS vars · type scale"],
+                      ["Output", "Token schema · App Router scaffolding"],
+                      ["Tools", "Tailwind CSS · Next.js 16 · TypeScript 5.9"],
                       ["Days", "5 — 8 working days"],
-                      ["Inputs", "Tokens · grid · type system"],
-                      ["Output", "High-fidelity Figma · motion spec"],
-                      ["Tools", "Figma · Lottie · After Effects"],
+                      ["Inputs", "SIMD math · fbm noise · DPR budget"],
+                      ["Output", "GLSL shaders · WebGL2 canvas harness"],
+                      ["Tools", "raw WebGL2 · GLSL · Three.js"],
                       ["Days", "10 — 14 working days"],
-                      ["Inputs", "Visual system · interaction map"],
-                      ["Output", "Coded prototype · WebGL scenes"],
-                      ["Tools", "Next.js · Three.js · GSAP"],
+                      ["Inputs", "rAF bus · Lenis scroll · damping constant"],
+                      ["Output", "Synchronized scroll · zero-lag loop"],
+                      ["Tools", "Lenis · GSAP · rafBus.ts · damp.ts"],
                       ["Days", "10 — 12 working days"],
-                      ["Inputs", "Approved prototype · CMS plan"],
-                      ["Output", "Shipped site · Loom handover"],
-                      ["Tools", "Vercel · Cloudflare · Sanity"],
+                      ["Inputs", "CSP headers · INP latency · CLS shift"],
+                      ["Output", "Grade A security · 100/100 Lighthouse"],
+                      ["Tools", "securityheaders.com · PageSpeed · ESLint"],
                       ["Days", "8 — 10 working days"],
                     ] as [string, string][]
                   )
@@ -104,9 +104,9 @@ export default function ProcessPage() {
                     .map(([k, v]) => (
                       <li
                         key={`${p.phase}-${k}`}
-                        className="flex items-center justify-between border-y border-warmwhite/15 py-3 font-mono text-[12px] uppercase tracking-widest text-warmwhite/55"
+                        className="flex items-center justify-between border-y border-warmwhite/15 py-3 font-mono text-xs tracking-normal text-warmwhite/85"
                       >
-                        <span className="text-warmwhite/70">{k}</span>
+                        <span className="text-warmwhite/90">{k}</span>
                         <span className="text-peach normal-case tracking-tight">{v}</span>
                       </li>
                     ))}
@@ -127,7 +127,7 @@ export default function ProcessPage() {
               href="/contact"
               data-cursor="hover"
               data-cursor-label="WRITE"
-              className="inline-flex items-center gap-2 rounded-full bg-warmwhite px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-ink-900 transition-colors hover:bg-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
+              className="inline-flex items-center gap-2 rounded-full bg-warmwhite px-6 py-3 font-sans text-xs font-medium text-ink-900 transition-colors hover:bg-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
             >
               Brief me <span aria-hidden>↗</span>
             </Link>
@@ -135,7 +135,7 @@ export default function ProcessPage() {
               href="/services"
               data-cursor="hover"
               data-cursor-label="TIERS"
-              className="inline-flex items-center gap-2 rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-[11px] uppercase tracking-widest text-warmwhite transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
+              className="inline-flex items-center gap-2 rounded-full border border-warmwhite/30 px-6 py-3 font-sans text-xs font-medium text-warmwhite transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-peach"
             >
               See tiers <span aria-hidden>↗</span>
             </Link>

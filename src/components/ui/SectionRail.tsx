@@ -247,10 +247,10 @@ export function SectionRail({ items }: { items: Item[] }) {
                     />
                     {/* Label (only when expanded) */}
                     <span
-                      className={`overflow-hidden whitespace-nowrap font-sans uppercase leading-none tracking-[0.18em] transition-[max-width,opacity,padding-left] duration-300 ${
+                      className={`overflow-hidden whitespace-nowrap font-mono tracking-normal transition-[max-width,opacity,padding-left] duration-300 ${
                         expanded
-                          ? "max-w-[10rem] pl-0.5 text-[10px] opacity-100"
-                          : "max-w-0 text-[10px] opacity-0"
+                          ? "max-w-[10rem] pl-0.5 text-xs opacity-100"
+                          : "max-w-0 text-xs opacity-0"
                       }`}
                     >
                       {it.label}
@@ -264,10 +264,10 @@ export function SectionRail({ items }: { items: Item[] }) {
 
         {/* Footer — overall page progress (only visible when expanded) */}
         <footer
-          className={`flex items-center gap-2 border-t font-sans uppercase tracking-widest text-warmwhite/55 transition-[max-height,opacity,padding-top,border-color] duration-300 ${
+          className={`flex items-center gap-2 border-t font-mono tracking-normal text-warmwhite/80 transition-[max-height,opacity,padding-top,border-color] duration-300 ${
             expanded
-              ? "max-h-12 border-warmwhite/12 pt-3 text-[9px] opacity-100"
-              : "max-h-0 overflow-hidden border-transparent pt-0 text-[9px] opacity-0"
+              ? "max-h-12 border-warmwhite/12 pt-3 text-xs opacity-100"
+              : "max-h-0 overflow-hidden border-transparent pt-0 text-xs opacity-0"
           }`}
         >
           <span aria-hidden className="block h-px flex-1 bg-warmwhite/15">
@@ -304,10 +304,10 @@ export function SectionRail({ items }: { items: Item[] }) {
           aria-expanded={open}
           className="group flex w-full items-center gap-2.5 rounded-full border border-warmwhite/12 bg-ink-950/65 px-3.5 py-2 text-left shadow-[0_14px_36px_-20px_rgba(0,0,0,0.6)] backdrop-blur-md transition-colors hover:border-warmwhite/20 hover:bg-ink-950/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
         >
-          <span className="display-num font-sans text-[9px] uppercase tracking-widest text-peach">
-            §{String(activeIdx + 1).padStart(2, "0")}
+          <span className="display-num font-mono text-xs tracking-normal text-peach">
+            {String(activeIdx + 1).padStart(2, "0")}
           </span>
-          <span className="truncate font-sans text-[10px] uppercase tracking-widest text-warmwhite">
+          <span className="truncate font-mono text-xs tracking-normal text-warmwhite">
             {items[activeIdx]?.label}
           </span>
           <span className="ml-auto flex items-center gap-2">
@@ -317,7 +317,7 @@ export function SectionRail({ items }: { items: Item[] }) {
                 style={{ width: `${(progress * 100).toFixed(1)}%` }}
               />
             </span>
-            <span className="display-num font-sans text-[9px] text-warmwhite/55">
+            <span className="display-num font-mono text-[10px] text-warmwhite/75">
               {Math.round(progress * 100)}%
             </span>
             <span aria-hidden className="font-sans text-[11px] leading-none text-warmwhite/55">
@@ -336,14 +336,14 @@ export function SectionRail({ items }: { items: Item[] }) {
           className="rounded-2xl border border-warmwhite/15 bg-ink-950/95 p-3 shadow-[0_24px_60px_-28px_rgba(0,0,0,0.7)] backdrop-blur-xl"
         >
           <div className="mb-2 flex items-center justify-between">
-            <p className="font-sans text-[10px] uppercase tracking-widest text-warmwhite/55">
-              ◊ Jump to section
+            <p className="font-mono text-xs tracking-normal text-warmwhite/75">
+              Jump to section
             </p>
             <button
               type="button"
               onClick={() => setOpen(false)}
               aria-label="Close section navigation"
-              className="rounded-full border border-warmwhite/15 px-2 py-0.5 font-sans text-[10px] uppercase tracking-widest text-warmwhite/70 transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
+              className="rounded-full border border-warmwhite/15 px-2.5 py-0.5 font-mono text-xs tracking-normal text-warmwhite/80 transition-colors hover:border-peach hover:text-peach focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-peach"
             >
               Close
             </button>
@@ -364,13 +364,13 @@ export function SectionRail({ items }: { items: Item[] }) {
                     }`}
                   >
                     <span
-                      className={`display-num shrink-0 font-sans text-[9px] uppercase tracking-widest ${
-                        isActive ? "text-peach" : "text-warmwhite/55"
+                      className={`display-num shrink-0 font-mono text-xs tracking-normal ${
+                        isActive ? "text-peach" : "text-warmwhite/75"
                       }`}
                     >
                       {String(i + 1).padStart(2, "0")}
                     </span>
-                    <span className="font-sans text-[10px] uppercase tracking-widest">
+                    <span className="font-mono text-xs tracking-normal">
                       {it.label}
                     </span>
                   </button>

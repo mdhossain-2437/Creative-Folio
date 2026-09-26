@@ -10,6 +10,16 @@
   color-scheme: dark;
 }
 
+@media (prefers-color-scheme: light) {
+  :root:not([data-atmosphere="aura"]):not([data-atmosphere="storm"]):not([data-atmosphere="stillness"]):not([data-atmosphere="terminal"]) {
+    --bg: #efece9;
+    --fg: #0c0c0c;
+    --rule: rgba(12, 12, 12, 0.12);
+    --accent: #1f1f1f;
+    color-scheme: light;
+  }
+}
+
 /* MMXXVII Atmosphere modes — toggled by AtmosphereMode.tsx via data-attr.
    Each mode retones the global background + accent without rebuilding the
    palette. The defaults stay identical to "aura" for SSR safety. */
@@ -41,6 +51,63 @@
 :root[data-atmosphere="eink"] .vignette,
 :root[data-atmosphere="eink"] body.grain-on::before {
   display: none;
+}
+
+/* Eink & light mode high-contrast overrides for sections and cards */
+:root[data-atmosphere="eink"] .bg-ink-950 {
+  background-color: #f7f5f2 !important;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-atmosphere="aura"]):not([data-atmosphere="storm"]):not([data-atmosphere="stillness"]):not([data-atmosphere="terminal"]) .bg-ink-950 {
+    background-color: #f7f5f2 !important;
+  }
+}
+
+:root[data-atmosphere="eink"] .bg-ink-900 {
+  background-color: #efece9 !important;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-atmosphere="aura"]):not([data-atmosphere="storm"]):not([data-atmosphere="stillness"]):not([data-atmosphere="terminal"]) .bg-ink-900 {
+    background-color: #efece9 !important;
+  }
+}
+
+:root[data-atmosphere="eink"] .text-warmwhite {
+  color: #0c0c0c !important;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-atmosphere="aura"]):not([data-atmosphere="storm"]):not([data-atmosphere="stillness"]):not([data-atmosphere="terminal"]) .text-warmwhite {
+    color: #0c0c0c !important;
+  }
+}
+
+:root[data-atmosphere="eink"] [class*="text-warmwhite/"] {
+  color: #1a1a1a !important;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-atmosphere="aura"]):not([data-atmosphere="storm"]):not([data-atmosphere="stillness"]):not([data-atmosphere="terminal"]) [class*="text-warmwhite/"] {
+    color: #1a1a1a !important;
+  }
+}
+
+:root[data-atmosphere="eink"] [class*="border-warmwhite/"] {
+  border-color: rgba(12, 12, 12, 0.12) !important;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-atmosphere="aura"]):not([data-atmosphere="storm"]):not([data-atmosphere="stillness"]):not([data-atmosphere="terminal"]) [class*="border-warmwhite/"] {
+    border-color: rgba(12, 12, 12, 0.12) !important;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-atmosphere="aura"]):not([data-atmosphere="storm"]):not([data-atmosphere="stillness"]):not([data-atmosphere="terminal"]) body {
+    background: #efece9;
+    color: #0c0c0c;
+  }
+  :root:not([data-atmosphere="aura"]):not([data-atmosphere="storm"]):not([data-atmosphere="stillness"]):not([data-atmosphere="terminal"]) .vignette,
+  :root:not([data-atmosphere="aura"]):not([data-atmosphere="storm"]):not([data-atmosphere="stillness"]):not([data-atmosphere="terminal"]) body.grain-on::before {
+    display: none;
+  }
 }
 
 /* Terminal — green-on-black CRT scanlines (Pack D, 5th mode). Stays in the

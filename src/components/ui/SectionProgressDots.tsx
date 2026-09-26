@@ -100,7 +100,7 @@ export function SectionProgressDots() {
             <li key={s.id} className="group relative flex items-center justify-end">
               <span
                 aria-hidden
-                className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded-md border border-warmwhite/15 bg-ink-950/90 px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-warmwhite/80 opacity-0 transition-opacity group-hover:opacity-100"
+                className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded-md border border-warmwhite/15 bg-ink-950/90 px-2 py-1 font-mono text-xs tracking-normal text-warmwhite/90 opacity-0 transition-opacity group-hover:opacity-100"
               >
                 {s.label}
               </span>
